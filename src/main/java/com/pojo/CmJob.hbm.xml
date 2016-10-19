@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmJob" table="cm_job" schema="career">
+        <property name="jname">
+            <column name="jname" sql-type="varchar(100)" length="100"/>
+        </property>
+        <property name="jtype">
+            <column name="jtype" sql-type="bit(1)"/>
+        </property>
+        <property name="jstate">
+            <column name="jstate" sql-type="int(5)"/>
+        </property>
+        <property name="jinfo">
+            <column name="jinfo" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <set name="cmEmpsByJid" inverse="true">
+            <key>
+                <column name="jid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmEmp"/>
+        </set>
+        <set name="cmRecruitsByJid" inverse="true">
+            <key>
+                <column name="jid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmRecruit"/>
+        </set>
+        <set name="cmUnempsByJid" inverse="true">
+            <key>
+                <column name="jid" not-null="true"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmUnemp"/>
+        </set>
+    </class>
+</hibernate-mapping>

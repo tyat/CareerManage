@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmCompany" table="cm_company" schema="career">
+        <property name="cname">
+            <column name="cname" sql-type="varchar(100)" length="100"/>
+        </property>
+        <property name="chr">
+            <column name="chr" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="cphone">
+            <column name="cphone" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="cemail">
+            <column name="cemail" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="cinfo">
+            <column name="cinfo" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="cmark">
+            <column name="cmark" sql-type="varchar(255)" not-null="true"/>
+        </property>
+        <property name="caddress">
+            <column name="caddress" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="ctime">
+            <column name="ctime" sql-type="datetime"/>
+        </property>
+        <property name="cstate">
+            <column name="cstate" sql-type="int(5)"/>
+        </property>
+        <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">
+            <column name="aid"/>
+        </many-to-one>
+        <set name="cmRecruitsByCid" inverse="true">
+            <key>
+                <column name="cid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmRecruit"/>
+        </set>
+    </class>
+</hibernate-mapping>

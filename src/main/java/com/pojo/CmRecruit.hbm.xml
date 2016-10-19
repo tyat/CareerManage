@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmRecruit" table="cm_recruit" schema="career">
+        <property name="rsex">
+            <column name="rsex" sql-type="bit(1)" not-null="true"/>
+        </property>
+        <property name="rsalary">
+            <column name="rsalary" sql-type="int(5)"/>
+        </property>
+        <property name="rstart">
+            <column name="rstart" sql-type="datetime"/>
+        </property>
+        <property name="rend">
+            <column name="rend" sql-type="datetime"/>
+        </property>
+        <property name="rnum">
+            <column name="rnum" sql-type="int(5)"/>
+        </property>
+        <property name="rinfo">
+            <column name="rinfo" sql-type="varchar(255)"/>
+        </property>
+        <property name="rstate">
+            <column name="rstate" sql-type="int(5)"/>
+        </property>
+        <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">
+            <column name="aid"/>
+        </many-to-one>
+        <many-to-one name="cmCompanyByCid" class="com.pojo.CmCompany">
+            <column name="cid"/>
+        </many-to-one>
+        <many-to-one name="cmJobByJid" class="com.pojo.CmJob">
+            <column name="jid"/>
+        </many-to-one>
+        <set name="cmIntersByRid" inverse="true">
+            <key>
+                <column name="rid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmInter"/>
+        </set>
+    </class>
+</hibernate-mapping>

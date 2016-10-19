@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmGrade" table="cm_grade" schema="career">
+        <property name="gxq">
+            <column name="gxq" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="gxn">
+            <column name="gxn" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="gkcm">
+            <column name="gkcm" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="gcj">
+            <column name="gcj" sql-type="varchar(50)" length="50"/>
+        </property>
+        <property name="gfslx">
+            <column name="gfslx" sql-type="int(5)"/>
+        </property>
+        <property name="gbkcj">
+            <column name="gbkcj" sql-type="varchar(50)" length="50" not-null="true"/>
+        </property>
+        <property name="gxf">
+            <column name="gxf" sql-type="int(5)"/>
+        </property>
+        <property name="glx">
+            <column name="glx" sql-type="int(5)"/>
+        </property>
+        <many-to-one name="cmStudentBySid" class="com.pojo.CmStudent">
+            <column name="sid"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>
