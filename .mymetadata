@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="CareerManagement Maven Webapp"
+  id="myeclipse.1476777313511"
+  context-root="/CareerManagement"
+  j2ee-spec="6.0"
+  archive="CareerManagement Maven Webapp.war">
+  <attributes>
+    <attribute name="webrootdir" value="src/main/webapp" />
+  </attributes>
+</project-module>
+
