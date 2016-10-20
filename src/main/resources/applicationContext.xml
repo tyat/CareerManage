@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
@@ -8,27 +9,7 @@
         <property name="jndiName" value="java:comp/env/jdbc/Mysql"/>
     </bean>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="annotatedClasses">
-            <list>
-                <value>com.pojo.CmArea</value>
-                <value>com.pojo.CmCompany</value>
-                <value>com.pojo.CmDirection</value>
-                <value>com.pojo.CmEmp</value>
-                <value>com.pojo.CmGrade</value>
-                <value>com.pojo.CmInter</value>
-                <value>com.pojo.CmJob</value>
-                <value>com.pojo.CmRecruit</value>
-                <value>com.pojo.CmStudent</value>
-                <value>com.pojo.CmUnemp</value>
-                <value>com.pojo.CmUser</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/career</prop>
-                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
-            </props>
-        </property>
+        <property name="dataSource" ref="dataSource" />
         <property name="mappingLocations">
             <list>
                 <value>classpath:com/pojo/CmArea.hbm.xml</value>
@@ -41,36 +22,23 @@
                 <value>classpath:com/pojo/CmRecruit.hbm.xml</value>
                 <value>classpath:com/pojo/CmStudent.hbm.xml</value>
                 <value>classpath:com/pojo/CmUnemp.hbm.xml</value>
+
                 <value>classpath:com/pojo/CmUser.hbm.xml</value>
             </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                <!-- hibernate.hbm2ddl.auto=update -->
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+                hibernate.show_sql=true
+                hibernate.format_sql=true
+                hibernate.connection.autocommit=true
+            </value>
         </property>
     </bean>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-
-    <!-- 事务管理器 -->
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="save*" propagation="REQUIRED" />
-            <tx:method name="add*" propagation="REQUIRED" />
-            <tx:method name="update*" propagation="REQUIRED" />
-            <tx:method name="del*" propagation="REQUIRED" />
-            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="page*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="createHQLQuery" propagation="REQUIRED" />
-            <tx:method name="createSQLQuery" propagation="REQUIRED" />
-        </tx:attributes>
-    </tx:advice>
-    <aop:config>
-        <aop:pointcut id="txPointcut" expression="execution(* com.service.*.*(..))" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
-    </aop:config>
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>
