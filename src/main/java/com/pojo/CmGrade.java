@@ -1,36 +1,28 @@
 package com.pojo;
 
-import javax.persistence.*;
-
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_grade", schema = "career", catalog = "")
 public class CmGrade {
-    private int gid;
+    private Integer gid;
     private String gxq;
     private String gxn;
     private String gkcm;
     private String gcj;
-    private int gfslx;
+    private Integer gfslx;
     private String gbkcj;
-    private int gxf;
-    private int glx;
+    private Integer gxf;
+    private Integer glx;
     private CmStudent cmStudentBySid;
 
-    @Id
-    @Column(name = "gid")
-    public int getGid() {
+    public Integer getGid() {
         return gid;
     }
 
-    public void setGid(int gid) {
+    public void setGid(Integer gid) {
         this.gid = gid;
     }
 
-    @Basic
-    @Column(name = "gxq", nullable = false, length = 50)
     public String getGxq() {
         return gxq;
     }
@@ -39,8 +31,6 @@ public class CmGrade {
         this.gxq = gxq;
     }
 
-    @Basic
-    @Column(name = "gxn", nullable = false, length = 50)
     public String getGxn() {
         return gxn;
     }
@@ -49,8 +39,6 @@ public class CmGrade {
         this.gxn = gxn;
     }
 
-    @Basic
-    @Column(name = "gkcm", nullable = false, length = 50)
     public String getGkcm() {
         return gkcm;
     }
@@ -59,8 +47,6 @@ public class CmGrade {
         this.gkcm = gkcm;
     }
 
-    @Basic
-    @Column(name = "gcj", nullable = false, length = 50)
     public String getGcj() {
         return gcj;
     }
@@ -69,18 +55,14 @@ public class CmGrade {
         this.gcj = gcj;
     }
 
-    @Basic
-    @Column(name = "gfslx", nullable = false)
-    public int getGfslx() {
+    public Integer getGfslx() {
         return gfslx;
     }
 
-    public void setGfslx(int gfslx) {
+    public void setGfslx(Integer gfslx) {
         this.gfslx = gfslx;
     }
 
-    @Basic
-    @Column(name = "gbkcj", nullable = true, length = 50)
     public String getGbkcj() {
         return gbkcj;
     }
@@ -89,23 +71,19 @@ public class CmGrade {
         this.gbkcj = gbkcj;
     }
 
-    @Basic
-    @Column(name = "gxf", nullable = false)
-    public int getGxf() {
+    public Integer getGxf() {
         return gxf;
     }
 
-    public void setGxf(int gxf) {
+    public void setGxf(Integer gxf) {
         this.gxf = gxf;
     }
 
-    @Basic
-    @Column(name = "glx", nullable = false)
-    public int getGlx() {
+    public Integer getGlx() {
         return glx;
     }
 
-    public void setGlx(int glx) {
+    public void setGlx(Integer glx) {
         this.glx = glx;
     }
 
@@ -116,35 +94,33 @@ public class CmGrade {
 
         CmGrade cmGrade = (CmGrade) o;
 
-        if (gid != cmGrade.gid) return false;
-        if (gfslx != cmGrade.gfslx) return false;
-        if (gxf != cmGrade.gxf) return false;
-        if (glx != cmGrade.glx) return false;
+        if (gid != null ? !gid.equals(cmGrade.gid) : cmGrade.gid != null) return false;
         if (gxq != null ? !gxq.equals(cmGrade.gxq) : cmGrade.gxq != null) return false;
         if (gxn != null ? !gxn.equals(cmGrade.gxn) : cmGrade.gxn != null) return false;
         if (gkcm != null ? !gkcm.equals(cmGrade.gkcm) : cmGrade.gkcm != null) return false;
         if (gcj != null ? !gcj.equals(cmGrade.gcj) : cmGrade.gcj != null) return false;
+        if (gfslx != null ? !gfslx.equals(cmGrade.gfslx) : cmGrade.gfslx != null) return false;
         if (gbkcj != null ? !gbkcj.equals(cmGrade.gbkcj) : cmGrade.gbkcj != null) return false;
+        if (gxf != null ? !gxf.equals(cmGrade.gxf) : cmGrade.gxf != null) return false;
+        if (glx != null ? !glx.equals(cmGrade.glx) : cmGrade.glx != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = gid;
+        int result = gid != null ? gid.hashCode() : 0;
         result = 31 * result + (gxq != null ? gxq.hashCode() : 0);
         result = 31 * result + (gxn != null ? gxn.hashCode() : 0);
         result = 31 * result + (gkcm != null ? gkcm.hashCode() : 0);
         result = 31 * result + (gcj != null ? gcj.hashCode() : 0);
-        result = 31 * result + gfslx;
+        result = 31 * result + (gfslx != null ? gfslx.hashCode() : 0);
         result = 31 * result + (gbkcj != null ? gbkcj.hashCode() : 0);
-        result = 31 * result + gxf;
-        result = 31 * result + glx;
+        result = 31 * result + (gxf != null ? gxf.hashCode() : 0);
+        result = 31 * result + (glx != null ? glx.hashCode() : 0);
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "sid", referencedColumnName = "sid", nullable = false)
     public CmStudent getCmStudentBySid() {
         return cmStudentBySid;
     }

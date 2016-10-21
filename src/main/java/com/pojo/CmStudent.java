@@ -1,47 +1,40 @@
 package com.pojo;
 
-import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
 
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_student", schema = "career", catalog = "")
 public class CmStudent {
-    private int sid;
+    private Integer sid;
     private String sno;
     private String sname;
     private Boolean ssex;
     private Date sbirth;
     private String spro;
-    private int sgrade;
-    private int sclass;
+    private Integer sgrade;
+    private Integer sclass;
     private String sphone;
     private String semail;
     private String scode;
     private Integer smark;
     private String sassess;
-    private int sstate;
+    private Integer sstate;
     private String sdetail;
     private Collection<CmEmp> cmEmpsBySid;
     private Collection<CmGrade> cmGradesBySid;
     private Collection<CmInter> cmIntersBySid;
     private Collection<CmUnemp> cmUnempsBySid;
 
-    @Id
-    @Column(name = "sid")
-    public int getSid() {
+    public Integer getSid() {
         return sid;
     }
 
-    public void setSid(int sid) {
+    public void setSid(Integer sid) {
         this.sid = sid;
     }
 
-    @Basic
-    @Column(name = "sno", nullable = false, length = 50)
     public String getSno() {
         return sno;
     }
@@ -50,8 +43,6 @@ public class CmStudent {
         this.sno = sno;
     }
 
-    @Basic
-    @Column(name = "sname", nullable = false, length = 50)
     public String getSname() {
         return sname;
     }
@@ -60,8 +51,6 @@ public class CmStudent {
         this.sname = sname;
     }
 
-    @Basic
-    @Column(name = "ssex", nullable = true)
     public Boolean getSsex() {
         return ssex;
     }
@@ -70,8 +59,6 @@ public class CmStudent {
         this.ssex = ssex;
     }
 
-    @Basic
-    @Column(name = "sbirth", nullable = false)
     public Date getSbirth() {
         return sbirth;
     }
@@ -80,8 +67,6 @@ public class CmStudent {
         this.sbirth = sbirth;
     }
 
-    @Basic
-    @Column(name = "spro", nullable = false, length = 50)
     public String getSpro() {
         return spro;
     }
@@ -90,28 +75,22 @@ public class CmStudent {
         this.spro = spro;
     }
 
-    @Basic
-    @Column(name = "sgrade", nullable = false)
-    public int getSgrade() {
+    public Integer getSgrade() {
         return sgrade;
     }
 
-    public void setSgrade(int sgrade) {
+    public void setSgrade(Integer sgrade) {
         this.sgrade = sgrade;
     }
 
-    @Basic
-    @Column(name = "sclass", nullable = false)
-    public int getSclass() {
+    public Integer getSclass() {
         return sclass;
     }
 
-    public void setSclass(int sclass) {
+    public void setSclass(Integer sclass) {
         this.sclass = sclass;
     }
 
-    @Basic
-    @Column(name = "sphone", nullable = false, length = 50)
     public String getSphone() {
         return sphone;
     }
@@ -120,8 +99,6 @@ public class CmStudent {
         this.sphone = sphone;
     }
 
-    @Basic
-    @Column(name = "semail", nullable = false, length = 50)
     public String getSemail() {
         return semail;
     }
@@ -130,8 +107,6 @@ public class CmStudent {
         this.semail = semail;
     }
 
-    @Basic
-    @Column(name = "scode", nullable = false, length = 50)
     public String getScode() {
         return scode;
     }
@@ -140,8 +115,6 @@ public class CmStudent {
         this.scode = scode;
     }
 
-    @Basic
-    @Column(name = "smark", nullable = true)
     public Integer getSmark() {
         return smark;
     }
@@ -150,8 +123,6 @@ public class CmStudent {
         this.smark = smark;
     }
 
-    @Basic
-    @Column(name = "sassess", nullable = true, length = 255)
     public String getSassess() {
         return sassess;
     }
@@ -160,18 +131,14 @@ public class CmStudent {
         this.sassess = sassess;
     }
 
-    @Basic
-    @Column(name = "sstate", nullable = false)
-    public int getSstate() {
+    public Integer getSstate() {
         return sstate;
     }
 
-    public void setSstate(int sstate) {
+    public void setSstate(Integer sstate) {
         this.sstate = sstate;
     }
 
-    @Basic
-    @Column(name = "sdetail", nullable = true, length = 255)
     public String getSdetail() {
         return sdetail;
     }
@@ -187,20 +154,20 @@ public class CmStudent {
 
         CmStudent cmStudent = (CmStudent) o;
 
-        if (sid != cmStudent.sid) return false;
-        if (sgrade != cmStudent.sgrade) return false;
-        if (sclass != cmStudent.sclass) return false;
-        if (sstate != cmStudent.sstate) return false;
+        if (sid != null ? !sid.equals(cmStudent.sid) : cmStudent.sid != null) return false;
         if (sno != null ? !sno.equals(cmStudent.sno) : cmStudent.sno != null) return false;
         if (sname != null ? !sname.equals(cmStudent.sname) : cmStudent.sname != null) return false;
         if (ssex != null ? !ssex.equals(cmStudent.ssex) : cmStudent.ssex != null) return false;
         if (sbirth != null ? !sbirth.equals(cmStudent.sbirth) : cmStudent.sbirth != null) return false;
         if (spro != null ? !spro.equals(cmStudent.spro) : cmStudent.spro != null) return false;
+        if (sgrade != null ? !sgrade.equals(cmStudent.sgrade) : cmStudent.sgrade != null) return false;
+        if (sclass != null ? !sclass.equals(cmStudent.sclass) : cmStudent.sclass != null) return false;
         if (sphone != null ? !sphone.equals(cmStudent.sphone) : cmStudent.sphone != null) return false;
         if (semail != null ? !semail.equals(cmStudent.semail) : cmStudent.semail != null) return false;
         if (scode != null ? !scode.equals(cmStudent.scode) : cmStudent.scode != null) return false;
         if (smark != null ? !smark.equals(cmStudent.smark) : cmStudent.smark != null) return false;
         if (sassess != null ? !sassess.equals(cmStudent.sassess) : cmStudent.sassess != null) return false;
+        if (sstate != null ? !sstate.equals(cmStudent.sstate) : cmStudent.sstate != null) return false;
         if (sdetail != null ? !sdetail.equals(cmStudent.sdetail) : cmStudent.sdetail != null) return false;
 
         return true;
@@ -208,25 +175,24 @@ public class CmStudent {
 
     @Override
     public int hashCode() {
-        int result = sid;
+        int result = sid != null ? sid.hashCode() : 0;
         result = 31 * result + (sno != null ? sno.hashCode() : 0);
         result = 31 * result + (sname != null ? sname.hashCode() : 0);
         result = 31 * result + (ssex != null ? ssex.hashCode() : 0);
         result = 31 * result + (sbirth != null ? sbirth.hashCode() : 0);
         result = 31 * result + (spro != null ? spro.hashCode() : 0);
-        result = 31 * result + sgrade;
-        result = 31 * result + sclass;
+        result = 31 * result + (sgrade != null ? sgrade.hashCode() : 0);
+        result = 31 * result + (sclass != null ? sclass.hashCode() : 0);
         result = 31 * result + (sphone != null ? sphone.hashCode() : 0);
         result = 31 * result + (semail != null ? semail.hashCode() : 0);
         result = 31 * result + (scode != null ? scode.hashCode() : 0);
         result = 31 * result + (smark != null ? smark.hashCode() : 0);
         result = 31 * result + (sassess != null ? sassess.hashCode() : 0);
-        result = 31 * result + sstate;
+        result = 31 * result + (sstate != null ? sstate.hashCode() : 0);
         result = 31 * result + (sdetail != null ? sdetail.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "cmStudentBySid")
     public Collection<CmEmp> getCmEmpsBySid() {
         return cmEmpsBySid;
     }
@@ -235,7 +201,6 @@ public class CmStudent {
         this.cmEmpsBySid = cmEmpsBySid;
     }
 
-    @OneToMany(mappedBy = "cmStudentBySid")
     public Collection<CmGrade> getCmGradesBySid() {
         return cmGradesBySid;
     }
@@ -244,7 +209,6 @@ public class CmStudent {
         this.cmGradesBySid = cmGradesBySid;
     }
 
-    @OneToMany(mappedBy = "cmStudentBySid")
     public Collection<CmInter> getCmIntersBySid() {
         return cmIntersBySid;
     }
@@ -253,7 +217,6 @@ public class CmStudent {
         this.cmIntersBySid = cmIntersBySid;
     }
 
-    @OneToMany(mappedBy = "cmStudentBySid")
     public Collection<CmUnemp> getCmUnempsBySid() {
         return cmUnempsBySid;
     }

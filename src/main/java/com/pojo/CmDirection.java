@@ -1,31 +1,24 @@
 package com.pojo;
 
-import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_direction", schema = "career", catalog = "")
 public class CmDirection {
-    private int did;
+    private Integer did;
     private String dname;
-    private int dstate;
+    private Integer dstate;
     private Collection<CmUnemp> cmUnempsByDid;
 
-    @Id
-    @Column(name = "did")
-    public int getDid() {
+    public Integer getDid() {
         return did;
     }
 
-    public void setDid(int did) {
+    public void setDid(Integer did) {
         this.did = did;
     }
 
-    @Basic
-    @Column(name = "dname", nullable = false, length = 50)
     public String getDname() {
         return dname;
     }
@@ -34,13 +27,11 @@ public class CmDirection {
         this.dname = dname;
     }
 
-    @Basic
-    @Column(name = "dstate", nullable = false)
-    public int getDstate() {
+    public Integer getDstate() {
         return dstate;
     }
 
-    public void setDstate(int dstate) {
+    public void setDstate(Integer dstate) {
         this.dstate = dstate;
     }
 
@@ -51,22 +42,21 @@ public class CmDirection {
 
         CmDirection that = (CmDirection) o;
 
-        if (did != that.did) return false;
-        if (dstate != that.dstate) return false;
+        if (did != null ? !did.equals(that.did) : that.did != null) return false;
         if (dname != null ? !dname.equals(that.dname) : that.dname != null) return false;
+        if (dstate != null ? !dstate.equals(that.dstate) : that.dstate != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = did;
+        int result = did != null ? did.hashCode() : 0;
         result = 31 * result + (dname != null ? dname.hashCode() : 0);
-        result = 31 * result + dstate;
+        result = 31 * result + (dstate != null ? dstate.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "cmDirectionByDid")
     public Collection<CmUnemp> getCmUnempsByDid() {
         return cmUnempsByDid;
     }

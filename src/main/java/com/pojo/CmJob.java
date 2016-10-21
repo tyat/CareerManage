@@ -1,35 +1,28 @@
 package com.pojo;
 
-import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_job", schema = "career", catalog = "")
 public class CmJob {
-    private int jid;
+    private Integer jid;
     private String jname;
-    private boolean jtype;
-    private int jstate;
+    private Boolean jtype;
+    private Integer jstate;
     private String jinfo;
     private Collection<CmEmp> cmEmpsByJid;
     private Collection<CmRecruit> cmRecruitsByJid;
     private Collection<CmUnemp> cmUnempsByJid;
 
-    @Id
-    @Column(name = "jid")
-    public int getJid() {
+    public Integer getJid() {
         return jid;
     }
 
-    public void setJid(int jid) {
+    public void setJid(Integer jid) {
         this.jid = jid;
     }
 
-    @Basic
-    @Column(name = "jname", nullable = false, length = 100)
     public String getJname() {
         return jname;
     }
@@ -38,28 +31,22 @@ public class CmJob {
         this.jname = jname;
     }
 
-    @Basic
-    @Column(name = "jtype", nullable = false)
-    public boolean isJtype() {
+    public Boolean getJtype() {
         return jtype;
     }
 
-    public void setJtype(boolean jtype) {
+    public void setJtype(Boolean jtype) {
         this.jtype = jtype;
     }
 
-    @Basic
-    @Column(name = "jstate", nullable = false)
-    public int getJstate() {
+    public Integer getJstate() {
         return jstate;
     }
 
-    public void setJstate(int jstate) {
+    public void setJstate(Integer jstate) {
         this.jstate = jstate;
     }
 
-    @Basic
-    @Column(name = "jinfo", nullable = true, length = 255)
     public String getJinfo() {
         return jinfo;
     }
@@ -75,10 +62,10 @@ public class CmJob {
 
         CmJob cmJob = (CmJob) o;
 
-        if (jid != cmJob.jid) return false;
-        if (jtype != cmJob.jtype) return false;
-        if (jstate != cmJob.jstate) return false;
+        if (jid != null ? !jid.equals(cmJob.jid) : cmJob.jid != null) return false;
         if (jname != null ? !jname.equals(cmJob.jname) : cmJob.jname != null) return false;
+        if (jtype != null ? !jtype.equals(cmJob.jtype) : cmJob.jtype != null) return false;
+        if (jstate != null ? !jstate.equals(cmJob.jstate) : cmJob.jstate != null) return false;
         if (jinfo != null ? !jinfo.equals(cmJob.jinfo) : cmJob.jinfo != null) return false;
 
         return true;
@@ -86,15 +73,14 @@ public class CmJob {
 
     @Override
     public int hashCode() {
-        int result = jid;
+        int result = jid != null ? jid.hashCode() : 0;
         result = 31 * result + (jname != null ? jname.hashCode() : 0);
-        result = 31 * result + (jtype ? 1 : 0);
-        result = 31 * result + jstate;
+        result = 31 * result + (jtype != null ? jtype.hashCode() : 0);
+        result = 31 * result + (jstate != null ? jstate.hashCode() : 0);
         result = 31 * result + (jinfo != null ? jinfo.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "cmJobByJid")
     public Collection<CmEmp> getCmEmpsByJid() {
         return cmEmpsByJid;
     }
@@ -103,7 +89,6 @@ public class CmJob {
         this.cmEmpsByJid = cmEmpsByJid;
     }
 
-    @OneToMany(mappedBy = "cmJobByJid")
     public Collection<CmRecruit> getCmRecruitsByJid() {
         return cmRecruitsByJid;
     }
@@ -112,7 +97,6 @@ public class CmJob {
         this.cmRecruitsByJid = cmRecruitsByJid;
     }
 
-    @OneToMany(mappedBy = "cmJobByJid")
     public Collection<CmUnemp> getCmUnempsByJid() {
         return cmUnempsByJid;
     }

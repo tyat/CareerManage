@@ -1,59 +1,48 @@
 package com.pojo;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_emp", schema = "career", catalog = "")
 public class CmEmp {
-    private int eid;
-    private Serializable etime;
-    private int esalary;
+    private Integer eid;
+    private Timestamp etime;
+    private Integer esalary;
     private String einfo;
-    private int estate;
+    private Integer estate;
     private Boolean ewq;
     private Date eleave;
     private String ereason;
-    private CmJob cmJobByJid;
     private CmStudent cmStudentBySid;
+    private CmJob cmJobByJid;
     private CmUser cmUserByUid;
 
-    @Id
-    @Column(name = "eid")
-    public int getEid() {
+    public Integer getEid() {
         return eid;
     }
 
-    public void setEid(int eid) {
+    public void setEid(Integer eid) {
         this.eid = eid;
     }
 
-    @Basic
-    @Column(name = "etime", nullable = false)
-    public Serializable getEtime() {
+    public Timestamp getEtime() {
         return etime;
     }
 
-    public void setEtime(Serializable etime) {
+    public void setEtime(Timestamp etime) {
         this.etime = etime;
     }
 
-    @Basic
-    @Column(name = "esalary", nullable = false)
-    public int getEsalary() {
+    public Integer getEsalary() {
         return esalary;
     }
 
-    public void setEsalary(int esalary) {
+    public void setEsalary(Integer esalary) {
         this.esalary = esalary;
     }
 
-    @Basic
-    @Column(name = "einfo", nullable = true, length = 255)
     public String getEinfo() {
         return einfo;
     }
@@ -62,18 +51,14 @@ public class CmEmp {
         this.einfo = einfo;
     }
 
-    @Basic
-    @Column(name = "estate", nullable = false)
-    public int getEstate() {
+    public Integer getEstate() {
         return estate;
     }
 
-    public void setEstate(int estate) {
+    public void setEstate(Integer estate) {
         this.estate = estate;
     }
 
-    @Basic
-    @Column(name = "ewq", nullable = true)
     public Boolean getEwq() {
         return ewq;
     }
@@ -82,8 +67,6 @@ public class CmEmp {
         this.ewq = ewq;
     }
 
-    @Basic
-    @Column(name = "eleave", nullable = true)
     public Date getEleave() {
         return eleave;
     }
@@ -92,8 +75,6 @@ public class CmEmp {
         this.eleave = eleave;
     }
 
-    @Basic
-    @Column(name = "ereason", nullable = true, length = 255)
     public String getEreason() {
         return ereason;
     }
@@ -109,11 +90,11 @@ public class CmEmp {
 
         CmEmp cmEmp = (CmEmp) o;
 
-        if (eid != cmEmp.eid) return false;
-        if (esalary != cmEmp.esalary) return false;
-        if (estate != cmEmp.estate) return false;
+        if (eid != null ? !eid.equals(cmEmp.eid) : cmEmp.eid != null) return false;
         if (etime != null ? !etime.equals(cmEmp.etime) : cmEmp.etime != null) return false;
+        if (esalary != null ? !esalary.equals(cmEmp.esalary) : cmEmp.esalary != null) return false;
         if (einfo != null ? !einfo.equals(cmEmp.einfo) : cmEmp.einfo != null) return false;
+        if (estate != null ? !estate.equals(cmEmp.estate) : cmEmp.estate != null) return false;
         if (ewq != null ? !ewq.equals(cmEmp.ewq) : cmEmp.ewq != null) return false;
         if (eleave != null ? !eleave.equals(cmEmp.eleave) : cmEmp.eleave != null) return false;
         if (ereason != null ? !ereason.equals(cmEmp.ereason) : cmEmp.ereason != null) return false;
@@ -123,29 +104,17 @@ public class CmEmp {
 
     @Override
     public int hashCode() {
-        int result = eid;
+        int result = eid != null ? eid.hashCode() : 0;
         result = 31 * result + (etime != null ? etime.hashCode() : 0);
-        result = 31 * result + esalary;
+        result = 31 * result + (esalary != null ? esalary.hashCode() : 0);
         result = 31 * result + (einfo != null ? einfo.hashCode() : 0);
-        result = 31 * result + estate;
+        result = 31 * result + (estate != null ? estate.hashCode() : 0);
         result = 31 * result + (ewq != null ? ewq.hashCode() : 0);
         result = 31 * result + (eleave != null ? eleave.hashCode() : 0);
         result = 31 * result + (ereason != null ? ereason.hashCode() : 0);
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "jid", referencedColumnName = "jid", nullable = false)
-    public CmJob getCmJobByJid() {
-        return cmJobByJid;
-    }
-
-    public void setCmJobByJid(CmJob cmJobByJid) {
-        this.cmJobByJid = cmJobByJid;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "sid", referencedColumnName = "sid", nullable = false)
     public CmStudent getCmStudentBySid() {
         return cmStudentBySid;
     }
@@ -154,8 +123,14 @@ public class CmEmp {
         this.cmStudentBySid = cmStudentBySid;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "uid", referencedColumnName = "uid", nullable = false)
+    public CmJob getCmJobByJid() {
+        return cmJobByJid;
+    }
+
+    public void setCmJobByJid(CmJob cmJobByJid) {
+        this.cmJobByJid = cmJobByJid;
+    }
+
     public CmUser getCmUserByUid() {
         return cmUserByUid;
     }

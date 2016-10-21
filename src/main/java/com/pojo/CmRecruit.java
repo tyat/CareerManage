@@ -1,41 +1,33 @@
 package com.pojo;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_recruit", schema = "career", catalog = "")
 public class CmRecruit {
-    private int rid;
+    private Integer rid;
     private Boolean rsex;
-    private int rsalary;
+    private Integer rsalary;
     private Timestamp rstart;
     private Timestamp rend;
-    private int rnum;
+    private Integer rnum;
     private String rinfo;
-    private int rstate;
+    private Integer rstate;
     private Collection<CmInter> cmIntersByRid;
-    private CmArea cmAreaByAid;
-    private CmCompany cmCompanyByCid;
     private CmJob cmJobByJid;
+    private CmCompany cmCompanyByCid;
+    private CmArea cmAreaByAid;
 
-    @Id
-    @Column(name = "rid")
-    public int getRid() {
+    public Integer getRid() {
         return rid;
     }
 
-    public void setRid(int rid) {
+    public void setRid(Integer rid) {
         this.rid = rid;
     }
 
-    @Basic
-    @Column(name = "rsex", nullable = true)
     public Boolean getRsex() {
         return rsex;
     }
@@ -44,18 +36,14 @@ public class CmRecruit {
         this.rsex = rsex;
     }
 
-    @Basic
-    @Column(name = "rsalary", nullable = false)
-    public int getRsalary() {
+    public Integer getRsalary() {
         return rsalary;
     }
 
-    public void setRsalary(int rsalary) {
+    public void setRsalary(Integer rsalary) {
         this.rsalary = rsalary;
     }
 
-    @Basic
-    @Column(name = "rstart", nullable = false)
     public Timestamp getRstart() {
         return rstart;
     }
@@ -64,8 +52,6 @@ public class CmRecruit {
         this.rstart = rstart;
     }
 
-    @Basic
-    @Column(name = "rend", nullable = false)
     public Timestamp getRend() {
         return rend;
     }
@@ -74,18 +60,14 @@ public class CmRecruit {
         this.rend = rend;
     }
 
-    @Basic
-    @Column(name = "rnum", nullable = false)
-    public int getRnum() {
+    public Integer getRnum() {
         return rnum;
     }
 
-    public void setRnum(int rnum) {
+    public void setRnum(Integer rnum) {
         this.rnum = rnum;
     }
 
-    @Basic
-    @Column(name = "rinfo", nullable = false, length = 255)
     public String getRinfo() {
         return rinfo;
     }
@@ -94,13 +76,11 @@ public class CmRecruit {
         this.rinfo = rinfo;
     }
 
-    @Basic
-    @Column(name = "rstate", nullable = false)
-    public int getRstate() {
+    public Integer getRstate() {
         return rstate;
     }
 
-    public void setRstate(int rstate) {
+    public void setRstate(Integer rstate) {
         this.rstate = rstate;
     }
 
@@ -111,32 +91,31 @@ public class CmRecruit {
 
         CmRecruit cmRecruit = (CmRecruit) o;
 
-        if (rid != cmRecruit.rid) return false;
-        if (rsalary != cmRecruit.rsalary) return false;
-        if (rnum != cmRecruit.rnum) return false;
-        if (rstate != cmRecruit.rstate) return false;
+        if (rid != null ? !rid.equals(cmRecruit.rid) : cmRecruit.rid != null) return false;
         if (rsex != null ? !rsex.equals(cmRecruit.rsex) : cmRecruit.rsex != null) return false;
+        if (rsalary != null ? !rsalary.equals(cmRecruit.rsalary) : cmRecruit.rsalary != null) return false;
         if (rstart != null ? !rstart.equals(cmRecruit.rstart) : cmRecruit.rstart != null) return false;
         if (rend != null ? !rend.equals(cmRecruit.rend) : cmRecruit.rend != null) return false;
+        if (rnum != null ? !rnum.equals(cmRecruit.rnum) : cmRecruit.rnum != null) return false;
         if (rinfo != null ? !rinfo.equals(cmRecruit.rinfo) : cmRecruit.rinfo != null) return false;
+        if (rstate != null ? !rstate.equals(cmRecruit.rstate) : cmRecruit.rstate != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = rid;
+        int result = rid != null ? rid.hashCode() : 0;
         result = 31 * result + (rsex != null ? rsex.hashCode() : 0);
-        result = 31 * result + rsalary;
+        result = 31 * result + (rsalary != null ? rsalary.hashCode() : 0);
         result = 31 * result + (rstart != null ? rstart.hashCode() : 0);
         result = 31 * result + (rend != null ? rend.hashCode() : 0);
-        result = 31 * result + rnum;
+        result = 31 * result + (rnum != null ? rnum.hashCode() : 0);
         result = 31 * result + (rinfo != null ? rinfo.hashCode() : 0);
-        result = 31 * result + rstate;
+        result = 31 * result + (rstate != null ? rstate.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "cmRecruitByRid")
     public Collection<CmInter> getCmIntersByRid() {
         return cmIntersByRid;
     }
@@ -145,18 +124,14 @@ public class CmRecruit {
         this.cmIntersByRid = cmIntersByRid;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "aid", referencedColumnName = "aid", nullable = false)
-    public CmArea getCmAreaByAid() {
-        return cmAreaByAid;
+    public CmJob getCmJobByJid() {
+        return cmJobByJid;
     }
 
-    public void setCmAreaByAid(CmArea cmAreaByAid) {
-        this.cmAreaByAid = cmAreaByAid;
+    public void setCmJobByJid(CmJob cmJobByJid) {
+        this.cmJobByJid = cmJobByJid;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "cid", referencedColumnName = "cid", nullable = false)
     public CmCompany getCmCompanyByCid() {
         return cmCompanyByCid;
     }
@@ -165,13 +140,11 @@ public class CmRecruit {
         this.cmCompanyByCid = cmCompanyByCid;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "jid", referencedColumnName = "jid", nullable = false)
-    public CmJob getCmJobByJid() {
-        return cmJobByJid;
+    public CmArea getCmAreaByAid() {
+        return cmAreaByAid;
     }
 
-    public void setCmJobByJid(CmJob cmJobByJid) {
-        this.cmJobByJid = cmJobByJid;
+    public void setCmAreaByAid(CmArea cmAreaByAid) {
+        this.cmAreaByAid = cmAreaByAid;
     }
 }

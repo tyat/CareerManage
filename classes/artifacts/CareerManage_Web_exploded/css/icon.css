@@ -1,0 +1,69 @@
+
+#user_icon{
+	background: url(../img/icon_man2.png) ;
+	width: 171px;
+}
+#user_icon:hover{
+	background: url(../img/icon_man22.png) ;
+	width: 171px;
+}
+#loginout_icon{
+	background: url(../img/icon_concle2.png) ;
+	width: 85px;
+}
+#loginout_icon:hover{
+	background: url(../img/icon_concle22.png) ;
+	width: 85px;
+}
+#tip_icon{
+	background: url(../img/icon-tip2.png);
+	width: 185px;
+	
+	 
+}
+ 
+#user_icon ,#loginout_icon,#tip_icon,#little-close{
+	border:none;
+    font-weight:bold;
+	color:black;
+	height: 27px;
+}
+#icon-tipdetail{
+	background: url(../img/info-icon.png);
+	width: 33px;
+	height: 27px;
+	border:none;
+    font-weight:bold;
+	color:black;
+}
+
+
+.icon-submit,.icon-filein, .icon-fileout,.icon-down,.icon-bianji,.icon-delete,.icon-blank,.icon-blank141{
+	border: none;
+	font-weight:bold;
+	color:black;
+	height: 27px;
+}
+.icon-submit{
+	background: url(../img/icon-save.png);
+	width: 85px;
+	
+}
+.icon-filein{
+	background: url(../img/icon-blank105.png);
+	width: 105px;
+	 
+}
+.icon-fileout{
+	background: url(../img/icon-blank105.png);
+	width: 105px;
+ 
+}
+.icon-down,.icon-blank141{
+	background: url(../img/icon-blank.png);
+	width: 141px;
+}
+.icon-bianji,.icon-delete,.icon-blank{
+	background: url(../img/icon-blank54.png);
+	width: 54px;
+}

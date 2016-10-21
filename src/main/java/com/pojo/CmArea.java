@@ -1,33 +1,26 @@
 package com.pojo;
 
-import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_area", schema = "career", catalog = "")
 public class CmArea {
-    private int aid;
+    private Integer aid;
     private String aprovince;
     private String acity;
     private Collection<CmCompany> cmCompaniesByAid;
     private Collection<CmInter> cmIntersByAid;
     private Collection<CmRecruit> cmRecruitsByAid;
 
-    @Id
-    @Column(name = "aid")
-    public int getAid() {
+    public Integer getAid() {
         return aid;
     }
 
-    public void setAid(int aid) {
+    public void setAid(Integer aid) {
         this.aid = aid;
     }
 
-    @Basic
-    @Column(name = "aprovince", nullable = false, length = 50)
     public String getAprovince() {
         return aprovince;
     }
@@ -36,8 +29,6 @@ public class CmArea {
         this.aprovince = aprovince;
     }
 
-    @Basic
-    @Column(name = "acity", nullable = false, length = 50)
     public String getAcity() {
         return acity;
     }
@@ -53,7 +44,7 @@ public class CmArea {
 
         CmArea cmArea = (CmArea) o;
 
-        if (aid != cmArea.aid) return false;
+        if (aid != null ? !aid.equals(cmArea.aid) : cmArea.aid != null) return false;
         if (aprovince != null ? !aprovince.equals(cmArea.aprovince) : cmArea.aprovince != null) return false;
         if (acity != null ? !acity.equals(cmArea.acity) : cmArea.acity != null) return false;
 
@@ -62,13 +53,12 @@ public class CmArea {
 
     @Override
     public int hashCode() {
-        int result = aid;
+        int result = aid != null ? aid.hashCode() : 0;
         result = 31 * result + (aprovince != null ? aprovince.hashCode() : 0);
         result = 31 * result + (acity != null ? acity.hashCode() : 0);
         return result;
     }
 
-    @OneToMany(mappedBy = "cmAreaByAid")
     public Collection<CmCompany> getCmCompaniesByAid() {
         return cmCompaniesByAid;
     }
@@ -77,7 +67,6 @@ public class CmArea {
         this.cmCompaniesByAid = cmCompaniesByAid;
     }
 
-    @OneToMany(mappedBy = "cmAreaByAid")
     public Collection<CmInter> getCmIntersByAid() {
         return cmIntersByAid;
     }
@@ -86,7 +75,6 @@ public class CmArea {
         this.cmIntersByAid = cmIntersByAid;
     }
 
-    @OneToMany(mappedBy = "cmAreaByAid")
     public Collection<CmRecruit> getCmRecruitsByAid() {
         return cmRecruitsByAid;
     }

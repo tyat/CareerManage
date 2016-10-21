@@ -1,20 +1,13 @@
 package com.pojo;
 
-import javax.persistence.*;
-import javax.print.attribute.standard.DateTimeAtCompleted;
-import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Collection;
 
 /**
- * Created by TianYu on 2016/10/18.
+ * Created by LENOVO on 2016/10/20.
  */
-@Entity
-@Table(name = "cm_company", schema = "career", catalog = "")
 public class CmCompany {
-    private int cid;
-    private int aid;
+    private Integer cid;
     private String cname;
     private String chr;
     private String cphone;
@@ -23,32 +16,18 @@ public class CmCompany {
     private String cmark;
     private String caddress;
     private Timestamp ctime;
-    private int cstate;
+    private Integer cstate;
     private CmArea cmAreaByAid;
     private Collection<CmRecruit> cmRecruitsByCid;
 
-    @Id
-    @Column(name = "cid")
-    public int getCid() {
+    public Integer getCid() {
         return cid;
     }
 
-    public void setCid(int cid) {
+    public void setCid(Integer cid) {
         this.cid = cid;
     }
 
-    @Basic
-    @Column(name = "aid")
-    public int getAid() {
-        return aid;
-    }
-
-    public void setAid(int aid) {
-        this.aid = aid;
-    }
-
-    @Basic
-    @Column(name = "cname", nullable = false, length = 100)
     public String getCname() {
         return cname;
     }
@@ -57,8 +36,6 @@ public class CmCompany {
         this.cname = cname;
     }
 
-    @Basic
-    @Column(name = "chr", nullable = false, length = 50)
     public String getChr() {
         return chr;
     }
@@ -67,8 +44,6 @@ public class CmCompany {
         this.chr = chr;
     }
 
-    @Basic
-    @Column(name = "cphone", nullable = false, length = 50)
     public String getCphone() {
         return cphone;
     }
@@ -77,8 +52,6 @@ public class CmCompany {
         this.cphone = cphone;
     }
 
-    @Basic
-    @Column(name = "cemail", nullable = false, length = 50)
     public String getCemail() {
         return cemail;
     }
@@ -87,8 +60,6 @@ public class CmCompany {
         this.cemail = cemail;
     }
 
-    @Basic
-    @Column(name = "cinfo", nullable = true, length = 255)
     public String getCinfo() {
         return cinfo;
     }
@@ -97,8 +68,6 @@ public class CmCompany {
         this.cinfo = cinfo;
     }
 
-    @Basic
-    @Column(name = "cmark", nullable = true, length = 255)
     public String getCmark() {
         return cmark;
     }
@@ -107,8 +76,6 @@ public class CmCompany {
         this.cmark = cmark;
     }
 
-    @Basic
-    @Column(name = "caddress", nullable = false, length = 50)
     public String getCaddress() {
         return caddress;
     }
@@ -117,8 +84,6 @@ public class CmCompany {
         this.caddress = caddress;
     }
 
-    @Basic
-    @Column(name = "ctime", nullable = false)
     public Timestamp getCtime() {
         return ctime;
     }
@@ -127,13 +92,11 @@ public class CmCompany {
         this.ctime = ctime;
     }
 
-    @Basic
-    @Column(name = "cstate", nullable = false)
-    public int getCstate() {
+    public Integer getCstate() {
         return cstate;
     }
 
-    public void setCstate(int cstate) {
+    public void setCstate(Integer cstate) {
         this.cstate = cstate;
     }
 
@@ -144,9 +107,7 @@ public class CmCompany {
 
         CmCompany cmCompany = (CmCompany) o;
 
-        if (cid != cmCompany.cid) return false;
-        if (aid != cmCompany.aid) return false;
-        if (cstate != cmCompany.cstate) return false;
+        if (cid != null ? !cid.equals(cmCompany.cid) : cmCompany.cid != null) return false;
         if (cname != null ? !cname.equals(cmCompany.cname) : cmCompany.cname != null) return false;
         if (chr != null ? !chr.equals(cmCompany.chr) : cmCompany.chr != null) return false;
         if (cphone != null ? !cphone.equals(cmCompany.cphone) : cmCompany.cphone != null) return false;
@@ -155,14 +116,14 @@ public class CmCompany {
         if (cmark != null ? !cmark.equals(cmCompany.cmark) : cmCompany.cmark != null) return false;
         if (caddress != null ? !caddress.equals(cmCompany.caddress) : cmCompany.caddress != null) return false;
         if (ctime != null ? !ctime.equals(cmCompany.ctime) : cmCompany.ctime != null) return false;
+        if (cstate != null ? !cstate.equals(cmCompany.cstate) : cmCompany.cstate != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = cid;
-        result = 31 * result + aid;
+        int result = cid != null ? cid.hashCode() : 0;
         result = 31 * result + (cname != null ? cname.hashCode() : 0);
         result = 31 * result + (chr != null ? chr.hashCode() : 0);
         result = 31 * result + (cphone != null ? cphone.hashCode() : 0);
@@ -171,12 +132,10 @@ public class CmCompany {
         result = 31 * result + (cmark != null ? cmark.hashCode() : 0);
         result = 31 * result + (caddress != null ? caddress.hashCode() : 0);
         result = 31 * result + (ctime != null ? ctime.hashCode() : 0);
-        result = 31 * result + cstate;
+        result = 31 * result + (cstate != null ? cstate.hashCode() : 0);
         return result;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "aid", referencedColumnName = "aid", nullable = false)
     public CmArea getCmAreaByAid() {
         return cmAreaByAid;
     }
@@ -185,7 +144,6 @@ public class CmCompany {
         this.cmAreaByAid = cmAreaByAid;
     }
 
-    @OneToMany(mappedBy = "cmCompanyByCid")
     public Collection<CmRecruit> getCmRecruitsByCid() {
         return cmRecruitsByCid;
     }
