@@ -10,31 +10,7 @@
     </bean>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mappingLocations">
-            <list>
-                <value>classpath:com/pojo/CmArea.hbm.xml</value>
-                <value>classpath:com/pojo/CmCompany.hbm.xml</value>
-                <value>classpath:com/pojo/CmDirection.hbm.xml</value>
-                <value>classpath:com/pojo/CmEmp.hbm.xml</value>
-                <value>classpath:com/pojo/CmGrade.hbm.xml</value>
-                <value>classpath:com/pojo/CmInter.hbm.xml</value>
-                <value>classpath:com/pojo/CmJob.hbm.xml</value>
-                <value>classpath:com/pojo/CmRecruit.hbm.xml</value>
-                <value>classpath:com/pojo/CmStudent.hbm.xml</value>
-                <value>classpath:com/pojo/CmUnemp.hbm.xml</value>
 
-                <value>classpath:com/pojo/CmUser.hbm.xml</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <value>
-                <!-- hibernate.hbm2ddl.auto=update -->
-                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
-                hibernate.show_sql=true
-                hibernate.format_sql=true
-                hibernate.connection.autocommit=true
-            </value>
-        </property>
     </bean>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
