@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmStudent" table="cm_student" schema="career">
+        <id name="sid" column="sid"/>
+        <property name="sno" column="sno"/>
+        <property name="sname" column="sname"/>
+        <property name="ssex" column="ssex"/>
+        <property name="sbirth" column="sbirth"/>
+        <property name="spro" column="spro"/>
+        <property name="sgrade" column="sgrade"/>
+        <property name="sclass" column="sclass"/>
+        <property name="sphone" column="sphone"/>
+        <property name="semail" column="semail"/>
+        <property name="scode" column="scode"/>
+        <property name="smark" column="smark"/>
+        <property name="sassess" column="sassess"/>
+        <property name="sstate" column="sstate"/>
+        <property name="sdetail" column="sdetail"/>
+        <set name="cmEmpsBySid" inverse="true">
+            <key>
+                <column name="sid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmEmp"/>
+        </set>
+        <set name="cmGradesBySid" inverse="true">
+            <key>
+                <column name="sid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmGrade"/>
+        </set>
+        <set name="cmIntersBySid" inverse="true">
+            <key>
+                <column name="sid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmInter"/>
+        </set>
+        <set name="cmUnempsBySid" inverse="true">
+            <key>
+                <column name="sid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmUnemp"/>
+        </set>
+    </class>
+</hibernate-mapping>

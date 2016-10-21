@@ -40,4 +40,6 @@ public class UserService {
         CmUser cu = us.findByUname("admin");
         System.out.print(cu.getUid()+"-----------");
     }
+
+
 }

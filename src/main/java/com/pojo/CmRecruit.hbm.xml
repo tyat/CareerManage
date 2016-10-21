@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmRecruit" table="cm_recruit" schema="career">
+        <id name="rid" column="rid"/>
+        <property name="rsex" column="rsex"/>
+        <property name="rsalary" column="rsalary"/>
+        <property name="rstart" column="rstart"/>
+        <property name="rend" column="rend"/>
+        <property name="rnum" column="rnum"/>
+        <property name="rinfo" column="rinfo"/>
+        <property name="rstate" column="rstate"/>
+        <many-to-one name="cmJobByJid" class="com.pojo.CmJob">
+            <column name="jid"/>
+        </many-to-one>
+        <many-to-one name="cmCompanyByCid" class="com.pojo.CmCompany">
+            <column name="cid"/>
+        </many-to-one>
+        <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">
+            <column name="aid"/>
+        </many-to-one>
+        <set name="cmIntersByRid" inverse="true">
+            <key>
+                <column name="rid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmInter"/>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmInter" table="cm_inter" schema="career">
+        <id name="iid" column="iid"/>
+        <property name="iaddress" column="iaddress"/>
+        <property name="itype" column="itype"/>
+        <property name="itime" column="itime"/>
+        <property name="isuccess" column="isuccess"/>
+        <property name="istate" column="istate"/>
+        <many-to-one name="cmStudentBySid" class="com.pojo.CmStudent">
+            <column name="sid"/>
+        </many-to-one>
+        <many-to-one name="cmRecruitByRid" class="com.pojo.CmRecruit">
+            <column name="rid"/>
+        </many-to-one>
+        <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">
+            <column name="aid"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

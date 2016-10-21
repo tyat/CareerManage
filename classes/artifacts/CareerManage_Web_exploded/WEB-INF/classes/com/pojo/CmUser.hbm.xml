@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmUser" table="cm_user" schema="career">
+        <id name="uid" column="uid"/>
+        <property name="uname" column="uname"/>
+        <property name="urname" column="urname"/>
+        <property name="upwd" column="upwd"/>
+        <property name="uemail" column="uemail"/>
+        <property name="uphone" column="uphone"/>
+        <property name="urank" column="urank"/>
+        <property name="ustate" column="ustate"/>
+        <set name="cmEmpsByUid" inverse="true">
+            <key>
+                <column name="uid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmEmp"/>
+        </set>
+    </class>
+</hibernate-mapping>

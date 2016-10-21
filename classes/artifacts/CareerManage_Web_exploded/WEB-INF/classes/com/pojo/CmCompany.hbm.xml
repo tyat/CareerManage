@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmCompany" table="cm_company" schema="career">
+        <id name="cid" column="cid"/>
+        <property name="cname" column="cname"/>
+        <property name="chr" column="chr"/>
+        <property name="cphone" column="cphone"/>
+        <property name="cemail" column="cemail"/>
+        <property name="cinfo" column="cinfo"/>
+        <property name="cmark" column="cmark"/>
+        <property name="caddress" column="caddress"/>
+        <property name="ctime" column="ctime"/>
+        <property name="cstate" column="cstate"/>
+        <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">
+            <column name="aid"/>
+        </many-to-one>
+        <set name="cmRecruitsByCid" inverse="true">
+            <key>
+                <column name="cid"/>
+            </key>
+            <one-to-many not-found="ignore" class="com.pojo.CmRecruit"/>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmEmp" table="cm_emp" schema="career">
+        <id name="eid" column="eid"/>
+        <property name="etime" column="etime"/>
+        <property name="esalary" column="esalary"/>
+        <property name="einfo" column="einfo"/>
+        <property name="estate" column="estate"/>
+        <property name="ewq" column="ewq"/>
+        <property name="eleave" column="eleave"/>
+        <property name="ereason" column="ereason"/>
+        <many-to-one name="cmStudentBySid" class="com.pojo.CmStudent">
+            <column name="sid"/>
+        </many-to-one>
+        <many-to-one name="cmJobByJid" class="com.pojo.CmJob">
+            <column name="jid"/>
+        </many-to-one>
+        <many-to-one name="cmUserByUid" class="com.pojo.CmUser">
+            <column name="uid"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

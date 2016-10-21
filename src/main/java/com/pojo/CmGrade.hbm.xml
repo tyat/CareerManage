@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.pojo.CmGrade" table="cm_grade" schema="career">
+        <id name="gid" column="gid"/>
+        <property name="gxq" column="gxq"/>
+        <property name="gxn" column="gxn"/>
+        <property name="gkcm" column="gkcm"/>
+        <property name="gcj" column="gcj"/>
+        <property name="gfslx" column="gfslx"/>
+        <property name="gbkcj" column="gbkcj"/>
+        <property name="gxf" column="gxf"/>
+        <property name="glx" column="glx"/>
+        <many-to-one name="cmStudentBySid" class="com.pojo.CmStudent">
+            <column name="sid"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

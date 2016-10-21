@@ -1,0 +1,745 @@
+ 
+body{
+	background-color: #F4F7F9;
+	font-family: "微软雅黑";
+}
+a{
+	color:#000000;
+	text-decoration: none;
+}	
+a:hover{
+	color:#34A4F3;
+}
+textarea{
+	border: none;
+	-webkit-box-shadow: #666 0px 0px 3px;
+	-moz-box-shadow: #666 0px 0px 3px;
+	box-shadow: #666 0px 0px 3px;
+	background-color: #FFFFFF;
+	
+}
+.welcome{
+	text-align: center;
+	width: 50%;
+	height: 100px;
+	border: solid 1px #CBCBCB;
+	-moz-border-radius: 5px;      /* Gecko browsers */
+    -webkit-border-radius: 5px;   /* Webkit browsers */
+    border-radius:5px; /* W3C syntax */
+    margin-left: auto;   
+    margin-right: auto;  
+    margin-top: 100px;      
+    -webkit-box-shadow: #666 0px 0px 10px;
+	-moz-box-shadow: #666 0px 0px 10px;
+	box-shadow: #666 0px 0px 10px;
+	background: #F6F6F6;
+	-moz-opacity: 0.8; 
+    opacity:.80; 
+    filter: alpha(opacity=80);
+}
+.welcom-text{
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 35px;
+	 
+	
+}
+.mybutton{
+	background-color: #FFFFFF;
+	color: #000;
+	height: 27px;
+	text-align: center;
+	border: solid 1px #34A4F3;
+	-moz-border-radius: 5px;      /* Gecko browsers */
+    -webkit-border-radius: 5px;   /* Webkit browsers */
+    border-radius:5px;            /* W3C syntax */
+}
+.mybutton:hover{
+	background-color: #34A4F3;
+	color: #fff;
+	border: solid 1px #CBCBCB;
+	}
+.logo{
+	float: left;
+	height: 60%;
+}
+.loginpic {
+	float: right;
+	margin-top: 1%;
+    margin-left: 10%;
+    margin-right: 5%;
+}
+.indexline{
+	width: 100%;
+	height: 1px;
+	border-bottom: 4px solid #317EB4;
+	position: absolute;
+	margin-left: -8px;
+	z-index: 1011;
+	margin-top: 56px;
+	}
+.indexline.footer{
+	padding-top:0%;
+    padding-left: 0%;
+    margin-top: -9px;
+}
+.designner-info{
+	float: right;
+	margin-right: 3%;
+	margin-top:10px;
+}
+.Big-title{
+	height: 80px;
+	width: 100%;
+}
+.littil-title{
+	color: #000000;
+	font-size: 1.4em;
+	margin-left: 40%;
+}
+.left-arrow{
+	display:inline-block;
+    border:5px solid;
+    border-color:transparent  transparent transparent #34A4F3;
+    margin-left: 3px;
+	 
+}	
+/*数据表开始*/
+
+.table-box{
+	margin-left: auto;
+    margin-right: auto;
+	width: 90%;
+}
+.table-content{
+	border: 1px solid #E0E0E0;
+}
+.table-head{
+	height:120px;
+}
+.table-address{
+	padding: 2%;
+	color: #518bff;
+}
+.table-address a{
+	color: #518bff;
+}
+.table-slipline{
+	border:  solid 1px #E0E0E0;
+	height: 10px;
+}
+/*.add-box{
+	width: 10%;
+	float: left;
+	margin-left: 10%;
+}*/
+.search-box{
+	float: right;
+	margin-right: 30px;
+	padding-bottom: 20px;
+}
+/*.add-box.searchnot-emp{
+	width:5%;
+	}*/
+.table-bar{
+	width: 100%;
+	height: 60px;
+	margin-left: auto;
+	margin-right: auto;
+	border-top: 1px solid #E0E0E0;
+	
+}
+.table-bar ul{
+	list-style: none;
+	background: url(../img/icon-blank185#fff.png) ;
+}
+.table-bar ul li{
+	float: left;
+	width: 25%;
+	height: 27px;
+	text-align: center;
+	border: solid 1px #CBCBCB;
+	-moz-border-radius: 5px;      /* Gecko browsers */
+    -webkit-border-radius: 5px;   /* Webkit browsers */
+    border-radius:5px;            /* W3C syntax */
+   margin-left: 20px;
+	 
+}
+.table-bar.not-emp  li{
+	width: 10%;
+	margin-left: 20px;
+}
+}.table-bar ul li{
+	color: #000;
+}
+.table-bar ul li:hover{
+	background-color: #34A4F3;
+	border:solid 2px #FFFFFF; 
+	color: #FFFFFF;
+}
+.active-li{
+	background-color: #34A4F3;
+	color: #FFFFFF;	
+}
+/*表格设计*/
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+	background-color: #FFFFFF;
+}
+td,th{padding:0}
+.pure-table{
+	border-collapse:collapse;
+	border-spacing:0;
+	empty-cells:show;
+	border:1px solid #E0E0E0;
+	width: 100%;
+	text-align: center;
+	}
+
+.pure-table td,.pure-table th{
+	border-left:1px solid #cbcbcb;
+	border-width:0 0 0 1px;
+	font-size:inherit;
+	margin:0;
+	overflow:visible;
+	padding:.5em 1em;
+	}
+.pure-table td{
+	background-color:transparent
+	}
+.pure-table-odd td{
+	background-color:#f2f2f2
+	}
+
+.pure-table-bordered td{
+	border-bottom:1px solid #cbcbcb
+	}
+.pure-table-horizontal td,.pure-table-horizontal th{
+	border-width:0 0 1px;
+	border-bottom:1px solid #cbcbcb
+	}
+.pure-table.pure-table-bordered.left{
+	text-align: left;
+	}	
+/*表格设计结束*/
+.left-button-footer{
+	float: left;
+	margin-top: 4%;
+    margin-bottom: 3%;
+ /*   margin-right: -6%;*/
+    width: 40%;
+}
+.right-button-footer{
+	float: right;
+	margin-top: 4%;
+    margin-bottom: 3%;
+}
+.right-button-footer button{
+	margin-left: 3%;
+}
+/*分页样式开始*/
+#Page{
+	float:left;
+	height:50px;
+	font-family:Verdana;
+	}
+#Page a{
+	float:left;
+	margin:10px 1px 0 1px;
+	width:26px;
+	height:20px;
+	line-height:20px;
+	color:#34A4F3;
+	font:12px;
+	text-align:center;
+	text-decoration:none;
+	border:1px solid #34A4F3;
+	}
+#Page a:hover{
+	position:relative;
+	margin:0 -10px 0 -10px;
+	padding:0 9px;
+	width:30px;
+	line-height:40px;
+	height:40px;
+	color:#000;
+	border:1px solid #34A4F3;
+	background:url() no-repeat left -10px;
+	font-size:18px;
+	font-weight:bold;
+	}
+#Page span{
+	float:left;
+	line-height:165%;
+	padding:0px 8px;
+	margin:10px 1px 0 1px;
+	border:1px solid #34A4F3;
+	background:#34A4F3;
+	color:#FFF;
+	font-weight:bold;
+	}
+/*分页样式结束*/
+
+/*数据表结束*/
+
+/*备注详情开始*/
+/*-----------------------------------------------------------这里包含很多遮罩的div------*/
+#showtabs-div,#showupload-div,.show-detail-tip,.show-detail-info,#showAddstu-div,#showMeetResult,#AdminAdd,#AdminUpdate,#StuUpdate,#GangWeiAdd,#FangXiangAdd,#AdminPwd
+{
+	  display: none; 
+      position: fixed; /*跟随滚动条*/
+      top: 15%; 
+      left: 12%; 
+      width: 822px;
+	  height: 380px; 
+      padding: 8px; 
+      z-index:1002; 
+      overflow: auto;
+      background-color: #F4F7F9;
+     background: url(../img/tip-bg2.jpg);
+	  border: solid 1px #34A4F3;
+	 -moz-border-radius: 5px;      /* Gecko browsers */
+     -webkit-border-radius: 5px;   /* Webkit browsers */
+     border-radius:5px;            /* W3C syntax */
+}
+.mybutton.right{
+	float: right;
+}
+#zhezhaobg{
+	  display: none;
+      position: fixed; 
+      top: 0%; 
+      left: 0%;
+      width: 100%; 
+      height: 100%;
+      background-color:  #FFF; 
+      z-index:1001; 
+      -moz-opacity: 0.7; 
+      opacity:.70; 
+      filter: alpha(opacity=70);
+      }
+#little-close{
+	float: right;
+}
+.tip-box{
+/*	background-color: blanchedalmond;*/
+	/*background: url(../img/tipbg.jpg);*/
+	margin-top: 2%;
+}
+#icon-tipdetail{
+	float: left;
+}
+.tip-header{
+	text-align: left;
+  	float: left;
+	margin: 15px;
+	width: 50%;
+}
+.tip-header label{
+	margin-top: 1%;
+}
+.tip-content{
+	width: 100%;
+	float: left;
+	text-align: center;
+}
+.tip-content textarea{
+	text-align: left;
+	 
+}
+/*备注详情结束*/
+
+
+/*修改内容页开始*/
+.show-cform{
+	  display: none; 
+      position: fixed; 
+      top: 15%; 
+      left: 22%; 
+      width: 60%;
+      height: 60%; 
+      padding: 8px; 
+      border: 4px solid #E8E9F7; 
+      background:url(../img/tipbg.jpg);
+      z-index:1002; 
+      overflow: auto;
+}
+.tip-content table{
+	line-height: 2em;
+	text-align: left;
+	margin-left: auto;
+    margin-right: auto;
+    background: none;
+    );
+    
+}
+/*修改内容页结束*/
+/*画布分格box开始*/
+.big-canvar-box{
+	margin-left: 5%;
+}
+.canvars-box{
+	width: 44%;
+	height: 400px;
+	float: left;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	background-color: #FFFFFF;
+	border: 1px solid saddlebrown;
+	
+}
+/*画布分格box结束*/
+/*成绩单开始*/
+#qiwang-text,#mark-canvars{
+	display: none;
+	/*position: absolute;	*/
+}
+
+/*成绩单结束*/
+/*就业开始*/
+#kaifaempstu,#feikaifaempstu{
+   display: none;
+	/*position: absolute;	*/
+}
+/*就业结束*/
+/*未就业开始*/
+#KaoYan-table,#ZhunBei-table{
+   display: none;
+	/*position: absolute;	*/
+}
+/*未就业结束*/
+
+/*岗位标签开始*/
+ 
+.gangwei-box {
+	font-size: 0.8em;
+}
+
+ 
+
+	/*岗位标签页开始*/
+.tabs-box{
+	width: 800px;
+	height: 300px;
+	background-color: #FFFFFF;
+	margin-top: -20px;
+}
+.tabs-div{
+	float: left;	
+	width: 49%;
+	position: inherit;
+	margin-left: 5px;
+}	
+.tabs-line{
+	width: 2px;
+	height: 200px;
+	background-color: orange;
+	position: inherit;
+	margin-left: 48%;
+	z-index: 999;
+	margin-top: 50px;
+}
+.tabs-title{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: #000000;
+	text-align: center;
+}
+.tab-close{
+	margin-left: 93%;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+.tab-save{
+	margin: 30px 40% 20px;
+}
+.tab-save .mybutton{
+	width: 130px;
+}
+/*复选框设计开始*/
+	.checkbox-wrap{
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+    top: 30%;
+    height: 40%;
+   /* background-color: white;*/
+}
+.checkbox-wrap input[type="checkbox"]{
+    /* width: 40px; */
+    /* height: 40px; */
+    /* -webkit-border-radius: 50%; */
+    display: none;
+}
+.checkbox-wrap input[type="checkbox"]+label {
+    display: inline-block;
+    width: 48%;
+    margin-top: 10px;
+    margin-left: 5px;
+    text-align: left;
+    -webkit-box-sizing: border-box;
+}
+
+.checkbox-wrap label::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: #D1D1D1;
+    vertical-align: middle;
+    -webkit-border-radius: 50%;
+    margin-right: 5px;
+    -webkit-box-sizing:border-box;
+  -webkit-transition:background ease-in .5s
+}
+
+.checkbox-wrap input[type="checkbox"]:checked+label::before{
+      background-color: #34A4F3;
+    border: 5px #D1D1D1 solid;
+}
+	/*复选框设计结束*/
+	
+	/*岗位表标签页结束*/
+/*岗位标签结束*/
+/*拖拽上传开始*/
+#filedrag {
+	display: none;
+	font-weight: bold;
+	text-align: center;
+	padding: 1em 0;
+	margin: 1em 0;
+	color: #555;
+	border: 2px dashed #555;
+	border-radius: 7px;
+	cursor: default;
+}
+#filedrag.hover {
+	color: #f00;
+	border-color: #f00;
+	border-style: solid;
+	box-shadow: inset 0 3px 4px #888;
+}
+.upload-box{
+	width: 90%;
+}
+/*拖拽上传结束*/
+
+/*面试添加学生开始*/
+
+.search-box.center{
+	
+	width: 100%;
+	float: left;
+	margin-left: auto;
+	margin-right: auto;
+	padding:30px 0 20px;
+}
+#search-result{
+	display: none;
+	background-color: #FFFFFF ;
+	width: 700px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.center-box{
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
+.MeetResult{
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+}
+/*面试添加学生结束*/
+
+/*登录注册页面开始-------------------------------------------------*/
+.login-bg{
+	background-color: #34A4F3;
+	height: 300px;
+	width: 100%;
+	margin-top: 120px;
+	position: absolute;
+	-moz-opacity: 0.7; 
+    opacity:.70; 
+    filter: alpha(opacity=70);
+}
+.login-form-box{
+	width: 300px;
+	height: 230px;
+	background-color: #FFFFFF;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	border: solid 1px #FFFFFF;
+	-moz-border-radius: 5px;      /* Gecko browsers */
+    -webkit-border-radius: 5px;   /* Webkit browsers */
+    border-radius:5px; /* W3C syntax */
+   -webkit-box-shadow: #666 0px 0px 10px;
+	-moz-box-shadow: #666 0px 0px 10px;
+	box-shadow: #666 0px 0px 10px;
+}
+
+.form-box{
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
+.login-form-box input{
+	width: 200px;
+	height: 40px;
+	border: solid 1px #666666;
+	margin:20px auto 5px;
+	-moz-border-radius: 5px;      /* Gecko browsers */
+    -webkit-border-radius: 5px;   /* Webkit browsers */
+    border-radius:5px; /* W3C syntax */
+}
+.login-form-box input:focus{
+	 border: solid 2px #34A4F3;
+}
+.logo2 {
+	width: 284px;
+	height: 59px;
+	margin-left: auto;
+	margin-right: auto;
+	
+}
+.logo2 img{
+	position: absolute;
+	margin-top: 100px;
+}
+.login-form-box input[type=checkbox]{
+	width: 10px;
+	height: 10px;
+	margin: 0 10px 0 ;
+}
+.login-form-box span{
+	font-size: 13px;
+	margin: 0 0 0 ;
+	width: 30px;
+}
+.login-form-box input[type=submit]{
+	margin: 5px 0 0 ;
+}
+.login-form-box input[type=button]{
+	margin: 5px 0 0 ;
+}
+/*登录注册页面结束*/
+/* 星星点灯开始 */
+.starability-container{
+	margin-left: 50px;
+}
+		.starability-checkmark {
+			display: block;
+			position: relative;
+			width: 150px;
+			min-height: 60px;
+			padding: 0;
+			border: none
+		}
+		.starability-checkmark>input {
+			position: absolute;
+			margin-right: -100%;
+			opacity: 0
+		}
+		.starability-checkmark>input:checked~label, .starability-checkmark>input:focus~label, .starability-checkmark>input:hover~label {
+			background-position: 0 -30px
+		}
+		.starability-checkmark>input:focus+label {
+			outline: 1px dotted #999
+		}
+		.starability-checkmark>label {
+			position: relative;
+			display: inline-block;
+			float: right;
+			width: 30px;
+			height: 30px;
+			color: transparent;
+			cursor: pointer;
+			background-image: url(../img/icons-checkmark.png);
+			background-repeat: no-repeat
+		}
+		@media (-webkit-min-device-pixel-ratio:2), (min-resolution:192dpi), screen and (-webkit-min-device-pixel-ratio:2) {
+			.starability-checkmark>label {
+				background-image: url(../img/icons-checkmark@2x.png);
+				background-size: 30px auto
+			}
+		}
+		.starability-checkmark>label {
+			position: static;
+			z-index: 1
+		}
+		.starability-checkmark>label:before {
+			display: none;
+			position: absolute;
+			content: ' ';
+			width: 30px;
+			height: 30px;
+			background-image: url(../img/icons-checkmark.png);
+			background-repeat: no-repeat;
+			background-position: 0 -60px;
+			right: -30px
+		}
+		@media (-webkit-min-device-pixel-ratio:2), (min-resolution:192dpi), screen and (-webkit-min-device-pixel-ratio:2) {
+			.starability-checkmark>label:before {
+				background-image: url(../img/icons-checkmark@2x.png);
+				background-size: 30px auto
+			}
+		}
+		.starability-checkmark>input:checked+label:before {
+			display: block;
+			animation-name: d;
+			animation-duration: .7s;
+			animation-fill-mode: forwards
+		}
+.starability-container textarea{
+	width: 80%;
+	height: auto;
+	margin-left: 10%;
+}
+.buttonbox{
+	margin: 10px auto 10px;
+	width: 200px;
+}
+.buttonbox input{
+	margin-right: 30px;
+}
+
+/* 星星点灯结束 */
+/*管理员开始*/
+#AdminUpdate table,#AdminUpdate p{
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+	margin-top: 30px;
+}
+#StuUpdate  table,#StuUpdate  p{
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+	margin-top: 30px;
+}
+#AdminAdd table,#AdminAdd p{
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+}
+#AdminPwd table,#AdminPwd p{
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+}
+#GangWeiAdd table,#GangWeiAdd p{
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+}
+#FangXiangAdd table,#FangXiangAdd  p{
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+}
+/*管理员结束*/
