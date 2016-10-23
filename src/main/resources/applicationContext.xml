@@ -24,12 +24,6 @@
                 <value>classpath:com/pojo/CmUser.hbm.xml</value>
             </list>
         </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.connection.url">jdbc:mysql://172.31.48.105:3306/career</prop>
-                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
-            </props>
-        </property>
 
     </bean>
 

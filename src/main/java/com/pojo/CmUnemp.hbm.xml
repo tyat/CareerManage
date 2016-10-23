@@ -4,8 +4,11 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.pojo.CmUnemp" table="cm_unemp" schema="career">
-        <id name="ueid" column="ueid"/>
+    <class name="com.pojo.CmUnemp" table="cm_unemp" schema="career" dynamic-insert="true" dynamic-update="true">
+        <id name="ueid" type="java.lang.Integer">
+            <column name="ueid" />
+            <generator class="native" />
+        </id>
         <property name="uesalary" column="uesalary"/>
         <property name="uetime" column="uetime"/>
         <property name="ueschool" column="ueschool"/>

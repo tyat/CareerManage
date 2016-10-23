@@ -19,6 +19,18 @@ public class CmUser {
     public CmUser() {
     }
 
+    public CmUser(Integer uid, String uname, String urname, String upwd, String uemail, String uphone, Integer urank, Integer ustate, Collection<CmEmp> cmEmpsByUid) {
+        this.uid = uid;
+        this.uname = uname;
+        this.urname = urname;
+        this.upwd = upwd;
+        this.uemail = uemail;
+        this.uphone = uphone;
+        this.urank = urank;
+        this.ustate = ustate;
+        this.cmEmpsByUid = cmEmpsByUid;
+    }
+
     public CmUser(String uname, String urname, String upwd, String uemail, String uphone, Integer urank, Integer ustate) {
         this.uname = uname;
         this.urname = urname;
@@ -27,6 +39,11 @@ public class CmUser {
         this.uphone = uphone;
         this.urank = urank;
         this.ustate = ustate;
+    }
+
+    public CmUser(String uname, String upwd) {
+        this.uname = uname;
+        this.upwd = upwd;
     }
 
     public Integer getUid() {

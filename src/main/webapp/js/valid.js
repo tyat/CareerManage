@@ -1,11 +1,11 @@
 /*--------------------------------------------登录的验证*/
 function v_login(){
-	var login_name=document.getElementById("login_uname").value;
+	var login_name=document.getElementById("uname").value;
 	if (login_name.length==0) {
 		alert('用户名不可以为空');
 		return false;
 	} else{
-		var login_pwd=document.getElementById("login_pwd").value;
+		var login_pwd=document.getElementById("upwd").value;
 		if (login_pwd.length==0) {
 			alert('密码不可以为空');
 			return false;

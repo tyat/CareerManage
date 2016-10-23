@@ -4,8 +4,11 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.pojo.CmInter" table="cm_inter" schema="career">
-        <id name="iid" column="iid"/>
+    <class name="com.pojo.CmInter" table="cm_inter" schema="career" dynamic-insert="true" dynamic-update="true">
+        <id name="iid" type="java.lang.Integer">
+            <column name="iid" />
+            <generator class="native" />
+        </id>
         <property name="iaddress" column="iaddress"/>
         <property name="itype" column="itype"/>
         <property name="itime" column="itime"/>

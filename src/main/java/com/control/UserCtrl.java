@@ -16,6 +16,7 @@ import java.util.Map;
  * User控制层
  */
 @Controller
+@RequestMapping("/user")
 public class UserCtrl {
     @Autowired
     private UserService userService;
@@ -25,7 +26,7 @@ public class UserCtrl {
         return "index";
     }
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/register",method =RequestMethod.GET )
     @ResponseBody
     public Map<String,String> register(String uname, String urname,String upwd, String uemail,String uphone,int urank,int ustate){
         CmUser myUsers = new CmUser(uname,urname,upwd,uemail,uphone,urank,ustate);
@@ -33,6 +34,24 @@ public class UserCtrl {
         Map<String,String> data = new HashMap<String,String>();
         data.put("state","1");
         data.put("info","插入成功!");
+        return data;
+    }
+    //张小丽：登陆
+    @RequestMapping(value = "/login",method =RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> login(String uname,String upwd){
+        CmUser myUsers = new CmUser(uname,upwd);
+        CmUser cmUser=userService.findlogin(uname,upwd);
+        Map<String,Object> data = new HashMap<String,Object>();
+        if (cmUser!=null){
+            data.put("state","1000");
+            data.put("info","登陆成功!");
+            data.put("loginUser",cmUser);
+        }else{
+            data.put("state","1001");
+            data.put("info","登陆失败!");
+
+        }
         return data;
     }
 

@@ -33,6 +33,15 @@ public class UserService {
         }
         return null;
     }
+    //张小丽：登录
+    public CmUser findlogin(String uname,String upwd){
+        String hsql = "from CmUser u where u.uname = ? and u.upwd = ?";
+        List<?> data = hibernateTemplate.find(hsql,uname,upwd);
+        if(!data.isEmpty()){
+            return (CmUser) data.get(0);
+        }
+        return null;
+    }
 
     public static void main(String[] args){
         ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");

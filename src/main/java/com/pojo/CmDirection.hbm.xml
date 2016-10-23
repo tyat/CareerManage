@@ -4,8 +4,11 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.pojo.CmDirection" table="cm_direction" schema="career">
-        <id name="did" column="did"/>
+    <class name="com.pojo.CmDirection" table="cm_direction" schema="career" dynamic-update="true" dynamic-insert="true">
+        <id name="did" type="java.lang.Integer">
+            <column name="did" />
+            <generator class="native" />
+        </id>
         <property name="dname" column="dname"/>
         <property name="dstate" column="dstate"/>
         <set name="cmUnempsByDid" inverse="true">

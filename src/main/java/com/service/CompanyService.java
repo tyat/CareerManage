@@ -25,7 +25,7 @@ public class CompanyService {
     删除企业该条记录
      */
     public boolean DelCompany(CmCompany cid){
-
+       // hibernateTemplate.delete();
         return true;
     }
 }
