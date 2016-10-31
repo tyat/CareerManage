@@ -19,7 +19,7 @@
         <many-to-one name="cmJobByJid" class="com.pojo.CmJob">
             <column name="jid"/>
         </many-to-one>
-        <many-to-one name="cmCompanyByCid" class="com.pojo.CmCompany">
+        <many-to-one name="cmCompanyByCid" class="com.pojo.CmCompany" >
             <column name="cid"/>
         </many-to-one>
         <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">

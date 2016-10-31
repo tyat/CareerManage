@@ -11,7 +11,7 @@
         </id>
         <property name="aprovince" column="aprovince"/>
         <property name="acity" column="acity"/>
-        <set name="cmCompaniesByAid" inverse="true">
+        <set name="cmCompaniesByAid" inverse="true" >
             <key>
                 <column name="aid"/>
             </key>

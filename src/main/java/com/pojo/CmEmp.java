@@ -3,6 +3,7 @@ package com.pojo;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+
 /**
  * Created by LENOVO on 2016/10/20.
  */
@@ -100,6 +101,19 @@ public class CmEmp {
         if (ereason != null ? !ereason.equals(cmEmp.ereason) : cmEmp.ereason != null) return false;
 
         return true;
+    }
+
+    public CmEmp() {
+    }
+
+    public CmEmp(Integer esalary, Timestamp etime, String einfo, Boolean ewq, CmStudent cmStudentBySid, CmJob cmJobByJid, CmUser cmUserByUid) {
+        this.esalary = esalary;
+        this.etime = etime;
+        this.einfo = einfo;
+        this.ewq = ewq;
+        this.cmStudentBySid = cmStudentBySid;
+        this.cmJobByJid = cmJobByJid;
+        this.cmUserByUid = cmUserByUid;
     }
 
     @Override

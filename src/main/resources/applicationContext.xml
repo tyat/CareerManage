@@ -24,7 +24,15 @@
                 <value>classpath:com/pojo/CmUser.hbm.xml</value>
             </list>
         </property>
-
+        <property name="hibernateProperties">
+            <value>
+                <!-- hibernate.hbm2ddl.auto=update -->
+                hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+                hibernate.show_sql=true
+                hibernate.format_sql=true
+                hibernate.connection.autocommit=true
+            </value>
+        </property>
     </bean>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">

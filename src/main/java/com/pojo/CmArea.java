@@ -13,6 +13,34 @@ public class CmArea {
     private Collection<CmInter> cmIntersByAid;
     private Collection<CmRecruit> cmRecruitsByAid;
 
+    public CmArea() {
+    }
+
+    public CmArea(String aprovince) {
+        this.aprovince = aprovince;
+    }
+
+    public CmArea(Integer aid, String aprovince) {
+        this.aid = aid;
+        this.aprovince = aprovince;
+    }
+
+
+    public CmArea(Integer aid, String aprovince, String acity) {
+        this.aid = aid;
+        this.aprovince = aprovince;
+        this.acity = acity;
+    }
+
+    public CmArea(Integer aid, String aprovince, String acity, Collection<CmCompany> cmCompaniesByAid, Collection<CmInter> cmIntersByAid, Collection<CmRecruit> cmRecruitsByAid) {
+        this.aid = aid;
+        this.aprovince = aprovince;
+        this.acity = acity;
+        this.cmCompaniesByAid = cmCompaniesByAid;
+        this.cmIntersByAid = cmIntersByAid;
+        this.cmRecruitsByAid = cmRecruitsByAid;
+    }
+
     public Integer getAid() {
         return aid;
     }
