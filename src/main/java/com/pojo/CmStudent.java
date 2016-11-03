@@ -27,6 +27,10 @@ public class CmStudent {
     private Collection<CmInter> cmIntersBySid;
     private Collection<CmUnemp> cmUnempsBySid;
 
+    public CmStudent(){
+
+    }
+
     public Integer getSid() {
         return sid;
     }
