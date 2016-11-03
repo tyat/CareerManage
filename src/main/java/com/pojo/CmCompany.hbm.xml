@@ -16,12 +16,14 @@
         <property name="cinfo" column="cinfo"/>
         <property name="cmark" column="cmark"/>
         <property name="caddress" column="caddress"/>
-        <property name="ctime" column="ctime"/>
-        <property name="cstate" column="cstate"/>
-        <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">
+        <property name="ctime" type="java.sql.Timestamp" not-null="false">
+            <column name="ctime" length="23"  />
+        </property>
+        <property name="cstate" column="cstate" not-null="false"/>
+        <many-to-one name="cmAreaByAid" class="com.pojo.CmArea" >
             <column name="aid"/>
         </many-to-one>
-        <set name="cmRecruitsByCid" inverse="true">
+        <set name="cmRecruitsByCid" inverse="true" >
             <key>
                 <column name="cid"/>
             </key>

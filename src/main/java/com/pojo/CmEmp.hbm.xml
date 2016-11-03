@@ -9,7 +9,7 @@
             <column name="eid" />
             <generator class="native" />
         </id>
-        <property name="etime" column="etime"/>
+        <property name="etime" column="etime" not-null="false"/>
         <property name="esalary" column="esalary"/>
         <property name="einfo" column="einfo"/>
         <property name="estate" column="estate"/>

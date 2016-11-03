@@ -43,6 +43,7 @@ public class UserService {
         return null;
     }
 
+
     public static void main(String[] args){
         ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
         UserService us = (UserService)ac.getBean("userService") ;

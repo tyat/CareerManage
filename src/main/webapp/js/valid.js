@@ -151,8 +151,8 @@ function v_phone(thisId){
 function v_xuehao(thisId){
 	var myele=document.getElementById(thisId).value;
 	if (myele.length<12){
-	
 		alert('请填写12位学号');
+		document.empadd.myele.focus();
 		return false;
 	} 
 }

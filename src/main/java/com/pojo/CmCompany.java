@@ -100,6 +100,59 @@ public class CmCompany {
         this.cstate = cstate;
     }
 
+    public CmCompany() {
+    }
+
+    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Timestamp ctime, Integer cstate, CmArea cmAreaByAid, Collection<CmRecruit> cmRecruitsByCid) {
+        this.cid = cid;
+        this.cname = cname;
+        this.chr = chr;
+        this.cphone = cphone;
+        this.cemail = cemail;
+        this.cinfo = cinfo;
+        this.cmark = cmark;
+        this.caddress = caddress;
+        this.ctime = ctime;
+        this.cstate = cstate;
+        this.cmAreaByAid = cmAreaByAid;
+        this.cmRecruitsByCid = cmRecruitsByCid;
+    }
+
+    public CmCompany(String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, CmArea cmAreaByAid,Timestamp ctime ) {
+        this.cname = cname;
+        this.chr = chr;
+        this.cphone = cphone;
+        this.cemail = cemail;
+        this.cinfo = cinfo;
+        this.cmark = cmark;
+        this.caddress = caddress;
+        this.cmAreaByAid = cmAreaByAid;
+        this.ctime=ctime;
+    }
+
+    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Timestamp ctime) {
+        this.cid = cid;
+        this.cname = cname;
+        this.chr = chr;
+        this.cphone = cphone;
+        this.cemail = cemail;
+        this.cinfo = cinfo;
+        this.cmark = cmark;
+        this.caddress = caddress;
+        this.ctime = ctime;
+    }
+    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress) {
+        this.cid = cid;
+        this.cname = cname;
+        this.chr = chr;
+        this.cphone = cphone;
+        this.cemail = cemail;
+        this.cinfo = cinfo;
+        this.cmark = cmark;
+        this.caddress = caddress;
+        this.ctime = ctime;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
