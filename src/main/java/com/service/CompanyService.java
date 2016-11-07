@@ -41,32 +41,41 @@ public class CompanyService {
     }
     //张小丽：根据企业id查找企业信息，为修改企业信息做准备
     public  CmCompany  findCompByCid(int cid){
-        String  hsql="select new com.pojo.CmCompany(c.cid,c.cname,c.chr,c.cphone,c.cemail,c.cinfo,c.cmark,c.caddress) from CmCompany c where c.cid=?";
+        String  hsql="select new com.pojo.CmCompany(c.cid,c.cname,c.chr,c.cphone,c.cemail,c.cinfo,c.cmark,c.caddress) " +
+                "from CmCompany c where c.cid=?";
         List<CmCompany> cmCompanies=( List<CmCompany>) hibernateTemplate.find(hsql,cid);
         return   cmCompanies.get(0);
     }
     public  CmCompany  findCompByCid2(int cid){
-        String  hsql="select new com.pojo.CmCompany(c.cid,c.cname,c.chr,c.cphone,c.cemail,c.cinfo,c.cmark,c.caddress) from CmCompany c where c.cid=?";
+        String  hsql="select new com.pojo.CmCompany(c.cid,c.cname,c.chr,c.cphone,c.cemail,c.cinfo,c.cmark,c.caddress) " +
+                "from CmCompany c where c.cid=?";
         List<?> cmCompanies=hibernateTemplate.find(hsql,cid);
         return   (CmCompany) cmCompanies.get(0);
     }
     //张小丽：修改公司信息
     public boolean updateCompany(int cid,String cname,String chr,String cphone,String cemail,
                                  String cinfo,String cmark,String caddress,int city){
-       CmCompany cmCompany= this.findCompByCid2(cid);
-//        CmArea cmArea=new CmArea();
-//        cmArea.setAid(city);
-//        cmCompany.setCaddress(caddress);
-//        cmCompany.setCemail(cemail);
-//        cmCompany.setChr(chr);
-//        cmCompany.setCinfo(cinfo);
-//        cmCompany.setCmark(cmark);
-//        cmCompany.setCname(cname);
-//        cmCompany.setCmAreaByAid(cmArea);
-//        cmCompany.setCphone(cphone);
-        String hsql="update CmCompany c set c.cname=?,c.chr=?,c.cphone=?,c.cemail=?,c.cinfo=?,c.cmark=?,c.caddress=?  where c.cid=?";
-        hibernateTemplate.bulkUpdate(hsql,cname,chr,cphone,cemail,cinfo,cmark,caddress,cid);
+      // CmCompany cmCompany= this.findCompByCid2(cid);
+        String hsql="update CmCompany c set c.cname=?,c.chr=?,c.cphone=?,c.cemail=?,c.cinfo=?,c.cmark=?,c.caddress=?,c.cmAreaByAid.aid=?  " +
+                "where c.cid=?";
+        hibernateTemplate.bulkUpdate(hsql,cname,chr,cphone,cemail,cinfo,cmark,caddress,city,cid);
       //  hibernateTemplate.saveOrUpdate(cmCompany);
         return   true;
+    }
+    //张小丽：查询所有公司
+    public List<CmCompany>findAllCompany(){
+        String hsql="select new com.pojo.CmCompany(c.cid,c.cname) from CmCompany c";
+        List<CmCompany>data=(List<CmCompany>) hibernateTemplate.find(hsql);
+        return   data;
+    }
+    //张小丽：根据学生的id查询其所去的公司
+    public CmCompany findCompanyBySid(int sid){
+        String hsql="select new com.pojo.CmCompany(c.cid,c.cname)  from CmInter i  " +
+                "  inner join i.cmRecruitByRid r " +
+                "  inner  join r.cmCompanyByCid c " +
+                " where  i.cmStudentBySid.sid=? and i.isuccess=1" +
+                "  ORDER BY i.itime desc";
+        List<CmCompany>data=(List<CmCompany>) hibernateTemplate.find(hsql,sid);
+        return   data.get(0);
     }
 }

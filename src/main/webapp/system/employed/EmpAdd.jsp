@@ -17,33 +17,26 @@
     <link rel="stylesheet" href="../../css/icon.css" />
     <script type="text/javascript" src="../../js/showele.js" ></script>
     <script type="text/javascript" src="../../js/Date.js" ></script>
-    <script type="text/javascript">
-        function snoajax(){
-            var aprovince = document.getElementById("xuehao").value;
-            var city = document.getElementById("city");
-            $("#city").html("");
+    <script language="javascript">
+        function snoselect(){
+            var sno = document.getElementById("sno").value;
+            alert(sno);
             $.ajax({
-                url : 'selectCity',
+                url : 'selectStudentBySno',
                 type : 'GET',
-                data :{'key':aprovince},
+                data :{'key':sno},
                 contentType : 'application/json',
                 dataType : 'json',
                 success : function(data) {
                     //请求成功
                     var citys = data.split(",");
-                    citys.length = citys.length-1;
-                    for (var i = 0; i < citys.length; i++) {
-                        var aid = citys[i].split(":");
-                        //alert(aid[0]+"."+aid[1]);
-                        city.options.add(new Option(aid[1],aid[0]));
-                    }
+
                 },
                 error : function(msg) {
                     alert(msg);
                 }
             });
-        }
-    </script>
+        } </script>
 </head>
 <body onload="Activeli()">
 <div class="table-box">
@@ -71,24 +64,27 @@
             ${cinfo}
             <!--这是一条记录开始-->
             <form id="empadd" name="empadd" action="/EmpAdd" method="get">
+                <input type="hidden" id="sid" name="sid">
                 <table  class="pure-table pure-table-bordered" style="text-align:left">
                     <tr>
                         <td>学号</td>
-                        <td><input type="text" id="xuehao" name="xuehao"  value="" required="required" onblur="v_xuehao(this.id)" maxlength="12" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" />   <button class="mybutton" type="button" onclick="snoajax()">检测重复</button></td>
+                        <td><input type="text" id="sno" name="sno"  onblur="snoselect()" required="required" maxlength="12" onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"  />
+                            <input type="button" class="mybutton" value="检测重复" />
+                        </td>
 
                     </tr>
                     <tr>
                         <td>姓名</td>
-                        <td><input type="text" value=" " id="" /></td>
+                        <td><input type="text" value=" " id="sname" name="sname"/></td>
                     </tr>
 
                     <tr>
                         <td>班级：</td>
-                        <td><input type="text" value=" " /></td>
+                        <td><input type="text" value="" id="sclass" name="sclass"/></td>
                     </tr>
                     <tr>
                         <td>年级：</td>
-                        <td><input type="text" value=" " /></td>
+                        <td><input type="text" value=" " id="sgrade" name="sgrade"/></td>
                     </tr>
                     <tr>
                         <td>性别：</td>
@@ -101,17 +97,23 @@
                     </tr>
                     <tr>
                         <td >就业企业：</td>
-                        <td ><input type="text" value=" "/></td>
+                        <td >
+                            <select id="company" name="company">
+                                <c:forEach items="${allCompany}" var="s" varStatus="stu">
+                                    <option id="cids" value="${s.cid}">${s.cname}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
 
                     </tr>
 
                     <tr>
                         <td>岗位:</td>
                         <td>
-                            <select>
-                                <option>web前端</option>
-                                <option>软件测试</option>
-                                <option>Java开发</option>
+                            <select id="job" name="job">
+                                <c:forEach items="${allJob}"  var="s" varStatus="stu">
+                                   <option id="jids" value="${s.jid}">${s.jname}</option>
+                                </c:forEach>
                             </select>
                         </td>
 
@@ -137,9 +139,10 @@
                     <tr>
                         <td>推荐人：</td>
                         <td>
-                            <select>
-                                <option>毛老师</option>
-                                <option>张老师</option>
+                            <select id="user" name="user">
+                                <c:forEach items="${allUser}" var="s" varStatus="stu">
+                                    <option id="uids" value="${s.uid}">${s.urname}</option>
+                                </c:forEach>
                             </select>
                         </td>
                     </tr>

@@ -73,7 +73,7 @@
         <!--这是标题栏结束-->
         <div>
             <!--这是表格开始-->
-            <form method="get" action="/addCompany">
+            <form method="get" action="/company/addCompany">
                 <table  class="pure-table pure-table-bordered CompInfo1" style="text-align: left;">
                     <tr>
                         <td>企业名称</td>
@@ -105,7 +105,7 @@
                         <td>详细地址：</td>
                         <td colspan="4">
                             <select  name="aprovince" id="aprovince" onchange="provinceajax()" >
-                                <option value="0" selected=“selected“> 省份 </option>
+                                <option value="0" selected="selected"> 省份 </option>
                                 <c:forEach items="${allAreaList}" var="s" varStatus="stu">
                                     <option id="aprovinces" value="${s.aprovince}">${s.aprovince}</option>
                                 </c:forEach>

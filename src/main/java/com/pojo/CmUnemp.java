@@ -73,6 +73,52 @@ public class CmUnemp {
         this.uestate = uestate;
     }
 
+    public CmUnemp() {
+    }
+
+    public CmUnemp(Integer ueid) {
+        this.ueid = ueid;
+    }
+
+    public CmUnemp(Integer ueid, Integer uesalary, Date uetime, String ueschool, String uemajor, Integer uesuccess, Integer uestate, CmStudent cmStudentBySid, CmDirection cmDirectionByDid, CmJob cmJobByJid) {
+        this.ueid = ueid;
+        this.uesalary = uesalary;
+        this.uetime = uetime;
+        this.ueschool = ueschool;
+        this.uemajor = uemajor;
+        this.uesuccess = uesuccess;
+        this.uestate = uestate;
+        this.cmStudentBySid = cmStudentBySid;
+        this.cmDirectionByDid = cmDirectionByDid;
+        this.cmJobByJid = cmJobByJid;
+    }
+
+    public CmUnemp(CmStudent cmStudentBySid, CmDirection cmDirectionByDid,  CmJob cmJobByJid,Integer uesalary, Date uetime, String ueschool, String uemajor, Integer uesuccess) {
+        this.uesalary = uesalary;
+        this.uetime = uetime;
+        this.ueschool = ueschool;
+        this.uemajor = uemajor;
+        this.uesuccess = uesuccess;
+        this.cmStudentBySid = cmStudentBySid;
+        this.cmDirectionByDid = cmDirectionByDid;
+        this.cmJobByJid = cmJobByJid;
+    }
+    public CmUnemp(CmStudent cmStudentBySid, CmDirection cmDirectionByDid,  CmJob cmJobByJid,Integer uesalary, Date uetime) {
+        this.uesalary = uesalary;
+        this.uetime = uetime;
+        this.cmStudentBySid = cmStudentBySid;
+        this.cmDirectionByDid = cmDirectionByDid;
+        this.cmJobByJid = cmJobByJid;
+    }
+    public CmUnemp(CmStudent cmStudentBySid, CmDirection cmDirectionByDid, String ueschool, String uemajor, Integer uesuccess) {
+        this.ueschool = ueschool;
+        this.uemajor = uemajor;
+        this.uesuccess = uesuccess;
+        this.cmStudentBySid = cmStudentBySid;
+        this.cmDirectionByDid = cmDirectionByDid;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

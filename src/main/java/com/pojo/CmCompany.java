@@ -103,6 +103,11 @@ public class CmCompany {
     public CmCompany() {
     }
 
+    public CmCompany(Integer cid, String cname) {
+        this.cid = cid;
+        this.cname = cname;
+    }
+
     public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Timestamp ctime, Integer cstate, CmArea cmAreaByAid, Collection<CmRecruit> cmRecruitsByCid) {
         this.cid = cid;
         this.cname = cname;

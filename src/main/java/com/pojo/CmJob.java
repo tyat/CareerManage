@@ -55,6 +55,14 @@ public class CmJob {
         this.jinfo = jinfo;
     }
 
+    public CmJob(Integer jid, String jname) {
+        this.jid = jid;
+        this.jname = jname;
+    }
+
+    public CmJob() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

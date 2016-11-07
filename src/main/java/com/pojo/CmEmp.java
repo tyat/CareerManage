@@ -106,6 +106,36 @@ public class CmEmp {
     public CmEmp() {
     }
 
+    public CmEmp(Integer eid, Integer esalary, String einfo, Integer estate, Boolean ewq, String ereason) {
+        this.eid = eid;
+        this.esalary = esalary;
+        this.einfo = einfo;
+        this.estate = estate;
+        this.ewq = ewq;
+        this.ereason = ereason;
+    }
+
+    public CmEmp(Integer eid, Timestamp etime, Integer esalary, String einfo, Integer estate, Boolean ewq, String ereason) {
+        this.eid = eid;
+        this.etime = etime;
+        this.esalary = esalary;
+        this.einfo = einfo;
+        this.estate = estate;
+        this.ewq = ewq;
+        this.ereason = ereason;
+    }
+
+    public CmEmp(Integer eid, Timestamp etime, Integer esalary, String einfo, Integer estate, Boolean ewq, Date eleave, String ereason) {
+        this.eid = eid;
+        this.etime = etime;
+        this.esalary = esalary;
+        this.einfo = einfo;
+        this.estate = estate;
+        this.ewq = ewq;
+        this.eleave = eleave;
+        this.ereason = ereason;
+    }
+
     public CmEmp(Integer esalary, Timestamp etime, String einfo, Boolean ewq, CmStudent cmStudentBySid, CmJob cmJobByJid, CmUser cmUserByUid) {
         this.esalary = esalary;
         this.etime = etime;

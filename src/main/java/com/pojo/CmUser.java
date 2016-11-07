@@ -46,6 +46,11 @@ public class CmUser {
         this.upwd = upwd;
     }
 
+    public CmUser(Integer uid, String urname) {
+        this.uid = uid;
+        this.urname = urname;
+    }
+
     public Integer getUid() {
         return uid;
     }

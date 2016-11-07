@@ -19,6 +19,7 @@ import java.util.Map;
  * Created by Administrator on 2016/10/25.
  */
 @Controller
+@RequestMapping("/area")
 public class AreaCtrl {
     @Autowired
     private AreaService areaService;

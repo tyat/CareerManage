@@ -9,12 +9,12 @@
             <column name="ueid" />
             <generator class="native" />
         </id>
-        <property name="uesalary" column="uesalary"/>
-        <property name="uetime" column="uetime"/>
-        <property name="ueschool" column="ueschool"/>
-        <property name="uemajor" column="uemajor"/>
-        <property name="uesuccess" column="uesuccess"/>
-        <property name="uestate" column="uestate"/>
+        <property name="uesalary" column="uesalary" not-null="false"/>
+        <property name="uetime" column="uetime" not-null="false"/>
+        <property name="ueschool" column="ueschool" not-null="false"/>
+        <property name="uemajor" column="uemajor" not-null="false"/>
+        <property name="uesuccess" column="uesuccess" not-null="false"/>
+        <property name="uestate" column="uestate" not-null="false"/>
         <many-to-one name="cmStudentBySid" class="com.pojo.CmStudent">
             <column name="sid"/>
         </many-to-one>
@@ -22,7 +22,7 @@
             <column name="did"/>
         </many-to-one>
         <many-to-one name="cmJobByJid" class="com.pojo.CmJob">
-            <column name="jid" not-null="true"/>
+            <column name="jid"  not-null="false"/>
         </many-to-one>
     </class>
 </hibernate-mapping>

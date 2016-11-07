@@ -72,7 +72,7 @@
         <!--这是标题栏结束-->
         <div>
             <!--这是表格开始-->
-            <form action="/updateCompany" method="get">
+            <form action="/company/updateCompany" method="get">
                 <input type="hidden" id="cid" name="cid" value="${findCompByCid.cid}">
             <table  class="pure-table pure-table-bordered CompInfo1" style="text-align: left;">
                 <tr>

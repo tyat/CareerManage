@@ -19,6 +19,7 @@ import java.util.Map;
  * User控制层
  */
 @Controller
+@RequestMapping("/user")
 public class UserCtrl {
     @Autowired
     private UserService userService;
@@ -47,7 +48,7 @@ public class UserCtrl {
         }else{
             try{
                 model.addAttribute("info","用户名或密码错误！");
-                return "/login";
+                return "/user/login";
             }catch (Exception e){
                 e.printStackTrace();
             }

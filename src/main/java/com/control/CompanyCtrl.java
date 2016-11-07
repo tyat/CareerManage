@@ -22,7 +22,7 @@ import java.util.Map;
  * Created by Administrator on 2016/10/23.
  */
 @Controller
-//@RequestMapping("/company")
+@RequestMapping("/company")
 public class CompanyCtrl {
     @Autowired
     private CompanyService companyService;

@@ -35,7 +35,7 @@
             <dd class="first_dd"><a href="#">企业信息</a>
                 <ul>
                     <li><a href="system/company/selecteAllC.html" target=main>查看企业信息</a></li>
-                    <li><a href="/selectAllArea" target=main>添加企业</a></li>
+                    <li><a href="/area/selectAllArea" target=main>添加企业</a></li>
                     <li><a href="system/company/AllCompRecruit.html" target=main>招聘信息</a></li>
                     <li><a href="system/admin/GangWeiInfo.html" target=main>岗位管理</a></li>
                 </ul>
@@ -43,14 +43,14 @@
 
             <dd><a href="#" >就业生信息</a>
                 <ul>
-                    <li><a href="system/employed/selecteAllEmp.html" target=main>查看信息</a></li>
-                    <li><a href="system/employed/EmpAdd.jsp" target=main>添加就业生</a></li>
+                    <li><a href="/emp/forUpdateEmp" target=main>查看信息</a></li>
+                    <li><a href="/emp/forAddEmp" target=main>添加就业生</a></li>
                 </ul>
             </dd>
             <dd><a href="#" >未就业生信息</a>
                 <ul>
                     <li><a href="system/not-employed/selecteAllNotEmp.html" target=main>查看信息</a></li>
-                    <!--<li><a href="system/not-employed/NotEmpAdd.html" target=main>添加未就业生</a></li>-->
+                    <li><a href="/direction/selectAllDirection" target=main>添加未就业生</a></li>
                     <li><a href="system/admin/FangXiang.html" target=main>未就业方向管理</a></li>
                 </ul>
             </dd>
@@ -70,7 +70,7 @@
             <dt>统计分析<img src="img/select_xl01.png"></dt>
             <dd class="first_dd"><a href="system/company/DrawComp.html" target=main>企业统计</a></dd>
             <dd ><a href="#">就业生统计</a></dd>
-            <dd ><a href="#">非就业生统计</a></dd>
+            <dd ><a href="/unemp/DrawUnEmp" target=main>非就业生统计</a></dd>
             <dd ><a href="#">面试统计</a></dd>
             <dd><a href="#">学生成绩统计</a></dd>
         </dl>

@@ -27,6 +27,20 @@ public class CmStudent {
     private Collection<CmInter> cmIntersBySid;
     private Collection<CmUnemp> cmUnempsBySid;
 
+    public CmStudent() {
+
+    }
+
+    public CmStudent(Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass) {
+        this.sid = sid;
+        this.sno = sno;
+        this.sname = sname;
+        this.ssex = ssex;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sclass = sclass;
+    }
+
     public Integer getSid() {
         return sid;
     }
