@@ -24,6 +24,7 @@
                 <value>classpath:com/pojo/CmUser.hbm.xml</value>
             </list>
         </property>
+
         <property name="hibernateProperties">
             <value>
                 <!-- hibernate.hbm2ddl.auto=update -->
@@ -33,6 +34,7 @@
                 hibernate.connection.autocommit=true
             </value>
         </property>
+
     </bean>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">

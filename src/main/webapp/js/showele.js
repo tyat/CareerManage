@@ -15,10 +15,11 @@ function HideDetailInfo(){
 	document.getElementById("zhezhaobg").style.display="none";
 }
  
-function AreYouSour(eve){
+function AreYouSour(sid){
 	var result = confirm('您确定要删除该条记录吗！');  
-    if(result){  
-        alert('删除成功！');  
+    if(result){
+        window.location.href="/student/delStudent?sid="+sid;
+        alert(${ResMsg});  
     }else{  
         alert('不删除！');  
     }  

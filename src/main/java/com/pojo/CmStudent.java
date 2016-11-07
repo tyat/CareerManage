@@ -1,8 +1,6 @@
 package com.pojo;
-
 import java.sql.Date;
 import java.util.Collection;
-
 /**
  * Created by LENOVO on 2016/10/20.
  */
@@ -26,11 +24,9 @@ public class CmStudent {
     private Collection<CmGrade> cmGradesBySid;
     private Collection<CmInter> cmIntersBySid;
     private Collection<CmUnemp> cmUnempsBySid;
-
     public CmStudent() {
 
     }
-
     public CmStudent(Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass) {
         this.sid = sid;
         this.sno = sno;
@@ -40,7 +36,6 @@ public class CmStudent {
         this.sgrade = sgrade;
         this.sclass = sclass;
     }
-
     public Integer getSid() {
         return sid;
     }
