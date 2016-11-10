@@ -207,11 +207,11 @@ function  HideAdminAdd(){
 }
 function  ShowAdminUpdate(){
     document.getElementById("AdminUpdate").style.display="block";
-     document.getElementById("zhezhaobg").style.display="block";
+     document.getElementById("zhezhaobg2").style.display="block";
 }
 function  HideAdminUpdate(){
     document.getElementById("AdminUpdate").style.display="none";
-    document.getElementById("zhezhaobg").style.display="none";
+    document.getElementById("zhezhaobg2").style.display="none";
 }
 /*管理员的添加和修改结束*/
 

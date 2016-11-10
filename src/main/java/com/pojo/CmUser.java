@@ -40,6 +40,23 @@ public class CmUser {
         this.urank = urank;
         this.ustate = ustate;
     }
+    public CmUser(String uname, String urname, String upwd, String uemail, String uphone, Integer urank) {
+        this.uname = uname;
+        this.urname = urname;
+        this.upwd = upwd;
+        this.uemail = uemail;
+        this.uphone = uphone;
+        this.urank = urank;
+    }
+    public CmUser(Integer uid,String uname, String urname, String upwd, String uemail, String uphone, Integer urank) {
+        this.uid=uid;
+        this.uname = uname;
+        this.urname = urname;
+        this.upwd = upwd;
+        this.uemail = uemail;
+        this.uphone = uphone;
+        this.urank = urank;
+    }
 
     public CmUser(String uname, String upwd) {
         this.uname = uname;
