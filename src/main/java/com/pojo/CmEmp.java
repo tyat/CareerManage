@@ -1,5 +1,7 @@
 package com.pojo;
 
+import org.hibernate.annotations.Table;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 

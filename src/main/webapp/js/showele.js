@@ -14,16 +14,18 @@ function HideDetailInfo(){
 	document.getElementById('show-detail-info').style.display="none";
 	document.getElementById("zhezhaobg").style.display="none";
 }
- 
-function AreYouSour(sid){
-	var result = confirm('您确定要删除该条记录吗！');  
+
+function AreYouSour(){
+    var result = confirm('您确定要删除该条记录吗！');
     if(result){
-        window.location.href="/student/delStudent?sid="+sid;
-        alert(${ResMsg});  
-    }else{  
-        alert('不删除！');  
-    }  
+        alert("已删除！");
+    }else{
+        alert('不删除！');
+    }
 }
+
+
+
 function AreYouSourOut(eve){
 	var result = confirm('您确定要退出系统吗！');  
     if(result){  
@@ -114,10 +116,12 @@ function ShowFeikaifaEmpStu(){
 /*---------------------------------------------------------*/
 
 /*----------------------添加面试学生开始----*/
+
 function ShowAddStu(){
     document.getElementById("showAddstu-div").style.display="block";
     document.getElementById("zhezhaobg").style.display="block";
 }
+
 function  HideAddStu(){
     document.getElementById("showAddstu-div").style.display="none";
     document.getElementById("zhezhaobg").style.display="none";
@@ -150,9 +154,11 @@ function beginBianji(){
 					}
 function beginEdit(){
 						 /*alert('可以进行编辑！')*/
-						document.getElementById("qw-comp").removeAttribute('disabled');
 						document.getElementById("qw-gw").removeAttribute('disabled');
 						document.getElementById("qw-gz").removeAttribute('disabled');
+                        document.getElementById("qw-comp").removeAttribute('disabled');
+                        document.getElementById("qw-ad").removeAttribute('disabled');
+
 					}
 /*开启编辑结束*/
 /*管理员的添加和修改开始*/

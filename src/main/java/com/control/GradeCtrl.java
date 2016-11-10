@@ -2,8 +2,9 @@ package com.control;
 
 import com.ResObj.UnempResObj;
 import com.pojo.CmGrade;
-import com.pojo.CmStudent;
+import com.pojo.CmJob;
 import com.service.GradeService;
+import com.service.JobService;
 import com.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -25,15 +24,17 @@ public class GradeCtrl {
     private GradeService gradeService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private JobService jobService;
 
     //显示学生的成绩统计信息——ly
     @RequestMapping(value = "/grade/findStudentDetail",method = RequestMethod.GET )
     public String findStudentDetail(@RequestParam("sid")int sid, ModelMap modelMap){
         System.out.println("执行controller------");
-        /*CmStudent student = studentService.findBySid(sid);
-        modelMap.addAttribute("student",student);*/
         UnempResObj unempResObj = studentService.findUnempBySid(sid);
-        modelMap.addAttribute("unempResObj",unempResObj);
+        modelMap.addAttribute("student",unempResObj);
+        List<CmJob> jobList = jobService.findAll();
+        modelMap.addAttribute("jobList",jobList);
         int comcredit = gradeService.findComcredit(sid);
         System.out.println("必修学分————"+comcredit);
         modelMap.addAttribute("comcredit",comcredit);

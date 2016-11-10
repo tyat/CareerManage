@@ -1,6 +1,6 @@
 package com.ResObj;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by w on 2016/10/27.

@@ -1,10 +1,12 @@
 package com.ResObj;
 
-import java.sql.Date;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
 /**
  * Created by w on 2016/10/31.
  */
+@XmlRootElement
 public class UnempResObj {
     private Integer ueid;
     private Integer uesalary;
@@ -29,10 +31,14 @@ public class UnempResObj {
     private Integer sstate;
     private String sdetail;
 
+    private int did;
+    private String dname;
+    private Integer dstate;
+
     public UnempResObj() {
     }
 
-    public UnempResObj(Integer ueid, Integer uesalary, Date uetime, String ueschool, String uemajor, Integer uesuccess, Integer uestate, Integer jid, String jname, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, Integer smark, String sassess, Integer sstate, String sdetail) {
+    public UnempResObj(Integer ueid, Integer uesalary, Date uetime, String ueschool, String uemajor, Integer uesuccess, Integer uestate, Integer jid, String jname, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, Integer smark, String sassess, Integer sstate, String sdetail, int did, String dname, Integer dstate) {
         this.ueid = ueid;
         this.uesalary = uesalary;
         this.uetime = uetime;
@@ -53,6 +59,9 @@ public class UnempResObj {
         this.sassess = sassess;
         this.sstate = sstate;
         this.sdetail = sdetail;
+        this.did = did;
+        this.dname = dname;
+        this.dstate = dstate;
     }
 
     public Integer getUeid() {
@@ -213,5 +222,29 @@ public class UnempResObj {
 
     public void setSdetail(String sdetail) {
         this.sdetail = sdetail;
+    }
+
+    public int getDid() {
+        return did;
+    }
+
+    public void setDid(int did) {
+        this.did = did;
+    }
+
+    public String getDname() {
+        return dname;
+    }
+
+    public void setDname(String dname) {
+        this.dname = dname;
+    }
+
+    public Integer getDstate() {
+        return dstate;
+    }
+
+    public void setDstate(Integer dstate) {
+        this.dstate = dstate;
     }
 }
