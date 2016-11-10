@@ -45,7 +45,7 @@ public class RecruitCtrl {
     //增加前——ly
     @RequestMapping(value = "/recruit/addpro",method = RequestMethod.GET )
     public String addpro(ModelMap modelMap){
-        List<CmCompany> companyList = companyService.FindALLCompany();
+        List<CmCompany> companyList = companyService.FindAll();
         modelMap.addAttribute("companyList",companyList);
         List<CmArea> areaList = areaService.findAllArea();
         modelMap.addAttribute("areaList",areaList);
@@ -83,7 +83,7 @@ public class RecruitCtrl {
     public String findByRid(int rid, ModelMap modelMap){
         RecruitResObj recruit = recruitService.findByRid2(rid);
         modelMap.addAttribute("recruit",recruit);
-        List<CmCompany> companyList = companyService.FindALLCompany();
+        List<CmCompany> companyList = companyService.FindAll();
         modelMap.addAttribute("companyList",companyList);
         List<CmArea> areaList = areaService.findAllArea();
         modelMap.addAttribute("areaList",areaList);

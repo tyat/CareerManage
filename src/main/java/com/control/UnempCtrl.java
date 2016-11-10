@@ -3,7 +3,8 @@ import com.ResObj.ResUnempObj;
 import com.pojo.*;
 import com.service.EmpService;
 import com.service.StudentService;
-import com.service.UnempServive;
+//import com.service.UnempServive;
+import com.service.UnempService;
 import com.tools.DateConvert;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import java.util.List;
 @RequestMapping("/unemp")
 public class UnempCtrl {
     @Autowired
-    private UnempServive unempServive;
+    private UnempService unempServive;
     @Autowired
     private StudentService studentService;
     @Autowired

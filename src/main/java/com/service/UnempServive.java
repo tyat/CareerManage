@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/11/3.
  */
-@Service("unempService")
+/*@Service("unempService")
 public class UnempServive {
     @Autowired
     private HibernateTemplate hibernateTemplate;
@@ -68,10 +68,10 @@ public class UnempServive {
         return new Integer(String.valueOf(data.get(0)));
     }
 
-    /**
+    *//**
      * 查询所有未就业学生信息
      * @return
-     */
+     *//*
     public List<ResUnempObj> FindAllUnemp(){
         String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
                 "from CmUnemp unemp " +
@@ -84,10 +84,10 @@ public class UnempServive {
         return data;
     }
 
-    /**
+    *//**
      * 按学生姓名查询未就业学生信息
      * @return
-     */
+     *//*
     public List<ResUnempObj> FindBySname(String sname){
         System.out.println(sname);
         String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
@@ -100,10 +100,10 @@ public class UnempServive {
         return data;
     }
 
-    /**
+    *//**
      * 按岗位查询未就业学生信息
      * @return
-     */
+     *//*
     public List<ResUnempObj> FindByJname(String jname){
         System.out.println(jname);
         String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
@@ -113,10 +113,10 @@ public class UnempServive {
         List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,"%"+jname+"%");
         return data;
     }
-    /**
+    *//**
      * 按班级查询已就业学生信息
      * @return
-     */
+     *//*
     public List<ResUnempObj> FindBySclass(String sclass){
         System.out.println(sclass);
         String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
@@ -126,11 +126,11 @@ public class UnempServive {
         List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,"%"+sclass+"%");
         return data;
     }
-    /**
+    *//**
      * 删除未就业学生信息
      * @param ueid
      * @return
-     */
+     *//*
     public boolean DelUnEmp(Integer ueid){
         System.out.println(ueid);
         String hsql="update CmUnemp unemp set unemp.uestate=1 where unemp.ueid = ?";
@@ -138,4 +138,4 @@ public class UnempServive {
         System.out.println("******************************");
         return true;
     }
-}
+}*/

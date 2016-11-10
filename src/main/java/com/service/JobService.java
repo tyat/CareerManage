@@ -28,15 +28,15 @@ public class JobService {
     }
 
     //按jid查询工作岗位——ly
-    public CmJob findByJid(int jid){
+    public CmJob findByJid(int jid) {
         String hsql = "from CmJob j where j.jid = ?";
-        List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql,jid);
-        if(data.get(0)!=null){
+        List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql, jid);
+        if (data.get(0) != null) {
             return data.get(0);
         }
         System.out.println("未查到相关数据！");
         return null;
-
+    }
     //张小丽：查询所有的岗位
     public List<CmJob> findAllJob(){
        String hsql="select new com.pojo.CmJob(j.jid,j.jname) from CmJob j";
