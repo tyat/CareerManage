@@ -19,6 +19,7 @@ import java.util.Map;
  * Created by Administrator on 2016/10/25.
  */
 @Controller
+@RequestMapping("/area")
 public class AreaCtrl {
     @Autowired
     private AreaService areaService;
@@ -27,6 +28,16 @@ public class AreaCtrl {
     public  String  selectAllArea(ModelMap modelMap){
         List<CmArea>data=areaService.findAllArea();
        modelMap.addAttribute("allAreaList",data);
+        return  "/system/company/CompAdd";
+    }
+    //张小丽：查询数据库中所有省份
+    @RequestMapping(value = "/selectAllArea2",method = RequestMethod.GET)
+    public  String  selectAllArea2(ModelMap modelMap){
+
+        List<CmArea>data=areaService.findAllArea();
+        modelMap.addAttribute("state","10001");
+        modelMap.addAttribute("info","添加成功！");
+        modelMap.addAttribute("allAreaList",data);
         return  "/system/company/CompAdd";
     }
     //张小丽：查询某省份数据库中所有的城市

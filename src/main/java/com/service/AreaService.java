@@ -2,12 +2,12 @@ package com.service;
 
 import com.pojo.CmArea;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.type.filter.AbstractClassTestingTypeFilter;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by Administrator on 2016/10/25.

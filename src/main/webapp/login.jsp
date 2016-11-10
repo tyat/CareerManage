@@ -25,7 +25,7 @@
 </div>
 <div class="login-bg">
     <div class="login-form-box">
-        <form  action="login" onsubmit="return  v_login()">
+        <form  action="/user/login" onsubmit="return  v_login()">
             <div class="form-box">
                 <input type="text" value="" name="uname" id="uname" placeholder="请输入用户名..." onkeyup="value=value.replace(/[\W]/g,'') "  onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" required="required" /><br />
                 <input type="password" value="" name="upwd" id="upwd" placeholder="请输入密码..."  required="required"  /><br />

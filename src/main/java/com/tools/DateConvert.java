@@ -2,6 +2,7 @@ package com.tools;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -19,5 +20,12 @@ public class DateConvert {
         long da = d.getTime();
         Timestamp ts = new Timestamp(da);
         return  ts;
+    }
+    //张小丽：字符串转date
+    public java.sql.Date StringtoDate(String s) throws  Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date=sdf.parse(s);
+        return  new java.sql.Date(date.getTime());
+
     }
 }

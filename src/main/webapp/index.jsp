@@ -7,12 +7,12 @@
 </head>
 
 <frameset  frameborder="no" border="2" framespacing="0" cols=" 15%,85%">
-    <frame src="left.jsp" scrolling="no" />
+    <frame src="/left.jsp" scrolling="no" />
     <frameset rows="69px,*" >
-        <frame src="top.jsp" scrolling="no">
+        <frame src="/top.jsp" scrolling="no">
         <frameset rows="90%,10%">
-            <frame src="main.jsp" name="main" />
-            <frame src="footer.jsp" />
+            <frame src="/main.jsp" name="main" />
+            <frame src="/footer.jsp" />
         </frameset>
     </frameset>
 </frameset>

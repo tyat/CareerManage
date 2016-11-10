@@ -1,9 +1,8 @@
 package com.control;
-
+import com.pojo.CmStudent;
 import com.ResObj.EmpResObj;
 import com.ResObj.InterResObj;
 import com.pojo.CmArea;
-import com.pojo.CmStudent;
 import com.service.AreaService;
 import com.service.InterService;
 import com.service.StudentService;
@@ -20,11 +19,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Created by w on 2016/10/26.
  */
 @Controller
+@RequestMapping("/student")
 public class StudentCtrl {
     @Autowired
     private StudentService studentService;
@@ -35,8 +34,26 @@ public class StudentCtrl {
     @Autowired
     private UnempService unempService;
 
+
+    //张小丽：根据id查询学生
+    @RequestMapping(value = "/findStuBySid",method = RequestMethod.GET )
+    public  String findStuBySid(int sid,ModelMap modelMap){
+        CmStudent cmStudent=studentService.findStuBySid(sid);
+        modelMap.addAttribute("cmStudent",cmStudent);
+        return "/system/not-employed/NotEmpUpdate";
+    }
+    //张小丽：根据id查询学生
+    @RequestMapping(value = "/findStuBySid2",method = RequestMethod.GET )
+    public  String findStuBySid2(int sid,ModelMap modelMap){
+        CmStudent cmStudent=studentService.findStuBySid(sid);
+        modelMap.addAttribute("cmStudent",cmStudent);
+        modelMap.addAttribute("state","10001");
+        modelMap.addAttribute("info","修改成功！");
+        return "/system/not-employed/NotEmpUpdate";
+    }
+
     //获取所有学生列表——ly
-    @RequestMapping(value = "/student/findAllStudents",method = RequestMethod.GET )
+    @RequestMapping(value = "/findAllStudents",method = RequestMethod.GET )
     public String findAll(ModelMap modelMap){
         List<CmStudent> studentList = studentService.findAll();
         modelMap.addAttribute("studentList",studentList);
@@ -44,7 +61,7 @@ public class StudentCtrl {
     }
 
     //按年级查找学生——ly
-    @RequestMapping(value = "/student/findBySgrade",method = RequestMethod.GET )
+    @RequestMapping(value = "/findBySgrade",method = RequestMethod.GET )
     public String findBySgrade(@RequestParam("sgrade")int sgrade,ModelMap modelMap){
         List<CmStudent> studentList = studentService.findBySgrade(sgrade);
         modelMap.addAttribute("studentList",studentList);
@@ -71,7 +88,7 @@ public class StudentCtrl {
     }
 
     //按学生编号查询学生信息——ly
-    @RequestMapping(value = "/student/findBySid",method = RequestMethod.GET )
+    @RequestMapping(value = "/findBySid",method = RequestMethod.GET )
     public String findBySid(@RequestParam("sid") int sid, ModelMap modelMap){
         boolean isemp = studentService.isEmp(sid);
         System.out.println("isemp------"+isemp);
@@ -163,7 +180,7 @@ public class StudentCtrl {
     }
 
     //搜索学生——ly
-    @RequestMapping(value = "/student/query",method = RequestMethod.POST )
+    @RequestMapping(value = "/query",method = RequestMethod.POST )
     public String query(int type, String searchtext, ModelMap modelMap) throws UnsupportedEncodingException {
         System.out.println("type------"+type);
         System.out.println("searchtext------"+searchtext);
@@ -184,5 +201,4 @@ public class StudentCtrl {
         System.out.println("学生列表： "+studentList);
         return "system/studentsinfo/StudentsSearch";
     }
-
 }
