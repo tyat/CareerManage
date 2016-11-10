@@ -39,7 +39,7 @@ public class UnempCtrl {
         CmUnemp cmUnemp=new CmUnemp();
         CmEmp cmEmp=new CmEmp();
         if (cmStudent!=null){
-            cmUnemp=unempServive.findBySid(cmStudent.getSid());
+            cmUnemp=unempServive.findBySid1(cmStudent.getSid());
             cmEmp=empService. findEmpBySid(cmStudent.getSid());
         }else{
             cmUnemp=unempServive.findBySno(key);
