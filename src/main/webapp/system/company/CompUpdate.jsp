@@ -23,7 +23,7 @@
             var city = document.getElementById("city");
             $("#city").html("");
             $.ajax({
-                url : 'selectCity',
+                url : '/area/selectCity',
                 type : 'GET',
                 data :{'key':aprovince},
                 contentType : 'application/json',
@@ -71,6 +71,7 @@
         </div>
         <!--这是标题栏结束-->
         <div>
+            <span style="color: red" ><h3>${info}</h3></span><br>
             <!--这是表格开始-->
             <form action="/company/updateCompany" method="get">
                 <input type="hidden" id="cid" name="cid" value="${findCompByCid.cid}">
@@ -134,15 +135,17 @@
                         <textarea cols="60" rows="8" id="cmark" name="cmark">${findCompByCid.cmark}</textarea>
                     </td>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td colspan="2" width="50%" style="text-align: center;">
-                        <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)" >取消修改</button>
-                    </td>
-                    <td colspan="2" style="text-align: center;">
-                        <input type="submit"   class="mybutton"/>
-                    </td>
-                </tr>
+                <c:if test="${info==null}">
+                    <tr>
+                        <td></td>
+                        <td colspan="2" width="50%" style="text-align: center;">
+                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)" >取消修改</button>
+                        </td>
+                        <td colspan="2" style="text-align: center;">
+                            <input type="submit"   class="mybutton"/>
+                        </td>
+                    </tr>
+                </c:if>
             </table>
             </form>
             <div class="table-slipline"></div>

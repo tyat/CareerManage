@@ -1,4 +1,5 @@
 package com.control;
+import com.ResObj.ResUnempObj;
 import com.pojo.*;
 import com.service.EmpService;
 import com.service.StudentService;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Date;
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/11/3.
  */
@@ -63,7 +67,8 @@ public class UnempCtrl {
 
     //张小丽：添加未就业生
     @RequestMapping(value = "/addUnEmp",method = RequestMethod.GET)
-    public String addUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws Exception{
+    public ModelAndView addUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws Exception{
+        ModelAndView mv=new ModelAndView();
         CmStudent cmStudent=new CmStudent();
         cmStudent.setSid(sid);
         CmDirection cmDirection=new CmDirection();
@@ -75,8 +80,7 @@ public class UnempCtrl {
            CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
            boolean flag= unempServive.addUnEmp(cmUnemp);
            if (flag){
-               modelMap.addAttribute("state","10001");
-               modelMap.addAttribute("info","添加成功！");
+               mv.setViewName("redirect:/direction/selectAllDirection3");
            }
        }else{
            String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
@@ -84,34 +88,35 @@ public class UnempCtrl {
            CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool0,uemajor0,uesuccess);
            boolean flag= unempServive.addUnEmp(cmUnemp);
            if (flag){
-               modelMap.addAttribute("state","10001");
-               modelMap.addAttribute("info","添加成功！");
+               mv.setViewName("redirect:/direction/selectAllDirection3");
            }
        }
-        return "/system/not-employed/NotEmpAdd";
+        return mv;
     }
+    //张小丽：修改未就业
     @RequestMapping(value = "/updateUnEmp",method = RequestMethod.GET)
-    public String updateUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws  Exception{
+    public ModelAndView updateUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws  Exception{
+        ModelAndView mv=new ModelAndView();
         CmDirection cmDirection=new CmDirection();
         cmDirection.setDid(did);
         if (!uesalary.equals("")){
             Date date=new DateConvert().StringtoDate(uetime+" 00:00:00");
             boolean flag= unempServive.updateUnEmp(sid,did,Integer.parseInt(jid),Integer.parseInt(uesalary),date);
             if (flag){
-                modelMap.addAttribute("state","10001");
-                modelMap.addAttribute("info","添加成功！");
+                mv.setViewName("redirect:/direction/selectAllDirection4?sid="+sid);
             }
         }else{
             String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
             String uemajor0=new String(uemajor.getBytes("iso-8859-1"),"utf-8");
             boolean flag= unempServive.updateUnEmp2(sid,did,ueschool0,uemajor0,uesuccess);
             if (flag){
-                modelMap.addAttribute("state","10001");
-                modelMap.addAttribute("info","修改成功！");
+                mv.setViewName("redirect:/direction/selectAllDirection4?sid="+sid);
+
             }
         }
-        return  "/system/not-employed/NotEmpUpdate";
+        return mv;
     }
+    //张小丽：统计未就业情况分布
     @RequestMapping(value = "/DrawUnEmp",method = RequestMethod.GET)
     public  String DrawNotEmp(ModelMap modelMap){
         int index0=unempServive.findSumNotEmp(0);
@@ -129,5 +134,61 @@ public class UnempCtrl {
         return "/system/not-employed/DrawNotEmp";
     }
 
+    @RequestMapping(value = "/findAllUnemp")
+    @ResponseBody
+    public ModelAndView FindAllUnemp(ModelMap modelMap){
+        ModelAndView mv = new ModelAndView();
+        List<ResUnempObj> UnempList = unempServive.FindAllUnemp();
+        System.out.println(UnempList);
+        modelMap.addAttribute("UnempList",UnempList);
+        mv.setViewName("system/not-employed/selectAllNotEmp");
+        return mv;
+    }
 
+    /**
+     * 按条件搜索未就业学生信息
+     * @param searchtext,searchType
+     * @return
+     */
+    @RequestMapping(value = "/findByUnEmp")
+    @ResponseBody
+    public ModelAndView findByName(ModelMap modelMap, String searchtext, String searchType){
+        ModelAndView mv = new ModelAndView();
+        System.out.println(searchType);
+        System.out.println(searchtext);
+        if(searchType.equals("sclass")) {
+            List<ResUnempObj> listdata = unempServive.FindBySclass(searchtext);
+            System.out.println(listdata);
+            modelMap.addAttribute("listdata", listdata);
+        }else if(searchType.equals("jname")){
+            List<ResUnempObj> listdata = unempServive.FindByJname(searchtext);
+            System.out.println(listdata);
+            modelMap.addAttribute("listdata", listdata);
+        }else if(searchType.equals("sname")){
+            List<ResUnempObj> listdata = unempServive.FindBySname(searchtext);
+            System.out.println(listdata);
+            modelMap.addAttribute("listdata", listdata);
+        }
+        System.out.println("返回到页面------------");
+        mv.setViewName("system/not-employed/NotEmpSearch");
+        return mv;
+    }
+
+    /**
+     * 删除已就业学生信息
+     * @param ueid
+     * @return
+     */
+    @RequestMapping(value = "/delUnEmp")
+    @ResponseBody
+    public ModelAndView DelUnEmp(@RequestParam("ueid") String ueid){
+        System.out.println(ueid);
+        ModelAndView mv = new ModelAndView();
+        Boolean isSucc = unempServive.DelUnEmp(Integer.parseInt(ueid));
+        if(isSucc){
+            mv.setViewName("redirect:findAllUnemp");
+            return mv;
+        }
+        return null;
+    }
 }

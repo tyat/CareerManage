@@ -15,6 +15,39 @@ public class CmJob {
     private Collection<CmRecruit> cmRecruitsByJid;
     private Collection<CmUnemp> cmUnempsByJid;
 
+    public CmJob() {
+    }
+
+    public CmJob(Integer jid, String jname) {
+        this.jid = jid;
+        this.jname = jname;
+    }
+
+    public CmJob(String jname, Boolean jtype, String jinfo) {
+        this.jname = jname;
+        this.jtype = jtype;
+        this.jinfo = jinfo;
+    }
+
+    public CmJob(Integer jid, String jname, Boolean jtype, Integer jstate, String jinfo) {
+        this.jid = jid;
+        this.jname = jname;
+        this.jtype = jtype;
+        this.jstate = jstate;
+        this.jinfo = jinfo;
+    }
+
+    public CmJob(Integer jid, String jname, Boolean jtype, Integer jstate, String jinfo, Collection<CmEmp> cmEmpsByJid, Collection<CmRecruit> cmRecruitsByJid, Collection<CmUnemp> cmUnempsByJid) {
+        this.jid = jid;
+        this.jname = jname;
+        this.jtype = jtype;
+        this.jstate = jstate;
+        this.jinfo = jinfo;
+        this.cmEmpsByJid = cmEmpsByJid;
+        this.cmRecruitsByJid = cmRecruitsByJid;
+        this.cmUnempsByJid = cmUnempsByJid;
+    }
+
     public Integer getJid() {
         return jid;
     }
@@ -53,14 +86,6 @@ public class CmJob {
 
     public void setJinfo(String jinfo) {
         this.jinfo = jinfo;
-    }
-
-    public CmJob(Integer jid, String jname) {
-        this.jid = jid;
-        this.jname = jname;
-    }
-
-    public CmJob() {
     }
 
     @Override

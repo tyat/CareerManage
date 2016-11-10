@@ -30,6 +30,16 @@ public class AreaCtrl {
        modelMap.addAttribute("allAreaList",data);
         return  "/system/company/CompAdd";
     }
+    //张小丽：查询数据库中所有省份
+    @RequestMapping(value = "/selectAllArea2",method = RequestMethod.GET)
+    public  String  selectAllArea2(ModelMap modelMap){
+
+        List<CmArea>data=areaService.findAllArea();
+        modelMap.addAttribute("state","10001");
+        modelMap.addAttribute("info","添加成功！");
+        modelMap.addAttribute("allAreaList",data);
+        return  "/system/company/CompAdd";
+    }
     //张小丽：查询某省份数据库中所有的城市
     @RequestMapping(value = "/selectCity ", method = RequestMethod.GET)
     @ResponseBody

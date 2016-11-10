@@ -59,6 +59,7 @@
                 </div>
             </div>
         </div>
+        <span style="color: red" ><h3>${info}</h3></span><br>
         <div id="allUnEmp-table">
             <form method="get" action="/unemp/updateUnEmp">
                 <!--准备就业的表这是一条记录开始-->
@@ -148,13 +149,15 @@
 
                     </table>
                 </div>
+                <c:if test="${info==null}">
                 <table class="pure-table pure-table-bordered left">
                     <tr >
                         <td colspan="2" style="text-align: center;">
-                            <input class="mybutton" type="submit" >
+                            <input class="mybutton" type="submit" value="修改">
                         </td>
                     </tr>
                 </table>
+                </c:if>
             </form>
 
             <!--准备就业的表这是一条记录结束-->

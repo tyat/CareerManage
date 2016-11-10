@@ -11,6 +11,20 @@ public class CmDirection {
     private Integer dstate;
     private Collection<CmUnemp> cmUnempsByDid;
 
+    public CmDirection() {
+    }
+
+
+    public CmDirection(Integer did, String dname,Integer dstate) {
+        this.dstate = dstate;
+        this.did = did;
+        this.dname = dname;
+    }
+
+    public CmDirection(String dname) {
+        this.dname = dname;
+    }
+
     public Integer getDid() {
         return did;
     }

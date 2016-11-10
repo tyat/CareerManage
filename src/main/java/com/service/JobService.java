@@ -30,4 +30,25 @@ public class JobService {
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,sid);
         return  data.get(0);
     }
+
+    /**
+     * 查询显示所有的岗位信息
+     * @return
+     */
+    public List<CmJob> findAllJob1(){
+        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype, job.jstate,job.jinfo) from CmJob job where job.jstate = 0";
+        List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql);
+        System.out.println(data.size());
+        return data;
+    }
+
+    /**
+     *添加岗位标签
+     * @param cmJob
+     * @return
+     */
+    public boolean addJob(CmJob cmJob){
+        hibernateTemplate.save(cmJob);
+        return true;
+    }
 }

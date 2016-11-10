@@ -1,7 +1,7 @@
 package com.pojo;
 
-import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by LENOVO on 2016/10/20.
@@ -15,10 +15,23 @@ public class CmCompany {
     private String cinfo;
     private String cmark;
     private String caddress;
-    private Timestamp ctime;
+    private Date ctime;
     private Integer cstate;
     private CmArea cmAreaByAid;
     private Collection<CmRecruit> cmRecruitsByCid;
+
+    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Date ctime, Integer cstate) {
+        this.cid = cid;
+        this.cname = cname;
+        this.chr = chr;
+        this.cphone = cphone;
+        this.cemail = cemail;
+        this.cinfo = cinfo;
+        this.cmark = cmark;
+        this.caddress = caddress;
+        this.ctime = ctime;
+        this.cstate = cstate;
+    }
 
     public Integer getCid() {
         return cid;
@@ -84,11 +97,11 @@ public class CmCompany {
         this.caddress = caddress;
     }
 
-    public Timestamp getCtime() {
+    public Date getCtime() {
         return ctime;
     }
 
-    public void setCtime(Timestamp ctime) {
+    public void setCtime(Date ctime) {
         this.ctime = ctime;
     }
 
@@ -108,7 +121,7 @@ public class CmCompany {
         this.cname = cname;
     }
 
-    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Timestamp ctime, Integer cstate, CmArea cmAreaByAid, Collection<CmRecruit> cmRecruitsByCid) {
+    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Date ctime, Integer cstate, CmArea cmAreaByAid, Collection<CmRecruit> cmRecruitsByCid) {
         this.cid = cid;
         this.cname = cname;
         this.chr = chr;
@@ -123,7 +136,7 @@ public class CmCompany {
         this.cmRecruitsByCid = cmRecruitsByCid;
     }
 
-    public CmCompany(String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, CmArea cmAreaByAid,Timestamp ctime ) {
+    public CmCompany(String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, CmArea cmAreaByAid,Date ctime ) {
         this.cname = cname;
         this.chr = chr;
         this.cphone = cphone;
@@ -135,7 +148,7 @@ public class CmCompany {
         this.ctime=ctime;
     }
 
-    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Timestamp ctime) {
+    public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Date ctime) {
         this.cid = cid;
         this.cname = cname;
         this.chr = chr;

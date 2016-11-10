@@ -21,4 +21,37 @@ public class DirectionService {
         return  data;
 
     }
+
+    /**
+     * 显示所有未就业学生的准备方向
+     * @return
+     */
+    public List<CmDirection> FindAllDirection(){
+        String hsql = "select new com.pojo.CmDirection(dir.did,dir.dname,dir.dstate) from CmDirection dir where dir.dstate = 0";
+        List<CmDirection> data = (List<CmDirection>) hibernateTemplate.find(hsql);
+        CmDirection cmDirection = (CmDirection)data.get(0);
+        System.out.println(cmDirection.getDname());
+        return data;
+    }
+
+    /**
+     *添加未就业学生的准备方向
+     * @param cmDirection
+     * @return
+     */
+    public boolean addDirection(CmDirection cmDirection){
+        hibernateTemplate.save(cmDirection);
+        return true;
+    }
+    /**
+     * 删除没有学生选择的方向
+     * @param did
+     * @return
+     */
+    public boolean DelCmDirection(Integer did){
+        System.out.println(did);
+        String hsql = "update CmDirection dir set dir.dstate=1 where dir.did = ?";
+        hibernateTemplate.bulkUpdate(hsql,did);
+        return true;
+    }
 }

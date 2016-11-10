@@ -1,4 +1,4 @@
-﻿package com.control;
+package com.control;
 import com.pojo.CmStudent;
 import com.pojo.CmUnemp;
 import com.service.*;
@@ -24,6 +24,25 @@ import java.util.List;
 public class StudentCtrl {
     @Autowired
     private StudentService studentService;
+
+
+    //张小丽：根据id查询学生
+    @RequestMapping(value = "/findStuBySid",method = RequestMethod.GET )
+    public  String findStuBySid(int sid,ModelMap modelMap){
+        CmStudent cmStudent=studentService.findStuBySid(sid);
+        modelMap.addAttribute("cmStudent",cmStudent);
+        return "/system/not-employed/NotEmpUpdate";
+    }
+    //张小丽：根据id查询学生
+    @RequestMapping(value = "/findStuBySid2",method = RequestMethod.GET )
+    public  String findStuBySid2(int sid,ModelMap modelMap){
+        CmStudent cmStudent=studentService.findStuBySid(sid);
+        modelMap.addAttribute("cmStudent",cmStudent);
+        modelMap.addAttribute("state","10001");
+        modelMap.addAttribute("info","修改成功！");
+        return "/system/not-employed/NotEmpUpdate";
+    }
+
     //获取所有学生列表——ly
     @RequestMapping(value = "/findAllStudents",method = RequestMethod.GET )
     public String findAll(ModelMap modelMap){

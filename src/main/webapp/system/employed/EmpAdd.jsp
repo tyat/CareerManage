@@ -61,7 +61,7 @@
             </div>
         </div>
         <div>
-            ${cinfo}
+            <span style="color: red" ><h3>${info}</h3></span><br>
             <!--这是一条记录开始-->
             <form id="empadd" name="empadd" action="/EmpAdd" method="get">
                 <input type="hidden" id="sid" name="sid">

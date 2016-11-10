@@ -1,5 +1,6 @@
 package com.service;
 
+import com.ResObj.ResEmpObj;
 import com.pojo.CmEmp;
 import com.tools.DateConvert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +58,60 @@ public class EmpService {
         hibernateTemplate.bulkUpdate(hsql,user,timestamp,estate,date,ereason,esalary,einfo,flag,sid);
         return  true;
 
+    }
+    /**
+     *查询所有已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindAllEmp(){
+        System.out.println("****************************");
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where emp.estate = '0'";
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql);
+        return data;
+    }
+
+    /**
+     * 按学生姓名查询已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindBySname(String sname){
+        System.out.println(sname);
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where stu.sname like ?";
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,"%"+sname+"%");
+        System.out.println(data);
+        return data;
+    }
+
+    /**
+     * 按岗位查询已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindByJname(String jname){
+        System.out.println(jname);
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where job.jname like ?";
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,"%"+jname+"%");
+        return data;
+    }
+    /**
+     * 按企业名称查询已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindByCname(String cname){
+        System.out.println(cname);
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where comp.cname like ?";
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,"%"+cname+"%");
+        return data;
+    }
+    /**
+     * 删除已就业学生信息
+     * @param eid
+     * @return
+     */
+    public boolean DelEmp(Integer eid){
+        System.out.println(eid);
+        String hsql="update CmEmp emp set emp.estate=1 where emp.eid = ?";
+        hibernateTemplate.bulkUpdate(hsql,eid);
+        System.out.println("******************************");
+        return true;
     }
 }

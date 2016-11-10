@@ -1,5 +1,6 @@
 package com.service;
 
+import com.ResObj.ResCompanyObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,94 @@ public class CompanyService {
                 "  ORDER BY i.itime desc";
         List<CmCompany>data=(List<CmCompany>) hibernateTemplate.find(hsql,sid);
         return   data.get(0);
+    }
+
+    /**
+     *  查询所有企业信息
+     * @return
+     */
+    public List<ResCompanyObj> FindALLCompany(){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate,rec.rid,job.jid,job.jname) from CmCompany comp inner join comp.cmRecruitsByCid rec inner join rec.cmJobByJid job where comp.cstate=0";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql);
+        ResCompanyObj res = (ResCompanyObj)data.get(0);
+        System.out.println(res.getCname());
+        return data;
+    }
+
+    /**
+     * 按公司ID 查询该公司信息
+     * @param cid
+     * @return
+     */
+    public List<CmCompany> findCompByCid1(Integer cid){
+        System.out.println(cid);
+        String hsql = "select new com.pojo.CmCompany(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cemail,comp.cinfo,comp.cmark,comp.caddress,comp.ctime,comp.cstate) from CmCompany comp where comp.cid = ?";
+        List<CmCompany> data = (List<CmCompany>) hibernateTemplate.find(hsql,cid);
+        CmCompany res = (CmCompany)data.get(0);
+        System.out.println(res.getCname());
+        return data;
+    }
+
+    /**
+     * 按企业名搜索相关企业信息
+     * @param cname
+     * @return
+     */
+    public List<ResCompanyObj> FindByCName(String cname){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate,rec.rid,job.jid,job.jname) from CmRecruit rec inner join rec.cmCompanyByCid comp inner join rec.cmJobByJid job where comp.cname like ?";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,"%"+cname+"%");
+        return data;
+    }
+
+    /**
+     * 按联系人搜索相关企业信息
+     * @param chr
+     * @return
+     */
+    public List<ResCompanyObj> FindByCHr(String chr){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate,rec.rid,job.jid,job.jname) from CmRecruit rec inner join rec.cmCompanyByCid comp inner join rec.cmJobByJid job  where comp.chr like ?";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,"%"+chr+"%");
+
+        return data;
+    }
+
+    /**
+     * 按岗位搜索相关企业信息
+     * @param jname
+     * @return
+     */
+    public List<ResCompanyObj> FindByCJname(String jname){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate,rec.rid,job.jid,job.jname) from CmRecruit rec inner join rec.cmCompanyByCid comp inner join rec.cmJobByJid job  where job.jname like ?";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,"%"+jname+"%");
+
+        return data;
+    }
+
+    public int CompanyCount(){
+        String hsql = "select count(*) from CmCompany comp where comp.cstate = 0";
+        //Integer total = hibernateTemplate.;
+        return 1;
+    }
+    /**
+     *  删除该条企业信息记录
+     * @param cid
+     * @return
+     */
+    public boolean DelCompany(Integer cid){
+        System.out.println(cid);
+        String hsql="update CmCompany comp set comp.cstate=1 where comp.cid = ?";
+        hibernateTemplate.bulkUpdate(hsql,cid);
+        System.out.println("******************************");
+        return true;
+    }
+
+    public CmCompany findByCompCid(Integer cid){
+        String hsql = "from CmCompany comp where comp.cid = ?";
+        List<?> data = hibernateTemplate.find(hsql,cid);
+        System.out.println(data.size());
+        if(!data.isEmpty()){
+            return (CmCompany) data.get(0);
+        }
+        return null;
     }
 }

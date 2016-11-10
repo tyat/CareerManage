@@ -65,8 +65,8 @@
                     <tr>
                         <td>性别：</td>
                         <td>
-                        <c:if test="${findStuBySid.ssex==true}"><input type="text" value="男" disabled="disabled"/></c:if>
-                        <c:if test="${findStuBySid.ssex==false}"><input type="text" value="女" disabled="disabled"/></c:if>
+                        <c:if test="${findStuBySid.ssex==true}"><input type="text" value="女" disabled="disabled"/></c:if>
+                        <c:if test="${findStuBySid.ssex==false}"><input type="text" value="男" disabled="disabled"/></c:if>
                         </td>
                     </tr>
                     <tr>
@@ -143,7 +143,9 @@
                     </tr>
                     <tr style="text-align: center;">
                         <td colspan="2">
-                            <input class="mybutton" type="submit" />
+                            <c:if test="${info==null}">
+                            <input class="mybutton" type="submit" value="修改" />
+                            </c:if>
                         </td>
                     </tr>
                 </table>

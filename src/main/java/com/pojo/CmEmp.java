@@ -145,6 +145,16 @@ public class CmEmp {
         this.cmJobByJid = cmJobByJid;
         this.cmUserByUid = cmUserByUid;
     }
+    public CmEmp(Integer esalary, Timestamp etime,String  ereason, String einfo, Boolean ewq, CmStudent cmStudentBySid, CmJob cmJobByJid, CmUser cmUserByUid) {
+        this.esalary = esalary;
+        this.etime = etime;
+        this.ereason=ereason;
+        this.einfo = einfo;
+        this.ewq = ewq;
+        this.cmStudentBySid = cmStudentBySid;
+        this.cmJobByJid = cmJobByJid;
+        this.cmUserByUid = cmUserByUid;
+    }
 
     @Override
     public int hashCode() {
