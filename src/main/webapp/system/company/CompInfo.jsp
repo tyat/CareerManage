@@ -18,7 +18,7 @@
 </head>
 <body>
 <div class="table-box">
-<c:forEach varStatus="i" var="lsit" items="${dateList}" >
+    <c:forEach varStatus="i" var="lsit" items="${dateList}" >
     <div class="table-content">
         <!--这是标题栏-->
         <div class="table-head">
@@ -76,12 +76,12 @@
                 </tr>
                 <tr>
                     <td>简介：</td>
-                    <td colspan="3">${lsit.cinfo}
+                    <td colspan="3"><button class="mybutton" type="button" onclick="ShowDetailInfo()">查看简介</button>
                     </td>
                 </tr>
                 <tr>
                     <td>备注：</td>
-                    <td colspan="3">${lsit.cmark}
+                    <td colspan="3"><button class="mybutton" type="button" onclick="ShowDetailTip()">查看备注</button>
                     </td>
                 </tr>
 
@@ -107,20 +107,21 @@
             <button class="mybutton" type="button" onclick="HideDetailTip()">关闭</button>
         </div>
         <div class="tip-box">
+        <c:forEach varStatus="i" var="lsit" items="${dateList}" >
             <div class="tip-header">
                 <div id="icon-tipdetail"></div>
                 <p>备注详情：中兴济南公司 </p>
             </div>
             <div class="tip-content">
                 <form>
-                    <textarea id="beizhu" name=""  cols="80" rows="5"  disabled="disabled">这是备注详情。</textarea><br />
+                    <textarea id="beizhu" name=""  cols="80" rows="5"  disabled="disabled">${lsit.cmark}</textarea><br />
                     <div class="buttonbox">
                         <input type="button" value="修改" class="mybutton" onclick="beginBeizhu()"/>
                         <input type="submit" value="保存" class="mybutton" />
                     </div>
                 </form>
-
             </div>
+            </c:forEach>
         </div>
     </div>
     <!--这是查看备注详情功能div-->
@@ -130,24 +131,26 @@
             <button class="mybutton" type="button" onclick="HideDetailInfo()">关闭</button>
         </div>
         <div class="tip-box">
+        <c:forEach varStatus="i" var="lsit" items="${dateList}" >
             <div class="tip-header">
                 <div id="icon-tipdetail"></div>
                 <p>简介详情：中兴济南公司 </p>
             </div>
             <div class="tip-content">
                 <form action="" name="tip-detadil">
-					<textarea id="jianjie" name="" cols="80" rows="5" disabled="disabled">这是简介详情。
+					<textarea id="jianjie" name="" cols="80" rows="5" disabled="disabled">${lsit.cinfo}
 					</textarea><br /><br /><br />
                     <input type="button" value="修改" class="mybutton" onclick="BeginJianjie()"/>
                     <input type="submit" class="mybutton" value="保存" />
                 </form>
             </div>
+            </c:forEach>
         </div>
     </div>
     <!--这是查看简介详情功能div-->
 
     <div id="zhezhaobg"></div>
-
+</div>
 </body>
 </html>
 

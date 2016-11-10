@@ -27,8 +27,8 @@
                 url : 'selectCity',
                 type : 'GET',
                 data :{'key':aprovince},
-                contentType : 'application/json',
-                dataType : 'json',
+                contentType :'application/json',
+                dataType :'json',
                 success : function(data) {
                     //请求成功
                     var citys = data.split(",");

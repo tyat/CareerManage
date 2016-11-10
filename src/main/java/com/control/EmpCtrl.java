@@ -57,14 +57,25 @@ public class EmpCtrl {
         }
         return "/system/employed/EmpAdd";
     }
-    //张小丽：添加就业生
+    //张小丽：修改就业生
     @RequestMapping(value = "/updateEmp",method = RequestMethod.GET)
     public ModelAndView updateEmp(int sid, int user, String etime,int estate, String eleave,String ereason,
                             int esalary, String einfo, int ewq,ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
         String ereason0=new String(ereason.getBytes("iso-8859-1"),"utf-8");
         String einfo0=new String(einfo.getBytes("iso-8859-1"),"utf-8");
-        eleave=eleave.substring(0,19);
+       // System.out.print("这是一个时间----------"+eleave.length());
+        if(eleave.length()<=10){
+            eleave= eleave+" 00:00:00";
+        }else {
+            eleave=eleave.substring(0,19);
+        }
+        if(etime.length()<=10){
+            etime= etime+" 00:00:00";
+        }else {
+            etime=etime.substring(0,19);
+        }
+
         boolean flag=empService.updateEmp(sid,user,etime,estate,eleave,ereason0,esalary,einfo0,ewq);
         if (flag){
             mv.setViewName("redirect:/emp/forUpdateEmp2?sid="+sid);
