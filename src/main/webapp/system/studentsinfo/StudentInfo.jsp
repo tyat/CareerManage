@@ -15,7 +15,56 @@
     <script type="text/javascript" src="../../js/showele.js" ></script>
     <link rel="stylesheet" type="text/css" href="../../css/default.css"/>
     <link rel="stylesheet" href="../../css/icon.css" />
+    <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
+<script type="text/javascript">
+    function  showStuUpdate(){
+        document.getElementById("StuUpdate").style.display="block";
+        document.getElementById("zhezhaobg").style.display="block";
+    }
+    function  hideStuUpdate(){
+        document.getElementById("StuUpdate").style.display="none";
+        document.getElementById("zhezhaobg").style.display="none";
+    }
+    function hideUpload(){
+        document.getElementById("showupload-div").style.display="none";
+        document.getElementById("zhezhaobg").style.display="none";
+    }
+    function updateStudent(sid) {
+        $.ajax({
+            type: "GET",
+            url: "/student/updateStudentPro?sid="+sid,
+            dataType:"text",
+            success: function(data){
+                var json = eval("("+data+")"); // data的值是json字符串，这行把字符串转成object
+                var json = JSON.parse( data );
+                showStuUpdate();
+                $("#sid").attr("value",json.sid);
+                $("#sname").attr("value",json.sname);
+                $("#sphone").attr("value",json.sphone);
+                $("#semail").attr("value",json.semail);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
+    }
+    function delStudent(sid){
+        var result = confirm('您确定要删除该条记录吗！');
+        if(result){
+            window.location.href="/student/delStudent?sid="+sid;
+            //alert(${ResMsg});
+        }else{
+            alert('不删除！');
+        }
+    }
+    var msg="${ResMsg}";
+    if(msg!=""){
+        alert(msg);
+    }
+</script>
 
 </head>
 <body onload="Activeli()">
@@ -57,7 +106,7 @@
                         </c:if>
                     </td>
                     <td rowspan="3">
-                        <button class="mybutton" type="button" onclick="ShowStuUpdate()" >编辑</button>
+                        <button class="mybutton" type="button" onclick="updateStudent(${student.sid});" >编辑</button>
                     </td>
                 </tr>
                 <tr>
@@ -110,13 +159,13 @@
                     </a>
                     </td>
                     <td rowspan="2">
-                        <button class="mybutton" type="button" onclick="AreYouSour(${student.sid})"  >删除</button>
+                        <button class="mybutton" type="button" onclick="delStudent(${student.sid})"  >删除</button>
                     </td>
                 </tr>
                 <tr>
                     <td>参加的面试：</td>
                     <td colspan="2">
-                        <button class="mybutton" type="button" onclick="location='../meeting/ThisStudentMeets.html'"  >查看详情</button>
+                        <button class="mybutton" type="button" onclick="location='/student/findInterBySid?sid=${student.sid}'"  >查看详情</button>
                     </td>
                     <td>学生详细信息：</td>
                     <td colspan="2">
@@ -138,34 +187,35 @@
 </div>
 <div id="showupload-div">
     <div class="tab-close">
-        <button class="mybutton" type="button" onclick="HideUpload()">关闭</button>
+        <button class="mybutton" type="button" onclick="hideUpload()">关闭</button>
     </div>
     <iframe src="../tools/UploadExcel.html" width="810px" height="340px" frameborder="0"></iframe>
 </div>
 
 <div id="StuUpdate">
     <div class="tab-close">
-        <button class="mybutton" type="button" onclick="HideStuUpdate()">取消</button>
+        <button class="mybutton" type="button" onclick="hideStuUpdate()">取消</button>
     </div>
     <p>修改学生信息：</p>
-    <form action="/student/updateStudent" method="get">
+    <form action="/student/updateStudent" method="post">
         <table  class="pure-table pure-table-bordered left">
+            <input type="hidden" name="sid" id="sid" >
             <tr>
                 <td>姓名：</td>
                 <td>
-                    <input type="text" value="${student.sname}" disabled="disabled" />
+                    <input type="text" name="sname" id="sname" disabled="disabled" />
                 </td>
             </tr>
             <tr>
                 <td>联系电话：</td>
                 <td>
-                    <input type="text" value="${student.sphone}" />
+                    <input type="text" name="sphone" id="sphone" />
                 </td>
             </tr>
             <tr>
                 <td>邮箱：</td>
                 <td>
-                    <input type="text" value="${student.semail}" />
+                    <input type="text" name="semail" id="semail" />
                 </td>
             </tr>
             <tr>

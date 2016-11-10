@@ -28,4 +28,16 @@ public class AreaService {
         List<CmArea>data=(List<CmArea>) hibernateTemplate.find(hsql,aprovince);
         return data;
     }
+
+    //按aid查询地区——ly
+    public CmArea findByAid(int aid){
+        String hsql = "from CmArea a where a.aid = ?";
+        List<CmArea> data = (List<CmArea>) hibernateTemplate.find(hsql,aid);
+        if(data.get(0)!=null){
+            return data.get(0);
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
 }

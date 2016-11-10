@@ -61,6 +61,18 @@ public class StudentService {
         return false;
     }
 
+    //编辑学生能力认定——ly
+    public boolean updateAbility(int sid,int smark,String sassess){
+        CmStudent student = this.findBySid(sid);
+        if(student!=null){
+            student.setSmark(smark);
+            student.setSassess(sassess);
+            hibernateTemplate.saveOrUpdate(student);
+            return true;
+        }
+        return false;
+    }
+
     //查询所有学生——ly
     public List<CmStudent> findAll(){
         String hsql = "from CmStudent s where s.sstate = 0";
@@ -95,6 +107,20 @@ public class StudentService {
         return null;
     }
 
+    //按专业班级查询学生——ly
+    public List<CmStudent> findBySclass(String spro,int sclass){
+        System.out.println("spro---"+spro);
+        System.out.println("sclass---"+sclass);
+        String hsql = "from CmStudent s where s.spro like ? and s.sclass = ? and s.sstate = 0";
+        Object[] value = {'%'+spro+'%', sclass};
+        List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,value);
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
     //按专业模糊查询学生——ly
     public List<CmStudent> findBySpro(String spro){
         String hsql = "from CmStudent s where s.spro like ? and s.sstate = 0";
@@ -110,7 +136,18 @@ public class StudentService {
     public CmStudent findBySid(int sid){
         String hsql = "from CmStudent s where s.sid = ?";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,sid);
-        if(data.get(0)!=null){
+        if(data.size()>0){
+            return data.get(0);
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //按学号查询学生——ly
+    public CmStudent findBySno(String sno){
+        String hsql = "from CmStudent s where s.sno = ?";
+        List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,sno);
+        if(data.size()>0){
             return data.get(0);
         }
         System.out.println("未查到相关数据！");
@@ -131,7 +168,7 @@ public class StudentService {
 
     //按sid查询已就业学生——ly
     public EmpResObj findEmpBySid(int sid){
-        String hsql = "select new EmpResObj(s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,e.jid,j.jname,i.isuccess,i.rid,r.cid,c.cname) " +
+        String hsql = "select new com.ResObj.EmpResObj(s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,e.jid,j.jname,i.isuccess,i.rid,r.cid,c.cname) " +
                 "from CmStudent s " +
                 "inner join s.cmEmpsBySid e " +
                 "inner join e.cmJobByJid j " +
@@ -140,7 +177,7 @@ public class StudentService {
                 "inner join r.cmCompanyByCid c " +
                 "where s.sid = ? and s.sstate = 0 and i.isuccess = 1";//面试成功且就业
         List<EmpResObj> empResObjList = (List<EmpResObj>) hibernateTemplate.find(hsql,sid);
-        if(empResObjList.get(0)!=null){
+        if(empResObjList.size()>0){
             return empResObjList.get(0);
         }
         System.out.println("未查到相关数据！");
@@ -149,14 +186,15 @@ public class StudentService {
 
     //按sid查询未就业学生——ly
     public UnempResObj findUnempBySid(int sid){
-        String hsql = "select new UnempResObj(u.ueid,u.uesalary,u.uetime,u.ueschool,u.uemajor,u.uesuccess,u.uestate,u.jid,j.jname,u.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.smark,s.sassess,s.sstate,s.sdetail) " +
+        String hsql = "select new com.ResObj.UnempResObj(u.ueid,u.uesalary,u.uetime,u.ueschool,u.uemajor,u.uesuccess,u.uestate,j.jid,j.jname,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.smark,s.sassess,s.sstate,s.sdetail,d.did,d.dname,d.dstate) " +
                 "from CmUnemp u " +
                 "inner join u.cmStudentBySid s " +
                 "inner join u.cmJobByJid j " +
-                "where u.sid = ? and u.uestate = 0";
-        List<UnempResObj> stuList = (List<UnempResObj>) hibernateTemplate.find(hsql,sid);
-        if(stuList.get(0)!=null){
-            return stuList.get(0);
+                "inner join u.cmDirectionByDid d " +
+                "where s.sid = ? and s.sstate = 0";
+        List<UnempResObj> unempList = (List<UnempResObj>) hibernateTemplate.find(hsql,sid);
+        if(unempList.size()>0){
+            return unempList.get(0);
         }
         System.out.println("未查到相关数据！");
         return null;

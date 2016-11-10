@@ -16,7 +16,36 @@
     <script type="text/javascript" src="../../js/showele.js" ></script>
     <link rel="stylesheet" type="text/css" href="../../css/default.css"/>
     <link rel="stylesheet" href="../../css/icon.css" />
+    <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
+<script type="javascript">
+    function showQiwangText(){
+        document.getElementById("qiwang-text").style.display="block";
+        document.getElementById("mark-text").style.display="none";
+        document.getElementById("mark-canvars").style.display="none";
+    }
+    function showMarkText(){
+        document.getElementById("mark-text").style.display="block";
+        document.getElementById("qiwang-text").style.display="none";
+        document.getElementById("mark-canvars").style.display="none";
+    }
+    function showMarkCanvars(){
+        document.getElementById("mark-canvars").style.display="block";
+        document.getElementById("mark-text").style.display="none";
+        document.getElementById("qiwang-text").style.display="none";
+    }
+    var msg="${ResMsg}";
+    if(msg!=""){
+        alert(msg);
+    }
+    $("input[name='smark']").each(function(index) {
+        if ($("input:radio[name='smark']").get(index).value == ${student.smark}) {
+            $("input:radio[name='smark']").get(index).prop("checked","checked");
+        }
+    });
+    //$("input[@name='smark'][value=${student.smark}").attr("checked",true);
+
+</script>
 
 </head>
 <body onload="Activeli()">
@@ -27,7 +56,7 @@
                 <div style="float: left;">
                     <span>信息管理</span>
                     <div class="left-arrow"></div>
-                    <span><a href="selecteAllC.html">学生信息</a></span>
+                    <span>学生信息</span>
                     <div class="left-arrow"></div>
                     <span>详细信息</span>
                 </div><br />
@@ -45,9 +74,9 @@
         </div>
         <div class="table-bar">
             <ul>
-                <li class="active-li" onclick="ShowMarkText()">成绩信息 </li>
-                <li onclick="ShowQiwangText()">就业期望</li>
-                <li onclick="ShowMarkCanvars()">能力认定</li>
+                <li class="active-li" onclick="showMarkText()">成绩信息 </li>
+                <li onclick="showQiwangText()">就业期望</li>
+                <li onclick="showMarkCanvars()">能力认定</li>
             </ul>
         </div>
         <div id="mark-text">
@@ -168,38 +197,56 @@
 
         </div>
         <div id="qiwang-text">
-            <form  id="form1"  >
+            <form  id="form1" action="/student/updateExpectation" method="post" >
+                <input type="hidden" name="sid" value="${student.sid}">
+                <input type="hidden" name="dname" value="${student.dname}">
                 <table  class="pure-table pure-table-bordered left" id="table-qiwang">
                     <tr>
                         <td width="150px">姓名：</td>
-                        <td> <input type="text" id="qw-stuname" disabled="disabled" value="王新"/></td>
+                        <td> <input type="text" id="qw-stuname" disabled="disabled" value="${student.sname}"/></td>
                     </tr>
-                    <tr>
-                        <td>期望就业单位：</td>
-                        <td><input type="text" id="qw-comp" disabled="disabled" value="暂无"/></td>
-                    </tr>
-                    <tr>
-                        <td>期望就业岗位：</td>
-                        <td><input type="text" id="qw-gw" disabled="disabled" value="web前端" list="qw-gwlist" placeholder="双击修改.."/>
-                            <datalist id="qw-gwlist">
-                                <option>web前端</option>
-                                <option>java开发</option>
-                                <option>Android开发</option>
-                                <option>软件测试</option>
-                                <option>软件工程师</option>
-                            </datalist>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>期望薪资：</td>
-                        <td><input type="text" id="qw-gz" disabled="disabled" value="2000元/月"/></td>
-                    </tr>
+                    <c:if test="${!(student.dname.equals('考研'))}">
+                        <%--<tr>
+                            <td>期望就业单位：</td>
+                            <td><input type="text" id="qw-comp" disabled="disabled" value="${student.}"/></td>
+                        </tr>--%>
+                        <tr>
+                            <td>期望就业岗位：</td>
+
+                            <td>
+                                <select name="str1" id="qw-gw">
+                                    <c:forEach items="${jobList}" var="job">
+                                        <c:choose>
+                                            <c:when test="${job.jid==student.jid }">
+                                                <option value="${job.jid }" selected="selected">${job.jname}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${job.jid }">${job.jname}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>期望薪资：</td>
+                            <td><input type="text" id="qw-gz" name="str2" value="${student.uesalary}"/></td>
+                        </tr>
+                    </c:if>
+                    <c:if test="${student.dname.equals('考研')}">
+                        <tr>
+                            <td>期望院校：</td>
+                            <td><input type="text" id="qw-comp" name="str1" value="${student.ueschool}"/></td>
+                        </tr>
+                        <tr>
+                            <td>期望专业：</td>
+                            <td><input type="text" id="qw-ad" name="str2" value="${student.uemajor}"/></td>
+                        </tr>
+                    </c:if>
                     <tr>
                         <td></td>
                         <td>
-                            <button class="mybutton" type="button" onclick="beginEdit()">编辑</button>
-
-                            <button class="mybutton" type="button" style="margin-left: 80px;" >保存</button>
+                            <button class="mybutton" type="button" onclick="this.form.submit()" style="margin-left: 80px;">保存</button>
                         </td>
                     </tr>
                 </table>
@@ -208,40 +255,38 @@
         </div>
         <div id="mark-canvars">
             <!--这是个人能力评价页面：包括星级评定，以及教师备注。后期加管理员，该星级评定的数据不来自数据库，来自授课教师的反馈。-->
-            <div class="starability-container">
-                <h3>能力评分：</h3>
-                <form>
-                    <fieldset class="starability-checkmark">
+            <form action="/student/updateAbility" method="post">
+                <div class="starability-container">
+                    <h3>能力评分：</h3>
 
-                        <input type="radio" id="rate5-6" name="rating" value="5" checked="checked"/>
-                        <label for="rate5-6" title="非常好">5 stars</label>
+                        <input type="hidden" name="sid" value="${student.sid}">
+                        <fieldset class="starability-checkmark">
 
-                        <input type="radio" id="rate4-6" name="rating" value="4" />
-                        <label for="rate4-6" title="好">4 stars</label>
+                            <input type="radio" id="rate5-6" name="smark" value="5" />
+                            <label for="rate5-6" title="非常好">5 stars</label>
 
-                        <input type="radio" id="rate3-6" name="rating" value="3" />
-                        <label for="rate3-6" title="一般">3 stars</label>
+                            <input type="radio" id="rate4-6" name="smark" value="4"/>
+                            <label for="rate4-6" title="好">4 stars</label>
 
-                        <input type="radio" id="rate2-6" name="rating" value="2" />
-                        <label for="rate2-6" title="不好">2 stars</label>
+                            <input type="radio" id="rate3-6" name="smark" value="3" />
+                            <label for="rate3-6" title="一般">3 stars</label>
 
-                        <input type="radio" id="rate1-6" name="rating" value="1" />
-                        <label for="rate1-6" title="特别差">1 star</label>
-                    </fieldset>
-                </form>
-            </div>
-            <div class="starability-container">
-                <h3>教师评价：</h3>
-                <form>
-                    <textarea disabled="disabled" id="pingjia">${student.sassess}</textarea><br />
-                    <div class="buttonbox">
-                        <input type="button" value="修改" class="mybutton" onclick="beginBianji()"/>
-                        <input type="button" value="保存" class="mybutton" />
-                    </div>
-                </form>
+                            <input type="radio" id="rate2-6" name="smark" value="2" />
+                            <label for="rate2-6" title="不好">2 stars</label>
 
-            </div>
-
+                            <input type="radio" id="rate1-6" name="smark" value="1" />
+                            <label for="rate1-6" title="特别差">1 star</label>
+                        </fieldset>
+                </div>
+                <div class="starability-container">
+                    <h3>教师评价：</h3>
+                        <textarea disabled="disabled" name="sassess" id="pingjia">${student.sassess}</textarea><br />
+                        <div class="buttonbox">
+                            <input type="button" value="修改" class="mybutton" onclick="beginBianji()"/>
+                            <input type="button" value="保存" class="mybutton" onclick="this.form.submit()"/>
+                        </div>
+                </div>
+            </form>
         </div>
 
     </div>

@@ -54,14 +54,15 @@
                     <li><a href="/direction/findAllDirection" target=main>未就业方向管理</a></li>
                 </ul>
             </dd>
-            <dd><a href="#" >面试情况信息</a>
+            <dd><a href="#" >招聘及面试信息</a>
                 <ul>
-                    <li><a href="system/meeting/selecteAllMeeting.html" target=main>查看信息</a></li>
+                    <li><a href="recruit/findAllRecruits" target=main>查看招聘信息</a></li>
+                    <li><a href="/recruit/addpro" target=main>添加招聘信息</a></li>
                 </ul>
             </dd>
             <dd><a href="#">学生信息</a>
                 <ul>
-                    <li><a href="system/studentsinfo/AllStudentsList.html" target=main>查看信息</a></li>
+                    <li><a href="/student/findAllStudents" target=main>查看信息</a></li>
                     <li><a href="system/studentsinfo/StudentsUpload.html" target=main>添加学生</a></li>
                 </ul>
             </dd>

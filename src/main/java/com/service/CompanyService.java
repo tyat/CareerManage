@@ -22,12 +22,17 @@ public class CompanyService {
     private HibernateTemplate hibernateTemplate;
 
     /*
-    查询企业信息
+    查询企业信息---ly
      */
-    public List<CmCompany>  FindALLCompany(CmCompany company){
-
+    public List<CmCompany>  FindAll(){
+        String hsql = "from CmCompany c where c.cstate = 0";
+        List<CmCompany> data = (List<CmCompany>) hibernateTemplate.find(hsql);
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
         return null;
-    }//
+    }
     //张小丽：添加公司
     public boolean addCompany(CmCompany cmCompany){
         hibernateTemplate.save(cmCompany);

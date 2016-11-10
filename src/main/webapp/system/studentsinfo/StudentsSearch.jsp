@@ -16,7 +16,22 @@
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script type="text/javascript" src="../../js/showele.js" ></script>
-
+    <script type="text/javascript">
+        function postwith(url, param) {
+            var myForm = document.createElement("form");
+            myForm.method = "post";
+            myForm.action = url;
+            for ( var k in param){
+                var myInput = document.createElement("input");
+                myInput.setAttribute("name", k);
+                myInput.setAttribute("value", param[k]);
+                myForm.appendChild(myInput);
+            }
+            document.body.appendChild(myForm);
+            myForm.submit();
+            document.body.removeChild(myForm);
+        }
+    </script>
 </head>
 <body onload="Activeli()">
 <div class="table-box">
@@ -35,14 +50,13 @@
                         学生列表
                     </div>
                     <div class="search-box">
-                        <form action="/student/query" method="get">
+                        <form action="/student/query" method="post">
                             <select name="type">
                                 <option value="0">按年级</option>
                                 <option value="1">按专业</option>
-                                <%--<option value="3">按年级和班级</option>--%>
                                 <option value="2">按姓名</option>
                             </select>
-                            <input type="text" name="searchtext"  value="请输入……"/>
+                            <input type="text" name="searchtext"  placeholder="请输入……"/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页
@@ -68,9 +82,16 @@
                         <td>
                             <a href="/student/findBySid?sid=${student.sid}">${student.sname}</a>
                         </td>
-                        <td>女</td>
+                        <td>
+                            <c:if test="${!(student.ssex)}">
+                                男
+                            </c:if>
+                            <c:if test="${student.ssex}">
+                                女
+                            </c:if>
+                        </td>
                         <td><a href="/student/findBySgrade?sgrade=${student.sgrade}">${student.sgrade}级</a></td>
-                        <td><a href="/student/findBySclass?sclass=${student.sclass}">${student.spro}${student.sclass}班</a></td>
+                        <td><a href="javascript:postwith('/student/findBySclass',{'spro':'${student.spro}','sclass':'${student.sclass}'})">${student.spro}${student.sclass}班</a></td>
                     </tr>
                     <!--这是一条记录结束-->
                     </c:forEach>

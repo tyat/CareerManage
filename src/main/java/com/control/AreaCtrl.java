@@ -54,4 +54,14 @@ public class AreaCtrl {
         return s;
     }
 
+    //查询某省份数据库中所有的城市——ly
+    @RequestMapping(value = "/area/findcity", method = RequestMethod.POST)
+    @ResponseBody
+    public List<CmArea> findcity(String aprovince){
+        System.out.println("Controller执行----");
+        System.out.println("aprovince----"+aprovince);
+        List<CmArea> cityList = areaService.findCityByAprovince(aprovince);
+        System.out.println("cityList----"+cityList);
+        return cityList;
+    }
 }

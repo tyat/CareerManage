@@ -18,6 +18,27 @@
     <link rel="stylesheet" href="../../css/icon.css" />
 
 
+<script type="text/javascript">
+    function postwith(url, param) {
+        var myForm = document.createElement("form");
+        myForm.method = "post";
+        myForm.action = url;
+        for ( var k in param){
+            var myInput = document.createElement("input");
+            myInput.setAttribute("name", k);
+            myInput.setAttribute("value", param[k]);
+            myForm.appendChild(myInput);
+        }
+        document.body.appendChild(myForm);
+        myForm.submit();
+        document.body.removeChild(myForm);
+    }
+    var msg="${ResMsg}";
+    if(msg!=""){
+        alert(msg);
+    }
+</script>
+
 </head>
 <body onload="Activeli()">
 <div class="table-box">
@@ -39,7 +60,7 @@
                                 <option value="1">按专业</option>
                                 <option value="2">按姓名</option>
                             </select>
-                            <input type="text" name="searchtext"  value="请输入……"/>
+                            <input type="text" name="searchtext"  placeholder="请输入……"/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
                         </form>
                     </div>
@@ -48,40 +69,40 @@
         </div>
         <div>
             <c:if test="${studentList!=null}">
-            <!--这是表格开始-->
-            <table  class="pure-table pure-table-bordered"  >
-                <tr>
-                    <td>姓名</td>
-                    <td>性别</td>
-                    <td>年级</td>
-                    <td>班级</td>
-                    <td>能力认定</td>
-                </tr>
+                <!--这是表格开始-->
+                <table  class="pure-table pure-table-bordered"  >
+                    <tr>
+                        <td>姓名</td>
+                        <td>性别</td>
+                        <td>年级</td>
+                        <td>班级</td>
+                        <td>能力认定</td>
+                    </tr>
 
-                <c:forEach var="student" items="${studentList}">
-                <!--这是一条记录开始-->
-                <tr>
-                    <td>
-                        <a href="/student/findBySid?sid=${student.sid}">${student.sname}</a>
-                    </td>
-                    <td>
-                        <c:if test="${!(student.ssex)}">
-                            男
-                        </c:if>
-                        <c:if test="${student.ssex}">
-                            女
-                        </c:if>
-                    </td>
-                    <td><a href="/student/findBySgrade?sgrade=${student.sgrade}">${student.sgrade}级</a></td>
-                    <td><a href="/student/findBySclass?sclass=${student.sclass}">${student.spro}${student.sclass}班</a></td>
-                    <td>
-                        <button type="button" class="mybutton" onclick="location='StudentDetail.html'">${student.smark}星</button>
-                    </td>
-                </tr>
-                <!--这是一条记录结束-->
-                </c:forEach>
+                    <c:forEach var="student" items="${studentList}">
+                    <!--这是一条记录开始-->
+                    <tr>
+                        <td>
+                            <a href="/student/findBySid?sid=${student.sid}">${student.sname}</a>
+                        </td>
+                        <td>
+                            <c:if test="${!(student.ssex)}">
+                                男
+                            </c:if>
+                            <c:if test="${student.ssex}">
+                                女
+                            </c:if>
+                        </td>
+                        <td><a href="/student/findBySgrade?sgrade=${student.sgrade}">${student.sgrade}级</a></td>
+                        <td><a href="javascript:postwith('/student/findBySclass',{'spro':'${student.spro}','sclass':'${student.sclass}'})">${student.spro}${student.sclass}班</a></td>
+                        <td>
+                            <button type="button" class="mybutton" onclick="location='StudentDetail.html'">${student.smark}星</button>
+                        </td>
+                    </tr>
+                    <!--这是一条记录结束-->
+                    </c:forEach>
 
-            </table>
+                </table>
             <div class="table-slipline"></div>
             <!--这是表格结束-->
             </c:if>

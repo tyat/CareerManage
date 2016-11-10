@@ -11,8 +11,8 @@ public class RecruitResObj {
     private Integer rid;
     private Boolean rsex;
     private Integer rsalary;
-    private Object rstart;
-    private Object rend;
+    private Timestamp rstart;
+    private Timestamp rend;
     private Integer rnum;
     private String rinfo;
     private Integer rstate;
@@ -20,10 +20,6 @@ public class RecruitResObj {
     private Integer aid;
     private String aprovince;
     private String acity;
-
-    private String iaddress;
-    private String itype;
-    private Object itime;
 
     private Integer jid;
     private String jname;
@@ -37,7 +33,7 @@ public class RecruitResObj {
     public RecruitResObj() {
     }
 
-    public RecruitResObj(Integer rid, Boolean rsex, Integer rsalary, Object rstart, Object rend, Integer rnum, String rinfo, Integer rstate, Integer aid, String aprovince, String acity, String iaddress, String itype, Object itime, Integer jid, String jname, Integer cid, String cname, String chr, String cphone, String cemail) {
+    public RecruitResObj(Integer rid, Boolean rsex, Integer rsalary, Object rstart, Object rend, Integer rnum, String rinfo, Integer rstate, Integer aid, String aprovince, String acity, Integer jid, String jname, Integer cid, String cname, String chr, String cphone, String cemail) {
         this.rid = rid;
         this.rsex = rsex;
         this.rsalary = rsalary;
@@ -49,9 +45,6 @@ public class RecruitResObj {
         this.aid = aid;
         this.aprovince = aprovince;
         this.acity = acity;
-        this.iaddress = iaddress;
-        this.itype = itype;
-        this.itime = stringToTimestamp(itime.toString());
         this.jid = jid;
         this.jname = jname;
         this.cid = cid;
@@ -101,19 +94,19 @@ public class RecruitResObj {
         this.rsalary = rsalary;
     }
 
-    public Object getRstart() {
+    public Timestamp getRstart() {
         return rstart;
     }
 
-    public void setRstart(Object rstart) {
+    public void setRstart(Timestamp rstart) {
         this.rstart = rstart;
     }
 
-    public Object getRend() {
+    public Timestamp getRend() {
         return rend;
     }
 
-    public void setRend(Object rend) {
+    public void setRend(Timestamp rend) {
         this.rend = rend;
     }
 
@@ -163,30 +156,6 @@ public class RecruitResObj {
 
     public void setAcity(String acity) {
         this.acity = acity;
-    }
-
-    public String getIaddress() {
-        return iaddress;
-    }
-
-    public void setIaddress(String iaddress) {
-        this.iaddress = iaddress;
-    }
-
-    public String getItype() {
-        return itype;
-    }
-
-    public void setItype(String itype) {
-        this.itype = itype;
-    }
-
-    public Object getItime() {
-        return itime;
-    }
-
-    public void setItime(Object itime) {
-        this.itime = itime;
     }
 
     public Integer getJid() {
