@@ -63,7 +63,7 @@
             <dd><a href="#">学生信息</a>
                 <ul>
                     <li><a href="/student/findAllStudents" target=main>查看信息</a></li>
-                    <li><a href="system/studentsinfo/StudentsUpload.html" target=main>添加学生</a></li>
+                    <li><a href="system/studentsinfo/StudenetsUpload.jsp" target=main>添加学生</a></li>
                 </ul>
             </dd>
         </dl>

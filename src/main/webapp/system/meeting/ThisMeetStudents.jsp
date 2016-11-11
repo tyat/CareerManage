@@ -128,6 +128,8 @@
                     var json = JSON.parse( data );
                     var city = $("#city");
                     var str = '';
+                    //清空以前的option
+                    $("#city").find("option").remove();
                     for(var o in json) {
                         str += '<option value="'+json[o].aid+'">'+json[o].acity+'</option>';
                     }

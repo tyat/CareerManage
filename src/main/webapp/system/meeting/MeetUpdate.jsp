@@ -18,6 +18,7 @@
     <script type="text/javascript" src="../../js/showele.js" ></script>
     <script type="text/javascript" src="../../js/Date.js" ></script>
     <script src="../../js/addtime.js" type="text/javascript"></script>
+    <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
     <script type="javascript">
         function findcity() {
@@ -35,6 +36,8 @@
                     var json = JSON.parse( data );
                     var city = $("#city");
                     var str = '';
+                    //清空以前的option
+                    $("#city").find("option").remove();
                     for(var o in json) {
                         str += '<option value="'+json[o].aid+'">'+json[o].acity+'</option>';
                     }
@@ -98,12 +101,28 @@
                         <td>工作城市：</td>
                         <td>
                             <select name="aprovince" id="aprovince" onchange="javascript:findcity();">
-                                <option selected="selected"></option>
                                 <c:forEach items="${areaList}" var="area">
-                                    <option value="${area.aprovince}">${area.aprovince}</option>
+                                    <c:choose>
+                                        <c:when test="${area.aid==recruit.aid }">
+                                            <option value="${area.aprovince}" selected="selected">${area.aprovince}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${area.aprovince}">${area.aprovince}</option>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </c:forEach>
                             </select>
                             <select id="city" name="aid">
+                                <c:forEach items="${cityList}" var="mycity">
+                                    <c:choose>
+                                        <c:when test="${mycity.aid==recruit.aid }">
+                                            <option value="${mycity.aid}" selected="selected">${mycity.acity}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value="${mycity.aid}">${mycity.acity}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
                             </select>
                         </td>
                     </tr>
@@ -154,23 +173,6 @@
                             <input type="text" id="add_date" name="rend" value="${recruit.rend}" onclick="choose_date_czw('add_date');"/>
                         </td>
                     </tr>
-                    <%--<tr>
-                        <td>面试地点：</td>
-                        <td>
-                            <input type="text" name="iaddress" value="${recruit.iaddress}" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >面试方式：</td>
-                        <td ><input type="text" name="itype" value="${recruit.itype}"/></td>
-                    </tr>
-                    <tr>
-                        <td>面试时间：</td>
-                        <td >
-                            <input type="text" id="add_date" name="itime" value="${recruit.itime}" onclick="choose_date_czw('add_date');"/>
-                            <select id="add_time"></select> <select id="add_time2"></select>
-                        </td>
-                    </tr>--%>
                     <tr>
                         <td>详情:</td>
                         <td>

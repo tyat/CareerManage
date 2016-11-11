@@ -69,7 +69,7 @@ public class StudentCtrl {
     }
 
     //按专业班级查找学生——ly
-    @RequestMapping(value = "/student/findBySclass",method = RequestMethod.POST)
+    @RequestMapping(value = "/findBySclass",method = RequestMethod.POST)
     public String findBySclass(@RequestParam("spro")String spro,@RequestParam("sclass")int sclass,ModelMap modelMap) throws UnsupportedEncodingException {
         List<CmStudent> studentList = studentService.findBySclass(spro,sclass);
         modelMap.addAttribute("studentList",studentList);
@@ -77,7 +77,7 @@ public class StudentCtrl {
     }
 
     //按学号查找学生——ly
-    @RequestMapping(value = "/student/findBySno",method = RequestMethod.POST)
+    @RequestMapping(value = "/findBySno",method = RequestMethod.POST)
     @ResponseBody
     public CmStudent findBySno(String sno, ModelMap modelMap) throws UnsupportedEncodingException {
         CmStudent student = studentService.findBySno(sno);
@@ -104,7 +104,7 @@ public class StudentCtrl {
     }
 
     //查询学生的面试记录——ly
-    @RequestMapping(value = "/student/findInterBySid",method = RequestMethod.GET )
+    @RequestMapping(value = "/findInterBySid",method = RequestMethod.GET )
     public String findInterBySid(@RequestParam("sid") int sid, ModelMap modelMap){
         List<InterResObj> interList = interService.findInterBySid(sid);
         modelMap.addAttribute("interList", interList);
@@ -113,7 +113,7 @@ public class StudentCtrl {
     }
 
     //删除学生——ly
-    @RequestMapping(value = "/student/delStudent",method = RequestMethod.GET )
+    @RequestMapping(value = "/delStudent",method = RequestMethod.GET )
     public String delStudent(@RequestParam("sid")int sid,ModelMap modelMap){
         boolean ResMsg = studentService.delStudent(sid);
         System.out.println("delStudent---"+ResMsg);
@@ -126,7 +126,7 @@ public class StudentCtrl {
     }
 
     //编辑前——ly
-    @RequestMapping(value = "/student/updateStudentPro",method = RequestMethod.GET )
+    @RequestMapping(value = "/updateStudentPro",method = RequestMethod.GET )
     @ResponseBody
     public CmStudent updateStudentPro(@RequestParam("sid") int sid){
         CmStudent student = studentService.findBySid(sid);
@@ -134,7 +134,7 @@ public class StudentCtrl {
     }
 
     //编辑学生信息——ly
-    @RequestMapping(value = "/student/updateStudent",method = RequestMethod.POST )
+    @RequestMapping(value = "/updateStudent",method = RequestMethod.POST )
     public String updateStudent(int sid,String sphone,String semail,ModelMap modelMap,RedirectAttributes attr){
         boolean ResMsg = studentService.updateStudent(sid,sphone,semail);
         if(ResMsg){
@@ -147,7 +147,7 @@ public class StudentCtrl {
     }
 
     //编辑学生期望——ly
-    @RequestMapping(value = "/student/updateExpectation",method = RequestMethod.POST )
+    @RequestMapping(value = "/updateExpectation",method = RequestMethod.POST )
     public String updateExpectation(int sid,String dname,String str1,String str2,ModelMap modelMap,RedirectAttributes attr){
         boolean ResMsg = false;
         if(dname.equals("考研")){
@@ -167,7 +167,7 @@ public class StudentCtrl {
     }
 
     //编辑学生能力认定——ly
-    @RequestMapping(value = "/student/updateAbility",method = RequestMethod.POST )
+    @RequestMapping(value = "/updateAbility",method = RequestMethod.POST )
     public String updateAbility(int sid,int smark,String sassess,ModelMap modelMap,RedirectAttributes attr){
         boolean ResMsg = studentService.updateAbility(sid,smark,sassess);
         if(ResMsg){

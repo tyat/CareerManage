@@ -96,7 +96,7 @@
                         <td><a href="/student/findBySgrade?sgrade=${student.sgrade}">${student.sgrade}级</a></td>
                         <td><a href="javascript:postwith('/student/findBySclass',{'spro':'${student.spro}','sclass':'${student.sclass}'})">${student.spro}${student.sclass}班</a></td>
                         <td>
-                            <button type="button" class="mybutton" onclick="location='StudentDetail.html'">${student.smark}星</button>
+                            <button type="button" class="mybutton" onclick="location='/grade/findStudentDetail?sid=${student.sid}'">${student.smark}星</button>
                         </td>
                     </tr>
                     <!--这是一条记录结束-->

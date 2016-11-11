@@ -26,7 +26,7 @@
             var myselect = document.getElementById("aprovince");
             var index = myselect.selectedIndex;
             var aprovince = myselect.options[index].value;
-            alert(aprovince);
+            //alert(aprovince);
             $.ajax({
                 type: "POST",
                 url: "/area/findcity",
@@ -40,6 +40,8 @@
                     //alert( json[0].acity );
                     var city = $("#city");
                     var str = '';
+                    //清空以前的option
+                    $("#city").find("option").remove();
                     for(var o in json) {
                         str += '<option value="'+json[o].aid+'">'+json[o].acity+'</option>';
                     }

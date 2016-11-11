@@ -87,6 +87,8 @@ public class RecruitCtrl {
         modelMap.addAttribute("companyList",companyList);
         List<CmArea> areaList = areaService.findAllArea();
         modelMap.addAttribute("areaList",areaList);
+        List<CmArea> cityList = areaService.findCityByAprovince(recruit.getAprovince());
+        modelMap.addAttribute("cityList",cityList);
         List<CmJob> jobList = jobService.findAll();
         modelMap.addAttribute("jobList",jobList);
         System.out.println("findByRid-----"+recruit.getCname());

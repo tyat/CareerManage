@@ -36,7 +36,8 @@ public class GradeService {
         for (int i=0;i<data1.size();i++){
             System.out.println("课程名—————"+data1.get(i).getGkcm());
         }*/
-        if(data!=null){
+        if(data.get(0)!=null){
+            System.out.println("data-----"+data);
             return Integer.parseInt(data.get(0).toString());
         }
         return 0;
@@ -50,7 +51,7 @@ public class GradeService {
                 "and g.glx in (1,2) " +
                 "and ((g.gfslx = 1 and (g.gcj in ('及格','中','良','优') or g.gbkcj in ('及格','中','良','优'))) or (g.gfslx = 2 and (CONVERT(g.gcj , SIGNED) >= 60 or CONVERT(g.gbkcj , SIGNED) >= 60))) " ;
         List<?> data = hibernateTemplate.find(hsql,sid);
-        if(data!=null){
+        if(data.get(0)!=null){
             return Integer.parseInt(data.get(0).toString());
         }
         return 0;
@@ -65,7 +66,7 @@ public class GradeService {
             hsql = hsql + " and g.gkcm in ('Java语言基础','Java在移动通信中应用','网页设计','网页设计课程设计','数据库应用技术','JSP应用技术与AJAX','JSP应用技术与AJAX课程设计','SSH应用技术','SSH应用技术课程设计','IPhone/android嵌入式移动开发技术基础','IPhone/android嵌入式移动开发技术','软件测试技术与工具','IT项目管理','IT项目管理课程设计','Web前端技术','IT文档规范与编写','IPhone开发入门','CMMI标准工作流程','JAVA EE商用项目实践','项目开发模型','企业职业素养训练')";
         }
         List<?> data = hibernateTemplate.find(hsql,sid);
-        if(data!=null){
+        if(data.get(0)!=null){
             return Integer.parseInt(data.get(0).toString());
         }
         return 0;
