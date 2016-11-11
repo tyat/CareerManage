@@ -55,7 +55,7 @@ public class UnempService {
     }
 
     //张小丽：根据id查询未就业学生是否存在
-    /*public CmUnemp findBySid(int sid){
+    public CmUnemp findBySid1(int sid){
         String hsql="select new com.pojo.CmUnemp(un.ueid) from CmUnemp un where un.cmStudentBySid.sid=? and un.uestate=0";
         List<?>data=hibernateTemplate.find(hsql,sid);
         if (data.size()>0){
@@ -63,7 +63,7 @@ public class UnempService {
             return  cmUnemp;
         }
         return  null;
-    }*/
+    }
     //张小丽根据学号查询未就业生是否存在
     public CmUnemp findBySno(String sno){
         String hsql="select new com.pojo.CmUnemp(un.ueid) from CmUnemp un where un.cmStudentBySid.sno=? and un.uestate=0";

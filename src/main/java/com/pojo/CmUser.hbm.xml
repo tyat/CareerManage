@@ -15,7 +15,7 @@
         <property name="uemail" column="uemail"/>
         <property name="uphone" column="uphone"/>
         <property name="urank" column="urank"/>
-        <property name="ustate" column="ustate"/>
+        <property name="ustate" column="ustate" not-null="false"/>
         <set name="cmEmpsByUid" inverse="true">
             <key>
                 <column name="uid"/>
