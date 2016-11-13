@@ -3,12 +3,14 @@ package com.service;
 import com.ResObj.ResCompanyObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
+import com.tools.InputData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -172,5 +174,20 @@ public class CompanyService {
             return (CmCompany) data.get(0);
         }
         return null;
+    }
+
+    /*TianYu 上传excel*/
+    public String uploadCompany(String path){
+        InputData input = new InputData();
+        try {
+            List<CmCompany>  ls = input.inputCompany(path);
+            for (CmCompany cc : ls){
+                hibernateTemplate.save(cc);
+                hibernateTemplate.flush();
+            }
+            return "导入成功！";
+        } catch (IOException e) {
+            return "数据格式错误！";
+        }
     }
 }

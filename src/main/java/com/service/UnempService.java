@@ -2,10 +2,12 @@ package com.service;
 
 import com.ResObj.ResUnempObj;
 import com.pojo.CmUnemp;
+import com.tools.InputData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
 
@@ -173,5 +175,20 @@ public class UnempService {
         hibernateTemplate.bulkUpdate(hsql,ueid);
         System.out.println("******************************");
         return true;
+    }
+
+    /*TianYu 上传excel*/
+    public String uploadUnemp(String path){
+        InputData input = new InputData();
+        try {
+            List<CmUnemp>  ls = input.inputUnemp(path);
+            for (CmUnemp cc : ls){
+                hibernateTemplate.save(cc);
+                hibernateTemplate.flush();
+            }
+            return "导入成功！";
+        } catch (IOException e) {
+            return "数据格式错误！";
+        }
     }
 }

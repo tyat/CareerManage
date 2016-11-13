@@ -79,8 +79,7 @@
             <dt>管理员中心<img src="img/select_xl01.png"></dt>
             <dd class="first_dd"><a href="system/admin/adminInfo.jsp" target=main>个人信息</a></dd>
             <dd><a href="/user/selectAllUser" target=main>管理员列表</a></dd>
-            <!--<dd><a href="system/admin/GangWeiInfo.html" target=main>岗位标签管理</a></dd>
-            <dd><a href="system/admin/FangXiang.html" target=main>未就业方向管理</a></dd>-->
+            <dd><a href="/system/admin/inputData.jsp" target=main>数据初始化</a></dd>
         </dl>
     </div>
     <!--leftbarend-->

@@ -6,9 +6,12 @@ import com.ResObj.EmpResObj;
 import com.ResObj.UnempResObj;
 import com.pojo.CmEmp;
 import com.pojo.CmStudent;
+import com.tools.InputData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 import java.util.List;
 @Service("studentService")
 public class StudentService {
@@ -198,6 +201,21 @@ public class StudentService {
         }
         System.out.println("未查到相关数据！");
         return null;
+    }
+
+    /*TianYu 上传excel*/
+    public String uploadStudent(String path){
+        InputData input = new InputData();
+        try {
+            List<CmStudent>  ls = input.inputStudent(path);
+            for (CmStudent cc : ls){
+                hibernateTemplate.save(cc);
+                hibernateTemplate.flush();
+            }
+            return "导入成功！";
+        } catch (IOException e) {
+            return "数据格式错误！";
+        }
     }
 
 }

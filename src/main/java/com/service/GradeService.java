@@ -2,6 +2,7 @@ package com.service;
 
 import com.pojo.CmGrade;
 import com.pojo.CmUser;
+import com.tools.InputData;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -9,6 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -83,5 +85,19 @@ public class GradeService {
         return null;
     }
 
+    /*TianYu 上传excel*/
+    public String uploadGrade(String path){
+        InputData input = new InputData();
+        try {
+            List<CmGrade>  ls = input.inputGrade(path);
+            for (CmGrade cc : ls){
+                hibernateTemplate.save(cc);
+                hibernateTemplate.flush();
+            }
+            return "导入成功！";
+        } catch (IOException e) {
+            return "数据格式错误！";
+        }
+    }
 
 }

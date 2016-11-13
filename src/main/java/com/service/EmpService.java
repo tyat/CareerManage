@@ -3,10 +3,12 @@ package com.service;
 import com.ResObj.ResEmpObj;
 import com.pojo.CmEmp;
 import com.tools.DateConvert;
+import com.tools.InputData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -113,5 +115,20 @@ public class EmpService {
         hibernateTemplate.bulkUpdate(hsql,eid);
         System.out.println("******************************");
         return true;
+    }
+
+    /*TianYu 上传excel*/
+    public String uploadEmp(String path){
+        InputData input = new InputData();
+        try {
+            List<CmEmp>  ls = input.inputEmp(path);
+            for (CmEmp cc : ls){
+                hibernateTemplate.save(cc);
+                hibernateTemplate.flush();
+            }
+            return "导入成功！";
+        } catch (IOException e) {
+            return "数据格式错误！";
+        }
     }
 }
