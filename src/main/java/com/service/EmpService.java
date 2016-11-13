@@ -1,5 +1,6 @@
 package com.service;
 
+import com.ResObj.EmpStu;
 import com.ResObj.ResEmpObj;
 import com.pojo.*;
 import com.tools.DateConvert;
@@ -11,7 +12,18 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
 
 /**
  * Created by Administrator on 2016/10/30.
@@ -157,5 +169,75 @@ public class EmpService {
         } catch (IOException e) {
             return "数据格式错误！";
         }
+    }
+
+    /*TianYu 导出就业生数据*/
+    public String outputEmp() {
+        String hql = "select new com.ResObj.EmpStu(cs.sid, cs.sno, cs.sname, cs.ssex, cs.sbirth, cs.spro, cs.sgrade, cs.sclass, cs.sphone, cs.semail, cs.scode, cs.smark, cs.sassess, cs.sstate, cs.sdetail, cc.cname, cj.jname, ce.etime, ce.esalary, ce.ewq, ce.eleave, ce.ereason) " +
+                "from CmStudent cs inner join cs.cmEmpsBySid ce inner join ce.cmJobByJid cj inner join cj.cmRecruitsByJid cr inner join cr.cmCompanyByCid cc";
+        List<EmpStu> ls =(List<EmpStu>)hibernateTemplate.find(hql);
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("就业生信息表");
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell = row1.createCell(0);
+        cell.setCellValue("就业生信息");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 14));
+        HSSFRow row2 = sheet.createRow(1);
+        // 创建单元格并设置单元格内容
+        row2.createCell(0).setCellValue("sid");
+        row2.createCell(1).setCellValue("学号");
+        row2.createCell(2).setCellValue("姓名");
+        row2.createCell(3).setCellValue("性别");
+        row2.createCell(4).setCellValue("专业");
+        row2.createCell(5).setCellValue("年级");
+        row2.createCell(6).setCellValue("班级");
+        row2.createCell(7).setCellValue("电话");
+        row2.createCell(8).setCellValue("就业企业");
+        row2.createCell(9).setCellValue("岗位名称");
+        row2.createCell(10).setCellValue("实习日期");
+        row2.createCell(11).setCellValue("实习补贴");
+        row2.createCell(12).setCellValue("是否网签");
+        row2.createCell(13).setCellValue("离职时间");
+        row2.createCell(14).setCellValue("离职原因");
+        int rownum = 2;
+        // 在sheet里创建数据
+        for(EmpStu es : ls){
+            HSSFRow row = sheet.createRow(rownum);
+            row.createCell(0).setCellValue(es.getSid());
+            row.createCell(1).setCellValue(es.getSno());
+            row.createCell(2).setCellValue(es.getSname());
+            if(es.getSsex()){
+                row.createCell(3).setCellValue("女");
+            }else{
+                row.createCell(3).setCellValue("男");
+            }
+            row.createCell(4).setCellValue(es.getSpro());
+            row.createCell(5).setCellValue(es.getSgrade());
+            row.createCell(6).setCellValue(es.getSclass());
+            row.createCell(7).setCellValue(es.getSphone());
+            row.createCell(8).setCellValue(es.getCname());
+            row.createCell(9).setCellValue(es.getJname());
+            row.createCell(10).setCellValue(es.getEtime());
+            row.createCell(11).setCellValue(es.getEsalary());
+            row.createCell(12).setCellValue(es.getEwq());
+            row.createCell(13).setCellValue(es.getEleave());
+            row.createCell(14).setCellValue(es.getEreason());
+            rownum++;
+        }
+        String file = null;
+        try {
+            String rootPath=getClass().getResource("/").getFile().toString();
+            String path = rootPath.substring(1,rootPath.length()-8)+"upload/";
+            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+            file = path+"就业生信息"+df.format(new java.util.Date())+".xls";
+            System.out.println(file+"---------------------");
+            FileOutputStream output = new FileOutputStream(file);
+            wb.write(output);
+            output.flush();
+            System.out.println("success----");
+        } catch (IOException e) {
+            return "error";
+        }
+        return file;
     }
 }

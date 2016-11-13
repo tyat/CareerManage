@@ -271,4 +271,13 @@ public class EmpCtrl {
         System.out.println(msg);
         return "/system/admin/inputData";
     }
+
+    /*TianYu 导出就业生数据*/
+    @RequestMapping(value = "/outputEmp")
+    public ModelAndView OutputEmp(ModelMap modelMap){
+        ModelAndView mv = new ModelAndView();
+        String path = empService.outputEmp();
+        mv.setViewName("upload/"+path);
+        return mv;
+    }
 }

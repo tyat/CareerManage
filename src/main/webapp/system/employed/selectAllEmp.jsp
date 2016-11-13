@@ -266,9 +266,7 @@
             </div>
         </div>
         <div class="left-button-footer">
-            <button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>导出数据</span></button>
-            <button class="mybutton" type="button" onclick="ShowUpload()"> <span>导入数据</span></button>
-            <button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>下载Excel模板</span></button>
+            <button type="submit" class="mybutton" value="Submit" onclick="window.open('/emp/outputEmp')">导出数据</button>
         </div>
     </div>
 </div>
