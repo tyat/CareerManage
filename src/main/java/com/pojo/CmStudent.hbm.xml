@@ -23,25 +23,25 @@
         <property name="sassess" column="sassess"/>
         <property name="sstate" column="sstate"/>
         <property name="sdetail" column="sdetail"/>
-        <set name="cmEmpsBySid" inverse="true">
+        <set name="cmEmpsBySid" inverse="true" cascade="all">
             <key>
                 <column name="sid"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.CmEmp"/>
         </set>
-        <set name="cmGradesBySid" inverse="true">
+        <set name="cmGradesBySid" inverse="true" cascade="all">
             <key>
                 <column name="sid"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.CmGrade"/>
         </set>
-        <set name="cmIntersBySid" inverse="true">
+        <set name="cmIntersBySid" inverse="true" cascade="all">
             <key>
                 <column name="sid"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.CmInter"/>
         </set>
-        <set name="cmUnempsBySid" inverse="true">
+        <set name="cmUnempsBySid" inverse="true" cascade="all">
             <key>
                 <column name="sid"/>
             </key>

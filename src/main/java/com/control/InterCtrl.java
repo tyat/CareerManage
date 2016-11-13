@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.List;
@@ -84,8 +85,8 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter",method = RequestMethod.POST )
-    public String updateInter(int iid,int isuccess,int rid,int sid,String esalary,String etime,int ewq,int uid,String einfo,
-                              ModelMap modelMap,RedirectAttributes attr) throws java.lang.Exception,ParseException {
+    public String updateInter(int iid, int isuccess, int rid, int sid, String esalary, String etime, int ewq, int uid, String einfo,
+                              ModelMap modelMap, RedirectAttributes attr) throws java.lang.Exception,ParseException {
         boolean ResMsg = interService.updateInter(iid,isuccess);
         if(ResMsg){
             if (isuccess==1){

@@ -13,19 +13,19 @@
         <property name="jtype" column="jtype"/>
         <property name="jstate" column="jstate"/>
         <property name="jinfo" column="jinfo"/>
-        <set name="cmEmpsByJid" inverse="true">
+        <set name="cmEmpsByJid" inverse="true" cascade="all">
             <key>
                 <column name="jid"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.CmEmp"/>
         </set>
-        <set name="cmRecruitsByJid" inverse="true">
+        <set name="cmRecruitsByJid" inverse="true" cascade="all">
             <key>
                 <column name="jid"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.CmRecruit"/>
         </set>
-        <set name="cmUnempsByJid" inverse="true">
+        <set name="cmUnempsByJid" inverse="true" cascade="all">
             <key>
                 <column name="jid" not-null="true"/>
             </key>

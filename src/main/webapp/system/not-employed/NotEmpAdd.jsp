@@ -212,11 +212,6 @@
     </div>
     <div class="button-footer">
 
-        <div class="right-button-footer">
-            <div id="Page">
-                <a href="#">«</a><span>1</span><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">6</a><a href="#">»</a>
-            </div>
-        </div>
         <div class="left-button-footer">
             <button class="mybutton" type="button" onclick="">导出数据</button>
             <!--<button class="icon-filein" type="button" onclick="ShowDetailTip()"> <span>导入数据</span></button>

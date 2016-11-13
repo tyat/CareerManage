@@ -11,19 +11,19 @@
         </id>
         <property name="aprovince" column="aprovince"/>
         <property name="acity" column="acity"/>
-        <set name="cmCompaniesByAid" inverse="true" >
+        <set name="cmCompaniesByAid" inverse="true" cascade="all">
             <key>
                 <column name="aid"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.CmCompany"/>
         </set>
-        <set name="cmIntersByAid" inverse="true">
+        <set name="cmIntersByAid" inverse="true" cascade="all">
             <key>
                 <column name="aid"/>
             </key>
             <one-to-many not-found="ignore" class="com.pojo.CmInter"/>
         </set>
-        <set name="cmRecruitsByAid" inverse="true">
+        <set name="cmRecruitsByAid" inverse="true" cascade="all">
             <key>
                 <column name="aid"/>
             </key>
