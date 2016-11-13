@@ -5,6 +5,7 @@ import com.ResObj.ResEmpObj;
 import com.pojo.*;
 import com.tools.DateConvert;
 import com.tools.InputData;
+import com.tools.OutputData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
@@ -224,20 +225,8 @@ public class EmpService {
             row.createCell(14).setCellValue(es.getEreason());
             rownum++;
         }
-        String file = null;
-        try {
-            String rootPath=getClass().getResource("/").getFile().toString();
-            String path = rootPath.substring(1,rootPath.length()-8)+"upload/";
-            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-            file = path+"就业生信息"+df.format(new java.util.Date())+".xls";
-            System.out.println(file+"---------------------");
-            FileOutputStream output = new FileOutputStream(file);
-            wb.write(output);
-            output.flush();
-            System.out.println("success----");
-        } catch (IOException e) {
-            return "error";
-        }
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb,"就业生信息");
         return file;
     }
 }

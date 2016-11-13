@@ -4,7 +4,12 @@ import com.ResObj.ResEmpObj;
 import com.pojo.*;
 import com.service.*;
 import com.tools.DateConvert;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Date;
@@ -272,10 +278,12 @@ public class EmpCtrl {
 
     /*TianYu 导出就业生数据*/
     @RequestMapping(value = "/outputEmp")
-    public ModelAndView OutputEmp(ModelMap modelMap){
-        ModelAndView mv = new ModelAndView();
-        String path = empService.outputEmp();
-        mv.setViewName("upload/"+path);
-        return mv;
+    public ResponseEntity<byte[]> pdfDownload(HttpServletRequest httpServletRequest) throws IOException {
+        File file = new File(empService.outputEmp());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String fileName = file.getName();
+        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"UTF-8"));
+        httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders,HttpStatus.CREATED);
     }
 }
