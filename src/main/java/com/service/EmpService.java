@@ -22,7 +22,7 @@ public class EmpService {
     private HibernateTemplate hibernateTemplate;
     @Autowired
     private  JobService jobService;
-    //张小丽：添加就业生
+    //zxl：添加就业生
     public  boolean addEmp(CmCompany cmCompany, CmRecruit cmRecruit,CmInter cmInter, CmEmp cmEmp){
       hibernateTemplate.save(cmCompany);
         hibernateTemplate.save(cmRecruit);
@@ -32,7 +32,7 @@ public class EmpService {
         hibernateTemplate.bulkUpdate(hsql,cmEmp.getCmStudentBySid().getSid());
         return  true;
     }
-    //张小丽：添加就业生
+    //zxl：添加就业生
     public boolean  addEmp2(int rid,int sid,String esalary,String etime,int ewq,int uid,String einfo)throws Exception{
        CmJob cmJob=jobService.findRecruitByRid(rid);
         //CmEmp inemp=new EmpService().findEmpBySid(sid);
@@ -53,7 +53,7 @@ public class EmpService {
         hibernateTemplate.save(cmEmp);
         return  true;
     }
-    //张小丽：根据学生id查询该就业生的就业信息
+    //zxl：根据学生id查询该就业生的就业信息
     public  CmEmp findEmpBySid(int sid){
         System.out.println("这是一个id-----"+sid);
         String hsql="from CmEmp e where e.cmStudentBySid.sid=? and e.estate!=2";
@@ -63,7 +63,7 @@ public class EmpService {
         }
         return  null;
     }
-    //张小丽：根据学生sno查询该就业生的就业信息
+    //zxl：根据学生sno查询该就业生的就业信息
     public  CmEmp findEmpBySno(String sno){
         String hsql="from CmEmp e where e.cmStudentBySid.sno=? and e.estate!=2";
         List<?> data= hibernateTemplate.find(hsql,sno);
@@ -72,7 +72,7 @@ public class EmpService {
         }
         return  null;
     }
-    //张小丽：修改学生信息
+    //zxl：修改学生信息
     public boolean updateEmp(int sid, int user, String etime, int esalary, String einfo, int ewq)throws  Exception{
         //CmEmp cmEmp=this.findEmpBySid(sid);
         boolean flag=true;

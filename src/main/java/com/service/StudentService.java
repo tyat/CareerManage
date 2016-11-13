@@ -17,7 +17,7 @@ import java.util.List;
 public class StudentService {
     @Autowired
     private HibernateTemplate hibernateTemplate;
-    //张小丽：根据学生学号查询学生信息
+    //zxl：根据学生学号查询学生信息
     public CmStudent findStuBySno(String sno){
         String hsql="select new com.pojo.CmStudent(s.sid, s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass) from CmStudent s where s.sno=? and s.sstate!=1";
         List<CmStudent>data=(List<CmStudent>) hibernateTemplate.find(hsql,sno);
@@ -27,7 +27,7 @@ public class StudentService {
         }
         return  null;
     }
-    //张小丽：根据学生学号查询学生信息
+    //zxl：根据学生学号查询学生信息
     public CmStudent findStuBySid(int sid){
         String hsql="select new com.pojo.CmStudent(s.sid, s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass) from CmStudent s where s.sid=? and s.sstate=0";
         List<CmStudent>data=(List<CmStudent>) hibernateTemplate.find(hsql,sid);

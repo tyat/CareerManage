@@ -30,7 +30,7 @@ public class DirectionCtrl {
     private JobService jobService;
     @Autowired
     private StudentService studentService;
-    //张小丽：查询所有动向
+    //zxl：查询所有动向
     @RequestMapping(value = "/selectAllDirection",method = RequestMethod.GET)
     public String selectAllDirection(ModelMap modelMap){
         List<CmDirection> data=directionService.findAllDirection();
@@ -39,7 +39,7 @@ public class DirectionCtrl {
         modelMap.put("allJob",data1);
         return  "/system/not-employed/NotEmpAdd";
     }
-    //张小丽：查询所有动向
+    //zxl：查询所有动向
     @RequestMapping(value = "/selectAllDirection2",method = RequestMethod.GET)
     public String selectAllDirection2(int sid,ModelMap modelMap){
         CmStudent cmStudent=studentService.findStuBySid(sid);
@@ -50,7 +50,7 @@ public class DirectionCtrl {
         modelMap.put("cmStudent",cmStudent);
         return  "/system/not-employed/NotEmpUpdate";
     }
-    //张小丽：查询所有动向
+    //zxl：查询所有动向
     @RequestMapping(value = "/selectAllDirection3",method = RequestMethod.GET)
     public String selectAllDirection3(ModelMap modelMap){
         List<CmDirection> data=directionService.findAllDirection();
@@ -61,7 +61,7 @@ public class DirectionCtrl {
         modelMap.put("allJob",data1);
         return  "/system/not-employed/NotEmpAdd";
     }
-    //张小丽：查询所有动向
+    //zxl：查询所有动向
     @RequestMapping(value = "/selectAllDirection4",method = RequestMethod.GET)
     public String selectAllDirection4(int sid,ModelMap modelMap){
         CmStudent cmStudent=studentService.findStuBySid(sid);
