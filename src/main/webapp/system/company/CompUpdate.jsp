@@ -137,12 +137,9 @@
                 </tr>
                 <c:if test="${info==null}">
                     <tr>
-                        <td></td>
-                        <td colspan="2" width="50%" style="text-align: center;">
-                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)" >取消修改</button>
-                        </td>
-                        <td colspan="2" style="text-align: center;">
-                            <input type="submit"   class="mybutton"/>
+                        <td colspan="5" width="50%" style="text-align: center;">
+                            <input type="submit"   class="mybutton"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)" >取消</button>
                         </td>
                     </tr>
                 </c:if>
@@ -154,13 +151,6 @@
             //BindProvince();//只初始化省份
             BindCity("山东省");//初始化
             // --></script>
-        </div>
-        <div class="button-footer">
-
-            <div class="left-button-footer">
-                <button class="mybutton" type="button"  > <span>导入数据</span></button>
-                <button class="mybutton" type="button"  > <span>下载Excel模板</span></button>
-            </div>
         </div>
     </div>
     <div id="showtabs-div">

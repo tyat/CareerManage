@@ -45,7 +45,7 @@ public class UserCtrl {
         return data;
     }
     //张小丽：登陆
-    @RequestMapping(value = "/login",method =RequestMethod.GET)
+    @RequestMapping(value = "/login",method =RequestMethod.POST)
     public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request){
         CmUser cmUser=userService.findlogin(uname,upwd);
         if (cmUser!=null){

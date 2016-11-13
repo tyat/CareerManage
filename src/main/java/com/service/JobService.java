@@ -53,6 +53,12 @@ public class JobService {
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,sid);
         return  data.get(0);
     }
+    //张小丽：根据招聘id查询招聘信息
+    public CmJob findRecruitByRid(int rid){
+        String hsql="select new com.pojo.CmJob(j.jid,j.jname) from CmRecruit r inner join r.cmJobByJid j where r.rid=?";
+        List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,rid);
+        return  data.get(0);
+    }
 
     /**
      * 查询显示所有的岗位信息

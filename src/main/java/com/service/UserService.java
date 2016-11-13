@@ -46,13 +46,13 @@ public class UserService {
     }
     //张小丽：查询所有的用户
     public List<CmUser> findAllUser(){
-        String hsql="select  new com.pojo.CmUser(u.uid,u.urname) from CmUser u ";
+        String hsql="select  new com.pojo.CmUser(u.uid,u.urname) from CmUser u where u.uid!=0 ";
         List<CmUser>data=(List<CmUser>)hibernateTemplate.find(hsql);
         return  data;
     }
     //张小丽：查询所有用户详细信息
     public List<CmUser>findAllUsers(){
-        String hsql="select  new com.pojo.CmUser(u.uid,u.uname,u.urname, u.upwd, u.uemail, u.uphone,u.urank) from CmUser u where u.ustate=0 ";
+        String hsql="select  new com.pojo.CmUser(u.uid,u.uname,u.urname, u.upwd, u.uemail, u.uphone,u.urank) from CmUser u where u.ustate=0 and u.uid!=0 ";
         List<CmUser>data=(List<CmUser>)hibernateTemplate.find(hsql);
         return  data;
     }

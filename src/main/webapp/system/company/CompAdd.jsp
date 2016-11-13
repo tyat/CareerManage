@@ -136,9 +136,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td colspan="4" style="text-align: center;">
-                            <input type="submit" value="保存" name="" class="mybutton"  />
+
+                        <td colspan="5" style="text-align: center;">
+                            <input type="submit" value="保存" name="" class="mybutton"  />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)" >取消</button>
                         </td>
                     </tr>
                 </table>
