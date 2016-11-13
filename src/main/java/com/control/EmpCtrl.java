@@ -34,68 +34,119 @@ public class EmpCtrl {
     private CompanyService companyService;
     @Autowired
     private  StudentService studentService;
+    @Autowired
+    private AreaService areaService;
     //张小丽：添加就业生
-    @RequestMapping(value = "/addEmp",method = RequestMethod.GET)
-    public String addEmp(int sid, int jid, int uid, String etime, int esalary, String ereason,String einfo, boolean ewq, ModelMap modelMap) throws  Exception{
-
-        String ereason0=new String(ereason.getBytes("iso-8859-1"),"utf-8");
-        String einfo0=new String(einfo.getBytes("iso-8859-1"),"utf-8"); CmStudent cmStudent=new CmStudent();
-        cmStudent.setSid(sid);
+    @RequestMapping(value = "/addEmp",method = RequestMethod.POST)
+    public ModelAndView addEmp(int sid,String cname,String chr,String cphone,int city,String caddress,String cemail,
+                         String etime,String itime,int Icity,String iaddress,String itype,int job,int Jcity,
+                         int rsalary,int ewq,String einfo,String cinfo,String cmark, int add_time,int add_time2,ModelMap modelMap) throws  Exception{
+      System.out.print("zheshiyige9999999999999999-----------"+add_time+"---------------"+add_time2);
+        ModelAndView mv=new ModelAndView();
+        CmArea cmArea1=new CmArea();
+        cmArea1.setAid(city);
+        CmCompany  cmCompany=new CmCompany(cname,chr,cphone,cemail,cinfo,cmark,caddress,cmArea1,new DateConvert().convert());
+        CmRecruit cmRecruit=new CmRecruit();
+        CmArea  cmArea2=new CmArea();
+        cmArea2.setAid(Jcity);
+        cmRecruit.setCmAreaByAid(cmArea2);
+        cmRecruit.setCmCompanyByCid(cmCompany);
+        cmRecruit.setRstart(new DateConvert().convert());
+        cmRecruit.setRend(new DateConvert().convert());
         CmJob  cmJob=new CmJob();
-        cmJob.setJid(jid);
-        CmUser cmUser=new CmUser();
-        cmUser.setUid(uid);
-        DateFormat df = DateFormat.getDateInstance();
-        Date d = df.parse(etime);
-        long da = d.getTime();
-        Timestamp ts = new Timestamp(da);
-        CmEmp cmEmp=new CmEmp(esalary,ts,ereason0,einfo0,ewq,cmStudent,cmJob,cmUser);
-        boolean flag=empService.addEmp(cmEmp);
-        if (flag){
-            modelMap.addAttribute("state","10001");
-            modelMap.addAttribute("info","添加成功！");
+        cmJob.setJid(job);
+        cmRecruit.setCmJobByJid(cmJob);
+        cmRecruit.setRinfo("");
+        cmRecruit.setRnum(0);
+        cmRecruit.setRsalary(rsalary);
+        CmInter cmInter=new CmInter();
+        CmArea cmArea3=new CmArea();
+        cmArea3.setAid(Icity);
+        cmInter.setCmAreaByAid(cmArea3);
+        cmInter.setCmRecruitByRid(cmRecruit);
+        CmStudent cmStudent=new CmStudent();
+        cmStudent.setSid(sid);
+        cmInter.setCmStudentBySid(cmStudent);
+        cmInter.setIaddress(iaddress);
+        cmInter.setIsuccess(1);
+        String sadd_time=add_time+"";
+        String sadd_time2=add_time2*5+"";
+        if (add_time<10){
+            sadd_time="0"+sadd_time;
         }
-        return "/system/employed/EmpAdd";
+        if (add_time2*5<10){
+            sadd_time2="0"+sadd_time2;
+        }
+        String []dates=itime.split("-");
+        for (int i=0;i<dates.length;i++){
+            if (Integer.parseInt(dates[i])<10){
+                dates[i]="0"+dates[i];
+            }
+        }
+        itime=dates[0]+"-"+dates[1]+"-"+dates[2];
+      //  System.out.println("这是一个时间xxx------------"+itime+" " +sadd_time+":"+sadd_time2+";00");
+        cmInter.setItime(new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"));
+        cmInter.setItype(itype);
+        CmEmp cmEmp=new CmEmp();
+        CmUser cmUser=new CmUser();
+        cmUser.setUid(0);
+        cmEmp.setCmUserByUid(cmUser);
+        cmEmp.setCmJobByJid(cmJob);
+        cmEmp.setCmStudentBySid(cmStudent);
+        cmEmp.setEtime(new DateConvert().StringtoTime(etime));
+        cmEmp.setEinfo(einfo);
+        cmEmp.setEsalary(rsalary);
+        cmEmp.setEleave(new DateConvert().SysDate());
+        boolean flag=false;
+        if (ewq==1){
+            flag=true;
+        }
+        cmEmp.setEwq(flag);
+        boolean flag1=empService.addEmp(cmCompany,cmRecruit,cmInter,cmEmp);
+        if (flag){
+            mv.setViewName("redirect:/emp/forAddEmp2");
+        }
+        return mv;
     }
     //张小丽：修改就业生
-    @RequestMapping(value = "/updateEmp",method = RequestMethod.GET)
-    public ModelAndView updateEmp(int sid, int user, String etime,int estate, String eleave,String ereason,
+    @RequestMapping(value = "/updateEmp",method = RequestMethod.POST)
+    public ModelAndView updateEmp(int sid, int user, String etime,
                             int esalary, String einfo, int ewq,ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
-        String ereason0=new String(ereason.getBytes("iso-8859-1"),"utf-8");
-        String einfo0=new String(einfo.getBytes("iso-8859-1"),"utf-8");
-       // System.out.print("这是一个时间----------"+eleave.length());
-        if(eleave.length()<=10){
-            eleave= eleave+" 00:00:00";
-        }else {
-            eleave=eleave.substring(0,19);
-        }
-        if(etime.length()<=10){
-            etime= etime+" 00:00:00";
-        }else {
-            etime=etime.substring(0,19);
-        }
-
-        boolean flag=empService.updateEmp(sid,user,etime,estate,eleave,ereason0,esalary,einfo0,ewq);
+        boolean flag=empService.updateEmp(sid,user,etime,esalary,einfo,ewq);
         if (flag){
             mv.setViewName("redirect:/emp/forUpdateEmp2?sid="+sid);
         }
         return mv;
     }
-    //张小丽：跳转到添加就业生页面，查询所有的用户，查询所有的岗位
+    //张小丽：为添加自己找工作的就业生准备forAddEmp
     @RequestMapping(value = "/forAddEmp", method = RequestMethod.GET)
     public String forAddEmp(ModelMap modelMap){
-        List<CmUser>data1=userService.findAllUser();
-        List<CmJob>data2=jobService.findAllJob();
-        List<CmCompany>data3=companyService.findAllCompany();
-        modelMap.addAttribute("allUser",data1);
-        modelMap.addAttribute("allJob",data2);
-        modelMap.addAttribute("allCompany",data3);
+        List<CmJob>data=jobService.findAllJob();
+        modelMap.addAttribute("allJob",data);
+        List<CmArea>data1=areaService.findAllArea();
+        modelMap.addAttribute("allAreaList",data1);
+
         return  "/system/employed/EmpAdd";
     }
+    //张小丽：为添加自己找工作的就业生准备forAddEmp
+    @RequestMapping(value = "/forAddEmp2", method = RequestMethod.GET)
+    public String forAddEmp2(ModelMap modelMap){
+        List<CmJob>data=jobService.findAllJob();
+        modelMap.addAttribute("allJob",data);
+        List<CmArea>data1=areaService.findAllArea();
+        modelMap.addAttribute("allAreaList",data1);
+        modelMap.addAttribute("state","10001");
+        modelMap.addAttribute("info","添加成功！");
+        return  "/system/employed/EmpAdd";
+    }
+
+
+
+
     //张小丽：为修改就业生信息做准备，查询出所有的公司，推荐人以及岗位
     @RequestMapping(value = "/forUpdateEmp", method = RequestMethod.GET)
-    public String updateEmp(int sid,ModelMap modelMap){
+    public String updateEmp(int sid,ModelMap modelMap) throws Exception{
         //查询所有管理员
         List<CmUser>data1=userService.findAllUser();
         //查询该同学的工作
@@ -105,6 +156,7 @@ public class EmpCtrl {
         //查询该同学的基本信息
         CmStudent cmStudent=studentService.findStuBySid(sid);
         CmEmp cmEmp=empService.findEmpBySid(sid);
+        //cmEmp.setEtime(new DateConvert().subDate(cmEmp.getEtime()));
         modelMap.addAttribute("allUser",data1);
         modelMap.addAttribute("findBySid",cmJob);
         modelMap.addAttribute("findCompanyBySid",cmCompany);

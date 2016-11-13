@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page isELIgnored="false"  %>
 <html>
 <head>
@@ -43,7 +44,7 @@
         <div>
             <span style="color: red" ><h3>${info}</h3></span><br>
             <!--这是一条记录开始-->
-            <form action="/emp/updateEmp" method="get">
+            <form action="/emp/updateEmp" method="post">
                 <input type="hidden" id="sid" name="sid" value="${findStuBySid.sid}">
                 <table  class="pure-table pure-table-bordered" style="text-align:left">
                     <tr>
@@ -85,35 +86,13 @@
                     <tr>
                         <td>薪资：</td>
                         <td>
-                            <input type="text" id="esalary" name="esalary" value="${findEmpBySid.esalary}" />
+                            <input type="text" id="esalary" name="esalary" value="${findEmpBySid.esalary}"  onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" />
                         </td>
-                    </tr>
                     </tr>
                     <tr>
                         <td>实习时间：</td>
                         <td>
-                            <input value="${findEmpBySid.etime}"   required="required" type="text" id="etime" name="etime" onclick="choose_date_czw('etime')"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>是否离职：</td>
-                        <td>
-                            <select id="estate" name="estate">
-                                <option id="estates" value="0" selected="selected">在岗</option>
-                                <option id="estates1" value="1">离职</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>离职时间：</td>
-                        <td>
-                            <input value="${findEmpBySid.etime}" required="required" type="text" id="eleave" name="eleave" onclick="choose_date_czw('eleave')"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>离职原因:</td>
-                        <td>
-                            <textarea cols="100" rows="4"  id="ereason" name="ereason">${findEmpBySid.ereason}</textarea>
+                            <input value="${fn:substring(findEmpBySid.etime,0,10)}"   required="required" type="text" id="etime" name="etime" onclick="choose_date_czw('etime')"/>
                         </td>
                     </tr>
                     <tr>
@@ -121,7 +100,9 @@
                         <td>
                             <select id="user" name="user">
                                 <c:forEach items="${allUser}" var="s" varStatus="stu">
-                                    <option id="uids" value="${s.uid}">${s.urname}</option>
+                                    <c:if test="${s.uid!=0}">
+                                        <option id="uids" value="${s.uid}">${s.urname}</option>
+                                    </c:if>
                                 </c:forEach>
                             </select>
                         </td>
@@ -130,8 +111,8 @@
                         <td>是否网签：</td>
                         <td>
                             <select id="ewq" name="ewq">
-                                <option id="ewq1" value="0" selected="selected">是</option>
-                                <option id="ewq2" value="1">否</option>
+                                <option id="ewq1" value="1" selected="selected">是</option>
+                                <option id="ewq2" value="0">否</option>
                             </select>
                         </td>
                     </tr>

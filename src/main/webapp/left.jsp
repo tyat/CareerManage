@@ -44,7 +44,7 @@
             <dd><a href="#" >就业生信息</a>
                 <ul>
                     <li><a href="/emp/findAllEmp" target=main>查看信息</a></li>
-                    <li><a href="#" target=main>添加就业生</a></li>
+                    <li><a href="/emp/forAddEmp" target=main>添加就业生</a></li>
                 </ul>
             </dd>
             <dd><a href="#" >未就业生信息</a>

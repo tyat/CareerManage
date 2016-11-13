@@ -64,10 +64,8 @@ public class UnempCtrl {
         }
         return  s;
     }
-
-
     //张小丽：添加未就业生
-    @RequestMapping(value = "/addUnEmp",method = RequestMethod.GET)
+    @RequestMapping(value = "/addUnEmp",method = RequestMethod.POST)
     public ModelAndView addUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws Exception{
         ModelAndView mv=new ModelAndView();
         CmStudent cmStudent=new CmStudent();
@@ -77,16 +75,16 @@ public class UnempCtrl {
        if (!uesalary.equals("")){
            CmJob cmJob=new CmJob();
            cmJob.setJid(Integer.parseInt(jid));
-           Date date=new DateConvert().StringtoDate(uetime+" 00:00:00");
+           Date date=new DateConvert().StringtoDate(uetime);
            CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
            boolean flag= unempServive.addUnEmp(cmUnemp);
            if (flag){
                mv.setViewName("redirect:/direction/selectAllDirection3");
            }
        }else{
-           String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
-           String uemajor0=new String(uemajor.getBytes("iso-8859-1"),"utf-8");
-           CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool0,uemajor0,uesuccess);
+//           String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
+//           String uemajor0=new String(uemajor.getBytes("iso-8859-1"),"utf-8");
+           CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
            boolean flag= unempServive.addUnEmp(cmUnemp);
            if (flag){
                mv.setViewName("redirect:/direction/selectAllDirection3");
@@ -95,21 +93,21 @@ public class UnempCtrl {
         return mv;
     }
     //张小丽：修改未就业
-    @RequestMapping(value = "/updateUnEmp",method = RequestMethod.GET)
+    @RequestMapping(value = "/updateUnEmp",method = RequestMethod.POST)
     public ModelAndView updateUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
         CmDirection cmDirection=new CmDirection();
         cmDirection.setDid(did);
         if (!uesalary.equals("")){
-            Date date=new DateConvert().StringtoDate(uetime+" 00:00:00");
+            Date date=new DateConvert().StringtoDate(uetime);
             boolean flag= unempServive.updateUnEmp(sid,did,Integer.parseInt(jid),Integer.parseInt(uesalary),date);
             if (flag){
                 mv.setViewName("redirect:/direction/selectAllDirection4?sid="+sid);
             }
         }else{
-            String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
-            String uemajor0=new String(uemajor.getBytes("iso-8859-1"),"utf-8");
-            boolean flag= unempServive.updateUnEmp2(sid,did,ueschool0,uemajor0,uesuccess);
+//            String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
+//            String uemajor0=new String(uemajor.getBytes("iso-8859-1"),"utf-8");
+            boolean flag= unempServive.updateUnEmp2(sid,did,ueschool,uemajor,uesuccess);
             if (flag){
                 mv.setViewName("redirect:/direction/selectAllDirection4?sid="+sid);
 

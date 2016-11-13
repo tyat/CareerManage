@@ -103,7 +103,7 @@
         </div>
         <span style="color: red" ><h3>${info}</h3></span><br>
         <div id="allUnEmp-table">
-            <form method="get" action="/unemp/addUnEmp">
+            <form method="post" action="/unemp/addUnEmp">
             <!--准备就业的表这是一条记录开始-->
                 <input  type="hidden" id="sid" name="sid" value=""/>
             <table  class="pure-table pure-table-bordered left">
@@ -162,7 +162,7 @@
                     </tr>
                     <tr >
                         <td width="200px">期望月薪：</td>
-                        <td><input type="text" id="uesalary" name="uesalary" value=""/></td>
+                        <td><input type="text" id="uesalary" name="uesalary" value=""  onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/></td>
                     </tr>
                     <tr>
                         <td>期望实习时间：</td>

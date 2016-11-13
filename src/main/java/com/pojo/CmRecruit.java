@@ -83,7 +83,6 @@ public class CmRecruit {
     public void setRstate(Integer rstate) {
         this.rstate = rstate;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

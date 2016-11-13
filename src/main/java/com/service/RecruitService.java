@@ -25,7 +25,6 @@ public class RecruitService {
     private CompanyService companyService;
     @Autowired
     private AreaService areaService;
-
     //增加招聘信息——ly
     public boolean addRecruit(int cid,int aid,int jid,int rsalary,Boolean rsex,int rnum,String rend,String rinfo) throws ParseException {
         CmRecruit recruit = new CmRecruit();

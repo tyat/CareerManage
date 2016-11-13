@@ -1,8 +1,10 @@
 package com.control;
+import com.pojo.CmEmp;
 import com.pojo.CmStudent;
 import com.ResObj.EmpResObj;
 import com.ResObj.InterResObj;
 import com.pojo.CmArea;
+import com.pojo.CmUnemp;
 import com.service.AreaService;
 import com.service.InterService;
 import com.service.StudentService;
@@ -50,6 +52,23 @@ public class StudentCtrl {
         modelMap.addAttribute("state","10001");
         modelMap.addAttribute("info","修改成功！");
         return "/system/not-employed/NotEmpUpdate";
+    }
+
+    //张小丽：用ajax查询该学生的信息，返回到前台面
+    @RequestMapping(value = "/selectStudentBySno", method = RequestMethod.GET)
+    @ResponseBody
+    public String selectStudentBySno(@RequestParam(value = "key", required = true) String key){
+        CmStudent cmStudent=studentService.findStuBySno(key);
+        CmUnemp cmUnemp=new CmUnemp();
+        CmEmp cmEmp=new CmEmp();
+        String s="";
+        if (cmStudent!=null){
+            s=cmStudent.getSid()+","+cmStudent.getSno()+","+cmStudent.getSname()+"," +cmStudent.getSsex()+
+                    ","+cmStudent.getSpro()+","+cmStudent.getSgrade()+","+cmStudent.getSclass();
+        }else{
+            s="null";
+        }
+        return  s;
     }
 
     //获取所有学生列表——ly

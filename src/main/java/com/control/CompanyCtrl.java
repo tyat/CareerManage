@@ -80,7 +80,7 @@ public class CompanyCtrl {
         String cinfo0=new String(cinfo.getBytes("iso-8859-1"),"utf-8");
         String cmark0=new String(cmark.getBytes("iso-8859-1"),"utf-8");
         String caddress0=new String(caddress.getBytes("iso-8859-1"),"utf-8");
-        boolean flag=companyService.updateCompany(cid, cname0, chr0, cphone, cemail, cinfo, cmark, caddress, city);
+        boolean flag=companyService.updateCompany(cid, cname0, chr0, cphone, cemail, cinfo0, cmark0, caddress0, city);
         if (flag){
           // "/system/company/CompUpdate"
             mv.setViewName("redirect:/company/findCompByCid2?cid="+cid);

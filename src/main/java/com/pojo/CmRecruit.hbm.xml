@@ -9,13 +9,13 @@
             <column name="rid" />
             <generator class="native" />
         </id>
-        <property name="rsex" column="rsex"/>
+        <property name="rsex" column="rsex" not-null="false"/>
         <property name="rsalary" column="rsalary"/>
-        <property name="rstart" column="rstart"/>
-        <property name="rend" column="rend"/>
+        <property name="rstart" column="rstart" not-null="false"/>
+        <property name="rend" column="rend" not-null="false"/>
         <property name="rnum" column="rnum"/>
         <property name="rinfo" column="rinfo"/>
-        <property name="rstate" column="rstate"/>
+        <property name="rstate" column="rstate" not-null="false"/>
         <many-to-one name="cmJobByJid" class="com.pojo.CmJob">
             <column name="jid"/>
         </many-to-one>
