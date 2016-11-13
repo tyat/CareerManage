@@ -11,7 +11,7 @@
         </id>
         <property name="dname" column="dname"/>
         <property name="dstate" column="dstate"/>
-        <set name="cmUnempsByDid" inverse="true">
+        <set name="cmUnempsByDid" inverse="true" cascade="all">
             <key>
                 <column name="did"/>
             </key>

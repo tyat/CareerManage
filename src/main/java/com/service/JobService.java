@@ -37,13 +37,13 @@ public class JobService {
         System.out.println("未查到相关数据！");
         return null;
     }
-    //张小丽：查询所有的岗位
+    //zxl：查询所有的岗位
     public List<CmJob> findAllJob(){
        String hsql="select new com.pojo.CmJob(j.jid,j.jname) from CmJob j";
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql);
         return  data;
     }
-    //张小丽：根据学生id查询其就业岗位
+    //zxl：根据学生id查询其就业岗位
     public  CmJob findBySid(int sid){
         String hsql="select  new com.pojo.CmJob(j.jid,j.jname) from CmInter i" +
                 "  inner join i.cmRecruitByRid r " +
@@ -53,7 +53,7 @@ public class JobService {
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,sid);
         return  data.get(0);
     }
-    //张小丽：根据招聘id查询招聘信息
+    //zxl：根据招聘id查询招聘信息
     public CmJob findRecruitByRid(int rid){
         String hsql="select new com.pojo.CmJob(j.jid,j.jname) from CmRecruit r inner join r.cmJobByJid j where r.rid=?";
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,rid);

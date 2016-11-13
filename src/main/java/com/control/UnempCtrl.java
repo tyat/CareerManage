@@ -34,7 +34,7 @@ public class UnempCtrl {
     private StudentService studentService;
     @Autowired
     private EmpService empService;
-    //张小丽：用ajax查询该学生的信息，返回到前台面
+    //zxl：用ajax查询该学生的信息，返回到前台面
     @RequestMapping(value = "/selectStuBySno", method = RequestMethod.GET)
     @ResponseBody
     public String selectStuBySno(@RequestParam(value = "key", required = true) String key){
@@ -67,7 +67,7 @@ public class UnempCtrl {
         }
         return  s;
     }
-    //张小丽：添加未就业生
+    //zxl：添加未就业生
     @RequestMapping(value = "/addUnEmp",method = RequestMethod.POST)
     public ModelAndView addUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws Exception{
         ModelAndView mv=new ModelAndView();
@@ -95,7 +95,7 @@ public class UnempCtrl {
        }
         return mv;
     }
-    //张小丽：修改未就业
+    //zxl：修改未就业
     @RequestMapping(value = "/updateUnEmp",method = RequestMethod.POST)
     public ModelAndView updateUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
@@ -118,7 +118,7 @@ public class UnempCtrl {
         }
         return mv;
     }
-    //张小丽：统计未就业情况分布
+    //zxl：统计未就业情况分布
     @RequestMapping(value = "/DrawUnEmp",method = RequestMethod.GET)
     public  String DrawNotEmp(ModelMap modelMap){
         int index0=unempServive.findSumNotEmp(0);

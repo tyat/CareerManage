@@ -3,7 +3,7 @@ package com.control;
 import com.pojo.CmArea;
 import com.service.AreaService;
 import com.service.UserService;
-import com.tools.UploadTool;
+//import com.tools.UploadTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,14 +26,14 @@ import java.util.Map;
 public class AreaCtrl {
     @Autowired
     private AreaService areaService;
-    //张小丽：查询数据库中所有省份
+    //zxl：查询数据库中所有省份
     @RequestMapping(value = "/selectAllArea",method = RequestMethod.GET)
     public  String  selectAllArea(ModelMap modelMap){
         List<CmArea>data=areaService.findAllArea();
        modelMap.addAttribute("allAreaList",data);
         return  "/system/company/CompAdd";
     }
-    //张小丽：查询数据库中所有省份
+    //zxl：查询数据库中所有省份
     @RequestMapping(value = "/selectAllArea2",method = RequestMethod.GET)
     public  String  selectAllArea2(ModelMap modelMap){
 
@@ -43,7 +43,7 @@ public class AreaCtrl {
         modelMap.addAttribute("allAreaList",data);
         return  "/system/company/CompAdd";
     }
-    //张小丽：查询某省份数据库中所有的城市
+    //zxl：查询某省份数据库中所有的城市
     @RequestMapping(value = "/selectCity ", method = RequestMethod.GET)
     @ResponseBody
     public String selectCity(@RequestParam(value = "key", required = true) String key) throws   Exception{

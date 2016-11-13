@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+
 /**
  * Created by LENOVO on 2016/10/20.
  * 企业信息的业务逻辑层
@@ -35,7 +36,7 @@ public class CompanyService {
         System.out.println("未查到相关数据！");
         return null;
     }
-    //张小丽：添加公司
+    //zxl：添加公司
     public boolean addCompany(CmCompany cmCompany){
         hibernateTemplate.save(cmCompany);
         return   true;
@@ -47,7 +48,7 @@ public class CompanyService {
        // hibernateTemplate.delete();
         return true;
     }
-    //张小丽：根据企业id查找企业信息，为修改企业信息做准备
+    //zxl：根据企业id查找企业信息，为修改企业信息做准备
     public  CmCompany  findCompByCid(int cid){
         String  hsql="select new com.pojo.CmCompany(c.cid,c.cname,c.chr,c.cphone,c.cemail,c.cinfo,c.cmark,c.caddress) " +
                 "from CmCompany c where c.cid=?";
@@ -60,7 +61,7 @@ public class CompanyService {
         List<?> cmCompanies=hibernateTemplate.find(hsql,cid);
         return   (CmCompany) cmCompanies.get(0);
     }
-    //张小丽：修改公司信息
+    //zxl：修改公司信息
     public boolean updateCompany(int cid,String cname,String chr,String cphone,String cemail,
                                  String cinfo,String cmark,String caddress,int city){
       // CmCompany cmCompany= this.findCompByCid2(cid);
@@ -70,13 +71,13 @@ public class CompanyService {
       //  hibernateTemplate.saveOrUpdate(cmCompany);
         return   true;
     }
-    //张小丽：查询所有公司
+    //zxl：查询所有公司
     public List<CmCompany>findAllCompany(){
         String hsql="select new com.pojo.CmCompany(c.cid,c.cname) from CmCompany c";
         List<CmCompany>data=(List<CmCompany>) hibernateTemplate.find(hsql);
         return   data;
     }
-    //张小丽：根据学生的id查询其所去的公司
+    //zxl：根据学生的id查询其所去的公司
     public CmCompany findCompanyBySid(int sid){
         String hsql="select new com.pojo.CmCompany(c.cid,c.cname)  from CmInter i  " +
                 "  inner join i.cmRecruitByRid r " +

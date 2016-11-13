@@ -40,14 +40,14 @@ public class StudentCtrl {
     private UnempService unempService;
 
 
-    //张小丽：根据id查询学生
+    //zxl：根据id查询学生
     @RequestMapping(value = "/findStuBySid",method = RequestMethod.GET )
     public  String findStuBySid(int sid,ModelMap modelMap){
         CmStudent cmStudent=studentService.findStuBySid(sid);
         modelMap.addAttribute("cmStudent",cmStudent);
         return "/system/not-employed/NotEmpUpdate";
     }
-    //张小丽：根据id查询学生
+    //zxl：根据id查询学生
     @RequestMapping(value = "/findStuBySid2",method = RequestMethod.GET )
     public  String findStuBySid2(int sid,ModelMap modelMap){
         CmStudent cmStudent=studentService.findStuBySid(sid);
@@ -57,7 +57,7 @@ public class StudentCtrl {
         return "/system/not-employed/NotEmpUpdate";
     }
 
-    //张小丽：用ajax查询该学生的信息，返回到前台面
+    //zxl：用ajax查询该学生的信息，返回到前台面
     @RequestMapping(value = "/selectStudentBySno", method = RequestMethod.GET)
     @ResponseBody
     public String selectStudentBySno(@RequestParam(value = "key", required = true) String key){

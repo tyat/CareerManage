@@ -39,12 +39,11 @@ public class EmpCtrl {
     private  StudentService studentService;
     @Autowired
     private AreaService areaService;
-    //张小丽：添加就业生
+    //zxl：添加就业生
     @RequestMapping(value = "/addEmp",method = RequestMethod.POST)
     public ModelAndView addEmp(int sid,String cname,String chr,String cphone,int city,String caddress,String cemail,
                          String etime,String itime,int Icity,String iaddress,String itype,int job,int Jcity,
                          int rsalary,int ewq,String einfo,String cinfo,String cmark, int add_time,int add_time2,ModelMap modelMap) throws  Exception{
-      System.out.print("zheshiyige9999999999999999-----------"+add_time+"---------------"+add_time2);
         ModelAndView mv=new ModelAndView();
         CmArea cmArea1=new CmArea();
         cmArea1.setAid(city);
@@ -87,7 +86,6 @@ public class EmpCtrl {
             }
         }
         itime=dates[0]+"-"+dates[1]+"-"+dates[2];
-      //  System.out.println("这是一个时间xxx------------"+itime+" " +sadd_time+":"+sadd_time2+";00");
         cmInter.setItime(new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"));
         cmInter.setItype(itype);
         CmEmp cmEmp=new CmEmp();
@@ -111,7 +109,7 @@ public class EmpCtrl {
         }
         return mv;
     }
-    //张小丽：修改就业生
+    //zxl：修改就业生
     @RequestMapping(value = "/updateEmp",method = RequestMethod.POST)
     public ModelAndView updateEmp(int sid, int user, String etime,
                             int esalary, String einfo, int ewq,ModelMap modelMap) throws  Exception{
@@ -122,7 +120,7 @@ public class EmpCtrl {
         }
         return mv;
     }
-    //张小丽：为添加自己找工作的就业生准备forAddEmp
+    //zxl：为添加自己找工作的就业生准备forAddEmp
     @RequestMapping(value = "/forAddEmp", method = RequestMethod.GET)
     public String forAddEmp(ModelMap modelMap){
         List<CmJob>data=jobService.findAllJob();
@@ -132,7 +130,7 @@ public class EmpCtrl {
 
         return  "/system/employed/EmpAdd";
     }
-    //张小丽：为添加自己找工作的就业生准备forAddEmp
+    //zxl：为添加自己找工作的就业生准备forAddEmp
     @RequestMapping(value = "/forAddEmp2", method = RequestMethod.GET)
     public String forAddEmp2(ModelMap modelMap){
         List<CmJob>data=jobService.findAllJob();
@@ -147,7 +145,7 @@ public class EmpCtrl {
 
 
 
-    //张小丽：为修改就业生信息做准备，查询出所有的公司，推荐人以及岗位
+    //zxl：为修改就业生信息做准备，查询出所有的公司，推荐人以及岗位
     @RequestMapping(value = "/forUpdateEmp", method = RequestMethod.GET)
     public String updateEmp(int sid,ModelMap modelMap) throws Exception{
         //查询所有管理员
@@ -167,7 +165,7 @@ public class EmpCtrl {
         modelMap.addAttribute("findEmpBySid",cmEmp);
         return  "/system/employed/EmpUpdate";
     }
-    //张小丽：为修改就业生信息做准备，查询出所有的公司，推荐人以及岗位
+    //zxl：为修改就业生信息做准备，查询出所有的公司，推荐人以及岗位
     @RequestMapping(value = "/forUpdateEmp2", method = RequestMethod.GET)
     public String updateEmp2(int sid,ModelMap modelMap){
         //查询所有管理员

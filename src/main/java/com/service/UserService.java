@@ -34,7 +34,7 @@ public class UserService {
         }
         return null;
     }
-    //张小丽：登录
+    //zxl：登录
     public CmUser findlogin(String uname,String upwd){
         String hsql = "from CmUser u where u.uname = ? and u.upwd = ? and u.ustate!=4";
         upwd=new MD5().getMD5String(upwd);
@@ -44,19 +44,19 @@ public class UserService {
         }
         return null;
     }
-    //张小丽：查询所有的用户
+    //zxl：查询所有的用户
     public List<CmUser> findAllUser(){
         String hsql="select  new com.pojo.CmUser(u.uid,u.urname) from CmUser u where u.uid!=0 ";
         List<CmUser>data=(List<CmUser>)hibernateTemplate.find(hsql);
         return  data;
     }
-    //张小丽：查询所有用户详细信息
+    //zxl：查询所有用户详细信息
     public List<CmUser>findAllUsers(){
         String hsql="select  new com.pojo.CmUser(u.uid,u.uname,u.urname, u.upwd, u.uemail, u.uphone,u.urank) from CmUser u where u.ustate=0 and u.uid!=0 ";
         List<CmUser>data=(List<CmUser>)hibernateTemplate.find(hsql);
         return  data;
     }
-    //张小丽：根据id和密码进行查询
+    //zxl：根据id和密码进行查询
     public  CmUser  findByUidUpwd(int uid, String oldpwd){
         String hsql = "from CmUser u where u.uid = ? and u.upwd = ? and u.ustate!=4";
         oldpwd=new MD5().getMD5String(oldpwd);
@@ -66,7 +66,7 @@ public class UserService {
         }
         return null;
     }
-    //张小丽：修改密码
+    //zxl：修改密码
     public  boolean updateUpwd(int uid, String oldpwd,String newpwd){
        CmUser cmUser=findByUidUpwd(uid,oldpwd);
         newpwd=new MD5().getMD5String(newpwd);
@@ -77,7 +77,7 @@ public class UserService {
         }
         return  false;
     }
-    //张小丽：根据用户名查询用户是否存在
+    //zxl：根据用户名查询用户是否存在
      public CmUser findUser(String uname){
          String hsql="select new com.pojo.CmUser(u.uname,u.upwd) from CmUser u where u.uname=?";
          List<CmUser>data=(List<CmUser>)hibernateTemplate.find(hsql,uname);
@@ -86,13 +86,13 @@ public class UserService {
          }
          return null;
      }
-    //张小丽：修改用户信息
+    //zxl：修改用户信息
     public boolean  updateUser(int uid1,String urname,String uphone,String uemail){
         String hsql="update CmUser u set u.urname=?,u.uphone=?,u.uemail=?  where u.uid=?";
         hibernateTemplate.bulkUpdate(hsql,urname,uphone,uemail,uid1);
         return true;
     }
-    //张小丽：根据id查询
+    //zxl：根据id查询
     public CmUser  findUserByUid(int uid){
         String hsql = "from CmUser u where u.uid = ?";
         List<?> data = hibernateTemplate.find(hsql,uid);
@@ -101,7 +101,7 @@ public class UserService {
         }
         return null;
     }
-    //张小丽：修改学生权限
+    //zxl：修改学生权限
      public  boolean updateUrank(int uid,int urank){
          String hsql="update CmUser u set u.urank=?  where u.uid=?";
          hibernateTemplate.bulkUpdate(hsql,urank,uid);

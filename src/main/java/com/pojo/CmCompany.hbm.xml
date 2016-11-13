@@ -23,7 +23,7 @@
         <many-to-one name="cmAreaByAid" class="com.pojo.CmArea" >
             <column name="aid"/>
         </many-to-one>
-        <set name="cmRecruitsByCid" inverse="true" >
+        <set name="cmRecruitsByCid" inverse="true"  cascade="all">
             <key>
                 <column name="cid"/>
             </key>

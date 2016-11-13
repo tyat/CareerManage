@@ -33,7 +33,7 @@ public class UserCtrl {
     public String index(){
         return "/login";
     }
-    //张小丽：添加用户
+    //zxl：添加用户
     @RequestMapping(value = "/register",method =RequestMethod.GET )
     @ResponseBody
     public Map<String,String> register(String uname, String urname,String upwd, String uemail,String uphone,int urank){
@@ -44,7 +44,7 @@ public class UserCtrl {
         data.put("info","插入成功!");
         return data;
     }
-    //张小丽：登陆
+    //zxl：登陆
     @RequestMapping(value = "/login",method =RequestMethod.POST)
     public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request){
         CmUser cmUser=userService.findlogin(uname,upwd);
@@ -62,14 +62,14 @@ public class UserCtrl {
         }
         return "/login";
     }
-    //张小丽：查询所有用户
+    //zxl：查询所有用户
     @RequestMapping(value = "/selectAllUser",method =RequestMethod.GET)
     public  String selectAllUser(ModelMap modelMap){
         List<CmUser>data=userService.findAllUsers();
         modelMap.addAttribute("allUsers",data);
         return "/system/admin/Admins";
     }
-    //张小丽：添加用户
+    //zxl：添加用户
     @RequestMapping(value = "/addUser",method =RequestMethod.GET)
     public ModelAndView addUser(String uname, String urname, String upwd, String uemail, String uphone, int urank)throws  Exception{
         ModelAndView mv=new ModelAndView();
@@ -82,8 +82,8 @@ public class UserCtrl {
         }
         return  mv;
     }
-    //张小丽：修改密码
-    @RequestMapping(value = "/updateUpwd",method =RequestMethod.GET)
+    //zxl：修改密码
+    @RequestMapping(value = "/updateUpwd",method =RequestMethod.POST)
     public  String updateUpwd(int uid, String oldpwd,String newpwd,ModelMap modelMap){
         boolean flag=userService.updateUpwd(uid,oldpwd,newpwd);
         if (flag){
@@ -93,7 +93,7 @@ public class UserCtrl {
         }
         return "/system/admin/adminInfo";
     }
-    //张小丽：修改密码
+    //zxl：查询该用户名是否存在
     @RequestMapping(value = "/selectUser",method =RequestMethod.GET)
     @ResponseBody
     public  String selectUser(@RequestParam(value = "key", required = true) String key){
@@ -103,7 +103,7 @@ public class UserCtrl {
         }
         return  "null";
     }
-    //张小丽：修改用户个人信息
+    //zxl：修改用户个人信息
     @RequestMapping(value = "/updateUser",method = RequestMethod.GET)
     public ModelAndView updateUser(int uid1,String urname,String uphone,String uemail) throws Exception{
         ModelAndView mv=new ModelAndView();
@@ -114,7 +114,7 @@ public class UserCtrl {
         }
         return  mv;
     }
-    //张小丽：根据根据id查询学生
+    //zxl：根据根据id查询学生
     @RequestMapping(value = "/findUserByUid",method = RequestMethod.GET)
     public  String findUserByUid(int uid,HttpServletRequest request,ModelMap modelMap){
         CmUser cmUser =userService.findUserByUid(uid);
@@ -122,7 +122,7 @@ public class UserCtrl {
         modelMap.addAttribute("info","修改成功！");
         return "/system/admin/adminInfo";
     }
-    //张小丽：修改用户权限
+    //zxl：修改用户权限
     @RequestMapping(value = "/updateUrank",method = RequestMethod.GET)
     public  ModelAndView updateUrank(int uid1,int urank1){
         ModelAndView mv =new ModelAndView();

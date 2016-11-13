@@ -107,7 +107,7 @@
         <div id="AdminPwd">
                 <button class="mybutton" type="button" onclick="HideAdminPwd()">取消</button>
             <p>修改密码</p>
-            <form  action="/user/updateUpwd" method="get" id="updateUpwd" name="updateUpwd">
+            <form  action="/user/updateUpwd" method="post" id="updateUpwd" name="updateUpwd">
                 <table  class="pure-table pure-table-bordered left">
                    <input type="hidden" id="uid" name="uid" value="${cmUser.uid}"/>
                     <tr>

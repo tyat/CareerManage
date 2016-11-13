@@ -14,7 +14,7 @@ public class DateConvert {
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         return ts;
     }
-    //张小丽：字符串转时间
+    //zxl：字符串转时间
     public Timestamp StringtoTime(String s)throws  Exception{
         DateFormat df = DateFormat.getDateInstance();
         Date d = df.parse(s);
@@ -22,7 +22,7 @@ public class DateConvert {
         Timestamp ts = new Timestamp(da);
         return  ts;
     }
-    //张小丽：字符串转时间
+    //zxl：字符串转时间
     public Timestamp StringtoTime2(String s)throws  Exception{
         SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String time = df1.format( StringtoDate2(s));
@@ -32,19 +32,19 @@ public class DateConvert {
 //        Timestamp ts = new Timestamp(d.getTime());
         return  ts;
     }
-    //张小丽：字符串转date
+    //zxl：字符串转date
     public java.sql.Date StringtoDate(String s) throws  Exception{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date=sdf.parse(s);
         return  new java.sql.Date(date.getTime());
     }
-    //张小丽：字符串转date
+    //zxl：字符串转date
     public java.sql.Date StringtoDate2(String s) throws  Exception{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date=sdf.parse(s);
         return  new java.sql.Date(date.getTime());
     }
-    //张小丽：得到系统sql时间
+    //zxl：得到系统sql时间
     public java.sql.Date SysDate() throws  Exception{
         String dt = new String(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

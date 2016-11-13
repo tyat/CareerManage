@@ -14,7 +14,7 @@ import java.util.List;
 public class DirectionService {
     @Autowired
     private HibernateTemplate hibernateTemplate;
-    //张小丽：查询所有动向
+    //zxl：查询所有动向
     public List<CmDirection> findAllDirection(){
         String hsql="from CmDirection d";
         List<CmDirection>data=(List<CmDirection>) hibernateTemplate.find(hsql);
