@@ -3,14 +3,17 @@ package com.control;
 import com.pojo.CmArea;
 import com.service.AreaService;
 import com.service.UserService;
+import com.tools.UploadTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,5 +66,27 @@ public class AreaCtrl {
         List<CmArea> cityList = areaService.findCityByAprovince(aprovince);
         System.out.println("cityList----"+cityList);
         return cityList;
+    }
+
+    /*TianYu 地区数据导入*/
+    @RequestMapping(value = "/inputArea")
+    public String inputArea(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model){
+        String path = request.getSession().getServletContext().getRealPath("upload");
+        String msg;
+        String fileName = file.getOriginalFilename();
+        System.out.println("File------------"+path+"\\"+fileName);
+        File targetFile = new File(path, fileName);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+        try {
+            file.transferTo(targetFile);
+        } catch (Exception e) {
+            msg = "文件上传失败！";
+        }
+        msg = areaService.uploadArea(path+"\\"+fileName);
+        model.addAttribute("file", msg);
+        System.out.println(msg);
+        return "/system/admin/inputData";
     }
 }

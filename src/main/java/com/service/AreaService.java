@@ -1,10 +1,14 @@
 package com.service;
 
 import com.pojo.CmArea;
+import com.tools.InputData;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +42,29 @@ public class AreaService {
         }
         System.out.println("未查到相关数据！");
         return null;
+    }
+
+    /*TianYu 上传excel*/
+    public String uploadArea(String path){
+        InputData input = new InputData();
+        //Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
+        //Transaction t = session.beginTransaction();
+        try {
+            //t.begin();
+            List<CmArea>  ls = input.inputArea(path);
+            for (CmArea ca : ls){
+                //hibernateTemplate.save(ca);
+                hibernateTemplate.saveOrUpdate(ca);
+                hibernateTemplate.flush();
+                //session.save(ca);
+                //session.flush();
+            }
+           // t.commit();
+            //session.close();
+            return "导入成功！";
+        } catch (IOException e) {
+            return "数据格式错误！";
+        }
     }
 
 }

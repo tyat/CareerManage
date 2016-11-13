@@ -51,9 +51,9 @@
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
             <tx:method name="del*" propagation="REQUIRED" />
-            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="get*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="page*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="get*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="page*" propagation="REQUIRED" read-only="false" />
             <tx:method name="createHQLQuery" propagation="REQUIRED" />
             <tx:method name="createSQLQuery" propagation="REQUIRED" />
         </tx:attributes>
@@ -63,5 +63,9 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
     </aop:config>
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760" />
+    </bean>
 
 </beans>
