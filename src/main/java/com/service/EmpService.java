@@ -26,6 +26,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 
+
 /**
  * Created by Administrator on 2016/10/30.
  */
@@ -48,7 +49,7 @@ public class EmpService {
     //zxl：添加就业生
     public boolean  addEmp2(int rid,int sid,String esalary,String etime,int ewq,int uid,String einfo)throws Exception{
        CmJob cmJob=jobService.findRecruitByRid(rid);
-        //CmEmp inemp=new EmpService().findEmpBySid(sid);
+      //  CmEmp inemp=new EmpService().findEmpBySid(sid);
         CmEmp cmEmp=new CmEmp();
         cmEmp.setEtime(new DateConvert().StringtoTime(etime));
         if (ewq==1){
@@ -68,9 +69,10 @@ public class EmpService {
     }
     //zxl：根据学生id查询该就业生的就业信息
     public  CmEmp findEmpBySid(int sid){
-        System.out.println("这是一个id-----"+sid);
-        String hsql="from CmEmp e where e.cmStudentBySid.sid=? and e.estate!=2";
-       List<?> data= hibernateTemplate.find(hsql,sid);
+        System.out.println("这是一个idnnnnnnnnnnnn-----"+sid);
+        String hsql="from CmEmp e where e.cmStudentBySid.sno='201303204326' and e.estate!=2";
+         List<?> data= hibernateTemplate.find(hsql,sid);
+        System.out.println("这是一个datesize---------------------"+data.size());
         if (data.size()>0){
             return  (CmEmp) data.get(0);
         }

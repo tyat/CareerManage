@@ -11,17 +11,17 @@
 <html>
 <head>
     <title>登录</title>
-    <link rel="stylesheet" type="text/css" href="css/default.css"/>
-    <script type="text/javascript" src="js/valid.js" ></script>
+    <link rel="stylesheet" type="text/css" href="/css/default.css"/>
+    <script type="text/javascript" src="/js/valid.js" ></script>
 </head>
 <style>
     body{
-        background: url(img/welcome-bg2.png);
+        background: url(/img/welcome-bg2.png);
     }
 </style>
 <body>
 <div class="logo2">
-    <img src="img/title.png" />
+    <img src="/img/title.png" />
 </div>
 <div class="login-bg">
     <div class="login-form-box">

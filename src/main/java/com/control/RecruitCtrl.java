@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,6 @@ public class RecruitCtrl {
     private CompanyService companyService;
     @Autowired
     private AreaService  areaService;
-
     //获取所有招聘信息列表——ly
     @RequestMapping(value = "/recruit/findAllRecruits",method = RequestMethod.GET )
     public String findAll(ModelMap modelMap){

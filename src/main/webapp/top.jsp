@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Title</title>
@@ -20,8 +22,8 @@
     <a href="main.html" target=main><img src="img/title.png" alt="回到主页" /></a>
 </div>
 <div class="loginpic">
-    <button id="user_icon" type="button"  value="login_user"><span>&nbsp;&nbsp;&nbsp;当前用户：毛老师</span></button>
-    <button id="loginout_icon" type="button" value="logout" onclick="AreYouSourOut();"> <span>退出</span> </button>
+    <button id="user_icon" type="button"  value="login_user"><span>&nbsp;&nbsp;&nbsp;当前用户：${cmUser.uname}</span></button>
+    <a id="loginout_icon"  href="/user/quit" target="_self;index" > <span style="font-size: 10px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出</span> </a>
 </div>
 <div class="indexline"></div>
 </body>
