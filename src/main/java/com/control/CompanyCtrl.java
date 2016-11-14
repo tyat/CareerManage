@@ -10,6 +10,7 @@ import com.service.AreaService;
 import com.service.CompanyService;
 import com.service.JobService;
 import com.service.UserService;
+import com.sun.jndi.cosnaming.CNCtx;
 import com.tools.DateConvert;
 import com.tools.InputData;
 import org.apache.commons.io.FileUtils;
@@ -71,8 +72,12 @@ public class CompanyCtrl {
     public String findCompByCid(int cid, ModelMap  modelMap){
        CmCompany cmCompany=companyService.findCompByCid(cid);
         List<CmArea> data=areaService.findAllArea();
+        CmArea cmArea=areaService.findAreaByCid(cid);
+        cmCompany.setCmAreaByAid(cmArea);
+        List<CmArea>data2=areaService.findAreaByAApro(cmArea.getAprovince());
         modelMap.addAttribute("allAreaList",data);
         modelMap.put("findCompByCid",cmCompany);
+        modelMap.put("findCityByApro",data2);
         return  "/system/company/CompUpdate";
     }
     //张小丽：根据公司ID查询，即查找需要修改的公司信息
@@ -80,6 +85,12 @@ public class CompanyCtrl {
     public String findCompByCid2(int cid, ModelMap  modelMap){
         CmCompany cmCompany=companyService.findCompByCid(cid);
         List<CmArea> data=areaService.findAllArea();
+        CmArea cmArea=areaService.findAreaByCid(cid);
+        cmCompany.setCmAreaByAid(cmArea);
+        List<CmArea>data2=areaService.findAreaByAApro(cmArea.getAprovince());
+        modelMap.addAttribute("allAreaList",data);
+        modelMap.put("findCompByCid",cmCompany);
+        modelMap.put("findCityByApro",data2);
         modelMap.addAttribute("state","10001");
         modelMap.addAttribute("info","修改成功！");
         modelMap.addAttribute("allAreaList",data);

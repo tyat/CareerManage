@@ -88,10 +88,10 @@ public class EmpService {
         }
         return  null;
     }
-    //zxl：修改学生信息
+    //zxl：修改就业学生信息
     public boolean updateEmp(int sid, int user, String etime, int esalary, String einfo, int ewq)throws  Exception{
         //CmEmp cmEmp=this.findEmpBySid(sid);
-        boolean flag=true;
+        boolean flag=false;
         if (ewq==1){
             flag=true;
         }else{
@@ -104,8 +104,6 @@ public class EmpService {
         return  true;
 
     }
-
-
     /*TianYu 上传excel*/
     public String uploadEmp(String path){
         InputData input = new InputData();

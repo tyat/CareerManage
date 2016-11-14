@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.*" isELIgnored="false" %>
 <html>
@@ -78,7 +79,7 @@
                                 </c:if>
                             </td>
                             <td rowspan="3">
-                                <button class="mybutton" type="button" onclick="location='/emp/forUpdateEmp?sid=${emplist.sid}'">编辑</button>
+                                <button class="mybutton" type="button" onclick="location='/emp/forUpdateEmp?sid=${list.sid}'">编辑</button>
                             </td>
                         </tr>
                         <tr>
@@ -95,7 +96,7 @@
                         </tr>
                         <tr>
                             <td>实习日期：</td>
-                            <td colspan="2">${list.etime}</td>
+                            <td colspan="2">${fn:substring(list.etime,0,10)}</td>
                             <td>实习补贴：</td>
                             <td colspan="2">${list.esalary}元/月</td>
                             <td rowspan="4">
@@ -150,7 +151,7 @@
                                 </c:if>
                             </td>
                             <td rowspan="3">
-                                <button class="mybutton" type="button" onclick="location='/emp/forUpdateEmp?sid=${emplist.sid}'">编辑</button>
+                                <button class="mybutton" type="button" onclick="location='/emp/forUpdateEmp?sid=${list.sid}'">编辑</button>
                             </td>
                         </tr>
                         <tr>
@@ -168,7 +169,7 @@
                         </tr>
                         <tr>
                             <td>实习日期：</td>
-                            <td colspan="2">${list.etime}</td>
+                            <td colspan="2">${fn:substring(list.etime,0,10)}</td>
                             <td>实习补贴：</td>
                             <td colspan="2">${list.esalary}元/月</td>
                             <td rowspan="4">

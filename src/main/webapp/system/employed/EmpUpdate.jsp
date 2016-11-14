@@ -101,7 +101,7 @@
                             <select id="user" name="user">
                                 <c:forEach items="${allUser}" var="s" varStatus="stu">
                                     <c:if test="${s.uid!=0}">
-                                        <option id="uids" value="${s.uid}">${s.urname}</option>
+                                        <option id="uids" value="${s.uid}" <c:if test="${s.uid==findUserByEmp.uid}">selected="selected"</c:if>>${s.urname}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -111,8 +111,8 @@
                         <td>是否网签：</td>
                         <td>
                             <select id="ewq" name="ewq">
-                                <option id="ewq1" value="1" selected="selected">是</option>
-                                <option id="ewq2" value="0">否</option>
+                                <option id="ewq1" value="1" <c:if test="${findEmpBySid.ewq==true}">selected="selected"</c:if>>是</option>
+                                <option id="ewq2" value="0" <c:if test="${findEmpBySid.ewq==false}">selected="selected"</c:if>>否</option>
                             </select>
                         </td>
                     </tr>

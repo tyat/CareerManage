@@ -107,11 +107,12 @@ public class UnempCtrl {
         ModelAndView mv=new ModelAndView();
         CmDirection cmDirection=new CmDirection();
         cmDirection.setDid(did);
-        if (!uesalary.equals("")){
+        if (!(did==2||did==5)){
             Date date=new DateConvert().StringtoDate(uetime);
             boolean flag= unempServive.updateUnEmp(sid,did,Integer.parseInt(jid),Integer.parseInt(uesalary),date);
             if (flag){
                 mv.setViewName("redirect:/direction/selectAllDirection4?sid="+sid);
+               // System.out.println("这是一个傻逼的sid-----------------"+sid);
             }
         }else{
 //            String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");

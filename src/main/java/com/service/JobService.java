@@ -59,6 +59,12 @@ public class JobService {
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,rid);
         return  data.get(0);
     }
+    //zxl:查询未就业生的期望岗位
+    public CmJob findJobByUeid(int ueid){
+        String hsql="select  new com.pojo.CmJob(j.jid,j.jname)  from  CmUnemp un inner  join  un.cmJobByJid j where un.ueid=?";
+        List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,ueid);
+        return  data.get(0);
+    }
 
     /**
      * 查询显示所有的岗位信息

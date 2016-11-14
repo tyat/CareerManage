@@ -107,6 +107,13 @@ public class UserService {
          hibernateTemplate.bulkUpdate(hsql,urank,uid);
          return  true;
      }
+    //zxl:查询就业生的推荐人
+    public CmUser findUserByEmp(int eid){
+        String hsql="select  new com.pojo.CmUser(u.uid,u.uname,u.urname, u.upwd, u.uemail, u.uphone,u.urank) " +
+                "from CmEmp e inner join e.cmUserByUid u where e.eid=?";
+        List<CmUser>data=(List<CmUser>) hibernateTemplate.find(hsql,eid);
+        return  data.get(0);
+    }
 
 
     public static void main(String[] args){

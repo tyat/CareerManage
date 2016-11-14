@@ -3,10 +3,12 @@ package com.control;
 import com.pojo.CmDirection;
 import com.pojo.CmJob;
 import com.pojo.CmStudent;
+import com.pojo.CmUnemp;
 import com.service.DirectionService;
 import com.service.JobService;
 import com.service.StudentService;
 //import com.service.UnempServive;
+import com.service.UnempService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,6 +32,8 @@ public class DirectionCtrl {
     private JobService jobService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private UnempService unempService;
     //zxl：查询所有动向
     @RequestMapping(value = "/selectAllDirection",method = RequestMethod.GET)
     public String selectAllDirection(ModelMap modelMap){
@@ -45,9 +49,15 @@ public class DirectionCtrl {
         CmStudent cmStudent=studentService.findStuBySid(sid);
         List<CmDirection> data=directionService.findAllDirection();
         List<CmJob> data1=jobService.findAllJob();
+        CmUnemp cmUnemp=unempService.findUnEmpBySid(sid);
+        CmJob cmJob=jobService.findJobByUeid(cmUnemp.getUeid());
+        CmDirection cmDirection=directionService.findDirByUeid(cmUnemp.getUeid());
         modelMap.put("allDirection",data);
         modelMap.put("allJob",data1);
         modelMap.put("cmStudent",cmStudent);
+        modelMap.put("cmUnemp",cmUnemp);
+        modelMap.put("cmJob",cmJob);
+        modelMap.put("cmDirection",cmDirection);
         return  "/system/not-employed/NotEmpUpdate";
     }
     //zxl：查询所有动向
@@ -67,11 +77,17 @@ public class DirectionCtrl {
         CmStudent cmStudent=studentService.findStuBySid(sid);
         List<CmDirection> data=directionService.findAllDirection();
         List<CmJob> data1=jobService.findAllJob();
-        modelMap.addAttribute("state","10001");
-        modelMap.addAttribute("info","修改成功！");
+        CmUnemp cmUnemp=unempService.findUnEmpBySid(sid);
+        CmJob cmJob=jobService.findJobByUeid(cmUnemp.getUeid());
+        CmDirection cmDirection=directionService.findDirByUeid(cmUnemp.getUeid());
         modelMap.put("allDirection",data);
         modelMap.put("allJob",data1);
         modelMap.put("cmStudent",cmStudent);
+        modelMap.put("cmUnemp",cmUnemp);
+        modelMap.put("cmJob",cmJob);
+        modelMap.put("cmDirection",cmDirection);
+        modelMap.addAttribute("state","10001");
+        modelMap.addAttribute("info","修改成功！");
         return  "/system/not-employed/NotEmpUpdate";
     }
     /**

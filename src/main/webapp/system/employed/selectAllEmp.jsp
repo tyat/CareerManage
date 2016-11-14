@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="com.*" isELIgnored="false" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -93,7 +94,7 @@
                 </tr>
                 <tr>
                     <td>实习日期：</td>
-                    <td colspan="2">${emplist.etime}</td>
+                    <td colspan="2">${fn:substring(emplist.etime,0,10)}</td>
                     <td>实习补贴：</td>
                     <td colspan="2">${emplist.esalary}元/月</td>
                     <td rowspan="4">
@@ -168,7 +169,7 @@
                 </tr>
                 <tr>
                     <td>实习日期：</td>
-                    <td colspan="2">${emplist.etime}</td>
+                    <td colspan="2">${fn:substring(emplist.etime,0,10)}</td>
                     <td>实习补贴：</td>
                     <td colspan="2">${emplist.esalary}元/月</td>
                     <td rowspan="4">

@@ -90,7 +90,7 @@ public class UnempService {
     }
     //zxl：根据id查询为就业学生信息
     public CmUnemp findUnEmpBySid(int sid){
-        String hsql="select un from CmUnEmp un where  un.cmStudentBySid.sid=?";
+        String hsql="select un from CmUnemp un where  un.cmStudentBySid.sid=? and un.uestate!=1";
         List<CmUnemp>data= (List<CmUnemp>) hibernateTemplate.find(hsql,sid);
         return data.get(0);
     }
@@ -102,7 +102,7 @@ public class UnempService {
     }
     //zxl：修改未就业生信息，考研保研人员
     public  boolean updateUnEmp2(int sid, int  did,String ueschool,String uemajor,int uesuccess){
-        String hsql="update CmUnemp un set un.cmDirectionByDid.did=?,un.cmJobByJid.jid=null ,un.uesalary=null ,un.uetime=null ,un.ueschool=?,un.uemajor=? ,un.uesuccess=? where un.cmStudentBySid.sid=?";
+        String hsql="update CmUnemp un set un.cmDirectionByDid.did=?,un.cmJobByJid.jid=0 ,un.uesalary=null ,un.uetime=null ,un.ueschool=?,un.uemajor=? ,un.uesuccess=? where un.cmStudentBySid.sid=?";
         hibernateTemplate.bulkUpdate(hsql,did,ueschool,uemajor,uesuccess,sid);
         return  true;
     }

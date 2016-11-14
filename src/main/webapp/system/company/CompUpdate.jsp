@@ -42,9 +42,13 @@
                     alert(msg);
                 }
             });
-        } </script>
+        }
+     function startload() {
+
+     }
+    </script>
 </head>
-<body>
+<body onload="startload()">
 <div class="table-box">
     <div class="table-content">
         <!--这是标题栏-->
@@ -106,13 +110,15 @@
                     <td>详细地址：</td>
                     <td colspan="4">
                         <select  name="aprovince" id="aprovince" onchange="provinceajax()">
-                            <option id="aprovinces" value="${findCompByCid.cmAreaByAid.aprovince}">${findCompByCid.cmAreaByAid.aprovince}</option>
+                            <%--<option id="aprovinces" value="${findCompByCid.cmAreaByAid.aprovince}">${findCompByCid.cmAreaByAid.aprovince}</option>--%>
                             <c:forEach items="${allAreaList}" var="s" varStatus="stu">
-                                <option id="aprovinces" value="${s.aprovince}">${s.aprovince}</option>
+                                <option id="aprovinces" value="${s.aprovince}" <c:if test="${s.aprovince==findCompByCid.cmAreaByAid.aprovince}"> selected="selected"</c:if>>${s.aprovince}</option>
                             </c:forEach>
                         </select>
                         <select name="city" id="city"  >
-                            <option selected value="${findCompByCid.cmAreaByAid.aid}">${findCompByCid.cmAreaByAid.acity}</option>
+                            <c:forEach items="${findCityByApro}" var="s" varStatus="stu">
+                                <option id="aprovinces" value="${s.aid}" <c:if test="${s.aid==findCompByCid.cmAreaByAid.aid}"> selected="selected"</c:if>>${s.acity}</option>
+                            </c:forEach>
                         </select>
                         <input  name="caddress" id="caddress" value="${findCompByCid.caddress}"  onfocus="javascript:if(this.value=='请在此处填写详细地址.....')this.value='';" />
                     </td>

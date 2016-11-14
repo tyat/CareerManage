@@ -32,6 +32,19 @@ public class AreaService {
         List<CmArea>data=(List<CmArea>) hibernateTemplate.find(hsql,aprovince);
         return data;
     }
+    //zxl:查询某公司的地址
+    public CmArea findAreaByCid(int cid){
+        String hsql="select new com.pojo.CmArea(m.aid,m.aprovince,m.acity) from" +
+                "   CmCompany c inner join c.cmAreaByAid m where c.cid=?";
+        List<CmArea>data=(List<CmArea>)hibernateTemplate.find(hsql,cid);
+        return data.get(0);
+    }
+    //zxl：根据省份查询城市
+    public List<CmArea> findAreaByAApro(String aprovince){
+        String hsql="select new com.pojo.CmArea(m.aid,m.aprovince,m.acity) from CmArea m where m.aprovince=?";
+        List<CmArea>data=(List<CmArea>)hibernateTemplate.find(hsql,aprovince);
+        return data;
+    }
 
     //按aid查询地区——ly
     public CmArea findByAid(int aid){

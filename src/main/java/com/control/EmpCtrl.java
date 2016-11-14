@@ -163,12 +163,14 @@ public class EmpCtrl {
         //查询该同学的基本信息
         CmStudent cmStudent=studentService.findStuBySid(sid);
         CmEmp cmEmp=empService.findEmpBySid(sid);
+        CmUser cmUser=userService.findUserByEmp(cmEmp.getEid());
         //cmEmp.setEtime(new DateConvert().subDate(cmEmp.getEtime()));
         modelMap.addAttribute("allUser",data1);
         modelMap.addAttribute("findBySid",cmJob);
         modelMap.addAttribute("findCompanyBySid",cmCompany);
         modelMap.addAttribute("findStuBySid",cmStudent);
         modelMap.addAttribute("findEmpBySid",cmEmp);
+        modelMap.addAttribute("findUserByEmp",cmUser);
         return  "/system/employed/EmpUpdate";
     }
     //zxl：为修改就业生信息做准备，查询出所有的公司，推荐人以及岗位
@@ -183,6 +185,7 @@ public class EmpCtrl {
         //查询该同学的基本信息
         CmStudent cmStudent=studentService.findStuBySid(sid);
         CmEmp cmEmp=empService.findEmpBySid(sid);
+        CmUser cmUser=userService.findUserByEmp(cmEmp.getEid());
         modelMap.addAttribute("state","10001");
         modelMap.addAttribute("info","修改成功！");
         modelMap.addAttribute("allUser",data1);
@@ -190,6 +193,7 @@ public class EmpCtrl {
         modelMap.addAttribute("findCompanyBySid",cmCompany);
         modelMap.addAttribute("findStuBySid",cmStudent);
         modelMap.addAttribute("findEmpBySid",cmEmp);
+        modelMap.addAttribute("findUserByEmp",cmUser);
         return  "/system/employed/EmpUpdate";
     }
 
