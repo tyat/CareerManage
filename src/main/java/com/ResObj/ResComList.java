@@ -1,47 +1,39 @@
 package com.ResObj;
 
+import com.pojo.CmJob;
+
 import java.util.Date;
+import java.util.List;
 
 /**
- * Created by LENOVO on 2016/10/26.
+ * Created by LENOVO on 2016/11/11.
  */
-public class ResCompanyObj {
+public class ResComList {
     private Integer cid;
     private String cname;
     private String chr;
     private String cphone;
     private Integer cstate;
     private Integer rid;
-    private Integer jid;
-    private String jname;
+    private List<CmJob> cmJobs;
     private Integer iid;
     private Date itime;
     private Integer isuccess;
 
-    public ResCompanyObj() {
-    }
-
-    public ResCompanyObj(Integer cid, String cname, String chr, String cphone, Integer cstate, Integer rid, Integer jid, String jname) {
+    public ResComList(Integer cid, String cname, String chr, String cphone, Integer cstate, Integer rid, List<CmJob> cmJobs, Integer iid, Date itime, Integer isuccess) {
         this.cid = cid;
         this.cname = cname;
         this.chr = chr;
         this.cphone = cphone;
         this.cstate = cstate;
         this.rid = rid;
-        this.jid = jid;
-        this.jname = jname;
-    }
-
-    public ResCompanyObj(Integer cid, String cname, String chr, String cphone, Integer cstate, Integer rid, Integer iid, Date itime, Integer isuccess) {
-        this.cid = cid;
-        this.cname = cname;
-        this.chr = chr;
-        this.cphone = cphone;
-        this.cstate = cstate;
-        this.rid = rid;
+        this.cmJobs = cmJobs;
         this.iid = iid;
         this.itime = itime;
         this.isuccess = isuccess;
+    }
+
+    public ResComList() {
     }
 
     public Integer getCid() {
@@ -92,20 +84,12 @@ public class ResCompanyObj {
         this.rid = rid;
     }
 
-    public Integer getJid() {
-        return jid;
+    public List<CmJob> getCmJobs() {
+        return cmJobs;
     }
 
-    public void setJid(Integer jid) {
-        this.jid = jid;
-    }
-
-    public String getJname() {
-        return jname;
-    }
-
-    public void setJname(String jname) {
-        this.jname = jname;
+    public void setCmJobs(List<CmJob> cmJobs) {
+        this.cmJobs = cmJobs;
     }
 
     public Integer getIid() {

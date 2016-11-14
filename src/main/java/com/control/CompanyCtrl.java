@@ -1,11 +1,14 @@
 package com.control;
 
+import com.ResObj.ResComList;
 import com.ResObj.ResCompanyObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
+import com.pojo.CmJob;
 import com.pojo.CmUser;
 import com.service.AreaService;
 import com.service.CompanyService;
+import com.service.JobService;
 import com.service.UserService;
 import com.tools.DateConvert;
 import com.tools.InputData;
@@ -27,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +45,8 @@ public class CompanyCtrl {
     private CompanyService companyService;
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private JobService jobService;
     //张小丽：添加公司
     @RequestMapping(value = "/addCompany",method = RequestMethod.GET)
     public ModelAndView addCompany(String cname,String chr,String cphone,String cemail,
@@ -102,13 +108,33 @@ public class CompanyCtrl {
      * @return
      */
     @RequestMapping(value = "/findAllCompany")
-    public ModelAndView findAllCompany(ModelMap modelMap){
-        ModelAndView mv = new ModelAndView();
-        List<ResCompanyObj> companyList = companyService.FindALLCompany();
-        System.out.println(companyList);
+    public String findAllCompany(ModelMap modelMap){
+        List<ResComList> companyList = new ArrayList<>();
+        List<ResCompanyObj> company = companyService.FindALLCompany();
+        for(ResCompanyObj com : company){
+            ResComList rcl = new ResComList();
+            rcl.setCstate(com.getCstate());
+            rcl.setChr(com.getChr());
+            rcl.setCid(com.getCid());
+            rcl.setCname(com.getCname());
+            rcl.setCphone(com.getCphone());
+            rcl.setIid(com.getIid());
+            rcl.setItime(com.getItime());
+            rcl.setIsuccess(com.getIsuccess());
+            rcl.setRid(com.getRid());
+            //按Cid查询该公司有多少招聘岗位
+            rcl.setCmJobs(jobService.findJobByCid(com.getCid()));
+            companyList.add(rcl);
+        }
+        //每页显示的条数
+        int pageSize = 5;
+        int page = 1;
+        //计算公司总数
+        int total = companyService.CompanyCount();
+        String pageCode = this.genPagation(total, page, pageSize);
         modelMap.addAttribute("companylist",companyList);
-        mv.setViewName("system/company/selectAllCom");
-        return mv;
+        modelMap.put("pageCode",pageCode);
+        return "system/company/selectAllCom";
     }
 
     /**
@@ -118,14 +144,15 @@ public class CompanyCtrl {
      * @return
      */
     @RequestMapping(value = "/findByCompCid")
-    @ResponseBody
-    public ModelAndView SelectByCid(ModelMap modelMap,String cid){
-        ModelAndView mv = new ModelAndView();
+    public String SelectByCid(ModelMap modelMap,String cid){
         System.out.println(cid);
-        List<CmCompany> dateList = companyService.findCompByCid1(Integer.parseInt(cid));
+        List<CmCompany> dateList = companyService.findByCompCid(Integer.parseInt(cid));
+        for(CmCompany comp : dateList) {
+            List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
+            modelMap.addAttribute("jobList",jobList);
+        }
         modelMap.addAttribute("dateList",dateList);
-        mv.setViewName("system/company/CompInfo");
-        return mv;
+        return  "/system/company/CompInfo";
     }
     /**
      * 按条件搜索相关企业
@@ -140,12 +167,17 @@ public class CompanyCtrl {
         System.out.println(searchtext);
         if(searchType.equals("cname")) {
             List<ResCompanyObj> listdata = companyService.FindByCName(searchtext);
+            for(ResCompanyObj comp : listdata){
+                List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
+                modelMap.addAttribute("jobList",jobList);
+            }
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("chr")){
             List<ResCompanyObj> listdata = companyService.FindByCHr(searchtext);
-            modelMap.addAttribute("listdata", listdata);
-        }else if(searchType.equals("jname")){
-            List<ResCompanyObj> listdata = companyService.FindByCJname(searchtext);
+            for(ResCompanyObj comp : listdata){
+                List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
+                modelMap.addAttribute("jobList",jobList);
+            }
             modelMap.addAttribute("listdata", listdata);
         }
         mv.setViewName("system/company/CompSearch");
@@ -168,6 +200,42 @@ public class CompanyCtrl {
         }
         return null;
     }
+
+    /**
+     * 分页处理
+     * @param totalNum 总页数
+     * @param currentPage 当前页
+     * @param pageSize 一页显示几条
+     * @return
+     */
+    private String genPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/company/findAllCompany?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/company/findAllCompany?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/company/findAllCompany?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/company/findAllCompany?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/company/findAllCompany?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
+    }
+
 
     /*TianYu 公司数据导入*/
     @RequestMapping(value = "/inputCompany")

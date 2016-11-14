@@ -15,21 +15,22 @@ function HideDetailInfo(){
 	document.getElementById("zhezhaobg").style.display="none";
 }
 
-function AreYouSour(){
-    var result = confirm('您确定要删除该条记录吗！');
-    if(result){
-        alert("已删除！");
-    }else{
-        alert('不删除！');
-    }
-}
-
-
-function selectCompByCid(cid){
+function ShowCompByCid(cid){
     var result = confirm('查看该公司信息！');
     if(result){
         window.location.href = "/company/findByCompCid?cid="+cid;
         alert('成功！');
+    }else{
+        alert('取消！');
+    }
+}
+
+
+function selectRecruitInfo(cid,jid){
+    var result = confirm('查看招聘信息！');
+    if(result){
+        window.location.href = "/recruit/findRecruitByCidandJid?cid="+cid +"&jid="+jid;
+        alert("成功！")
     }else{
         alert('取消！');
     }
@@ -112,16 +113,16 @@ function ShowMarkCanvars(){
 }
 /*---------------UnEmp------------------*/
 function ShowAllUnEmp(){
-    document.getElementById("allUnEmp-table").style.display="block";
+    document.getElementById("allUnemp").style.display="block";
 	document.getElementById("KaoYan-table").style.display="none";
 	document.getElementById("ZhunBei-table").style.display="none";
 }
 function ShowKaoYan(){
-    document.getElementById("allUnEmp-table").style.display="none";
+    document.getElementById("allUnemp").style.display="none";
 	document.getElementById("KaoYan-table").style.display="block";
 	document.getElementById("ZhunBei-table").style.display="none";
 }  function ShowZhunBei(){
-    document.getElementById("allUnEmp-table").style.display="none";
+    document.getElementById("allUnemp").style.display="none";
 	document.getElementById("KaoYan-table").style.display="none";
 	document.getElementById("ZhunBei-table").style.display="block";
 }
@@ -146,17 +147,14 @@ function HideUpload(){
 
 /*-----------------------------------------------------------*/
 function ShowAllEmpStu(){
-	document.getElementById("allempstu").style.display="block";
-    document.getElementById("kaifastu").style.display="none";
-	document.getElementById("feikaifastu").style.display="none";
+    document.getElementById("kaifastu").style.display="block";
+	document.getElementById("feikaifastu").style.display="block";
 }
 function ShowKaifaEmpStu(){
-    document.getElementById("allempstu").style.display="none";
     document.getElementById("kaifastu").style.display="block";
 	document.getElementById("feikaifastu").style.display="none";
 }
 function ShowFeikaifaEmpStu(){
-    document.getElementById("allempstu").style.display="none";
     document.getElementById("kaifastu").style.display="none";
 	document.getElementById("feikaifastu").style.display="block";
 }

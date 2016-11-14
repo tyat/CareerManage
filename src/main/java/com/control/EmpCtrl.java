@@ -198,13 +198,20 @@ public class EmpCtrl {
      * @return
      */
     @RequestMapping(value = "/findAllEmp")
-    public ModelAndView FindAllEmp(ModelMap modelMap){
-        ModelAndView mv = new ModelAndView();
+    public String FindAllEmp(ModelMap modelMap){
         List<ResEmpObj> empList = empService.FindAllEmp();
-        System.out.println(empList);
+        for(ResEmpObj emp : empList){
+
+        }
+        //每页显示的条数
+        int pageSize = 5;
+        int page = 1;
+        //计算就业生总数
+        int total = empService.EmpCount();
+        String pageCode = this.genPagation(total, page, pageSize);
         modelMap.addAttribute("empList",empList);
-        mv.setViewName("system/employed/selectAllEmp");
-        return mv;
+        modelMap.put("pageCode",pageCode);
+        return "system/employed/selectAllEmp";
     }
 
     /**
@@ -230,6 +237,10 @@ public class EmpCtrl {
             List<ResEmpObj> listdata = empService.FindBySname(searchtext);
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
+        }else if(searchType.equals("sgrade")){
+            List<ResEmpObj> listdata = empService.FindBySgrade(Integer.parseInt(searchtext));
+            System.out.println(listdata);
+            modelMap.addAttribute("listdata", listdata);
         }
         System.out.println("返回到页面------------");
         mv.setViewName("system/employed/EmpSearch");
@@ -253,7 +264,40 @@ public class EmpCtrl {
         }
         return null;
     }
-
+    /**
+     * 分页处理
+     * @param totalNum 总页数
+     * @param currentPage 当前页
+     * @param pageSize 一页显示几条
+     * @return
+     */
+    private String genPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/emp/findAllEmp?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/emp/findAllEmp?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/emp/findAllEmp?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/emp/findAllEmp?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/emp/findAllEmp?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
+    }
     /*TianYu 就业生数据导入*/
     @RequestMapping(value = "/inputEmp")
     public String inputEmp(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model){

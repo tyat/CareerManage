@@ -74,8 +74,6 @@ public class DirectionCtrl {
         modelMap.put("cmStudent",cmStudent);
         return  "/system/not-employed/NotEmpUpdate";
     }
-
-
     /**
      * 显示所有未就业学生的准备方向
      * @param modelMap
@@ -127,4 +125,5 @@ public class DirectionCtrl {
         }
         return null;
     }
+
 }

@@ -13,6 +13,7 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="../../css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script type="text/javascript" src="../../js/showele.js" ></script>
@@ -26,7 +27,6 @@
                 <div style="float: left;">
                     <span>信息管理</span><div class="left-arrow"></div>
                     <span>未就业生信息</span><div class="left-arrow"></div>
-                    <span>2013级</span>
                 </div><br />
                 <div class="Big-title">
                     <div class="littil-title">
@@ -35,10 +35,9 @@
                     <div class="search-box">
                         <form action="/unemp/findByUnEmp">
                         <select id="searchType" name="searchType" style="width: 80px;">
-                            <option value="sclass">按班级</option>
+                            <option value="sgrade">按年级</option>
                             <option value="sname">按姓名</option>
-                            <option value="jname">按岗位</option>
-                            <option value="uesalary">按期望薪资</option>
+                            <option value="dname">按学生动向</option>
                         </select>
                         <input type="text" name="searchtext"  value="输入字符"/>
                         <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
@@ -54,8 +53,9 @@
                 <li onclick="ShowKaoYan()">其他</li>
             </ul>
         </div>
-        <c:forEach varStatus="i" var="list" items="${UnempList}">
-        <div id="allUnEmp-table">
+
+        <div id="allUnemp">
+            <c:forEach varStatus="i" var="list" items="${UnempList}">
             <!--准备就业的表这是一条记录开始-->
             <table  class="pure-table pure-table-bordered left">
                 <tr>
@@ -80,32 +80,25 @@
                 </tr>
                 <tr>
                     <td>学生动向：</td>
-                    <td colspan="5">${list.dname}</td>
+                    <td colspan="5">
+                        ${list.dname}
+                    </td>
                     <td rowspan="4">
-                        <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
+                        <button class="mybutton" type="button" onclick="location='NotEmpUpdate.html'">编辑</button>
                         <br>
                         <br>
                         <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
                     </td>
                 </tr>
-                <tr>
-                    <td>期望岗位：</td>
-                    <td colspan="5">${list.jname}</td>
-
-                </tr>
-                <tr>
-                    <td>期望月薪:</td>
-                    <td colspan="5">${list.uesalary}元/月</td>
-                </tr>
-                <tr>
-                    <td>期望实习时间:</td>
-                    <td colspan="5">${list.uetime}</td>
-                </tr>
             </table>
             <div class="table-slipline"></div>
             <!--准备就业的表这是一条记录结束-->
+            </c:forEach>
         </div>
+
         <div id="ZhunBei-table">
+            <c:forEach varStatus="i" var="list" items="${UnempList}">
+            <c:if test="${list.did == 1}">
             <!--这是一条记录开始-->
             <table  class="pure-table pure-table-bordered left">
                 <tr>
@@ -134,7 +127,7 @@
                     <td>期望岗位：</td>
                     <td colspan="5">${list.jname}</td>
                     <td rowspan="3">
-                        <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
+                        <button class="mybutton" type="button" onclick="">编辑</button>
                         <br>
                         <br>
                         <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
@@ -151,9 +144,13 @@
             </table>
             <div class="table-slipline"></div>
             <!--这是一条记录结束-->
+            </c:if>
+            </c:forEach>
         </div>
         <div id="KaoYan-table">
             <!--这是一条记录开始-->
+            <c:forEach varStatus="i" var="list" items="${UnempList}">
+            <c:if test="${list.did == 2}">
             <table  class="pure-table pure-table-bordered left">
                 <tr>
                     <td rowspan="4">${list.sname}</td>
@@ -175,7 +172,7 @@
                     <td>期望院校：</td>
                     <td colspan="5">${list.ueschool}</td>
                     <td rowspan="3">
-                        <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
+                        <button class="mybutton" type="button" onclick="location='NotEmpUpdate.html'">编辑</button>
                         <br>
                         <br>
                         <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
@@ -187,22 +184,29 @@
                 </tr>
                 <tr>
                     <td>考研结果:</td>
-                    <td colspan="5">${list.uesuccess}</td>
+                    <td colspan="5">
+                        <c:if test="${list.uesuccess == 1}"><a>成功</a></c:if>
+                        <c:if test="${list.uesuccess == 0}"><a>暂无</a></c:if>
+                        <c:if test="${list.uesuccess == 2}"><a>失败</a></c:if>
+                    </td>
                 </tr>
             </table>
             <div class="table-slipline"></div>
             <!--这是一条记录结束-->
+            </c:if>
+            </c:forEach>
         </div>
-    </c:forEach>
     </div>
-    <div class="button-footer">
-        <div class="right-button-footer">
-            <div id="Page">
-                <a href="#"></a><span>1</span><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">6</a><a href="#">»</a>
-            </div>
+    <div>
+        <div class="pagination pagination-centered">
+            <ul>
+                ${pageCode }
+            </ul>
         </div>
         <div class="left-button-footer">
-            <button type="submit" class="mybutton" value="Submit" onclick="window.open('/unemp/outputUnemp')">导出数据</button>
+            <button class="mybutton" type="button" onclick="">导出数据</button>
+            <button class="mybutton" type="button" onclick="ShowDetailTip()">导入数据</button>
+            <button class="mybutton" type="button" onclick="ShowDetailTip()">下载Excel模板</button>
         </div>
     </div>
 </div>

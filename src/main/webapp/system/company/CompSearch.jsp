@@ -34,7 +34,6 @@
                         <from action="/company/findbyname">
                             <select id="searchType" name="searchType" style="width: 80px;">
                                 <option value="cname" ${searchType eq "cname"?'selected':''}>按企业名称</option>
-                                <option value="jname" ${searchType eq "jname"?'selected':''}>按岗位</option>
                                 <option value="chr" ${searchType eq "chr"?'selected':''}>按联系人</option>
                             </select>
                             <input id="searchtext" name="searchtext" type="text"  value="${searchtext}"/>
@@ -64,12 +63,15 @@
                 <tbody>
                 <c:forEach varStatus="i" var="list" items="${listdata}" >
                     <tr>
-                        <td><input class="mybutton" type="button" onclick="selectCompByCid(${list.cid})" value="${list.cname}"/></td>
-                        <td>${list.jname}</td>
+                        <td><button class="mybutton" type="button" onclick="ShowCompByCid(${list.cid})">${list.cname}</button></td>
+                        <td><c:forEach var="job" items="${jobList}">
+                            <button class="mybutton" type="button" onclick="selectRecruitInfo(${list.cid},${job.jid})">@${job.jname}&nbsp;&nbsp;</button>
+                        </c:forEach>
+                        </td>
                         <td>${list.chr}</td>
                         <td>${list.cphone}</td>
                         <td>2人</td>
-                        <td><input class="mybutton" type="button" onclick="AreYouSourCompany(${list.cid})" value="删除" /></td>
+                        <td><button class="mybutton" type="button" onclick="AreYouSourCompany(${list.cid})">删除</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>

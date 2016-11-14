@@ -33,29 +33,21 @@
                         非就业生信息
                     </div>
                     <div class="search-box">
-                        <select>
-                            <option value="1">按年级</option>
-                            <option value="2">按班级</option>
-                            <option value="4">按姓名</option>
-                            <option value="4">按岗位</option>
-                            <option value="4">按企业</option>
-                        </select>
-                        <input type="text" name="searchtext"  value="输入字符"/>
-                        <button class="mybutton" type="button" onclick="alert('搜索成功')"> <span>搜索</span> </button>
-                        <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
-                            返回上一页
-                        </button>
+                        <form action="/unemp/findByUnEmp">
+                            <select id="searchType" name="searchType" style="width: 80px;">
+                                <option value="sgrade">按年级</option>
+                                <option value="sname">按姓名</option>
+                                <option value="dname">按学生动向</option>
+                            </select>
+                            <input type="text" name="searchtext"  value="输入字符"/>
+                            <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
+                                返回上一页
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="table-bar not-emp">
-            <ul>
-                <li class="active-li" onclick="ShowAllUnEmp()"> 全部动向 </li>
-                <li onclick="ShowZhunBei()">准备就业</li>
-                <li onclick="ShowKaoYan()">其他</li>
-            </ul>
-
         </div>
 
         <c:forEach varStatus="i" var="list" items="${listdata}">
@@ -66,39 +58,82 @@
                         <td rowspan="5"><a href="../studentsinfo/StudentsSearch.html">${list.sname}</a></td>
                         <td width="100px">班级：</td>
                         <td width="100px">
-                            <a href="NotEmpSearch.html">${list.sclass}</a>
+                            <a href="NotEmpSearch.html">${list.spro}${list.sclass}班</a>
                         </td>
                         <td width="50px">年级：</td>
                         <td>
-                            <a href="NotEmpSearch.html">${list.sgrade}</a>
+                            <a href="NotEmpSearch.html">${list.sgrade}级</a>
                         </td>
                         <td width="50px">性别：</td>
-                        <td>${list.ssex}</td>
+                        <td><c:if test="${list.ssex==false}">
+                            <a>男</a>
+                            </c:if>
+                            <c:if test="${list.ssex==true}">
+                                <a>女</a>
+                            </c:if>
+                        </td>
                         <td>操作</td>
                     </tr>
                     <tr>
                         <td>学生动向：</td>
                         <td colspan="5">${list.dname}</td>
                         <td rowspan="4">
-                            <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
+                            <button class="mybutton" type="button" onclick="location='NotEmpUpdate.html'">编辑</button>
                             <br>
                             <br>
                             <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
                         </td>
                     </tr>
-                    <tr>
-                        <td>期望岗位：</td>
-                        <td colspan="5">${list.jname}</td>
-
-                    </tr>
-                    <tr>
-                        <td>期望月薪:</td>
-                        <td colspan="5">${list.uesalary}元/月</td>
-                    </tr>
-                    <tr>
-                        <td>期望实习时间:</td>
-                        <td colspan="5">${list.uetime}</td>
-                    </tr>
+                    <c:if test="${list.did == 1}">
+                        <tr>
+                            <td>期望岗位：</td>
+                            <td colspan="5">${list.jname}</td>
+                        </tr>
+                        <tr>
+                            <td>期望月薪:</td>
+                            <td colspan="5">${list.uesalary}元/月</td>
+                        </tr>
+                        <tr>
+                            <td>期望实习时间:</td>
+                            <td colspan="5">${list.uetime}</td>
+                        </tr>
+                    </c:if>
+                    <c:if test="${list.did == 2}">
+                        <tr>
+                            <td>期望院校：</td>
+                            <td colspan="5">${list.ueschool}</td>
+                        </tr>
+                        <tr>
+                            <td>期望专业:</td>
+                            <td colspan="5">${list.uemajor}</td>
+                        </tr>
+                        <tr>
+                            <td>结果:</td>
+                            <td colspan="5">
+                                <c:if test="${list.uesuccess == 1}"><a>成功</a></c:if>
+                                <c:if test="${list.uesuccess == 0}"><a>暂无</a></c:if>
+                                <c:if test="${list.uesuccess == 2}"><a>失败</a></c:if>
+                            </td>
+                        </tr>
+                    </c:if>
+                    <c:if test="${list.did == 3}">
+                        <tr>
+                            <td>期望岗位：</td>
+                            <td colspan="5">${list.jname}</td>
+                        </tr>
+                        <tr>
+                            <td>期望月薪:</td>
+                            <td colspan="5">${list.uesalary}元/月</td>
+                        </tr>
+                        <tr>
+                            <td>结果:</td>
+                            <td colspan="5">
+                                <c:if test="${list.uesuccess == 1}"><a>成功</a></c:if>
+                                <c:if test="${list.uesuccess == 0}"><a>暂无</a></c:if>
+                                <c:if test="${list.uesuccess == 2}"><a>失败</a></c:if>
+                            </td>
+                        </tr>
+                    </c:if>
                 </table>
                 <div class="table-slipline"></div>
                 <!--准备就业的表这是一条记录结束-->

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
 /**
  * Created by w on 2016/10/31.
  */
@@ -11,8 +12,8 @@ public class RecruitResObj {
     private Integer rid;
     private Boolean rsex;
     private Integer rsalary;
-    private Timestamp rstart;
-    private Timestamp rend;
+    private Date rstart;
+    private Date rend;
     private Integer rnum;
     private String rinfo;
     private Integer rstate;
@@ -20,6 +21,10 @@ public class RecruitResObj {
     private Integer aid;
     private String aprovince;
     private String acity;
+
+    private String iaddress;
+    private String itype;
+    private Date itime;
 
     private Integer jid;
     private String jname;
@@ -33,12 +38,12 @@ public class RecruitResObj {
     public RecruitResObj() {
     }
 
-    public RecruitResObj(Integer rid, Boolean rsex, Integer rsalary, Object rstart, Object rend, Integer rnum, String rinfo, Integer rstate, Integer aid, String aprovince, String acity, Integer jid, String jname, Integer cid, String cname, String chr, String cphone, String cemail) {
+    public RecruitResObj(Integer rid, Boolean rsex, Integer rsalary, Date rstart, Date rend, Integer rnum, String rinfo, Integer rstate, Integer aid, String aprovince, String acity, Integer jid, String jname, Integer cid, String cname, String chr, String cphone, String cemail) {
         this.rid = rid;
         this.rsex = rsex;
         this.rsalary = rsalary;
-        this.rstart = stringToTimestamp(rstart.toString());
-        this.rend = stringToTimestamp(rend.toString());
+        this.rstart = rstart;
+        this.rend = rend;
         this.rnum = rnum;
         this.rinfo = rinfo;
         this.rstate = rstate;
@@ -94,19 +99,19 @@ public class RecruitResObj {
         this.rsalary = rsalary;
     }
 
-    public Timestamp getRstart() {
+    public Date getRstart() {
         return rstart;
     }
 
-    public void setRstart(Timestamp rstart) {
+    public void setRstart(Date rstart) {
         this.rstart = rstart;
     }
 
-    public Timestamp getRend() {
+    public Date getRend() {
         return rend;
     }
 
-    public void setRend(Timestamp rend) {
+    public void setRend(Date rend) {
         this.rend = rend;
     }
 
@@ -156,6 +161,30 @@ public class RecruitResObj {
 
     public void setAcity(String acity) {
         this.acity = acity;
+    }
+
+    public String getIaddress() {
+        return iaddress;
+    }
+
+    public void setIaddress(String iaddress) {
+        this.iaddress = iaddress;
+    }
+
+    public String getItype() {
+        return itype;
+    }
+
+    public void setItype(String itype) {
+        this.itype = itype;
+    }
+
+    public Date getItime() {
+        return itime;
+    }
+
+    public void setItime(Date itime) {
+        this.itime = itime;
     }
 
     public Integer getJid() {

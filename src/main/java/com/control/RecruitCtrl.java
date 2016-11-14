@@ -129,6 +129,22 @@ public class RecruitCtrl {
         return "system/meeting/MeetSearch";
     }
 
+    /**
+     * 按Cid和Jid查询该公司下该岗位的招聘信息
+     * @param cid
+     * @param jid
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/recruit/findRecruitByCidandJid")
+    public ModelAndView findRecruitByCidandJid(String cid, String jid, ModelMap modelMap){
+        ModelAndView mv = new ModelAndView();
+        List<RecruitResObj> recruitList = recruitService.findByCidAndJid(Integer.parseInt(cid),Integer.parseInt(jid));
+        modelMap.addAttribute("recruitList",recruitList);
+        mv.setViewName("/system/company/CompRecruit");
+        return mv;
+    }
+
     /*TianYu 导出招聘信息数据*/
     @RequestMapping(value = "/recruit/outputRecruit")
     public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {

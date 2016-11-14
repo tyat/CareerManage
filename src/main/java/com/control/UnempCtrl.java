@@ -142,15 +142,23 @@ public class UnempCtrl {
         return "/system/not-employed/DrawNotEmp";
     }
 
+    /**
+     * 查询显示所有未就业学生
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "/findAllUnemp")
-    @ResponseBody
-    public ModelAndView FindAllUnemp(ModelMap modelMap){
-        ModelAndView mv = new ModelAndView();
+    public String FindAllUnemp(ModelMap modelMap){
         List<ResUnempObj> UnempList = unempServive.FindAllUnemp();
-        System.out.println(UnempList);
+        //每页显示的条数
+        int pageSize = 5;
+        int page = 1;
+        //计算未就业生总数
+        int total = unempServive.UnEmpCount();
+        String pageCode = this.genPagation(total, page, pageSize);
         modelMap.addAttribute("UnempList",UnempList);
-        mv.setViewName("system/not-employed/selectAllNotEmp");
-        return mv;
+        modelMap.put("pageCode",pageCode);
+        return "system/not-employed/selectAllNotEmp";
     }
 
     /**
@@ -164,16 +172,16 @@ public class UnempCtrl {
         ModelAndView mv = new ModelAndView();
         System.out.println(searchType);
         System.out.println(searchtext);
-        if(searchType.equals("sclass")) {
-            List<ResUnempObj> listdata = unempServive.FindBySclass(searchtext);
-            System.out.println(listdata);
-            modelMap.addAttribute("listdata", listdata);
-        }else if(searchType.equals("jname")){
-            List<ResUnempObj> listdata = unempServive.FindByJname(searchtext);
+        if(searchType.equals("sgrade")) {
+            List<ResUnempObj> listdata = unempServive.FindBySgrade(Integer.parseInt(searchtext));
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("sname")){
             List<ResUnempObj> listdata = unempServive.FindBySname(searchtext);
+            System.out.println(listdata);
+            modelMap.addAttribute("listdata", listdata);
+        }else if(searchType.equals("dname")){
+            List<ResUnempObj> listdata = unempServive.FindByDname(searchtext);
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }
@@ -198,6 +206,40 @@ public class UnempCtrl {
             return mv;
         }
         return null;
+    }
+    /**
+     * 分页处理
+     * @param totalNum 总页数
+     * @param currentPage 当前页
+     * @param pageSize 一页显示几条
+     * @return
+     */
+    private String genPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/unemp/findAllUnemp?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/unemp/findAllUnemp?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/unemp/findAllUnemp?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/unemp/findAllUnemp?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/unemp/findAllUnemp?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
     }
 
     /*TianYu 未就业学生数据导入*/

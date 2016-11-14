@@ -18,7 +18,6 @@
 </head>
 <body>
 <div class="table-box">
-    <c:forEach varStatus="i" var="lsit" items="${dateList}" >
     <div class="table-content">
         <!--这是标题栏-->
         <div class="table-head">
@@ -43,12 +42,12 @@
         <!--这是标题栏结束-->
         <div>
             <!--这是表格开始-->
-
+            <c:forEach varStatus="i" var="lsit" items="${dateList}">
             <table  class="pure-table pure-table-bordered CompInfo1" style="text-align: left;">
                 <tr>
                     <td>企业名称</td>
                     <td width="130px">岗位标签：</td>
-                    <td colspan="3">这是放岗位标签的</td>
+                    <td colspan="3"><c:forEach var="job" items="${jobList}" varStatus="i">@${job.jname}&nbsp;&nbsp;</c:forEach> </td>
                 </tr>
                 <tr>
                     <td rowspan="7">${lsit.cname}</td>
@@ -84,20 +83,18 @@
                     <td colspan="3"><button class="mybutton" type="button" onclick="ShowDetailTip()">查看备注</button>
                     </td>
                 </tr>
-
             </table>
-
+            </c:forEach>
             <div class="table-slipline"></div>
             <!--这是表格结束-->
         </div>
         <div class="button-footer">
 
             <div class="left-button-footer">
-                <button class="mybutton" type="button" onclick="alert('弹出下载框！')"> 导出数据</button>
                 <button class="mybutton" type="button" onclick="location='/company/findCompByCid?cid=${lsit.cid}'">修改</button>
             </div>
         </div>
-    </div></c:forEach>
+    </div>
 
     <!---------------------------------------------------------------------------->
 
@@ -110,16 +107,10 @@
         <c:forEach varStatus="i" var="lsit" items="${dateList}" >
             <div class="tip-header">
                 <div id="icon-tipdetail"></div>
-                <p>备注详情：中兴济南公司 </p>
+                <p>备注详情：${lsit.cname}</p>
             </div>
             <div class="tip-content">
-                <form>
-                    <textarea id="beizhu" name=""  cols="80" rows="5"  disabled="disabled">${lsit.cmark}</textarea><br />
-                    <div class="buttonbox">
-                        <input type="button" value="修改" class="mybutton" onclick="beginBeizhu()"/>
-                        <input type="submit" value="保存" class="mybutton" />
-                    </div>
-                </form>
+                <textarea id="beizhu" name=""  cols="80" rows="5"  disabled="disabled">${lsit.cmark}</textarea><br />
             </div>
             </c:forEach>
         </div>
@@ -134,14 +125,11 @@
         <c:forEach varStatus="i" var="lsit" items="${dateList}" >
             <div class="tip-header">
                 <div id="icon-tipdetail"></div>
-                <p>简介详情：中兴济南公司 </p>
+                <p>简介详情：${lsit.cname} </p>
             </div>
             <div class="tip-content">
                 <form action="" name="tip-detadil">
-					<textarea id="jianjie" name="" cols="80" rows="5" disabled="disabled">${lsit.cinfo}
-					</textarea><br /><br /><br />
-                    <input type="button" value="修改" class="mybutton" onclick="BeginJianjie()"/>
-                    <input type="submit" class="mybutton" value="保存" />
+					<textarea id="jianjie" name="" cols="80" rows="5" disabled="disabled">${lsit.cinfo}</textarea>
                 </form>
             </div>
             </c:forEach>

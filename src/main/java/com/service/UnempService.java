@@ -125,50 +125,59 @@ public class UnempService {
                 "inner join unemp.cmDirectionByDid dir " +
                 "where unemp.uestate = 0";
         List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql);
-        System.out.println("++++++++++++++++++++++++++++++++");
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     * 统计未就业生数量
+     * @return
+     */
+    public int UnEmpCount(){
+        String hsql = "select count(*) from CmUnemp unemp where unemp.uestate = 0";
+        List<?> total = hibernateTemplate.find(hsql);
+        System.out.println(Integer.parseInt(total.get(0).toString()));
+        return Integer.parseInt(total.get(0).toString());
+    }
+    /**
+     * 按学生姓名查询未就业学生信息
+     * @return
+     */
+    public List<ResUnempObj> FindByDname(String dname){
+        System.out.println(dname);
+        String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where dir.dname like ? and unemp.uestate = 0";
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,"%"+dname+"%");
+        System.out.println(data);
         return data;
     }
 
     /**
-     * 按学生姓名查询未就业学生信息
+     * 按姓名查询未就业学生信息
      * @return
      */
     public List<ResUnempObj> FindBySname(String sname){
         System.out.println(sname);
         String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
                 "from CmUnemp unemp " +
-                "inner join unemp.cmStudentBySid stu inner join unemp.cmJobByJid job " +
-                "inner join unemp.cmDirectionByDid dir " +
-                "where stu.sname like ?";
+                "inner join unemp.cmStudentBySid stu inner join unemp.cmJobByJid job inner join unemp.cmDirectionByDid dir " +
+                "where stu.sname like ? and unemp.uestate = 0";
         List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,"%"+sname+"%");
-        System.out.println(data);
-        return data;
-    }
-
-    /**
-     * 按岗位查询未就业学生信息
-     * @return
-     */
-    public List<ResUnempObj> FindByJname(String jname){
-        System.out.println(jname);
-        String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
-                "from CmUnemp unemp " +
-                "inner join unemp.cmStudentBySid stu inner join unemp.cmJobByJid job inner join unemp.cmDirectionByDid dir " +
-                "where stu.jname like ?";
-        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,"%"+jname+"%");
         return data;
     }
     /**
-     * 按班级查询已就业学生信息
+     * 按年级查询已就业学生信息
      * @return
      */
-    public List<ResUnempObj> FindBySclass(String sclass){
-        System.out.println(sclass);
+    public List<ResUnempObj> FindBySgrade(int sgrade){
+        System.out.println(sgrade);
         String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
                 "from CmUnemp unemp " +
                 "inner join unemp.cmStudentBySid stu inner join unemp.cmJobByJid job inner join unemp.cmDirectionByDid dir " +
-                "where stu.scalss like ?";
-        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,"%"+sclass+"%");
+                "where stu.sgrade = ? and unemp.uestate = 0";
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,sgrade);
         return data;
     }
     /**

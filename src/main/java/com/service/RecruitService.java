@@ -151,6 +151,28 @@ public class RecruitService {
         return null;
     }
 
+
+    /**
+     * 查询该公司下该岗位的招聘信息
+     * @param cid
+     * @param jid
+     * @return
+     */
+    public List<RecruitResObj> findByCidAndJid(int cid, int jid){
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where c.cid = ? and j.jid = ? and r.rstate = 0 order by r.rstart";
+        Object[] value = {cid,jid};
+        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,value);
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
     /*导出招聘信息*/
     public String outputRecruit(){
         String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
