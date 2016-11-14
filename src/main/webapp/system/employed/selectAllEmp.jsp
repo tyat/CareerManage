@@ -76,7 +76,7 @@
                         </c:if>
                     </td>
                     <td rowspan="3">
-                        <button class="mybutton" type="button" onclick="location='EmpUpdate.html'">编辑</button>
+                        <button class="mybutton" type="button" onclick="location='/emp/forUpdateEmp?sid=${emplist.sid}'">编辑</button>
                     </td>
                 </tr>
                 <tr>
@@ -150,7 +150,7 @@
                         </c:if>
                     </td>
                     <td rowspan="3">
-                        <button class="mybutton" type="button" onclick="location='EmpUpdate.html'">编辑</button>
+                        <button class="mybutton" type="button" onclick="location='/emp/forUpdateEmp?sid=${emplist.sid}'">编辑</button>
                     </td>
                 </tr>
                 <tr>

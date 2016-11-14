@@ -78,7 +78,7 @@
                         <td>学生动向：</td>
                         <td colspan="5">${list.dname}</td>
                         <td rowspan="4">
-                            <button class="mybutton" type="button" onclick="location='NotEmpUpdate.html'">编辑</button>
+                            <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
                             <br>
                             <br>
                             <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>

@@ -84,7 +84,7 @@
                         ${list.dname}
                     </td>
                     <td rowspan="4">
-                        <button class="mybutton" type="button" onclick="location='NotEmpUpdate.html'">编辑</button>
+                        <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
                         <br>
                         <br>
                         <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
@@ -127,7 +127,7 @@
                     <td>期望岗位：</td>
                     <td colspan="5">${list.jname}</td>
                     <td rowspan="3">
-                        <button class="mybutton" type="button" onclick="">编辑</button>
+                        <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
                         <br>
                         <br>
                         <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
@@ -172,7 +172,7 @@
                     <td>期望院校：</td>
                     <td colspan="5">${list.ueschool}</td>
                     <td rowspan="3">
-                        <button class="mybutton" type="button" onclick="location='NotEmpUpdate.html'">编辑</button>
+                        <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
                         <br>
                         <br>
                         <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>

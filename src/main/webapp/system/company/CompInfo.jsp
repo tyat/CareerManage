@@ -18,6 +18,7 @@
 </head>
 <body>
 <div class="table-box">
+<c:forEach varStatus="i" var="lsit" items="${dateList}">
     <div class="table-content">
         <!--这是标题栏-->
         <div class="table-head">
@@ -42,7 +43,6 @@
         <!--这是标题栏结束-->
         <div>
             <!--这是表格开始-->
-            <c:forEach varStatus="i" var="lsit" items="${dateList}">
             <table  class="pure-table pure-table-bordered CompInfo1" style="text-align: left;">
                 <tr>
                     <td>企业名称</td>
@@ -84,10 +84,11 @@
                     </td>
                 </tr>
             </table>
-            </c:forEach>
+
             <div class="table-slipline"></div>
             <!--这是表格结束-->
         </div>
+
         <div class="button-footer">
 
             <div class="left-button-footer">
@@ -95,6 +96,7 @@
             </div>
         </div>
     </div>
+</c:forEach>
 
     <!---------------------------------------------------------------------------->
 

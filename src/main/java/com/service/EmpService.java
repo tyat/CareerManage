@@ -71,7 +71,7 @@ public class EmpService {
     //zxl：根据学生id查询该就业生的就业信息
     public  CmEmp findEmpBySid(int sid){
         System.out.println("这是一个idnnnnnnnnnnnn-----"+sid);
-        String hsql="from CmEmp e where e.cmStudentBySid.sno='201303204326' and e.estate!=2";
+        String hsql="from CmEmp e where e.cmStudentBySid.sid=? and e.estate!=2";
          List<?> data= hibernateTemplate.find(hsql,sid);
         System.out.println("这是一个datesize---------------------"+data.size());
         if (data.size()>0){
