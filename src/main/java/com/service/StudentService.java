@@ -7,6 +7,7 @@ import com.ResObj.UnempResObj;
 import com.pojo.CmEmp;
 import com.pojo.CmStudent;
 import com.tools.InputData;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
@@ -206,12 +207,13 @@ public class StudentService {
     /*TianYu 上传excel*/
     public String uploadStudent(String path){
         InputData input = new InputData();
+        Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
             List<CmStudent>  ls = input.inputStudent(path);
             for (CmStudent cc : ls){
-                hibernateTemplate.save(cc);
-                hibernateTemplate.flush();
+                session.save(cc);
             }
+            session.close();
             return "导入成功！";
         } catch (IOException e) {
             return "数据格式错误！";

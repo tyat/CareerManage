@@ -3,6 +3,13 @@ package com.service;
 import com.ResObj.ResUnempObj;
 import com.pojo.CmUnemp;
 import com.tools.InputData;
+import com.tools.OutputData;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
@@ -180,15 +187,81 @@ public class UnempService {
     /*TianYu 上传excel*/
     public String uploadUnemp(String path){
         InputData input = new InputData();
+        Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
             List<CmUnemp>  ls = input.inputUnemp(path);
             for (CmUnemp cc : ls){
-                hibernateTemplate.save(cc);
-                hibernateTemplate.flush();
+                session.save(cc);
             }
+            session.close();
             return "导入成功！";
         } catch (IOException e) {
             return "数据格式错误！";
         }
+    }
+
+    /*TianYu 下载excel*/
+    public String outUnemp() {
+        String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu " +
+                "inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where unemp.uestate = 0";
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql);
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("未就业生信息表");
+        HSSFRow row1 = sheet.createRow(0);
+        row1.setHeight((short) 20);
+        HSSFCell cell = row1.createCell(0);
+        cell.setCellValue("未就业生信息");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 14));
+        HSSFRow row2 = sheet.createRow(1);
+        row2.createCell(0).setCellValue("ueid");
+        row2.createCell(1).setCellValue("姓名");
+        row2.createCell(2).setCellValue("性别");
+        row2.createCell(3).setCellValue("专业");
+        row2.createCell(4).setCellValue("年级");
+        row2.createCell(5).setCellValue("班级");
+        row2.createCell(6).setCellValue("动向");
+        row2.createCell(7).setCellValue("期望岗位");
+        row2.createCell(8).setCellValue("期望月薪");
+        row2.createCell(9).setCellValue("期望就业时间");
+        row2.createCell(10).setCellValue("考研学校");
+        row2.createCell(11).setCellValue("考研专业");
+        row2.createCell(12).setCellValue("动向状态");
+        int rownum = 2;
+        // 在sheet里创建数据
+        for (ResUnempObj es : data) {
+            HSSFRow row = sheet.createRow(rownum);
+            row.createCell(0).setCellValue(es.getUeid());
+            row.createCell(1).setCellValue(es.getSname());
+            if (es.getSsex()) {
+                row.createCell(2).setCellValue("女");
+            } else {
+                row.createCell(2).setCellValue("男");
+            }
+            row.createCell(3).setCellValue(es.getSpro());
+            row.createCell(4).setCellValue(es.getSgrade());
+            row.createCell(5).setCellValue(es.getSclass());
+            row.createCell(6).setCellValue(es.getDname());
+            row.createCell(7).setCellValue(es.getJname());
+            row.createCell(8).setCellValue(es.getUesalary());
+            row.createCell(9).setCellValue(es.getUetime());
+            row.createCell(10).setCellValue(es.getUeschool());
+            row.createCell(11).setCellValue(es.getUemajor());
+            row.createCell(12).setCellValue(es.getUesuccess());
+            if (es.getUesuccess() == 0) {
+                row.createCell(12).setCellValue("暂无");
+            } else if (es.getUesuccess() == 1) {
+                row.createCell(12).setCellValue("成功");
+            } else if (es.getUesuccess() == 2) {
+                row.createCell(12).setCellValue("失败");
+            }
+            rownum++;
+        }
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb, "未就业生信息");
+        return file;
     }
 }

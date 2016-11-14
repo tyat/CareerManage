@@ -6,6 +6,7 @@ import com.pojo.*;
 import com.tools.DateConvert;
 import com.tools.InputData;
 import com.tools.OutputData;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
@@ -162,12 +163,13 @@ public class EmpService {
     /*TianYu 上传excel*/
     public String uploadEmp(String path){
         InputData input = new InputData();
+        Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
             List<CmEmp>  ls = input.inputEmp(path);
             for (CmEmp cc : ls){
-                hibernateTemplate.save(cc);
-                hibernateTemplate.flush();
+                session.save(cc);
             }
+            session.close();
             return "导入成功！";
         } catch (IOException e) {
             return "数据格式错误！";
@@ -183,6 +185,7 @@ public class EmpService {
         HSSFSheet sheet = wb.createSheet("就业生信息表");
         HSSFRow row1 = sheet.createRow(0);
         HSSFCell cell = row1.createCell(0);
+        row1.setHeight((short)20);
         cell.setCellValue("就业生信息");
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 14));
         HSSFRow row2 = sheet.createRow(1);
