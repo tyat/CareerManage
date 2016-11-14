@@ -100,6 +100,9 @@ public class StudentCtrl {
             CmStudent student = studentService.findBySid(sid);
             modelMap.addAttribute("student",student);
         }
+        //查询面试次数
+        int InterTimes = interService.findBySidTimes(sid);
+        modelMap.addAttribute("InterTimes",InterTimes);
         return "system/studentsinfo/StudentInfo";
     }
 
@@ -109,7 +112,7 @@ public class StudentCtrl {
         List<InterResObj> interList = interService.findInterBySid(sid);
         modelMap.addAttribute("interList", interList);
         System.out.println("interList---"+interList);
-        return "system/meeting/ThisMeetStudents";
+        return "system/meeting/ThisStudentInterview";
     }
 
     //删除学生——ly

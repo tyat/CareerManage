@@ -1,8 +1,5 @@
 package com.ResObj;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 /**
  * Created by w on 2016/10/31.
@@ -11,8 +8,8 @@ public class RecruitResObj {
     private Integer rid;
     private Boolean rsex;
     private Integer rsalary;
-    private Timestamp rstart;
-    private Timestamp rend;
+    private Date rstart;
+    private Date rend;
     private Integer rnum;
     private String rinfo;
     private Integer rstate;
@@ -33,12 +30,12 @@ public class RecruitResObj {
     public RecruitResObj() {
     }
 
-    public RecruitResObj(Integer rid, Boolean rsex, Integer rsalary, Object rstart, Object rend, Integer rnum, String rinfo, Integer rstate, Integer aid, String aprovince, String acity, Integer jid, String jname, Integer cid, String cname, String chr, String cphone, String cemail) {
+    public RecruitResObj(Integer rid, Boolean rsex, Integer rsalary, Date rstart, Date rend, Integer rnum, String rinfo, Integer rstate, Integer aid, String aprovince, String acity, Integer jid, String jname, Integer cid, String cname, String chr, String cphone, String cemail) {
         this.rid = rid;
         this.rsex = rsex;
         this.rsalary = rsalary;
-        this.rstart = stringToTimestamp(rstart.toString());
-        this.rend = stringToTimestamp(rend.toString());
+        this.rstart = rstart;
+        this.rend = rend;
         this.rnum = rnum;
         this.rinfo = rinfo;
         this.rstate = rstate;
@@ -52,22 +49,6 @@ public class RecruitResObj {
         this.chr = chr;
         this.cphone = cphone;
         this.cemail = cemail;
-    }
-
-    public static Timestamp stringToTimestamp(String dateStr){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();
-        Date date;
-        try {
-            date = sdf.parse(dateStr);
-            date.getTime();
-            cal.setTime(date);
-            return new Timestamp(cal.getTimeInMillis());
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-        }
-        cal.setTime(new Date());
-        return new Timestamp(cal.getTimeInMillis());
     }
 
     public Integer getRid() {
@@ -94,19 +75,19 @@ public class RecruitResObj {
         this.rsalary = rsalary;
     }
 
-    public Timestamp getRstart() {
+    public Date getRstart() {
         return rstart;
     }
 
-    public void setRstart(Timestamp rstart) {
+    public void setRstart(Date rstart) {
         this.rstart = rstart;
     }
 
-    public Timestamp getRend() {
+    public Date getRend() {
         return rend;
     }
 
-    public void setRend(Timestamp rend) {
+    public void setRend(Date rend) {
         this.rend = rend;
     }
 

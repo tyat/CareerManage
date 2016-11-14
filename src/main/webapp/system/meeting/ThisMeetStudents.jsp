@@ -159,7 +159,8 @@
                         面试参与人员
                     </div>
                     <div class="search-box">
-                        <form action="/student/query" method="post">
+                        <form action="/inter/query" method="post">
+                            <input type="hidden" name="rid" value="${interList.get(0).rid }">
                             <select name="type">
                                 <option value="0">按学生姓名</option>
                                 <option value="1">按专业</option>
@@ -183,10 +184,8 @@
                     <tr>
                         <td>姓名</td>
                         <td>联系方式</td>
-                        <td>性别</td>
                         <td>年级</td>
                         <td>班级</td>
-                        <td>出生年月</td>
                         <td>面试时间</td>
                         <td>面试城市</td>
                         <td>面试地点</td>
@@ -201,19 +200,10 @@
                         <input type="hidden" name="rid" value="${inter.rid }">
                         <!--这是一条记录开始-->
                         <tr>
-                            <td><a href="../studentsinfo/StudentInfo.html">${inter.sname}</a></td>
+                            <td><a href="/student/findBySid?sid=${inter.sid}">${inter.sname}</a></td>
                             <td>${inter.sphone}</td>
-                            <td>
-                                <c:if test="${!(inter.ssex)}">
-                                    男
-                                </c:if>
-                                <c:if test="${inter.ssex}">
-                                    女
-                                </c:if>
-                            </td>
                             <td>${inter.sgrade}</td>
                             <td>${inter.spro}${inter.sclass}</td>
-                            <td>${inter.sbirth}</td>
                             <td>${inter.itime}</td>
                             <td>${inter.aprovince}${inter.acity}</td>
                             <td>${inter.iaddress}</td>
@@ -331,6 +321,7 @@
             </form>
         </div>
     </div>
+
     <div id="showMeetResult">
         <div class="tab-close">
             <button class="mybutton" type="button" onclick="hideMeetResult()">取消</button>
@@ -340,7 +331,7 @@
             <form action="/inter/updateInter" method="post">
                 <table class="pure-table pure-table-bordered">
                     <input type="hidden" name="rid" id="rid" value="${interList.get(0).rid }">
-                    <input type="hidden" name="iid"id="iid">
+                    <input type="hidden" name="iid" id="iid">
                     <tr>
                         <td>姓名：</td>
                         <td><input type="text" name="sname" id="sname" disabled="disabled"/></td>

@@ -157,7 +157,7 @@ public class StudentService {
     //学生是否已就业——ly
     public boolean isEmp(int sid){
         System.out.println("sid------"+sid);
-        String hsql = "from CmEmp e where e.cmStudentBySid.sid = ? and e.estate = 0";//不考虑离职情况
+        String hsql = "from CmEmp e where e.cmStudentBySid.sid = ? and e.estate = 0";
         List<CmEmp> empList = (List<CmEmp>) hibernateTemplate.find(hsql,sid);
         System.out.println("empList------"+empList);
         if(empList.size()>0){
@@ -168,7 +168,7 @@ public class StudentService {
 
     //按sid查询已就业学生——ly
     public EmpResObj findEmpBySid(int sid){
-        String hsql = "select new com.ResObj.EmpResObj(s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,e.jid,j.jname,i.isuccess,i.rid,r.cid,c.cname) " +
+         String hsql = "select new com.ResObj.EmpResObj(s.sid,s.sno,s.sname,s.ssex,s.sbirth,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,j.jid,j.jname,i.isuccess,r.rid,c.cid,c.cname) " +
                 "from CmStudent s " +
                 "inner join s.cmEmpsBySid e " +
                 "inner join e.cmJobByJid j " +

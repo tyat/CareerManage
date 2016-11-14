@@ -4,13 +4,17 @@ import com.ResObj.RecruitResObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import com.pojo.CmJob;
+import com.pojo.CmRecruit;
 import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +41,19 @@ public class RecruitCtrl {
         List<RecruitResObj> recruitList = recruitService.findAll();
         modelMap.addAttribute("recruitList",recruitList);
         //查询面试人数
-        int InterCount = interService.findByRidCount(1);
-        modelMap.addAttribute("InterCount",InterCount);
+        /*int InterCount = interService.findByRidCount(1);
+        modelMap.addAttribute("InterCount",InterCount);*/
         return "system/meeting/selectAllMeeting";
+    }
+
+    //查询招聘详情——ly
+    @RequestMapping(value = "/recruit/queryRinfo",method = RequestMethod.GET )
+    @ResponseBody
+    public CmRecruit queryRinfo(int rid, ModelMap modelMap){
+        CmRecruit recruit = recruitService.findByRid(rid);
+        modelMap.addAttribute("recruit",recruit);
+        System.out.println("findByRid-----"+recruit.getRinfo());
+        return recruit;
     }
 
     //增加前——ly

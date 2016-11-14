@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -35,13 +34,13 @@ public class RecruitService {
         recruit.setRsex(rsex);
         recruit.setRsalary(rsalary);
         recruit.setRnum(rnum);
-        recruit.setRstart(new Timestamp(new Date().getTime()));//发布时间为当前系统时间
+        recruit.setRstart(new Date());//发布时间为当前系统时间
         DateFormat df = DateFormat.getDateInstance();
         Date d = df.parse(rend);
-        long da = d.getTime();
-        Timestamp ts = new Timestamp(da);
-        System.out.println("ts--------"+ts);
-        recruit.setRend(ts);
+        /*long da = d.getTime();
+        Timestamp ts = new Timestamp(da);*/
+        System.out.println("d--------"+d);
+        recruit.setRend(d);
         recruit.setRinfo(rinfo);
         recruit.setRstate(0);
         try {
@@ -75,9 +74,9 @@ public class RecruitService {
             recruit.setRnum(rnum);
             DateFormat df = DateFormat.getDateInstance();
             Date d = df.parse(rend);
-            long da = d.getTime();
-            Timestamp ts = new Timestamp(da);
-            recruit.setRend(ts);
+            /*long da = d.getTime();
+            Timestamp ts = new Timestamp(da);*/
+            recruit.setRend(d);
             recruit.setRinfo(rinfo);
             hibernateTemplate.saveOrUpdate(recruit);
             return true;
@@ -139,6 +138,23 @@ public class RecruitService {
                 "where r.rstate = 0 order by r.rstart";
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql);
         System.out.println("所有招聘信息数量：   "+data.size());
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //查询该公司下该岗位的招聘信息——ly
+    public List<RecruitResObj> findByCidAndJid(int cid,int jid){
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where c.cid = ? and j.jid = ? and r.rstate = 0 order by r.rstart";
+        Object[] value = {cid,jid};
+        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
             return data;
         }
