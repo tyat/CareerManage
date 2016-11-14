@@ -9,7 +9,12 @@ import com.service.CompanyService;
 import com.service.UserService;
 import com.tools.DateConvert;
 import com.tools.InputData;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -184,6 +189,17 @@ public class CompanyCtrl {
         model.addAttribute("file", msg);
         System.out.println(msg);
         return "/system/admin/inputData";
+    }
+
+    /*TianYu 导出公司数据*/
+    @RequestMapping(value = "/outputCompany")
+    public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {
+        File file = new File(companyService.outputCompany());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String fileName = file.getName();
+        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"ISO-8859-1"));
+        httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
     }
 
 }

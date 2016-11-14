@@ -4,6 +4,13 @@ import com.ResObj.ResCompanyObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import com.tools.InputData;
+import com.tools.OutputData;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -180,15 +187,50 @@ public class CompanyService {
     /*TianYu 上传excel*/
     public String uploadCompany(String path){
         InputData input = new InputData();
+        Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
             List<CmCompany>  ls = input.inputCompany(path);
             for (CmCompany cc : ls){
-                hibernateTemplate.save(cc);
-                hibernateTemplate.flush();
+                session.save(cc);
             }
+            session.close();
             return "导入成功！";
         } catch (IOException e) {
             return "数据格式错误！";
         }
     }
+
+    /*TianYu 导出公司数据*/
+    public String outputCompany(){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate,rec.rid,job.jid,job.jname) from CmCompany comp inner join comp.cmRecruitsByCid rec inner join rec.cmJobByJid job where comp.cstate=0";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql);
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("公司信息表");
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell = row1.createCell(0);
+        row1.setHeight((short)20);
+        cell.setCellValue("公司信息");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 5));
+        HSSFRow row2 = sheet.createRow(1);
+        row2.createCell(0).setCellValue("cid");
+        row2.createCell(1).setCellValue("公司名称");
+        row2.createCell(2).setCellValue("HR姓名");
+        row2.createCell(3).setCellValue("HR电话");
+        row2.createCell(4).setCellValue("岗位名称");
+        int rownum = 2;
+        // 在sheet里创建数据
+        for(ResCompanyObj es : data){
+            HSSFRow row = sheet.createRow(rownum);
+            row.createCell(0).setCellValue(es.getCid());
+            row.createCell(1).setCellValue(es.getCname());
+            row.createCell(2).setCellValue(es.getChr());
+            row.createCell(3).setCellValue(es.getCphone());
+            row.createCell(4).setCellValue(es.getJname());
+            rownum++;
+        }
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb,"公司信息");
+        return file;
+    }
+
 }

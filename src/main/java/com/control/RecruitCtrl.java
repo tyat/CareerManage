@@ -5,12 +5,20 @@ import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import com.pojo.CmJob;
 import com.service.*;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +126,17 @@ public class RecruitCtrl {
             //按招聘岗位？
         }
         return "system/meeting/MeetSearch";
+    }
+
+    /*TianYu 导出招聘信息数据*/
+    @RequestMapping(value = "/recruit/outputRecruit")
+    public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {
+        File file = new File(recruitService.outputRecruit());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String fileName = file.getName();
+        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"ISO-8859-1"));
+        httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
     }
 
 }

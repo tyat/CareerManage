@@ -2,6 +2,12 @@ package com.service;
 
 import com.ResObj.RecruitResObj;
 import com.pojo.CmRecruit;
+import com.tools.OutputData;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
@@ -143,6 +149,62 @@ public class RecruitService {
         }
         System.out.println("未查到相关数据！");
         return null;
+    }
+
+    /*导出招聘信息*/
+    public String outputRecruit(){
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where r.rstate = 0 order by r.rstart";
+        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql);
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("公司信息表");
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell = row1.createCell(0);
+        row1.setHeight((short)20);
+        cell.setCellValue("公司信息");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 12));
+        HSSFRow row2 = sheet.createRow(1);
+        row2.createCell(0).setCellValue("rid");
+        row2.createCell(1).setCellValue("岗位名称");
+        row2.createCell(2).setCellValue("公司名称");
+        row2.createCell(3).setCellValue("省份");
+        row2.createCell(4).setCellValue("城市");
+        row2.createCell(5).setCellValue("HR姓名");
+        row2.createCell(6).setCellValue("电话");
+        row2.createCell(7).setCellValue("邮箱");
+        row2.createCell(8).setCellValue("性别要求");
+        row2.createCell(9).setCellValue("月薪");
+        row2.createCell(10).setCellValue("发布时间");
+        row2.createCell(11).setCellValue("截至时间");
+        int rownum = 2;
+        // 在sheet里创建数据
+        for(RecruitResObj es : data){
+            HSSFRow row = sheet.createRow(rownum);
+            row.createCell(0).setCellValue(es.getRid());
+            row.createCell(1).setCellValue(es.getJname());
+            row.createCell(2).setCellValue(es.getCname());
+            row.createCell(3).setCellValue(es.getAprovince());
+            row.createCell(4).setCellValue(es.getAcity());
+            row.createCell(5).setCellValue(es.getChr());
+            row.createCell(6).setCellValue(es.getCphone());
+            row.createCell(7).setCellValue(es.getCemail());
+            if(es.getRsex()){
+                row.createCell(8).setCellValue("女");
+            }else{
+                row.createCell(8).setCellValue("男");
+            }
+            row.createCell(9).setCellValue(es.getRsalary());
+            row.createCell(10).setCellValue(es.getRstart());
+            row.createCell(11).setCellValue(es.getRend());
+            rownum++;
+        }
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb,"公司信息");
+        return file;
     }
 
 }

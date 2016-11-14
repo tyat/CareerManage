@@ -278,11 +278,11 @@ public class EmpCtrl {
 
     /*TianYu 导出就业生数据*/
     @RequestMapping(value = "/outputEmp")
-    public ResponseEntity<byte[]> pdfDownload(HttpServletRequest httpServletRequest) throws IOException {
+    public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {
         File file = new File(empService.outputEmp());
         HttpHeaders httpHeaders = new HttpHeaders();
         String fileName = file.getName();
-        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"UTF-8"));
+        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"ISO-8859-1"));
         httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders,HttpStatus.CREATED);
     }

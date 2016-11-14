@@ -202,9 +202,7 @@
             </div>
         </div>
         <div class="left-button-footer">
-            <button class="mybutton" type="button" onclick="">导出数据</button>
-            <button class="mybutton" type="button" onclick="ShowDetailTip()">导入数据</button>
-            <button class="mybutton" type="button" onclick="ShowDetailTip()">下载Excel模板</button>
+            <button type="submit" class="mybutton" value="Submit" onclick="window.open('/unemp/outputUnemp')">导出数据</button>
         </div>
     </div>
 </div>

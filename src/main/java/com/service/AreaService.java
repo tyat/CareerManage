@@ -47,20 +47,13 @@ public class AreaService {
     /*TianYu 上传excel*/
     public String uploadArea(String path){
         InputData input = new InputData();
-        //Session session = hibernateTemplate.getSessionFactory().getCurrentSession();
-        //Transaction t = session.beginTransaction();
+        Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            //t.begin();
             List<CmArea>  ls = input.inputArea(path);
             for (CmArea ca : ls){
-                //hibernateTemplate.save(ca);
-                hibernateTemplate.saveOrUpdate(ca);
-                hibernateTemplate.flush();
-                //session.save(ca);
-                //session.flush();
+                session.save(ca);
             }
-           // t.commit();
-            //session.close();
+            session.close();
             return "导入成功！";
         } catch (IOException e) {
             return "数据格式错误！";
