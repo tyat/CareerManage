@@ -37,9 +37,22 @@ public class EmpService {
     private HibernateTemplate hibernateTemplate;
     @Autowired
     private  JobService jobService;
+    @Autowired
+    private UnempService unempService;
     //zxl：添加就业生
     public  boolean addEmp(CmCompany cmCompany, CmRecruit cmRecruit,CmInter cmInter, CmEmp cmEmp){
       hibernateTemplate.save(cmCompany);
+        hibernateTemplate.save(cmRecruit);
+        hibernateTemplate.save(cmInter);
+        hibernateTemplate.save(cmEmp);
+        String hsql="update CmUnemp ue set ue.uestate=1 where ue.cmStudentBySid.sid = ?";
+        hibernateTemplate.bulkUpdate(hsql,cmEmp.getCmStudentBySid().getSid());
+        return  true;
+    }
+    //zxl：添加就业生,该学生不存在
+    public  boolean addEmpStu(CmStudent cmStudent,CmCompany cmCompany, CmRecruit cmRecruit,CmInter cmInter, CmEmp cmEmp){
+        hibernateTemplate.save(cmStudent);
+        hibernateTemplate.save(cmCompany);
         hibernateTemplate.save(cmRecruit);
         hibernateTemplate.save(cmInter);
         hibernateTemplate.save(cmEmp);
@@ -63,17 +76,19 @@ public class EmpService {
         cmEmp.setCmJobByJid(cmJob);
         CmStudent cmStudent=new CmStudent();
         cmStudent.setSid(sid);
+        CmUser cmUser=new CmUser();
+        cmUser.setUid(uid);
         cmEmp.setCmStudentBySid(cmStudent);
         cmEmp.setEleave(new DateConvert().SysDate());
+        cmEmp.setCmUserByUid(cmUser);
         hibernateTemplate.save(cmEmp);
+        unempService.delUnEmp(sid);
         return  true;
     }
     //zxl：根据学生id查询该就业生的就业信息
     public  CmEmp findEmpBySid(int sid){
-        System.out.println("这是一个idnnnnnnnnnnnn-----"+sid);
         String hsql="from CmEmp e where e.cmStudentBySid.sid=? and e.estate!=2";
          List<?> data= hibernateTemplate.find(hsql,sid);
-        System.out.println("这是一个datesize---------------------"+data.size());
         if (data.size()>0){
             return  (CmEmp) data.get(0);
         }

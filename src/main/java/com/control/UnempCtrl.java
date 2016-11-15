@@ -75,28 +75,58 @@ public class UnempCtrl {
     }
     //zxl：添加未就业生
     @RequestMapping(value = "/addUnEmp",method = RequestMethod.POST)
-    public ModelAndView addUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws Exception{
+    public ModelAndView addUnEmp(String sid,String sno,String addsname,int addssex,String addsbirth,String addspro,
+                                 String addsgrade, String addsclass,String addscode,String addsphone,String addsemail,
+                                 String addsdetail, int did, String jid, String uesalary, String uetime, String ueschool,
+                                 String uemajor,int uesuccess, ModelMap modelMap) throws Exception{
         ModelAndView mv=new ModelAndView();
-        CmStudent cmStudent=new CmStudent();
-        cmStudent.setSid(sid);
-        CmDirection cmDirection=new CmDirection();
-        cmDirection.setDid(did);
-       if (!uesalary.equals("")){
-           CmJob cmJob=new CmJob();
-           cmJob.setJid(Integer.parseInt(jid));
-           Date date=new DateConvert().StringtoDate(uetime);
-           CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
-           boolean flag= unempServive.addUnEmp(cmUnemp);
-           if (flag){
-               mv.setViewName("redirect:/direction/selectAllDirection3");
+       if (!sid.equals("")){
+           CmStudent cmStudent=new CmStudent();
+           cmStudent.setSid(Integer.parseInt(sid));
+           CmDirection cmDirection=new CmDirection();
+           cmDirection.setDid(did);
+           if (!uesalary.equals("")){
+               CmJob cmJob=new CmJob();
+               cmJob.setJid(Integer.parseInt(jid));
+               Date date=new DateConvert().StringtoDate(uetime);
+               CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
+               boolean flag= unempServive.addUnEmp(cmUnemp);
+               if (flag){
+                   mv.setViewName("redirect:/direction/selectAllDirection3");
+               }
+           }else{
+               CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
+               boolean flag= unempServive.addUnEmp(cmUnemp);
+               if (flag){
+                   mv.setViewName("redirect:/direction/selectAllDirection3");
+               }
            }
-       }else{
-//           String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
-//           String uemajor0=new String(uemajor.getBytes("iso-8859-1"),"utf-8");
-           CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
-           boolean flag= unempServive.addUnEmp(cmUnemp);
-           if (flag){
-               mv.setViewName("redirect:/direction/selectAllDirection3");
+       }else {
+           //学生表操作
+           boolean flagsex=false;
+           if (addssex==1){
+               flagsex=true;
+           }else {
+               flagsex=true;
+           }
+           CmStudent cmStudent=new CmStudent(sno,addsname,flagsex,new DateConvert().StringtoDate(addsbirth),addspro,Integer.parseInt(addsgrade),Integer.parseInt(addsclass),addsphone,addsemail,addscode,addsdetail);
+           CmDirection cmDirection=new CmDirection();
+           cmDirection.setDid(did);
+           if (!uesalary.equals("")){
+               CmJob cmJob=new CmJob();
+               cmJob.setJid(Integer.parseInt(jid));
+               Date date=new DateConvert().StringtoDate(uetime);
+               CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
+               boolean flag= unempServive.addUnEmp2(cmStudent,cmUnemp);
+               if (flag){
+                   mv.setViewName("redirect:/direction/selectAllDirection3");
+               }
+           }else{
+               CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
+               boolean flag= unempServive.addUnEmp2(cmStudent,cmUnemp);
+               if (flag){
+                   mv.setViewName("redirect:/direction/selectAllDirection3");
+               }
            }
        }
         return mv;
@@ -125,6 +155,7 @@ public class UnempCtrl {
         }
         return mv;
     }
+
     //zxl：统计未就业情况分布
     @RequestMapping(value = "/DrawUnEmp",method = RequestMethod.GET)
     public  String DrawNotEmp(ModelMap modelMap){

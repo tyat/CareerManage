@@ -64,6 +64,19 @@ public class CmInter {
         this.istate = istate;
     }
 
+    public CmInter() {
+    }
+
+    public CmInter(CmArea cmAreaByAid, CmRecruit cmRecruitByRid, CmStudent cmStudentBySid, String iaddress, Integer isuccess, Timestamp itime, String itype) {
+        this.cmAreaByAid = cmAreaByAid;
+        this.cmRecruitByRid = cmRecruitByRid;
+        this.cmStudentBySid = cmStudentBySid;
+        this.iaddress = iaddress;
+        this.isuccess = isuccess;
+        this.itime = itime;
+        this.itype = itype;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

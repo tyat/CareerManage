@@ -31,6 +31,8 @@
                 success : function(data) {
                     if (data=="null"){
                         alert("该生基本信息不存在，请先添加！");
+                        document.getElementById("mydiv1").style.display ="none";
+                        document.getElementById("mydiv2").style.display ="";
                     }else{
                         var stu = data.split(",");
                         document.getElementById("sid").value=stu[0];
@@ -125,9 +127,14 @@
                 }
             });
         }
+        function  startload() {
+            // alert("测试----------");
+            document.getElementById("mydiv1").style.display ="";
+            document.getElementById("mydiv2").style.display ="none";
+        }
     </script>
 </head>
-<body onload="addtime()">
+<body onload="addtime();startload()">
 <div class="table-box">
     <div class="table-content">
         <div class="table-head">
@@ -155,54 +162,127 @@
             <!--这是一条记录开始-->
             <form action="/emp/addEmp" method="post">
                 <table  class="pure-table pure-table-bordered" style="text-align:left">
-                    <input type="hidden" id="sid" name="sid" />
                     <tr>
                         <td width="200px">学号：</td>
-                        <td><input type="text" id="sno" name="sno" required="required" /><input class="mybutton" type="button" id="" value="检测" onclick="snoajax()" /> </td>
+                        <td><input type="text" id="sno" name="sno" required="required" /><input class="mybutton" type="button" value="检测" onclick="snoajax()" /> </td>
                     </tr>
+                </table>
+                <div id="mydiv1">
+                <table  class="pure-table pure-table-bordered" style="text-align:left">
+                    <input type="hidden" id="sid" name="sid" />
+
                     <tr>
                         <td width="200px">姓名：</td>
                         <td><input type="text"  id="sname" name="sname" required="required" disabled="disabled"  /></td>
                     </tr>
                     <tr>
-                        <td>性别：</td>
+                        <td width="200px">性别：</td>
                         <td>
                             <input type="text" id="ssex"  name="ssex"  required="required" disabled="disabled"/>
                         </td>
                     </tr>
                     <tr>
-                        <td>专业：</td>
+                        <td width="200px">专业：</td>
                         <td><input type="text" id="spro" name="spro" required="required"  disabled="disabled"/></td>
                     </tr>
                     <tr>
-                        <td>年级：</td>
-                        <td><input type="text" id="sgrade" name="sgrade"  required="required" disabled="disabled"/></td>
+                        <td width="200px">年级：</td>
+                        <td><input type="text" id="sgrade" name="sgrade"  disabled="disabled"/></td>
                     </tr>
                     <tr>
-                        <td>班级：</td>
-                        <td><input type="text" id="sclass" name="sclass"  disabled="disabled"/></td>
+                        <td width="200px">班级：</td>
+                        <td><input type="text" id="sclass" name="sclass" disabled="disabled" /></td>
                     </tr>
+                </table>
+                </div>
+                <div id="mydiv2">
+                    <table  class="pure-table pure-table-bordered" style="text-align:left">
+                        <tr>
+                            <td width="200px">姓名：</td>
+                            <td><input type="text"  id="addsname" name="addsname"    /></td>
+                        </tr>
+                        <tr>
+                            <td width="200px">性别：</td>
+                            <td>
+                               <select id="addssex" name="addssex">
+                                   <option value="0" selected="selected">男</option>
+                                   <option value="1" selected="selected">女</option>
+                               </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200px">出生日期：</td>
+                            <td><input type="text" id="addsbirth" name="addsbirth" onclick="choose_date_czw('addsbirth')"/></td>
+                        </tr>
+                        <tr>
+                            <td width="200px">专业：</td>
+                            <td><input type="text" id="addspro" name="addspro" /></td>
+                        </tr>
+                        <tr>
+                            <td width="200px">年级：</td>
+                            <td><input type="text" id="addsgrade" name="addsgrade"  />例如2013</td>
+                        </tr>
+                        <tr>
+                            <td width="200px">班级：</td>
+                            <td>
+                                <select id="addsclass" name="addsclass">
+                                    <option value="1" selected="selected">1班</option>
+                                    <option value="2">2班</option>
+                                    <option value="3">3班</option>
+                                    <option value="4">4班</option>
+                                    <option value="5">5班</option>
+                                </select>
+                        </tr>
+                        <tr>
+                            <td width="200px">身份证号：</td>
+                            <td >
+                                <input name="addscode" id="addscode"  type="text"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200px">联系电话：</td>
+                            <td >
+                                <input name="addsphone" id="addsphone" value=""  maxlength="12"  type="text"   />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200px">邮箱：</td>
+                            <td>
+                                <input name="addsemail" id="addsemail"  type="text" onblur="v_email(this.id)" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="200px">学生备注：</td>
+                            <td >
+                                <textarea cols="60" rows="8" name="addsdetail" id="addsdetail">这是学生备注</textarea>
+
+                            </td>
+                        </tr>
+
+                    </table>
+                 </div>
+                    <table  class="pure-table pure-table-bordered" style="text-align:left">
                     <tr>
-                        <td >就业企业：</td>
+                        <td width="200px">就业企业：</td>
                         <td >
                             <input type="text" id="cname" name="cname"/>
                         </td>
                     </tr>
                     <tr>
-                        <td >联系人：</td>
+                        <td width="200px">联系人：</td>
                         <td >
                             <input type="text" id="chr" name="chr"/>
                         </td>
                     </tr>
                     <tr>
-                        <td>联系电话：</td>
-                        <td colspan="4">
+                        <td width="200px">联系电话：</td>
+                        <td>
                             <input name="cphone" id="cphone" value=""  maxlength="12" required="required"   onblur=""  type="text"   />
                         </td>
                     </tr>
                     <tr>
-                        <td>详细地址：</td>
-                        <td colspan="2">
+                        <td width="200px">详细地址：</td>
+                        <td>
                             <select  name="aprovince" id="aprovince" onchange="provinceajax()" >
                                 <option value="0" selected="selected"> 省份 </option>
                                 <c:forEach items="${allAreaList}" var="s" varStatus="stu">
@@ -217,27 +297,27 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>邮箱：</td>
-                        <td colspan="2">
+                        <td width="200px">邮箱：</td>
+                        <td>
                             <input name="cemail" id="cemail" type="text" value="" onblur="v_email(this.id)" required="required"/>
                         </td>
                     </tr>
                     <tr>
                         <td>实习时间：</td>
-                        <td>
-                            <input type="text" id="etime" value="0000-00-00" name="etime" onclick="choose_date_czw('etime')"/>
+                        <td width="200px">
+                            <input type="text" id="etime" required="required" name="etime" onclick="choose_date_czw('etime')"/>
                         </td>
                     </tr>
                     <tr>
                         <td>面试时间：</td>
                         <td>
-                            <input type="text" value="0000-00-00" id="itime"  name="itime"  onclick="choose_date_czw('itime');"/>
+                            <input type="text" required="required" id="itime"  name="itime"  onclick="choose_date_czw('itime');"/>
                             <select id="add_time" name="add_time"></select> <select id="add_time2" name="add_time2"></select>
                         </td>
                     <tr>
                     <tr>
-                        <td>面试地址：</td>
-                        <td colspan="2">
+                        <td width="200px">面试地址：</td>
+                        <td>
                             <select  name="Iaprovince" id="Iaprovince" onchange="Iprovinceajax()" >
                                 <option value="0" selected="selected"> 省份 </option>
                                 <c:forEach items="${allAreaList}" var="s" varStatus="stu">
@@ -251,14 +331,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>面试方式：</td>
+                        <td width="200px">面试方式：</td>
                         <td >
                             <input type="text" id="itype" name="itype"/>
                         </td>
                     <tr>
 
                     <tr>
-                        <td>岗位:</td>
+                        <td width="200px">岗位:</td>
                         <td>
                             <select id="job" name="job">
                                 <c:forEach items="${allJob}"  var="s" varStatus="stu">
@@ -269,8 +349,8 @@
                     </tr>
 
                     <tr>
-                        <td>工作地址：</td>
-                        <td colspan="2">
+                        <td width="200px">工作地址：</td>
+                        <td>
                             <select  name="Japrovince" id="Japrovince" onchange="Jprovinceajax()" >
                                 <option value="0" selected="selected"> 省份 </option>
                                 <c:forEach items="${allAreaList}" var="s" varStatus="stu">
@@ -283,14 +363,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>月薪：</td>
-                        <td colspan="2">
+                        <td width="200px">月薪：</td>
+                        <td>
                             <input type="text" name="rsalary" id="rsalary"  onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/>
                         </td>
                     </tr>
 
                     <tr>
-                        <td>是否网签：</td>
+                        <td width="200px">是否网签：</td>
                         <td>
                             <select id="ewq" name="ewq">
                                 <option value="1" selected="selected">是</option>
@@ -299,20 +379,20 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>备注:</td>
+                        <td width="200px">备注:</td>
                         <td>
                             <textarea cols="100" rows="4" id="einfo" name="einfo">这是就业生备注详情......</textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td>企业简介：</td>
-                        <td colspan="2">
+                        <td width="200px">企业简介：</td>
+                        <td>
                             <textarea cols="60" rows="8" id="cinfo" name="cinfo">这是企业简介</textarea>
                         </td>
                     </tr>
                     <tr>
-                        <td>企业备注：</td>
-                        <td colspan="2">
+                        <td width="200px">企业备注：</td>
+                        <td>
                             <textarea cols="60" rows="8" name="cmark" id="cmark">这是企业备注</textarea>
                         </td>
                     </tr>

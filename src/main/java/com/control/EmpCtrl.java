@@ -47,72 +47,108 @@ public class EmpCtrl {
     private AreaService areaService;
     //zxl：添加就业生
     @RequestMapping(value = "/addEmp",method = RequestMethod.POST)
-    public ModelAndView addEmp(int sid,String cname,String chr,String cphone,int city,String caddress,String cemail,
+    public ModelAndView addEmp(String sid,String sno,String addsname,int addssex,String addsbirth,String addspro,String addsgrade,
+                               String addsclass,String addscode,String addsphone,String addsemail,String addsdetail,
+                               String cname,String chr,String cphone,int city,String caddress,String cemail,
                          String etime,String itime,int Icity,String iaddress,String itype,int job,int Jcity,
                          int rsalary,int ewq,String einfo,String cinfo,String cmark, int add_time,int add_time2,ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
-        CmArea cmArea1=new CmArea();
-        cmArea1.setAid(city);
-        CmCompany  cmCompany=new CmCompany(cname,chr,cphone,cemail,cinfo,cmark,caddress,cmArea1,new DateConvert().convert());
-        CmRecruit cmRecruit=new CmRecruit();
-        CmArea  cmArea2=new CmArea();
-        cmArea2.setAid(Jcity);
-        cmRecruit.setCmAreaByAid(cmArea2);
-        cmRecruit.setCmCompanyByCid(cmCompany);
-        cmRecruit.setRstart(new DateConvert().convert());
-        cmRecruit.setRend(new DateConvert().convert());
-        CmJob  cmJob=new CmJob();
-        cmJob.setJid(job);
-        cmRecruit.setCmJobByJid(cmJob);
-        cmRecruit.setRinfo("");
-        cmRecruit.setRnum(0);
-        cmRecruit.setRsalary(rsalary);
-        CmInter cmInter=new CmInter();
-        CmArea cmArea3=new CmArea();
-        cmArea3.setAid(Icity);
-        cmInter.setCmAreaByAid(cmArea3);
-        cmInter.setCmRecruitByRid(cmRecruit);
-        CmStudent cmStudent=new CmStudent();
-        cmStudent.setSid(sid);
-        cmInter.setCmStudentBySid(cmStudent);
-        cmInter.setIaddress(iaddress);
-        cmInter.setIsuccess(1);
-        String sadd_time=add_time+"";
-        String sadd_time2=add_time2*5+"";
-        if (add_time<10){
-            sadd_time="0"+sadd_time;
-        }
-        if (add_time2*5<10){
-            sadd_time2="0"+sadd_time2;
-        }
-        String []dates=itime.split("-");
-        for (int i=0;i<dates.length;i++){
-            if (Integer.parseInt(dates[i])<10){
-                dates[i]="0"+dates[i];
-            }
-        }
-        itime=dates[0]+"-"+dates[1]+"-"+dates[2];
-        cmInter.setItime(new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"));
-        cmInter.setItype(itype);
-        CmEmp cmEmp=new CmEmp();
-        CmUser cmUser=new CmUser();
-        cmUser.setUid(0);
-        cmEmp.setCmUserByUid(cmUser);
-        cmEmp.setCmJobByJid(cmJob);
-        cmEmp.setCmStudentBySid(cmStudent);
-        cmEmp.setEtime(new DateConvert().StringtoTime(etime));
-        cmEmp.setEinfo(einfo);
-        cmEmp.setEsalary(rsalary);
-        cmEmp.setEleave(new DateConvert().SysDate());
-        boolean flag=false;
-        if (ewq==1){
-            flag=true;
-        }
-        cmEmp.setEwq(flag);
-        boolean flag1=empService.addEmp(cmCompany,cmRecruit,cmInter,cmEmp);
-        if (flag){
-            mv.setViewName("redirect:/emp/forAddEmp2");
-        }
+       if (!sid.equals("")){
+           //公司表操作
+           CmArea cmArea1=new CmArea();
+           cmArea1.setAid(city);
+           CmCompany  cmCompany=new CmCompany(cname,chr,cphone,cemail,cinfo,cmark,caddress,cmArea1,new DateConvert().convert());
+           //招聘表操作
+           CmArea  cmArea2=new CmArea();
+           cmArea2.setAid(Jcity);
+           CmJob  cmJob=new CmJob();
+           cmJob.setJid(job);
+           CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany,new DateConvert().convert(),new DateConvert().convert(),cmJob,"",0,rsalary);
+           //面试表操作
+           CmArea cmArea3=new CmArea();
+           CmStudent cmStudent=new CmStudent();
+           cmStudent.setSid(Integer.parseInt(sid));
+           cmArea3.setAid(Icity);
+           String sadd_time=add_time+"";
+           String sadd_time2=add_time2*5+"";
+           if (add_time<10){
+               sadd_time="0"+sadd_time;
+           }
+           if (add_time2*5<10){
+               sadd_time2="0"+sadd_time2;
+           }
+           String []dates=itime.split("-");
+           for (int i=0;i<dates.length;i++){
+               if (Integer.parseInt(dates[i])<10){
+                   dates[i]="0"+dates[i];
+               }
+           }
+           itime=dates[0]+"-"+dates[1]+"-"+dates[2];
+           CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"),itype);
+           //就业是生表操作
+           CmUser cmUser=new CmUser();
+           cmUser.setUid(0);
+           boolean flag=false;
+           if (ewq==1){
+               flag=true;
+           }
+           CmEmp cmEmp=new CmEmp(cmUser,cmJob,cmStudent,new DateConvert().StringtoTime(etime),einfo,rsalary,new DateConvert().SysDate(),flag);
+           boolean flag1=empService.addEmp(cmCompany,cmRecruit,cmInter,cmEmp);
+           if (flag){
+               mv.setViewName("redirect:/emp/forAddEmp2");
+           }
+       }else{
+           //学生表操作
+           boolean flagsex=false;
+           if (addssex==1){
+               flagsex=true;
+           }else {
+               flagsex=true;
+           }
+           CmStudent cmStudent=new CmStudent(sno,addsname,flagsex,new DateConvert().StringtoDate(addsbirth),addspro,Integer.parseInt(addsgrade),Integer.parseInt(addsclass),addsphone,addsemail,addscode,addsdetail);
+           //公司表操作
+           CmArea cmArea1=new CmArea();
+           cmArea1.setAid(city);
+           CmCompany  cmCompany=new CmCompany(cname,chr,cphone,cemail,cinfo,cmark,caddress,cmArea1,new DateConvert().convert());
+          //招聘表操作
+           CmArea  cmArea2=new CmArea();
+           cmArea2.setAid(Jcity);
+           CmJob  cmJob=new CmJob();
+           cmJob.setJid(job);
+           CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany,new DateConvert().convert(),new DateConvert().convert(),cmJob,"",0,rsalary);
+           //面试表操作
+           CmArea cmArea3=new CmArea();
+           cmArea3.setAid(Icity);
+           String sadd_time=add_time+"";
+           String sadd_time2=add_time2*5+"";
+           if (add_time<10){
+               sadd_time="0"+sadd_time;
+           }
+           if (add_time2*5<10){
+               sadd_time2="0"+sadd_time2;
+           }
+           String []dates=itime.split("-");
+           for (int i=0;i<dates.length;i++){
+               if (Integer.parseInt(dates[i])<10){
+                   dates[i]="0"+dates[i];
+               }
+           }
+           itime=dates[0]+"-"+dates[1]+"-"+dates[2];
+           CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"),itype);
+           //就业是生表操作
+           CmUser cmUser=new CmUser();
+           cmUser.setUid(0);
+           boolean flag=false;
+           if (ewq==1){
+               flag=true;
+           }
+           CmEmp cmEmp=new CmEmp(cmUser,cmJob,cmStudent,new DateConvert().StringtoTime(etime),einfo,rsalary,new DateConvert().SysDate(),flag);
+           boolean flag1=empService.addEmpStu(cmStudent,cmCompany,cmRecruit,cmInter,cmEmp);
+           if (flag){
+               mv.setViewName("redirect:/emp/forAddEmp2");
+           }
+       }
+
         return mv;
     }
     //zxl：修改就业生

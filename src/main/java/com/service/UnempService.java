@@ -1,6 +1,7 @@
 package com.service;
 
 import com.ResObj.ResUnempObj;
+import com.pojo.CmStudent;
 import com.pojo.CmUnemp;
 import com.tools.InputData;
 import com.tools.OutputData;
@@ -88,6 +89,12 @@ public class UnempService {
         hibernateTemplate.save(cmUnemp);
         return true;
     }
+    //zxl：添加未就业生,该生基本信息不存在
+    public boolean addUnEmp2(CmStudent cmStudent, CmUnemp cmUnemp){
+        hibernateTemplate.save(cmStudent);
+        hibernateTemplate.save(cmUnemp);
+        return true;
+    }
     //zxl：根据id查询为就业学生信息
     public CmUnemp findUnEmpBySid(int sid){
         String hsql="select un from CmUnemp un where  un.cmStudentBySid.sid=? and un.uestate!=1";
@@ -111,6 +118,12 @@ public class UnempService {
         String hsql="select  count(*) from CmUnemp un where un.cmDirectionByDid.did=? and un.uestate=0";
         List<Long>data=(List<Long>) hibernateTemplate.find(hsql,did);
         return new Integer(String.valueOf(data.get(0)));
+    }
+    //zxl：删除未就业生信息
+    public  boolean delUnEmp(int sid){
+        String  hsql="update CmUnemp un set un.uestate=1 where un.cmStudentBySid.sid=? ";
+        hibernateTemplate.bulkUpdate(hsql,sid);
+        return true;
     }
 
     /**

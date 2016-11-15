@@ -105,7 +105,6 @@
             <!--这是表格结束-->
         </div>
         <div id="AdminPwd">
-                <button class="mybutton" type="button" onclick="HideAdminPwd()">取消</button>
             <p>修改密码</p>
             <form  action="/user/updateUpwd" method="post" id="updateUpwd" name="updateUpwd">
                 <table  class="pure-table pure-table-bordered left">
@@ -171,7 +170,7 @@
                 <tr>
                     <td colspan="2" style="text-align: center;">
                         <input class="mybutton" type="submit" style="width: 100px;"/>
-                        <button class="mybutton"  style="width:100px;" onclick="HideAdminUpdate()">取消</button>
+                        <input class="mybutton" type="button"  style="width:100px;" onclick="HideAdminUpdate()" value="取消"/>
                     </td>
                 </tr>
             </table>

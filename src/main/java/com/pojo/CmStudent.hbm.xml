@@ -19,10 +19,10 @@
         <property name="sphone" column="sphone"/>
         <property name="semail" column="semail"/>
         <property name="scode" column="scode"/>
-        <property name="smark" column="smark"/>
-        <property name="sassess" column="sassess"/>
-        <property name="sstate" column="sstate"/>
-        <property name="sdetail" column="sdetail"/>
+        <property name="smark" column="smark" not-null="false"/>
+        <property name="sassess" column="sassess" not-null="false"/>
+        <property name="sstate" column="sstate" not-null="false"/>
+        <property name="sdetail" column="sdetail" not-null="false"/>
         <set name="cmEmpsBySid" inverse="true" cascade="all">
             <key>
                 <column name="sid"/>

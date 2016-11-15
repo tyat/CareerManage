@@ -83,6 +83,21 @@ public class CmRecruit {
     public void setRstate(Integer rstate) {
         this.rstate = rstate;
     }
+
+    public CmRecruit() {
+    }
+
+    public CmRecruit(CmArea cmAreaByAid, CmCompany cmCompanyByCid, Timestamp rstart, Timestamp rend, CmJob cmJobByJid, String rinfo, Integer rnum, Integer rsalary) {
+        this.cmAreaByAid = cmAreaByAid;
+        this.cmCompanyByCid = cmCompanyByCid;
+        this.rstart = rstart;
+        this.rend = rend;
+        this.cmJobByJid = cmJobByJid;
+        this.rinfo = rinfo;
+        this.rnum = rnum;
+        this.rsalary = rsalary;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

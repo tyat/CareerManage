@@ -101,12 +101,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>在岗学生人数：</td>
-                    <td colspan="4">
-                        <input name="" value="8人" type="text"  disabled="disabled"/>
-                    </td>
-                </tr>
-                <tr>
                     <td>详细地址：</td>
                     <td colspan="4">
                         <select  name="aprovince" id="aprovince" onchange="provinceajax()">
