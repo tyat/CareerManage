@@ -1,9 +1,11 @@
 package com.control;
 
 import com.ResObj.InterResObj;
+import com.ResObj.ResUnempObj;
 import com.pojo.CmArea;
 import com.service.AreaService;
 import com.service.InterService;
+import com.service.UnempService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +26,8 @@ public class InterCtrl {
     private InterService interService;
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private UnempService unempService;
 
     //查询所有面试记录——ly
     @RequestMapping(value = "/inter/findAll",method = RequestMethod.GET )
@@ -41,7 +45,29 @@ public class InterCtrl {
         session.setAttribute("interList",interList);
         List<CmArea> areaList = areaService.findAllArea();
         session.setAttribute("areaList",areaList);
+        session.setAttribute("rid",rid);
         return "system/meeting/ThisMeetStudents";
+    }
+
+    //添加面试学生前——ly
+    @RequestMapping(value = "/inter/addpro",method = RequestMethod.GET )
+    public String addpro(int rid,ModelMap modelMap,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        List<ResUnempObj> unempList = unempService.FindAllUnemp();
+        modelMap.addAttribute("unempList",unempList);
+        System.out.println("未就业生列表： "+unempList);
+        session.setAttribute("rid", rid);
+        return "system/meeting/InterviewAdd";
+    }
+
+    //按姓名搜索未就业生——ly
+    @RequestMapping(value = "/inter/findUnempBySname",method = RequestMethod.POST )
+    public String findUnempBySname(int rid,String sname,ModelMap modelMap, RedirectAttributes attr){
+        List<ResUnempObj> unempList = unempService.FindBySname(sname);
+        modelMap.addAttribute("unempList",unempList);
+        System.out.println("查询结果——未就业生列表： "+unempList);
+        attr.addAttribute("rid", rid);
+        return "system/meeting/InterviewAdd";
     }
 
     //增加面试学生——ly
@@ -148,12 +174,14 @@ public class InterCtrl {
 
     //搜索该招聘信息下的面试学生——ly
     @RequestMapping(value = "/inter/query",method = RequestMethod.POST )
-    public String query(int rid,int type, String searchtext, ModelMap modelMap){
+    public String query(int rid, int type, String searchtext, ModelMap modelMap){
+        System.out.println("rid------"+rid);
         System.out.println("type------"+type);
         System.out.println("searchtext------"+searchtext);
         List<InterResObj> interList = interService.query(rid,type,searchtext);
         modelMap.addAttribute("interList",interList);
         System.out.println("面试学生列表： "+interList);
+        modelMap.addAttribute("rid",rid);
         return "system/meeting/ThisMeetStudents";
     }
 

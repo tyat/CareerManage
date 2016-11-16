@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
 <html>
 <head>
@@ -113,7 +114,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td rowspan="4"><a href="../company/CompSearch.html">${recruit.cname}</a></td>
+                            <td rowspan="4"><a href="/recruit/findByCid?cid=${recruit.cid}">${recruit.cname}</a></td>
                             <td width="130px">联系人：</td>
                             <td>${recruit.chr}</td>
                             <td>联系电话：</td>
@@ -145,9 +146,9 @@
                         </tr>
                         <tr>
                             <td>发布时间：</td>
-                            <td>${recruit.rstart}</td>
+                            <td><fmt:formatDate value="${recruit.rstart}" pattern="yyyy-MM-dd"/></td>
                             <td>截止时间：</td>
-                            <td>${recruit.rend}</td>
+                            <td><fmt:formatDate value="${recruit.rend}" pattern="yyyy-MM-dd"/></td>
                         </tr>
                     </table>
                     <br>

@@ -19,21 +19,7 @@
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="javascript">
-    function showQiwangText(){
-        document.getElementById("qiwang-text").style.display="block";
-        document.getElementById("mark-text").style.display="none";
-        document.getElementById("mark-canvars").style.display="none";
-    }
-    function showMarkText(){
-        document.getElementById("mark-text").style.display="block";
-        document.getElementById("qiwang-text").style.display="none";
-        document.getElementById("mark-canvars").style.display="none";
-    }
-    function showMarkCanvars(){
-        document.getElementById("mark-canvars").style.display="block";
-        document.getElementById("mark-text").style.display="none";
-        document.getElementById("qiwang-text").style.display="none";
-    }
+
     var msg="${ResMsg}";
     if(msg!=""){
         alert(msg);
@@ -43,7 +29,7 @@
             $("input:radio[name='smark']").get(index).prop("checked","checked");
         }
     });
-    //$("input[@name='smark'][value=${student.smark}").attr("checked",true);
+    /*$("input[@name='smark'][value=${student.smark}").attr("checked",true);*/
 
 </script>
 
@@ -74,8 +60,8 @@
         </div>
         <div class="table-bar">
             <ul>
-                <li class="active-li" onclick="showMarkText()">成绩信息 </li>
-                <li onclick="showQiwangText()">就业期望</li>
+                <li class="active-li" onclick="showMark()">成绩信息 </li>
+                <li onclick="showQiwang()">就业期望</li>
                 <li onclick="showMarkCanvars()">能力认定</li>
             </ul>
         </div>
@@ -176,19 +162,10 @@
             <!--这是一条记录结束-->
 
             <div class="button-footer">
-                <div class="right-button-footer">
-                    <div id="Page">
-                        <a href="#">«</a>
-                        <span>1</span>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#">6</a>
-                        <a href="#">»</a>
-                    </div>
-                </div>
+
                 <div class="left-button-footer">
+                    <button class="mybutton" type="button" onclick="location=''">打印</button>
+                    &nbsp;&nbsp;
                     <button class="mybutton" type="button" onclick="ShowDetailTip()"> <span>导出数据</span></button>
                     <!--<button class="icon-filein" type="button" onclick="ShowDetailTip()"> <span>导入数据</span></button>
                     <button class="icon-down" type="button" onclick="ShowDetailTip()"> <span>下载Excel模板</span></button>-->
@@ -206,10 +183,6 @@
                         <td> <input type="text" id="qw-stuname" disabled="disabled" value="${student.sname}"/></td>
                     </tr>
                     <c:if test="${!(student.dname.equals('考研'))}">
-                        <%--<tr>
-                            <td>期望就业单位：</td>
-                            <td><input type="text" id="qw-comp" disabled="disabled" value="${student.}"/></td>
-                        </tr>--%>
                         <tr>
                             <td>期望就业岗位：</td>
 
@@ -280,9 +253,8 @@
                 </div>
                 <div class="starability-container">
                     <h3>教师评价：</h3>
-                        <textarea disabled="disabled" name="sassess" id="pingjia">${student.sassess}</textarea><br />
+                        <textarea name="sassess" id="pingjia">${student.sassess}</textarea><br />
                         <div class="buttonbox">
-                            <input type="button" value="修改" class="mybutton" onclick="beginBianji()"/>
                             <input type="button" value="保存" class="mybutton" onclick="this.form.submit()"/>
                         </div>
                 </div>
@@ -292,6 +264,24 @@
     </div>
 
 </div>
+
+<script>
+    function showQiwang(){
+        document.getElementById("qiwang-text").style.display="block";
+        document.getElementById("mark-text").style.display="none";
+        document.getElementById("mark-canvars").style.display="none";
+    }
+    function showMark(){
+        document.getElementById("mark-text").style.display="block";
+        document.getElementById("qiwang-text").style.display="none";
+        document.getElementById("mark-canvars").style.display="none";
+    }
+    function showMarkCanvars(){
+        document.getElementById("mark-canvars").style.display="block";
+        document.getElementById("mark-text").style.display="none";
+        document.getElementById("qiwang-text").style.display="none";
+    }
+</script>
 </body>
 </html>
 

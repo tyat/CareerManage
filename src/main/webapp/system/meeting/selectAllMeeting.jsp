@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
 
 <html>
@@ -54,10 +55,6 @@
                 alert('不删除！');
             }
         }
-        var msg="${ResMsg}";
-        if(msg!=""){
-            alert(msg);
-        }
         function query(){
             var searchtext = document.getElementById("searchtext").value;
             if (searchtext == "") {
@@ -65,6 +62,10 @@
             }else{
                 $("#search").submit();
             }
+        }
+        var msg="${ResMsg}";
+        if(msg!=""){
+            alert(msg);
         }
     </script>
 </head>
@@ -75,7 +76,8 @@
         <div class="table-head">
             <div class="table-address">
                 <div style="float: left;">
-                    <span>信息管理</span><div class="left-arrow"></div><span>招聘管理</span>
+                    <span>信息管理</span><div class="left-arrow"></div>
+                    <span>招聘管理</span>
                 </div> <br />
                 <div class="Big-title">
                     <div class="littil-title">
@@ -112,7 +114,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td rowspan="4"><a href="/company/findByCompCid?cid=${recruit.cid}">${recruit.cname}</a></td>
+                        <td rowspan="4"><a href="/recruit/findByCid?cid=${recruit.cid}">${recruit.cname}</a></td>
                         <td width="130px">联系人：</td>
                         <td>${recruit.chr}</td>
                         <td>联系电话：</td>
@@ -144,9 +146,9 @@
                     </tr>
                     <tr>
                         <td>发布时间：</td>
-                        <td>${recruit.rstart}</td>
+                        <td><fmt:formatDate value="${recruit.rstart}" pattern="yyyy-MM-dd"/></td>
                         <td>截止时间：</td>
-                        <td>${recruit.rend}</td>
+                        <td><fmt:formatDate value="${recruit.rend}" pattern="yyyy-MM-dd"/></td>
                     </tr>
                 </table>
                 <br>

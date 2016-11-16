@@ -126,25 +126,25 @@
                     <tr>
                         <td>月薪：</td>
                         <td>
-                            <input type="text" name="rsalary"/>RMB
+                            <input type="text" name="rsalary" required="required"/>RMB
                         </td>
                     </tr>
                     <tr>
                         <td >性别要求：</td>
                         <td >
-                            <input type="radio" name="rsex" value="0">男
+                            <input type="radio" name="rsex" value="0" required="required">男
                             <input type="radio" name="rsex" value="1">女
                         </td>
                     </tr>
                     <tr>
                         <td >招聘人数：</td>
-                        <td ><input type="text" name="rnum"/>人</td>
+                        <td ><input type="text" name="rnum" required="required"/>人</td>
                     </tr>
 
                     <tr>
                         <td>截止时间：</td>
                         <td >
-                            <input type="text" id="add_date" name="rend" onclick="choose_date_czw('add_date');"/>
+                            <input type="text" id="add_date" name="rend" required="required" onclick="choose_date_czw('add_date');"/>
                         </td>
                     </tr>
                     <tr>
@@ -156,7 +156,7 @@
 
                     <tr style="text-align: center;">
                         <td colspan="2">
-                            <button class="mybutton" type="button" onclick="this.form.submit()">保存</button>
+                            <input type="submit" value="保存" name="" class="mybutton"  />
                         </td>
                     </tr>
                 </table>
@@ -181,11 +181,17 @@
 
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        var ue = UE.getEditor('editor');
+        ue.ready(function() {//编辑器初始化完成再赋值
+            ue.setContent("这里填写招聘要求等。");  //赋值给UEditor
+        });
+
+    });
 
     //实例化编辑器
     //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
     var ue = UE.getEditor('editor');
-
 
     function isFocus(e){
         alert(UE.getEditor('editor').isFocus());

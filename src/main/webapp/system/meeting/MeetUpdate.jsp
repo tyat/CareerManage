@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
 <html>
 <head>
@@ -24,37 +25,6 @@
     <script type="text/javascript" charset="utf-8" src="../../ueditor/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="../../ueditor/lang/zh-cn/zh-cn.js"></script>
 
-    <script type="javascript">
-        function findcity() {
-            var myselect = document.getElementById("aprovince");
-            var index = myselect.selectedIndex;
-            var aprovince = myselect.options[index].value;
-            alert(aprovince);
-            $.ajax({
-                type: "POST",
-                url: "/area/findcity",
-                data:"aprovince="+aprovince,
-                dataType:"text",
-                success: function(data){
-                    var json = eval("("+data+")"); // data的值是json字符串，这行把字符串转成object
-                    var json = JSON.parse( data );
-                    var city = $("#city");
-                    var str = '';
-                    //清空以前的option
-                    $("#city").find("option").remove();
-                    for(var o in json) {
-                        str += '<option value="'+json[o].aid+'">'+json[o].acity+'</option>';
-                    }
-                    city.append(str);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown){
-                    alert(XMLHttpRequest.status);
-                    alert(XMLHttpRequest.readyState);
-                    alert(textStatus);
-                }
-            });
-        }
-    </script>
 </head>
 <body onload="addtime()">
 <div class="table-box">
@@ -175,7 +145,7 @@
                     <tr>
                         <td>截止时间：</td>
                         <td >
-                            <input type="text" id="add_date" name="rend" value="${recruit.rend}" onclick="choose_date_czw('add_date');"/>
+                            <input type="text" id="add_date" name="rend" value="<fmt:formatDate value="${recruit.rend}" pattern="yyyy-MM-dd"/>" onclick="choose_date_czw('add_date');"/>
                         </td>
                     </tr>
                     <tr>
@@ -312,6 +282,37 @@
     function clearLocalData () {
         UE.getEditor('editor').execCommand( "clearlocaldata" );
         alert("已清空草稿箱")
+    }
+
+    <!--查询地区-->
+    function findcity() {
+        var myselect = document.getElementById("aprovince");
+        var index = myselect.selectedIndex;
+        var aprovince = myselect.options[index].value;
+        //alert(aprovince);
+        $.ajax({
+            type: "POST",
+            url: "/area/findcity",
+            data:"aprovince="+aprovince,
+            dataType:"text",
+            success: function(data){
+                var json = eval("("+data+")"); // data的值是json字符串，这行把字符串转成object
+                var json = JSON.parse( data );
+                var city = $("#city");
+                var str = '';
+                //清空以前的option
+                $("#city").find("option").remove();
+                for(var o in json) {
+                    str += '<option value="'+json[o].aid+'">'+json[o].acity+'</option>';
+                }
+                city.append(str);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown){
+                alert(XMLHttpRequest.status);
+                alert(XMLHttpRequest.readyState);
+                alert(textStatus);
+            }
+        });
     }
 </script>
 

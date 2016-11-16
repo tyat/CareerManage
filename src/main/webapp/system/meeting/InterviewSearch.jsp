@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
 <html>
 <head>
@@ -41,11 +42,8 @@
                 dataType:"text",
                 //contentType: "application/json; charset=utf-8",
                 success: function(data){
-                    alert(data);
                     var json = eval("("+data+")"); // data的值是json字符串，这行把字符串转成object
                     var json = JSON.parse( data );
-                    //alert( json[0].iaddress );
-                    showMeetResult();
                     $("#iid").attr("value",json.iid);
                     $("#sname").attr("value",json.sname);
                     if(json.isuccess==0){
@@ -57,6 +55,7 @@
                     }else{
                         $("#isuccess3").attr("selected","selected");
                     }
+                    showMeetResult();
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown){
                     alert(XMLHttpRequest.status);
@@ -64,6 +63,14 @@
                     alert(textStatus);
                 }
             });
+        }
+        function query(){
+            var searchtext = document.getElementById("searchtext").value;
+            if (searchtext == "") {
+                alert("关键字不能为空！");
+            }else{
+                $("#search").submit();
+            }
         }
     </script>
 
@@ -84,15 +91,15 @@
                         面试信息
                     </div>
                     <div class="search-box">
-                        <form action="/inter/query2" method="post">
+                        <form action="/inter/query2" method="post" name="search" id="search">
                             <select name="type">
                                 <option value="0">按学生姓名</option>
                                 <option value="1">按学生学号</option>
                                 <option value="2">按面试企业名称</option>
                                 <%--<option value="3">按面试时间</option>--%>
                             </select>
-                            <input type="text" name="searchtext"  placeholder="请输入……"/>
-                            <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <input type="text" name="searchtext" id="searchtext" placeholder="请输入……"/>
+                            <button class="mybutton" type="button" onclick="query()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页
                             </button>
@@ -115,7 +122,7 @@
                         <td>面试城市</td>
                         <td>面试地点</td>
                         <td>面试方式</td>
-                        <td>面试结果</td>
+                        <td>面试状态</td>
                         <td  colspan="2">
                             操作
                         </td>
@@ -129,7 +136,7 @@
                             <td>${inter.sno}</td>
                             <td><a href="/company/findByCompCid?cid=${inter.cid}">${inter.cname}</a></td>
                             <td>${inter.jname}</td>
-                            <td>${inter.itime}</td>
+                            <td><fmt:formatDate value="${inter.itime}" pattern="yyyy-MM-dd"/></td>
                             <td>${inter.aprovince}${inter.acity}</td>
                             <td>${inter.iaddress}</td>
                             <td>${inter.itype}</td>

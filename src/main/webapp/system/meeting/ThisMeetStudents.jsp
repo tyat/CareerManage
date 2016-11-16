@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
 
 <html>
@@ -20,19 +21,19 @@
     <script type="text/javascript" src="../../js/Date.js" ></script>
 
     <script type="text/javascript">
-        function showAddStu(){
+        /*function showAddStu(){
             document.getElementById("showAddstu-div").style.display="block";
             document.getElementById("zhezhaobg").style.display="block";
-        }
+        }*/
         function  showMeetResult(){
             document.getElementById("showMeetResult").style.display="block";
             document.getElementById("zhezhaobg").style.display="block";
         }
-        function  hideAddStu(){
+        /*function  hideAddStu(){
             document.getElementById("showAddstu-div").style.display="none";
             document.getElementById("zhezhaobg").style.display="none";
             document.getElementById("search-result").style.display="none";
-        }
+        }*/
         function  showSearchResult(){
             document.getElementById("search-result").style.display="block";
         }
@@ -80,7 +81,7 @@
                 }
             });
         }
-        function findStudent() {
+        /*function findStudent() {
             var sno = document.getElementById("searchSno").value;
             $.ajax({
                 type: "POST",
@@ -141,6 +142,14 @@
                     alert(textStatus);
                 }
             });
+        }*/
+        function query(){
+            var searchtext = document.getElementById("searchtext").value;
+            if (searchtext == "") {
+                alert("关键字不能为空！");
+            }else{
+                $("#search").submit();
+            }
         }
 
     </script>
@@ -159,15 +168,15 @@
                         面试参与人员
                     </div>
                     <div class="search-box">
-                        <form action="/inter/query" method="post">
+                        <form action="/inter/query" method="post" name="search" id="search">
                             <input type="hidden" name="rid" value="${interList.get(0).rid }">
                             <select name="type">
                                 <option value="0">按学生姓名</option>
                                 <option value="1">按专业</option>
                                 <option value="2">按年级</option>
                             </select>
-                            <input type="text" name="searchtext"  placeholder="请输入……"/>
-                            <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <input type="text" name="searchtext" id="searchtext" placeholder="请输入……"/>
+                            <button class="mybutton" type="button" onclick="query()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页
                             </button>
@@ -190,9 +199,9 @@
                         <td>面试城市</td>
                         <td>面试地点</td>
                         <td>面试方式</td>
-                        <td>面试结果</td>
+                        <td>面试状态</td>
                         <td  colspan="2">
-                            <button class="mybutton" style="width: 100px;" type="button" onclick="showAddStu()">添加</button>
+                            操作
                         </td>
                     </tr>
 
@@ -204,7 +213,7 @@
                             <td>${inter.sphone}</td>
                             <td>${inter.sgrade}</td>
                             <td>${inter.spro}${inter.sclass}</td>
-                            <td>${inter.itime}</td>
+                            <td><fmt:formatDate value="${inter.itime}" pattern="yyyy-MM-dd"/></td>
                             <td>${inter.aprovince}${inter.acity}</td>
                             <td>${inter.iaddress}</td>
                             <td>${inter.itype}</td>
@@ -246,12 +255,15 @@
                 </div>
             </div>
             <div class="left-button-footer">
+                <button class="mybutton" type="button" onclick="location='/inter/addpro?rid=${rid}'">添加面试学生</button>
+                &nbsp;&nbsp;
                 <button class="mybutton" type="button" onclick="alert('弹出保存对话框')"> <span>批量导出数据</span></button>
             </div>
         </div>
     </div>
 
-    <div id="showAddstu-div">
+    <!--添加面试学生-->
+    <%--<div id="showAddstu-div">
         <div class="tab-close">
             <button class="mybutton" type="button" onclick="hideAddStu()">取消</button>
         </div>
@@ -320,8 +332,9 @@
                 </table>
             </form>
         </div>
-    </div>
+    </div>--%>
 
+    <!--修改面试学生-->
     <div id="showMeetResult">
         <div class="tab-close">
             <button class="mybutton" type="button" onclick="hideMeetResult()">取消</button>

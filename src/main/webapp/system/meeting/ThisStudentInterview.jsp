@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
 <html>
 <head>
@@ -103,7 +104,7 @@
                         <td>面试城市</td>
                         <td>面试地点</td>
                         <td>面试方式</td>
-                        <td>面试结果</td>
+                        <td>面试状态</td>
                         <td  colspan="2">
                             操作
                         </td>
@@ -117,7 +118,7 @@
                             <td>${inter.sno}</td>
                             <td><a href="/company/findByCompCid?cid=${inter.cid}">${inter.cname}</a></td>
                             <td>${inter.jname}</td>
-                            <td>${inter.itime}</td>
+                            <td><fmt:formatDate value="${inter.itime}" pattern="yyyy-MM-dd"/></td>
                             <td>${inter.aprovince}${inter.acity}</td>
                             <td>${inter.iaddress}</td>
                             <td>${inter.itype}</td>

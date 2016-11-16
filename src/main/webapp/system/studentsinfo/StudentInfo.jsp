@@ -41,6 +41,8 @@
                 showStuUpdate();
                 $("#sid").attr("value",json.sid);
                 $("#sname").attr("value",json.sname);
+                $("#sgrade").attr("value",json.sgrade);
+                $("#sclass").attr("value",json.sclass);
                 $("#sphone").attr("value",json.sphone);
                 $("#semail").attr("value",json.semail);
             },
@@ -204,8 +206,21 @@
                 <td>
                     <input type="text" name="sname" id="sname" disabled="disabled" />
                 </td>
+
+            <tr>
+                <td>年级：</td>
+                <td>
+                    <input type="text" name="sgrade" id="sgrade" />
+                </td>
             </tr>
             <tr>
+            <tr>
+                <td>班级：</td>
+                <td>
+                    <input type="text" name="sclass" id="sclass" />
+                </td>
+            </tr>
+            <tr><tr>
                 <td>联系电话：</td>
                 <td>
                     <input type="text" name="sphone" id="sphone" />

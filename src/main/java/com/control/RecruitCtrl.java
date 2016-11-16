@@ -129,9 +129,18 @@ public class RecruitCtrl {
             recruitList = recruitService.findByCname(searchtext);
             modelMap.addAttribute("recruitList",recruitList);
         }else if(type==1){
-            //按招聘岗位？
+            //按招聘岗位/时间
         }
         return "system/meeting/MeetSearch";
     }
+
+    //按cid查询招聘信息——ly
+    @RequestMapping(value = "/recruit/findByCid",method = RequestMethod.GET )
+    public String findByCid(int cid,ModelMap modelMap){
+        List<RecruitResObj> recruitList = recruitService.findByCid(cid);
+        modelMap.addAttribute("recruitList",recruitList);
+        return "system/meeting/MeetSearch";
+    }
+
 
 }
