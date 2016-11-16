@@ -36,6 +36,8 @@ public class InterCtrl {
     public String findAll(ModelMap modelMap){
         List<InterResObj> interList = interService.findAll();
         modelMap.addAttribute("interList",interList);
+        List<CmUser>userList=userService.findAllUser();
+        modelMap.addAttribute("userList",userList);
         return "system/meeting/AllInterviews";
     }
 
@@ -70,6 +72,8 @@ public class InterCtrl {
         List<ResUnempObj> unempList = unempService.FindBySname(sname);
         modelMap.addAttribute("unempList",unempList);
         System.out.println("查询结果——未就业生列表： "+unempList);
+        List<CmUser>userList=userService.findAllUser();
+        modelMap.addAttribute("userList",userList);
         attr.addAttribute("rid", rid);
         return "system/meeting/InterviewAdd";
     }
@@ -163,9 +167,18 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter2",method = RequestMethod.POST )
-    public String updateInter2(int iid,int isuccess,ModelMap modelMap) throws ParseException {
+    public String updateInter2(int iid,int isuccess,int sid, String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap) throws java.lang.Exception, ParseException {
         boolean ResMsg = interService.updateInter(iid,isuccess);
         if(ResMsg){
+            if (isuccess==1){
+                boolean flag=empService.addEmp3(iid,sid,esalary,etime,ewq,uid,einfo);
+                if (flag){
+                    modelMap.addAttribute("addEmp2","修改成功！");
+                }else{
+                    modelMap.addAttribute("addEmp2","修改失败，该生已就业请先删除就业信息！");
+                }
+
+            }
             modelMap.addAttribute("ResMsg","编辑成功！");
         }else{
             modelMap.addAttribute("ResMsg","编辑失败！");
@@ -175,9 +188,17 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter3",method = RequestMethod.POST )
-    public String updateInter3(int iid,int sid,int isuccess,ModelMap modelMap,RedirectAttributes attr) throws ParseException {
+    public String updateInter3(int iid,int sid,int isuccess,String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap,RedirectAttributes attr)  throws java.lang.Exception,  ParseException {
         boolean ResMsg = interService.updateInter(iid,isuccess);
         if(ResMsg){
+            if (isuccess==1) {
+                boolean flag = empService.addEmp3(iid, sid, esalary, etime, ewq, uid, einfo);
+                if (flag) {
+                    modelMap.addAttribute("addEmp2", "修改成功！");
+                } else {
+                    modelMap.addAttribute("addEmp2", "修改失败，该生已就业请先删除就业信息！");
+                }
+            }
             modelMap.addAttribute("ResMsg","编辑成功！");
         }else{
             modelMap.addAttribute("ResMsg","编辑失败！");
@@ -196,6 +217,8 @@ public class InterCtrl {
         modelMap.addAttribute("interList",interList);
         System.out.println("面试学生列表： "+interList);
         modelMap.addAttribute("rid",rid);
+        List<CmUser>userList=userService.findAllUser();
+        modelMap.addAttribute("userList",userList);
         return "system/meeting/ThisMeetStudents";
     }
 
@@ -207,6 +230,8 @@ public class InterCtrl {
         List<InterResObj> interList = interService.query2(type,searchtext);
         modelMap.addAttribute("interList",interList);
         System.out.println("面试学生列表： "+interList);
+        List<CmUser>userList=userService.findAllUser();
+        modelMap.addAttribute("userList",userList);
         return "system/meeting/InterviewSearch";
     }
 

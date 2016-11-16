@@ -84,6 +84,31 @@ public class EmpService {
         unempService.delUnEmp(sid);
         return  true;
     }
+    //zxl：添加就业生
+    public boolean  addEmp3(int iid,int sid,String esalary,String etime,int ewq,int uid,String einfo)throws Exception{
+        CmJob cmJob=jobService.findRecruitByIid(iid);
+        //  CmEmp inemp=new EmpService().findEmpBySid(sid);
+        CmEmp cmEmp=new CmEmp();
+        cmEmp.setEtime(new DateConvert().StringtoTime(etime));
+        if (ewq==1){
+            cmEmp.setEwq(true);
+        }else {
+            cmEmp.setEwq(false);
+        }
+        cmEmp.setEsalary(Integer.parseInt(esalary));
+        cmEmp.setEinfo(einfo);
+        cmEmp.setCmJobByJid(cmJob);
+        CmStudent cmStudent=new CmStudent();
+        cmStudent.setSid(sid);
+        CmUser cmUser=new CmUser();
+        cmUser.setUid(uid);
+        cmEmp.setCmStudentBySid(cmStudent);
+        cmEmp.setEleave(new DateConvert().SysDate());
+        cmEmp.setCmUserByUid(cmUser);
+        hibernateTemplate.save(cmEmp);
+        unempService.delUnEmp(sid);
+        return  true;
+    }
     //zxl：根据学生id查询该就业生的就业信息
     public  CmEmp findEmpBySid(int sid){
         String hsql="from CmEmp e where e.cmStudentBySid.sid=? and e.estate!=2";

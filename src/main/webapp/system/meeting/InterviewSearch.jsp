@@ -17,7 +17,7 @@
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-
+    <script type="text/javascript" src="../../js/Date.js" ></script>
     <script type="text/javascript">
         function  showMeetResult(){
             document.getElementById("showMeetResult").style.display="block";
@@ -46,6 +46,7 @@
                     var json = JSON.parse( data );
                     $("#iid").attr("value",json.iid);
                     $("#sname").attr("value",json.sname);
+                    $("#sid").attr("value",json.sid);
                     if(json.isuccess==0){
                         $("#isuccess0").attr("selected","selected");
                     }else if(json.isuccess==1){
@@ -72,10 +73,21 @@
                 $("#search").submit();
             }
         }
+        function  onclickload() {
+            var isuccess = document.getElementById("isuccess").value;
+            if(isuccess=="1"){
+                document.getElementById("mydiv").style.display ="";
+            }else {
+                document.getElementById("mydiv").style.display ="none";
+            }
+        }
+        function  startload() {
+            document.getElementById("mydiv").style.display ="none";
+        }
     </script>
 
 </head>
-<body>
+<body onload="startload()">
 <div class="table-box">
     <div class="table-content">
         <!--这是标题栏-->
@@ -199,7 +211,7 @@
                     <tr>
                         <td>面试结果：</td>
                         <td>
-                            <select name="isuccess" id="isuccess">
+                            <select name="isuccess" id="isuccess" onchange="onclickload()">
                                 <option id="isuccess0" value="0">准备面试</option>
                                 <option id="isuccess1" value="1">面试成功（已就业）</option>
                                 <option id="isuccess2" value="2">面试成功（未就业）</option>
@@ -207,6 +219,52 @@
                             </select>
                         </td>
                     </tr>
+                </table>
+                <div id="mydiv">
+                    <table class="pure-table pure-table-bordered">
+                        <input type="hidden" name="sid" id="sid"/>
+                        <tr>
+                            <td>薪资：</td>
+                            <td>
+                                <input type="text" id="esalary" name="esalary" value="${findEmpBySid.esalary}"  onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>实习时间：</td>
+                            <td>
+                                <input   required="required" type="text" id="etime" name="etime" onclick="choose_date_czw('etime')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>是否网签：</td>
+                            <td>
+                                <select id="ewq" name="ewq">
+                                    <option id="ewq1" value="1" selected="selected">是</option>
+                                    <option id="ewq2" value="0">否</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>推荐人：</td>
+                            <td>
+                                <select id="uid" name="uid">
+                                    <c:forEach items="${userList}" var="s" varStatus="stu">
+                                        <c:if test="${s.uid!=0}">
+                                            <option id="uids" value="${s.uid}">${s.urname}</option>
+                                        </c:if>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>备注:</td>
+                            <td>
+                                <textarea cols="19" rows="4" id="einfo" name="einfo">这里是备注信息...</textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <table class="pure-table pure-table-bordered">
                     <tr>
                         <td colspan="2">
                             <button class="mybutton" type="button" style="width: 200px;" onclick="this.form.submit()">保存</button>
