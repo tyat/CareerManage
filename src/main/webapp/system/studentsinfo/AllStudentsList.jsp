@@ -33,6 +33,14 @@
         myForm.submit();
         document.body.removeChild(myForm);
     }
+    function query(){
+        var searchtext = document.getElementById("searchtext").value;
+        if (searchtext == "") {
+            alert("关键字不能为空！");
+        }else{
+            $("#search").submit();
+        }
+    }
     var msg="${ResMsg}";
     if(msg!=""){
         alert(msg);
@@ -54,14 +62,14 @@
                         学生列表
                     </div>
                     <div class="search-box">
-                        <form action="/student/query" method="post">
+                        <form action="/student/query" method="post" name="search" id="search">
                             <select name="type">
                                 <option value="0">按年级</option>
                                 <option value="1">按专业</option>
                                 <option value="2">按姓名</option>
                             </select>
-                            <input type="text" name="searchtext"  placeholder="请输入……"/>
-                            <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <input type="text" name="searchtext" id="searchtext" placeholder="请输入……"/>
+                            <button class="mybutton" type="button" onclick="query()"> <span>搜索</span> </button>
                         </form>
                     </div>
                 </div>

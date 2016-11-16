@@ -1,6 +1,5 @@
 package com.ResObj;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,10 +11,16 @@ public class InterResObj {
     private Integer iid;
     private String iaddress;
     private String itype;
-    private Timestamp itime;
+    private Date itime;
     private Integer isuccess;
 
     private int rid;
+
+    private int cid;
+    private String cname;
+
+    private int jid;
+    private String jname;
 
     private int aid;
     private String aprovince;
@@ -29,15 +34,16 @@ public class InterResObj {
     private Integer sgrade;
     private Integer sclass;
     private String sphone;
+    private String sno;
 
     public InterResObj() {
     }
 
-    public InterResObj(Integer iid, String iaddress, String itype, Object itime, Integer isuccess, int rid, int aid, String aprovince, String acity, Integer sid, String sname, Boolean ssex, Date sbirth, String spro, Integer sgrade, Integer sclass, String sphone) {
+    public InterResObj(Integer iid, String iaddress, String itype, Date itime, Integer isuccess, int rid, int aid, String aprovince, String acity, Integer sid, String sname, Boolean ssex, Date sbirth, String spro, Integer sgrade, Integer sclass, String sphone) {
         this.iid = iid;
         this.iaddress = iaddress;
         this.itype = itype;
-        this.itime = stringToTimestamp(itime.toString());
+        this.itime = itime;
         this.isuccess = isuccess;
         this.rid = rid;
         this.aid = aid;
@@ -53,7 +59,26 @@ public class InterResObj {
         this.sphone = sphone;
     }
 
-    public static Timestamp stringToTimestamp(String dateStr){
+    public InterResObj(Integer iid, String iaddress, String itype, Date itime, Integer isuccess, int rid, int cid, String cname, int jid, String jname, int aid, String aprovince, String acity, Integer sid, String sname, String sno) {
+        this.iid = iid;
+        this.iaddress = iaddress;
+        this.itype = itype;
+        this.itime = itime;
+        this.isuccess = isuccess;
+        this.rid = rid;
+        this.cid = cid;
+        this.cname = cname;
+        this.jid = jid;
+        this.jname = jname;
+        this.aid = aid;
+        this.aprovince = aprovince;
+        this.acity = acity;
+        this.sid = sid;
+        this.sname = sname;
+        this.sno = sno;
+    }
+
+    /*public static Timestamp stringToTimestamp(String dateStr){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
         Date date;
@@ -68,6 +93,7 @@ public class InterResObj {
         cal.setTime(new Date());
         return new Timestamp(cal.getTimeInMillis());
     }
+*/
 
     public Integer getIid() {
         return iid;
@@ -165,11 +191,11 @@ public class InterResObj {
         this.itype = itype;
     }
 
-    public Timestamp getItime() {
+    public Date getItime() {
         return itime;
     }
 
-    public void setItime(Timestamp itime) {
+    public void setItime(Date itime) {
         this.itime = itime;
     }
 
@@ -203,5 +229,45 @@ public class InterResObj {
 
     public void setRid(int rid) {
         this.rid = rid;
+    }
+
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
+    }
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
+    }
+
+    public int getJid() {
+        return jid;
+    }
+
+    public void setJid(int jid) {
+        this.jid = jid;
+    }
+
+    public String getJname() {
+        return jname;
+    }
+
+    public void setJname(String jname) {
+        this.jname = jname;
+    }
+
+    public String getSno() {
+        return sno;
+    }
+
+    public void setSno(String sno) {
+        this.sno = sno;
     }
 }

@@ -122,6 +122,9 @@ public class StudentCtrl {
             CmStudent student = studentService.findBySid(sid);
             modelMap.addAttribute("student",student);
         }
+        //查询面试次数
+        int InterTimes = interService.findBySidTimes(sid);
+        modelMap.addAttribute("InterTimes",InterTimes);
         return "system/studentsinfo/StudentInfo";
     }
 
@@ -131,7 +134,7 @@ public class StudentCtrl {
         List<InterResObj> interList = interService.findInterBySid(sid);
         modelMap.addAttribute("interList", interList);
         System.out.println("interList---"+interList);
-        return "system/meeting/ThisMeetStudents";
+        return "system/meeting/ThisStudentInterview";
     }
 
     //删除学生——ly
@@ -157,8 +160,8 @@ public class StudentCtrl {
 
     //编辑学生信息——ly
     @RequestMapping(value = "/updateStudent",method = RequestMethod.POST )
-    public String updateStudent(int sid,String sphone,String semail,ModelMap modelMap,RedirectAttributes attr){
-        boolean ResMsg = studentService.updateStudent(sid,sphone,semail);
+    public String updateStudent(int sid,int sgrade,int sclass,String sphone,String semail,ModelMap modelMap,RedirectAttributes attr){
+        boolean ResMsg = studentService.updateStudent(sid,sgrade,sclass,sphone,semail);
         if(ResMsg){
             modelMap.addAttribute("ResMsg","编辑成功！");
         }else{

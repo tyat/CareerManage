@@ -58,6 +58,7 @@
                 <ul>
                     <li><a href="recruit/findAllRecruits" target=main>查看招聘信息</a></li>
                     <li><a href="/recruit/addpro" target=main>添加招聘信息</a></li>
+                    <li><a href="inter/findAll" target=main>查看面试信息</a></li>
                 </ul>
             </dd>
             <dd><a href="#">学生信息</a>

@@ -4,6 +4,7 @@ import com.ResObj.RecruitResObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import com.pojo.CmJob;
+import com.pojo.CmRecruit;
 import com.service.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -45,9 +47,19 @@ public class RecruitCtrl {
         List<RecruitResObj> recruitList = recruitService.findAll();
         modelMap.addAttribute("recruitList",recruitList);
         //查询面试人数
-        int InterCount = interService.findByRidCount(1);
-        modelMap.addAttribute("InterCount",InterCount);
+        /*int InterCount = interService.findByRidCount(1);
+        modelMap.addAttribute("InterCount",InterCount);*/
         return "system/meeting/selectAllMeeting";
+    }
+
+    //查询招聘详情——ly
+    @RequestMapping(value = "/recruit/queryRinfo",method = RequestMethod.GET )
+    @ResponseBody
+    public CmRecruit queryRinfo(int rid, ModelMap modelMap){
+        CmRecruit recruit = recruitService.findByRid(rid);
+        modelMap.addAttribute("recruit",recruit);
+        System.out.println("findByRid-----"+recruit.getRinfo());
+        return recruit;
     }
 
     //增加前——ly
@@ -123,8 +135,16 @@ public class RecruitCtrl {
             recruitList = recruitService.findByCname(searchtext);
             modelMap.addAttribute("recruitList",recruitList);
         }else if(type==1){
-            //按招聘岗位？
+            //按招聘岗位/时间
         }
+        return "system/meeting/MeetSearch";
+    }
+
+    //按cid查询招聘信息——ly
+    @RequestMapping(value = "/recruit/findByCid",method = RequestMethod.GET )
+    public String findByCid(int cid,ModelMap modelMap){
+        List<RecruitResObj> recruitList = recruitService.findByCid(cid);
+        modelMap.addAttribute("recruitList",recruitList);
         return "system/meeting/MeetSearch";
     }
 

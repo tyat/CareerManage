@@ -31,6 +31,7 @@ public class RecruitService {
     private CompanyService companyService;
     @Autowired
     private AreaService areaService;
+
     //增加招聘信息——ly
     public boolean addRecruit(int cid,int aid,int jid,int rsalary,Boolean rsex,int rnum,String rend,String rinfo) throws ParseException {
         CmRecruit recruit = new CmRecruit();
@@ -40,13 +41,13 @@ public class RecruitService {
         recruit.setRsex(rsex);
         recruit.setRsalary(rsalary);
         recruit.setRnum(rnum);
-        recruit.setRstart(new Timestamp(new Date().getTime()));//发布时间为当前系统时间
+        recruit.setRstart(new Date());//发布时间为当前系统时间
         DateFormat df = DateFormat.getDateInstance();
         Date d = df.parse(rend);
-        long da = d.getTime();
-        Timestamp ts = new Timestamp(da);
-        System.out.println("ts--------"+ts);
-        recruit.setRend(ts);
+        /*long da = d.getTime();
+        Timestamp ts = new Timestamp(da);*/
+        System.out.println("d--------"+d);
+        recruit.setRend(d);
         recruit.setRinfo(rinfo);
         recruit.setRstate(0);
         try {
@@ -80,9 +81,9 @@ public class RecruitService {
             recruit.setRnum(rnum);
             DateFormat df = DateFormat.getDateInstance();
             Date d = df.parse(rend);
-            long da = d.getTime();
-            Timestamp ts = new Timestamp(da);
-            recruit.setRend(ts);
+            /*long da = d.getTime();
+            Timestamp ts = new Timestamp(da);*/
+            recruit.setRend(d);
             recruit.setRinfo(rinfo);
             hibernateTemplate.saveOrUpdate(recruit);
             return true;
@@ -98,7 +99,23 @@ public class RecruitService {
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
                 "where r.rstate = 0 and c.cname like ? order by r.rstart";
-        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,'%'+cname+'%');
+        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,"%"+cname+"%");
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //按cid查询招聘信息——ly
+    public List<RecruitResObj> findByCid(int cid){
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where r.rstate = 0 and c.cid = ? order by r.rstart";
+        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,cid);
         if(data.size()>0){
             return data;
         }
@@ -144,6 +161,24 @@ public class RecruitService {
                 "where r.rstate = 0 order by r.rstart";
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql);
         System.out.println("所有招聘信息数量：   "+data.size());
+        System.out.println("发布时间：   "+data.get(0).getRstart());
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //查询该公司下该岗位的招聘信息——ly
+    public List<RecruitResObj> findByCidAndJid(int cid,int jid){
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where c.cid = ? and j.jid = ? and r.rstate = 0 order by r.rstart";
+        Object[] value = {cid,jid};
+        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
             return data;
         }

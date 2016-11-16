@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page isELIgnored="false"%>
 
 <html>
@@ -20,19 +21,19 @@
     <script type="text/javascript" src="../../js/Date.js" ></script>
 
     <script type="text/javascript">
-        function showAddStu(){
+        /*function showAddStu(){
             document.getElementById("showAddstu-div").style.display="block";
             document.getElementById("zhezhaobg").style.display="block";
-        }
+        }*/
         function  showMeetResult(){
             document.getElementById("showMeetResult").style.display="block";
             document.getElementById("zhezhaobg").style.display="block";
         }
-        function  hideAddStu(){
+        /*function  hideAddStu(){
             document.getElementById("showAddstu-div").style.display="none";
             document.getElementById("zhezhaobg").style.display="none";
             document.getElementById("search-result").style.display="none";
-        }
+        }*/
         function  showSearchResult(){
             document.getElementById("search-result").style.display="block";
         }
@@ -63,7 +64,6 @@
                     $("#rid").attr("value",json.rid);
                     $("#iid").attr("value",json.iid);
                     $("#sname").attr("value",json.sname);
-                    $("#sid").attr("value",json.sid);
                     if(json.isuccess==0){
                         $("#isuccess0").attr("selected","selected");
                     }else if(json.isuccess==1){
@@ -81,7 +81,7 @@
                 }
             });
         }
-        function findStudent() {
+        /*function findStudent() {
             var sno = document.getElementById("searchSno").value;
             $.ajax({
                 type: "POST",
@@ -142,23 +142,19 @@
                     alert(textStatus);
                 }
             });
-        }
-
-        function  onclickload() {
-            var isuccess = document.getElementById("isuccess").value;
-            if(isuccess=="1"){
-                document.getElementById("mydiv").style.display ="";
-            }else {
-                document.getElementById("mydiv").style.display ="none";
+        }*/
+        function query(){
+            var searchtext = document.getElementById("searchtext").value;
+            if (searchtext == "") {
+                alert("关键字不能为空！");
+            }else{
+                $("#search").submit();
             }
-        }
-        function  startload() {
-            document.getElementById("mydiv").style.display ="none";
         }
 
     </script>
 </head>
-<body onload="startload()">
+<body>
 <div class="table-box">
     <div class="table-content">
         <!--这是标题栏-->
@@ -172,14 +168,15 @@
                         面试参与人员
                     </div>
                     <div class="search-box">
-                        <form action="/student/query" method="post">
+                        <form action="/inter/query" method="post" name="search" id="search">
+                            <input type="hidden" name="rid" value="${interList.get(0).rid }">
                             <select name="type">
                                 <option value="0">按学生姓名</option>
                                 <option value="1">按专业</option>
                                 <option value="2">按年级</option>
                             </select>
-                            <input type="text" name="searchtext"  placeholder="请输入……"/>
-                            <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <input type="text" name="searchtext" id="searchtext" placeholder="请输入……"/>
+                            <button class="mybutton" type="button" onclick="query()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页
                             </button>
@@ -196,17 +193,15 @@
                     <tr>
                         <td>姓名</td>
                         <td>联系方式</td>
-                        <td>性别</td>
                         <td>年级</td>
                         <td>班级</td>
-                        <td>出生年月</td>
                         <td>面试时间</td>
                         <td>面试城市</td>
                         <td>面试地点</td>
                         <td>面试方式</td>
-                        <td>面试结果</td>
+                        <td>面试状态</td>
                         <td  colspan="2">
-                            <button class="mybutton" style="width: 100px;" type="button" onclick="showAddStu()">添加</button>
+                            操作
                         </td>
                     </tr>
 
@@ -214,20 +209,11 @@
                         <input type="hidden" name="rid" value="${inter.rid }">
                         <!--这是一条记录开始-->
                         <tr>
-                            <td><a href="../studentsinfo/StudentInfo.html">${inter.sname}</a></td>
+                            <td><a href="/student/findBySid?sid=${inter.sid}">${inter.sname}</a></td>
                             <td>${inter.sphone}</td>
-                            <td>
-                                <c:if test="${!(inter.ssex)}">
-                                    男
-                                </c:if>
-                                <c:if test="${inter.ssex}">
-                                    女
-                                </c:if>
-                            </td>
                             <td>${inter.sgrade}</td>
                             <td>${inter.spro}${inter.sclass}</td>
-                            <td>${inter.sbirth}</td>
-                            <td>${inter.itime}</td>
+                            <td><fmt:formatDate value="${inter.itime}" pattern="yyyy-MM-dd"/></td>
                             <td>${inter.aprovince}${inter.acity}</td>
                             <td>${inter.iaddress}</td>
                             <td>${inter.itype}</td>
@@ -269,12 +255,15 @@
                 </div>
             </div>
             <div class="left-button-footer">
+                <button class="mybutton" type="button" onclick="location='/inter/addpro?rid=${rid}'">添加面试学生</button>
+                &nbsp;&nbsp;
                 <button class="mybutton" type="button" onclick="alert('弹出保存对话框')"> <span>批量导出数据</span></button>
             </div>
         </div>
     </div>
 
-    <div id="showAddstu-div">
+    <!--添加面试学生-->
+    <%--<div id="showAddstu-div">
         <div class="tab-close">
             <button class="mybutton" type="button" onclick="hideAddStu()">取消</button>
         </div>
@@ -343,7 +332,9 @@
                 </table>
             </form>
         </div>
-    </div>
+    </div>--%>
+
+    <!--修改面试学生-->
     <div id="showMeetResult">
         <div class="tab-close">
             <button class="mybutton" type="button" onclick="hideMeetResult()">取消</button>
@@ -353,7 +344,7 @@
             <form action="/inter/updateInter" method="post">
                 <table class="pure-table pure-table-bordered">
                     <input type="hidden" name="rid" id="rid" value="${interList.get(0).rid }">
-                    <input type="hidden" name="iid"id="iid">
+                    <input type="hidden" name="iid" id="iid">
                     <tr>
                         <td>姓名：</td>
                         <td><input type="text" name="sname" id="sname" disabled="disabled"/></td>
@@ -361,7 +352,7 @@
                     <tr>
                         <td>面试结果：</td>
                         <td>
-                            <select name="isuccess" id="isuccess" onchange="onclickload()">
+                            <select name="isuccess" id="isuccess">
                                 <option id="isuccess0" value="0">准备面试</option>
                                 <option id="isuccess1" value="1">面试成功（已就业）</option>
                                 <option id="isuccess2" value="2">面试成功（未就业）</option>
@@ -369,52 +360,6 @@
                             </select>
                         </td>
                     </tr>
-                </table>
-                <div id="mydiv">
-                <table class="pure-table pure-table-bordered">
-                    <input type="hidden" name="sid" id="sid"/>
-                    <tr>
-                        <td>薪资：</td>
-                        <td>
-                            <input type="text" id="esalary" name="esalary" value="${findEmpBySid.esalary}"  onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>实习时间：</td>
-                        <td>
-                            <input   required="required" type="text" id="etime" name="etime" onclick="choose_date_czw('etime')"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>是否网签：</td>
-                        <td>
-                            <select id="ewq" name="ewq">
-                                <option id="ewq1" value="1" selected="selected">是</option>
-                                <option id="ewq2" value="0">否</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>推荐人：</td>
-                        <td>
-                            <select id="uid" name="uid">
-                                <c:forEach items="${userList}" var="s" varStatus="stu">
-                                    <c:if test="${s.uid!=0}">
-                                        <option id="uids" value="${s.uid}">${s.urname}</option>
-                                    </c:if>
-                                </c:forEach>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>备注:</td>
-                        <td>
-                            <textarea cols="19" rows="4" id="einfo" name="einfo">这里是备注信息...</textarea>
-                        </td>
-                    </tr>
-                </table>
-                </div>
-                <table class="pure-table pure-table-bordered">
                     <tr>
                         <td colspan="2">
                             <button class="mybutton" type="button" style="width: 200px;" onclick="this.form.submit()">保存</button>

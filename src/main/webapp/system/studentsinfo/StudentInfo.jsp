@@ -41,6 +41,8 @@
                 showStuUpdate();
                 $("#sid").attr("value",json.sid);
                 $("#sname").attr("value",json.sname);
+                $("#sgrade").attr("value",json.sgrade);
+                $("#sclass").attr("value",json.sclass);
                 $("#sphone").attr("value",json.sphone);
                 $("#semail").attr("value",json.semail);
             },
@@ -138,25 +140,23 @@
                     </td>
                     <td>就业企业：</td>
                     <td>
-                    <a href="../company/CompInfo2.html">
                         <c:if test="${isemp}">
-                            ${student.cname}
+                            <a href="/company/findByCompCid?cid=${student.cid}">
+                                 ${student.cname}
+                            </a>
                         </c:if>
                         <c:if test="${!isemp}">
                             无
                         </c:if>
-                    </a>
                     </td>
                     <td>岗位：</td>
                     <td>
-                    <a href="#">
                         <c:if test="${isemp}">
                              ${student.jname}
                         </c:if>
                         <c:if test="${!isemp}">
                              无
                         </c:if>
-                    </a>
                     </td>
                     <td rowspan="2">
                         <button class="mybutton" type="button" onclick="delStudent(${student.sid})"  >删除</button>
@@ -165,6 +165,7 @@
                 <tr>
                     <td>参加的面试：</td>
                     <td colspan="2">
+                        ${InterTimes}次 &nbsp;
                         <button class="mybutton" type="button" onclick="location='/student/findInterBySid?sid=${student.sid}'"  >查看详情</button>
                     </td>
                     <td>学生详细信息：</td>
@@ -205,8 +206,21 @@
                 <td>
                     <input type="text" name="sname" id="sname" disabled="disabled" />
                 </td>
+
+            <tr>
+                <td>年级：</td>
+                <td>
+                    <input type="text" name="sgrade" id="sgrade" />
+                </td>
             </tr>
             <tr>
+            <tr>
+                <td>班级：</td>
+                <td>
+                    <input type="text" name="sclass" id="sclass" />
+                </td>
+            </tr>
+            <tr><tr>
                 <td>联系电话：</td>
                 <td>
                     <input type="text" name="sphone" id="sphone" />

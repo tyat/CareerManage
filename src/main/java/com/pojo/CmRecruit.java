@@ -1,7 +1,7 @@
 package com.pojo;
 
-import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by LENOVO on 2016/10/20.
@@ -10,8 +10,8 @@ public class CmRecruit {
     private Integer rid;
     private Boolean rsex;
     private Integer rsalary;
-    private Timestamp rstart;
-    private Timestamp rend;
+    private Date rstart;
+    private Date rend;
     private Integer rnum;
     private String rinfo;
     private Integer rstate;
@@ -44,19 +44,19 @@ public class CmRecruit {
         this.rsalary = rsalary;
     }
 
-    public Timestamp getRstart() {
+    public Date getRstart() {
         return rstart;
     }
 
-    public void setRstart(Timestamp rstart) {
+    public void setRstart(Date rstart) {
         this.rstart = rstart;
     }
 
-    public Timestamp getRend() {
+    public Date getRend() {
         return rend;
     }
 
-    public void setRend(Timestamp rend) {
+    public void setRend(Date rend) {
         this.rend = rend;
     }
 
