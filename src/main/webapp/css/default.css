@@ -286,7 +286,11 @@ td,th{padding:0}
 
 /*备注详情开始*/
 /*-----------------------------------------------------------这里包含很多遮罩的div------*/
-#showtabs-div,#showupload-div,.show-detail-tip,.show-detail-info,#showAddstu-div,#showMeetResult,#AdminAdd,#AdminUpdate,#StuUpdate,#GangWeiAdd,#FangXiangAdd,#AdminPwd
+#mark-canvars,#qiwang-text
+{
+	display: none;
+}
+#showtabs-div,#showupload-div,.show-detail-tip,.show-detail-info,#showAddstu-div,#showMeetResult,#showRinfo,#AdminAdd,#AdminUpdate,#StuUpdate,#GangWeiAdd,#FangXiangAdd,#AdminPwd
 {
 	  display: none; 
       position: fixed; /*跟随滚动条*/

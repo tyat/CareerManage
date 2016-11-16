@@ -78,7 +78,7 @@
                 <div style="float: left;">
                     <span>信息管理</span><div class="left-arrow"></div>
                     <span>面试管理</span><div class="left-arrow"></div>
-                    <span>搜索结果</span>
+                    <span></span>
                 </div> <br />
                 <div class="Big-title">
                     <div class="littil-title">

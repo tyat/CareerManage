@@ -38,8 +38,8 @@
                     //alert(data);
                     var json = eval("("+data+")"); // data的值是json字符串，这行把字符串转成object
                     var json = JSON.parse( data );
-                    showRinfo();
                     $("#rinfo").html(json.rinfo);
+                    showRinfo();
                 },
                 error: function(XMLHttpRequest) {
                     alert(XMLHttpRequest.status);

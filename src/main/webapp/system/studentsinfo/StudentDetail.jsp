@@ -121,17 +121,17 @@
                     <td colspan="8" height="30px"></td>
                 </tr>
             </table>
-            <table class="pure-table pure-table-bordered">
-                <tr>
-                    <td colspan="2">中兴课程名称</td>
-                    <td>课程类型</td>
-                    <td>成绩</td>
-                    <td>补考</td>
-                    <td>学分</td>
-                    <td>学年</td>
-                    <td>学期</td>
-                </tr>
             <c:if test="${zxreport!=null}">
+                <table class="pure-table pure-table-bordered">
+                    <tr>
+                        <td colspan="2">中兴课程名称</td>
+                        <td>课程类型</td>
+                        <td>成绩</td>
+                        <td>补考</td>
+                        <td>学分</td>
+                        <td>学年</td>
+                        <td>学期</td>
+                    </tr>
                 <c:forEach var="sub" items="${zxreport}">
                     <tr>
                         <td colspan="2">${sub.gkcm} </td>
@@ -153,11 +153,12 @@
                         <td>${sub.gxq}</td>
                     </tr>
                 </c:forEach>
+                </table>
             </c:if>
             <c:if test="${zxreport==null}">
                 该学生没有中兴课程成绩
             </c:if>
-            </table>
+
             <div class="table-slipline"></div>
             <!--这是一条记录结束-->
 

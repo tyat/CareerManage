@@ -81,7 +81,7 @@ public class StudentService {
 
     //查询所有学生——ly
     public List<CmStudent> findAll(){
-        String hsql = "from CmStudent s where s.sstate = 0";
+        String hsql = "from CmStudent s";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql);
         System.out.println("所有学生数量：   "+data.size());
         if(data.size()>0){
@@ -93,7 +93,7 @@ public class StudentService {
 
     //按姓名模糊查询学生——ly
     public List<CmStudent> findBySname(String sname){
-        String hsql = "from CmStudent s where s.sname like ? and s.sstate = 0";
+        String hsql = "from CmStudent s where s.sname like ?";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,"%"+sname+"%");
         if(data.size()>0){
             return data;
@@ -104,7 +104,7 @@ public class StudentService {
 
     //按年级查询学生——ly
     public List<CmStudent> findBySgrade(int sgrade){
-        String hsql = "from CmStudent s where s.sgrade = ? and s.sstate = 0";
+        String hsql = "from CmStudent s where s.sgrade = ?";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,sgrade);
         if(data.size()>0){
             return data;
@@ -117,7 +117,7 @@ public class StudentService {
     public List<CmStudent> findBySclass(String spro,int sclass){
         System.out.println("spro---"+spro);
         System.out.println("sclass---"+sclass);
-        String hsql = "from CmStudent s where s.spro like ? and s.sclass = ? and s.sstate = 0";
+        String hsql = "from CmStudent s where s.spro like ? and s.sclass = ?";
         Object[] value = {'%'+spro+'%', sclass};
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
@@ -129,7 +129,7 @@ public class StudentService {
 
     //按专业模糊查询学生——ly
     public List<CmStudent> findBySpro(String spro){
-        String hsql = "from CmStudent s where s.spro like ? and s.sstate = 0";
+        String hsql = "from CmStudent s where s.spro like ?";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,"%"+spro+"%");
         if(data.size()>0){
             return data;
@@ -181,7 +181,7 @@ public class StudentService {
                 "inner join s.cmIntersBySid i " +
                 "inner join i.cmRecruitByRid r " +
                 "inner join r.cmCompanyByCid c " +
-                "where s.sid = ? and s.sstate = 0 and i.isuccess = 1";//面试成功且就业
+                "where s.sid = ? and i.isuccess = 1";//面试成功且就业
         List<EmpResObj> empResObjList = (List<EmpResObj>) hibernateTemplate.find(hsql,sid);
         if(empResObjList.size()>0){
             return empResObjList.get(0);
@@ -197,7 +197,7 @@ public class StudentService {
                 "inner join u.cmStudentBySid s " +
                 "inner join u.cmJobByJid j " +
                 "inner join u.cmDirectionByDid d " +
-                "where s.sid = ? and s.sstate = 0";
+                "where s.sid = ?";
         List<UnempResObj> unempList = (List<UnempResObj>) hibernateTemplate.find(hsql,sid);
         if(unempList.size()>0){
             return unempList.get(0);

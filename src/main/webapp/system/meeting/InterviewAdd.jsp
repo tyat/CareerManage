@@ -49,14 +49,7 @@
                 }
             });
         }
-        function query(){
-            var sname = document.getElementById("sname").value;
-            if (sname == "") {
-                alert("关键字不能为空！");
-            }else{
-                $("#search").submit();
-            }
-        }
+
 
     </script>
 </head>
@@ -76,7 +69,7 @@
                         添加面试学生
                     </div>
                     <div class="search-box">
-                        <form action="/inter/findUnempBySname" method="post">
+                        <form action="/inter/findUnempBySname" method="post" name="search" id="search">
                             <input type="hidden" name="rid" value="${rid}">
                             <input type="text" name="sname" id="sname" placeholder="请输入学生姓名进行搜索...."/>
                             <button class="mybutton" type="button" onclick="query()"> <span>搜索</span> </button>
@@ -89,15 +82,15 @@
             <form action="/inter/addInter" method="post">
             <c:if test="${unempList!=null}">
             <!--这是一条记录开始-->
-                <c:forEach var="unemp" items="${unempList}">
-                    <table  class="pure-table pure-table-bordered">
-                        <tr>
-                            <td></td>
-                            <td>姓名</td>
-                            <td>性别</td>
-                            <td>年级</td>
-                            <td>班级</td>
-                        </tr>
+                <table  class="pure-table pure-table-bordered">
+                    <tr>
+                        <td></td>
+                        <td>姓名</td>
+                        <td>性别</td>
+                        <td>年级</td>
+                        <td>班级</td>
+                    </tr>
+                    <c:forEach var="unemp" items="${unempList}">
                         <tr>
                             <td><input type="radio" name="sid" id="sid" value="${unemp.sid}" required="required"/></td>
                             <td id="fsname">${unemp.sname}</td>
@@ -112,8 +105,9 @@
                             <td id="fsgrade">${unemp.sgrade}</td>
                             <td id="fsprosclass">${unemp.spro}${unemp.sclass}班</td>
                         </tr>
-                    </table>
-                </c:forEach>
+                    </c:forEach>
+                </table>
+
             <div class="table-slipline"></div>
             <!--这是一条记录结束-->
             </c:if>
@@ -171,7 +165,16 @@
     </div>
 </div>
 
-
+<script>
+    function query(){
+        var sname = document.getElementById("sname").value;
+        if (sname == "") {
+            alert("关键字不能为空！");
+        }else{
+            $("#search").submit();
+        }
+    }
+</script>
 
 </body>
 </html>

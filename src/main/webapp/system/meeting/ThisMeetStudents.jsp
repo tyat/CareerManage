@@ -212,7 +212,7 @@
                             <td><a href="/student/findBySid?sid=${inter.sid}">${inter.sname}</a></td>
                             <td>${inter.sphone}</td>
                             <td>${inter.sgrade}</td>
-                            <td>${inter.spro}${inter.sclass}</td>
+                            <td>${inter.spro}${inter.sclass}班</td>
                             <td><fmt:formatDate value="${inter.itime}" pattern="yyyy-MM-dd"/></td>
                             <td>${inter.aprovince}${inter.acity}</td>
                             <td>${inter.iaddress}</td>

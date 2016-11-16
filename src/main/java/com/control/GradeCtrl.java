@@ -33,7 +33,8 @@ public class GradeCtrl {
     //显示学生的成绩统计信息——ly
     @RequestMapping(value = "/grade/findStudentDetail",method = RequestMethod.GET )
     public String findStudentDetail(@RequestParam("sid")int sid, ModelMap modelMap){
-        System.out.println("执行controller------");
+        System.out.println("findStudentDetail------");
+        System.out.println("sid------"+sid);
         UnempResObj unempResObj = studentService.findUnempBySid(sid);
         modelMap.addAttribute("student",unempResObj);
         List<CmJob> jobList = jobService.findAll();
