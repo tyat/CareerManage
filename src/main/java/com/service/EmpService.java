@@ -36,9 +36,22 @@ public class EmpService {
     private HibernateTemplate hibernateTemplate;
     @Autowired
     private  JobService jobService;
+    @Autowired
+    private UnempService unempService;
     //zxl：添加就业生
     public  boolean addEmp(CmCompany cmCompany, CmRecruit cmRecruit,CmInter cmInter, CmEmp cmEmp){
-      hibernateTemplate.save(cmCompany);
+        hibernateTemplate.save(cmCompany);
+        hibernateTemplate.save(cmRecruit);
+        hibernateTemplate.save(cmInter);
+        hibernateTemplate.save(cmEmp);
+        String hsql="update CmUnemp ue set ue.uestate=1 where ue.cmStudentBySid.sid = ?";
+        hibernateTemplate.bulkUpdate(hsql,cmEmp.getCmStudentBySid().getSid());
+        return  true;
+    }
+    //zxl：添加就业生,该学生不存在
+    public  boolean addEmpStu(CmStudent cmStudent,CmCompany cmCompany, CmRecruit cmRecruit,CmInter cmInter, CmEmp cmEmp){
+        hibernateTemplate.save(cmStudent);
+        hibernateTemplate.save(cmCompany);
         hibernateTemplate.save(cmRecruit);
         hibernateTemplate.save(cmInter);
         hibernateTemplate.save(cmEmp);
@@ -48,8 +61,8 @@ public class EmpService {
     }
     //zxl：添加就业生
     public boolean  addEmp2(int rid,int sid,String esalary,String etime,int ewq,int uid,String einfo)throws Exception{
-       CmJob cmJob=jobService.findRecruitByRid(rid);
-        //CmEmp inemp=new EmpService().findEmpBySid(sid);
+        CmJob cmJob=jobService.findRecruitByRid(rid);
+        //  CmEmp inemp=new EmpService().findEmpBySid(sid);
         CmEmp cmEmp=new CmEmp();
         cmEmp.setEtime(new DateConvert().StringtoTime(etime));
         if (ewq==1){
@@ -62,16 +75,44 @@ public class EmpService {
         cmEmp.setCmJobByJid(cmJob);
         CmStudent cmStudent=new CmStudent();
         cmStudent.setSid(sid);
+        CmUser cmUser=new CmUser();
+        cmUser.setUid(uid);
         cmEmp.setCmStudentBySid(cmStudent);
         cmEmp.setEleave(new DateConvert().SysDate());
+        cmEmp.setCmUserByUid(cmUser);
         hibernateTemplate.save(cmEmp);
+        unempService.delUnEmp(sid);
+        return  true;
+    }
+    //zxl：添加就业生
+    public boolean  addEmp3(int iid,int sid,String esalary,String etime,int ewq,int uid,String einfo)throws Exception{
+        CmJob cmJob=jobService.findRecruitByIid(iid);
+        //  CmEmp inemp=new EmpService().findEmpBySid(sid);
+        CmEmp cmEmp=new CmEmp();
+        cmEmp.setEtime(new DateConvert().StringtoTime(etime));
+        if (ewq==1){
+            cmEmp.setEwq(true);
+        }else {
+            cmEmp.setEwq(false);
+        }
+        cmEmp.setEsalary(Integer.parseInt(esalary));
+        cmEmp.setEinfo(einfo);
+        cmEmp.setCmJobByJid(cmJob);
+        CmStudent cmStudent=new CmStudent();
+        cmStudent.setSid(sid);
+        CmUser cmUser=new CmUser();
+        cmUser.setUid(uid);
+        cmEmp.setCmStudentBySid(cmStudent);
+        cmEmp.setEleave(new DateConvert().SysDate());
+        cmEmp.setCmUserByUid(cmUser);
+        hibernateTemplate.save(cmEmp);
+        unempService.delUnEmp(sid);
         return  true;
     }
     //zxl：根据学生id查询该就业生的就业信息
     public  CmEmp findEmpBySid(int sid){
-        System.out.println("这是一个id-----"+sid);
         String hsql="from CmEmp e where e.cmStudentBySid.sid=? and e.estate!=2";
-       List<?> data= hibernateTemplate.find(hsql,sid);
+        List<?> data= hibernateTemplate.find(hsql,sid);
         if (data.size()>0){
             return  (CmEmp) data.get(0);
         }
@@ -86,10 +127,10 @@ public class EmpService {
         }
         return  null;
     }
-    //zxl：修改学生信息
+    //zxl：修改就业学生信息
     public boolean updateEmp(int sid, int user, String etime, int esalary, String einfo, int ewq)throws  Exception{
         //CmEmp cmEmp=this.findEmpBySid(sid);
-        boolean flag=true;
+        boolean flag=false;
         if (ewq==1){
             flag=true;
         }else{
@@ -107,19 +148,102 @@ public class EmpService {
      * @return
      */
     public List<ResEmpObj> FindAllEmp(){
-        System.out.println("****************************");
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where emp.estate = 0";
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1";
         List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql);
+        System.out.println(data.size());
         return data;
     }
-
+    /**
+     *按Cid查询该公司下所有已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> findEmpStuByCid(int cid){
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where comp.cid=? and emp.estate=0 and inter.isuccess=1";
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,cid);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     *按Jname查询该岗位下所有已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> findEmpStuByJname(int jid){
+        System.out.println(jid);
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where job.jid=? and emp.estate=0 and inter.isuccess=1";
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,jid);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     * 查询该年级下该班级下的就业生信息
+     * @param sgrade
+     * @param sclass
+     * @return
+     */
+    public List<ResEmpObj> findEmpStuBySclass(int sgrade,int sclass){
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where  stu.sgrade=? and stu.sclass=? and emp.estate=0 and inter.isuccess=1";
+        Object[] value = {sgrade,sclass};
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,value);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     * 统计就业生数量
+     * @return
+     */
+    public int EmpCount(){
+        String hsql = "select count(*) from CmEmp emp where emp.estate = 0";
+        List<?> total = hibernateTemplate.find(hsql);
+        System.out.println(Integer.parseInt(total.get(0).toString()));
+        return Integer.parseInt(total.get(0).toString());
+    }
     /**
      * 按学生姓名查询已就业学生信息
      * @return
      */
     public List<ResEmpObj> FindBySname(String sname){
         System.out.println(sname);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where stu.sname like ?";
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1 and stu.sname like ?";
         List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,"%"+sname+"%");
         System.out.println(data);
         return data;
@@ -131,7 +255,15 @@ public class EmpService {
      */
     public List<ResEmpObj> FindByJname(String jname){
         System.out.println(jname);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where job.jname like ?";
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1 and job.jname like ?";
         List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,"%"+jname+"%");
         return data;
     }
@@ -141,8 +273,54 @@ public class EmpService {
      */
     public List<ResEmpObj> FindByCname(String cname){
         System.out.println(cname);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname) from CmJob job inner join job.cmRecruitsByJid rec inner join job.cmEmpsByJid emp inner join rec.cmCompanyByCid comp inner join emp.cmStudentBySid stu inner join emp.cmUserByUid user where comp.cname like ?";
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1 and comp.cname like ?";
         List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,"%"+cname+"%");
+        return data;
+    }
+    /**
+     * 按年级查询已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindBySgrade(int sgrade){
+        System.out.println(sgrade);
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1 and stu.sgrade = ?";
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,sgrade);
+        return data;
+    }
+    /**
+     * 按企业名称查询已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindByEtime(String startDate,String endDate){
+        System.out.println(startDate);
+        System.out.println(endDate);
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1 and comp.cname like ?";
+        Object[] value = {startDate,endDate};
+        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,value);
         return data;
     }
     /**

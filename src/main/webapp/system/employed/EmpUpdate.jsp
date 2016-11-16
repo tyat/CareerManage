@@ -66,14 +66,14 @@
                     <tr>
                         <td>性别：</td>
                         <td>
-                        <c:if test="${findStuBySid.ssex==true}"><input type="text" value="女" disabled="disabled"/></c:if>
-                        <c:if test="${findStuBySid.ssex==false}"><input type="text" value="男" disabled="disabled"/></c:if>
+                            <c:if test="${findStuBySid.ssex==true}"><input type="text" value="女" disabled="disabled"/></c:if>
+                            <c:if test="${findStuBySid.ssex==false}"><input type="text" value="男" disabled="disabled"/></c:if>
                         </td>
                     </tr>
                     <tr>
                         <td >就业企业：</td>
                         <td >
-                          <input type="text" id="cid" name="cid" value="${findCompanyBySid.cname}"  disabled="disabled"/>
+                            <input type="text" id="cid" name="cid" value="${findCompanyBySid.cname}"  disabled="disabled"/>
                         </td>
 
                     </tr>
@@ -81,7 +81,7 @@
                     <tr>
                         <td>岗位:</td>
                         <td>
-                         <input type="text" id="jid" name="jid" value="${findBySid.jname}"  disabled="disabled"/>
+                            <input type="text" id="jid" name="jid" value="${findBySid.jname}"  disabled="disabled"/>
                         </td>
                     <tr>
                         <td>薪资：</td>
@@ -101,7 +101,7 @@
                             <select id="user" name="user">
                                 <c:forEach items="${allUser}" var="s" varStatus="stu">
                                     <c:if test="${s.uid!=0}">
-                                        <option id="uids" value="${s.uid}">${s.urname}</option>
+                                        <option id="uids" value="${s.uid}" <c:if test="${s.uid==findUserByEmp.uid}">selected="selected"</c:if>>${s.urname}</option>
                                     </c:if>
                                 </c:forEach>
                             </select>
@@ -111,8 +111,8 @@
                         <td>是否网签：</td>
                         <td>
                             <select id="ewq" name="ewq">
-                                <option id="ewq1" value="1" selected="selected">是</option>
-                                <option id="ewq2" value="0">否</option>
+                                <option id="ewq1" value="1" <c:if test="${findEmpBySid.ewq==true}">selected="selected"</c:if>>是</option>
+                                <option id="ewq2" value="0" <c:if test="${findEmpBySid.ewq==false}">selected="selected"</c:if>>否</option>
                             </select>
                         </td>
                     </tr>
@@ -125,7 +125,7 @@
                     <tr style="text-align: center;">
                         <td colspan="2">
                             <c:if test="${info==null}">
-                            <input class="mybutton" type="submit" value="修改" />
+                                <input class="mybutton" type="submit" value="修改" />
                             </c:if>
                         </td>
                     </tr>

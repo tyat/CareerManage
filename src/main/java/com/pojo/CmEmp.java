@@ -158,6 +158,17 @@ public class CmEmp {
         this.cmUserByUid = cmUserByUid;
     }
 
+    public CmEmp(CmUser cmUserByUid, CmJob cmJobByJid, CmStudent cmStudentBySid, Timestamp etime, String einfo, Integer esalary, Date eleave, Boolean ewq) {
+        this.cmUserByUid = cmUserByUid;
+        this.cmJobByJid = cmJobByJid;
+        this.cmStudentBySid = cmStudentBySid;
+        this.etime = etime;
+        this.einfo = einfo;
+        this.esalary = esalary;
+        this.eleave = eleave;
+        this.ewq = ewq;
+    }
+
     @Override
     public int hashCode() {
         int result = eid != null ? eid.hashCode() : 0;

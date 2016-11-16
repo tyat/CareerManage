@@ -32,7 +32,7 @@
                         岗位标签
                     </div>
                     <div class="search-box">
-                        <input type="button" class="mybutton" onclick="ShowGwAdd()" value="添加标签"/>
+                        <button type="button" class="mybutton" onclick="ShowGwAdd()">添加标签</button>
                     </div>
                 </div>
             </div>
@@ -40,23 +40,34 @@
         <!--这是标题栏结束-->
         <div>
             <!--这是表格开始-->
-
+            <c:forEach varStatus="i" var="dataList" items="${dataList}">
             <table  class="pure-table pure-table-bordered left">
-                <c:forEach varStatus="i" var="list" items="${dataList}">
-                <c:if test="${list.jtype}">
+                <!--<c:if test="${dataList.jtype == true}">
                 <tr>
                     <td width="90px">开发岗：</td>
-                    <td>${list.jname}</td>
+                    <td><c:forEach varStatus="i" var="job" items="${jobList}">@${job.jname}&nbsp;&nbsp;</c:forEach></td>
                 </tr>
                 </c:if>
-                <c:if test="${!list.jtype}">
+                <c:if test="${dataList.jtype == false}">
                 <tr>
                     <td>非开发岗：</td>
-                    <td>${list.jname}</td>
+                    <td><c:forEach varStatus="i" var="job" items="${jobList}">@${job.jname}&nbsp;&nbsp;</c:forEach></td>
+                </tr>
+                </c:if>-->
+                <c:if test="${dataList.jtype == true}">
+                <tr>
+                    <td width="90px">开发岗：</td>
+                    <td>@${dataList.jname}&nbsp;&nbsp;</td>
                 </tr>
                 </c:if>
-                </c:forEach>
+                <c:if test="${dataList.jtype == false}">
+                <tr>
+                    <td width="90px">非开发岗：</td>
+                    <td>@${dataList.jname}&nbsp;&nbsp;</td>
+                </tr>
+                </c:if>
             </table>
+            </c:forEach>
             <div class="table-slipline"></div>
             <!--这是表格结束-->
         </div>
@@ -98,7 +109,7 @@
         </div>
         <div id="zhezhaobg"></div>
     </div>
-
+</div>
 </body>
 </html>
 

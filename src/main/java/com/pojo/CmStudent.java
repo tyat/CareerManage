@@ -36,6 +36,20 @@ public class CmStudent {
         this.sgrade = sgrade;
         this.sclass = sclass;
     }
+
+    public CmStudent(String sno, String sname, Boolean ssex, Date sbirth, String spro, Integer sgrade, Integer sclass, String sphone, String semail, String scode, String sdetail) {
+        this.sno = sno;
+        this.sname = sname;
+        this.ssex = ssex;
+        this.sbirth = sbirth;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sclass = sclass;
+        this.sphone = sphone;
+        this.semail = semail;
+        this.scode = scode;
+        this.sdetail = sdetail;
+    }
     public Integer getSid() {
         return sid;
     }

@@ -42,9 +42,13 @@
                     alert(msg);
                 }
             });
-        } </script>
+        }
+        function startload() {
+
+        }
+    </script>
 </head>
-<body>
+<body onload="startload()">
 <div class="table-box">
     <div class="table-content">
         <!--这是标题栏-->
@@ -75,75 +79,71 @@
             <!--这是表格开始-->
             <form action="/company/updateCompany" method="get">
                 <input type="hidden" id="cid" name="cid" value="${findCompByCid.cid}">
-            <table  class="pure-table pure-table-bordered CompInfo1" style="text-align: left;">
-                <tr>
-                    <td>企业名称</td>
-                    <td colspan="4">
-                        <input name="cname" id="cname"  value="${findCompByCid.cname}" type="text" required="required"/>
-                    </td>
-                </tr>
-                <tr>
-
-                    <td>联系人：</td>
-                    <td colspan="4">
-                        <input name="chr" id="chr" value="${findCompByCid.chr}" type="text" required="required"/>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>联系电话：</td>
-                    <td colspan="4">
-                        <input name="cphone" id="cphone" value="${findCompByCid.cphone}" type="text" required="required" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>在岗学生人数：</td>
-                    <td colspan="4">
-                        <input name="" value="8人" type="text"  disabled="disabled"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>详细地址：</td>
-                    <td colspan="4">
-                        <select  name="aprovince" id="aprovince" onchange="provinceajax()">
-                            <option id="aprovinces" value="${findCompByCid.cmAreaByAid.aprovince}">${findCompByCid.cmAreaByAid.aprovince}</option>
-                            <c:forEach items="${allAreaList}" var="s" varStatus="stu">
-                                <option id="aprovinces" value="${s.aprovince}">${s.aprovince}</option>
-                            </c:forEach>
-                        </select>
-                        <select name="city" id="city"  >
-                            <option selected value="${findCompByCid.cmAreaByAid.aid}">${findCompByCid.cmAreaByAid.acity}</option>
-                        </select>
-                        <input  name="caddress" id="caddress" value="${findCompByCid.caddress}"  onfocus="javascript:if(this.value=='请在此处填写详细地址.....')this.value='';" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>邮箱：</td>
-                    <td colspan="4">
-                        <input name="cemail" type="text"   id="cemail"   value="${findCompByCid.cemail}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>简介：</td>
-                    <td colspan="4">
-                        <textarea cols="60" rows="8" id="cinfo" name="cinfo">${findCompByCid.cinfo}</textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td>备注：</td>
-                    <td colspan="4">
-                        <textarea cols="60" rows="8" id="cmark" name="cmark">${findCompByCid.cmark}</textarea>
-                    </td>
-                </tr>
-                <c:if test="${info==null}">
+                <table  class="pure-table pure-table-bordered CompInfo1" style="text-align: left;">
                     <tr>
-                        <td colspan="5" width="50%" style="text-align: center;">
-                            <input type="submit"   class="mybutton"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)" >取消</button>
+                        <td>企业名称</td>
+                        <td colspan="4">
+                            <input name="cname" id="cname"  value="${findCompByCid.cname}" type="text" required="required"/>
                         </td>
                     </tr>
-                </c:if>
-            </table>
+                    <tr>
+
+                        <td>联系人：</td>
+                        <td colspan="4">
+                            <input name="chr" id="chr" value="${findCompByCid.chr}" type="text" required="required"/>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>联系电话：</td>
+                        <td colspan="4">
+                            <input name="cphone" id="cphone" value="${findCompByCid.cphone}" type="text" required="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>详细地址：</td>
+                        <td colspan="4">
+                            <select  name="aprovince" id="aprovince" onchange="provinceajax()">
+                                <%--<option id="aprovinces" value="${findCompByCid.cmAreaByAid.aprovince}">${findCompByCid.cmAreaByAid.aprovince}</option>--%>
+                                <c:forEach items="${allAreaList}" var="s" varStatus="stu">
+                                    <option id="aprovinces" value="${s.aprovince}" <c:if test="${s.aprovince==findCompByCid.cmAreaByAid.aprovince}"> selected="selected"</c:if>>${s.aprovince}</option>
+                                </c:forEach>
+                            </select>
+                            <select name="city" id="city"  >
+                                <c:forEach items="${findCityByApro}" var="s" varStatus="stu">
+                                    <option id="aprovinces" value="${s.aid}" <c:if test="${s.aid==findCompByCid.cmAreaByAid.aid}"> selected="selected"</c:if>>${s.acity}</option>
+                                </c:forEach>
+                            </select>
+                            <input  name="caddress" id="caddress" value="${findCompByCid.caddress}"  onfocus="javascript:if(this.value=='请在此处填写详细地址.....')this.value='';" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>邮箱：</td>
+                        <td colspan="4">
+                            <input name="cemail" type="text"   id="cemail"   value="${findCompByCid.cemail}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>简介：</td>
+                        <td colspan="4">
+                            <textarea cols="60" rows="8" id="cinfo" name="cinfo">${findCompByCid.cinfo}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>备注：</td>
+                        <td colspan="4">
+                            <textarea cols="60" rows="8" id="cmark" name="cmark">${findCompByCid.cmark}</textarea>
+                        </td>
+                    </tr>
+                    <c:if test="${info==null}">
+                        <tr>
+                            <td colspan="5" width="50%" style="text-align: center;">
+                                <input type="submit"   class="mybutton"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)" >取消</button>
+                            </td>
+                        </tr>
+                    </c:if>
+                </table>
             </form>
             <div class="table-slipline"></div>
             <!--这是表格结束-->
@@ -159,6 +159,6 @@
         </div>
         <iframe src="../tools/GangWeiTabs.html" width="810px" height="340px" frameborder="0"></iframe>
     </div>
-    <div id="zhezhaobg"></div>
+    <div id="zhezhaobg"></div></div>
 </body>
 </html>

@@ -20,6 +20,14 @@ public class CmCompany {
     private CmArea cmAreaByAid;
     private Collection<CmRecruit> cmRecruitsByCid;
 
+    public CmCompany(Integer cid, String cname, String chr, String cphone, Integer cstate) {
+        this.cid = cid;
+        this.cname = cname;
+        this.chr = chr;
+        this.cphone = cphone;
+        this.cstate = cstate;
+    }
+
     public CmCompany(Integer cid, String cname, String chr, String cphone, String cemail, String cinfo, String cmark, String caddress, Date ctime, Integer cstate) {
         this.cid = cid;
         this.cname = cname;

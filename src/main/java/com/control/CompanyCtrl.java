@@ -1,11 +1,14 @@
 package com.control;
 
+import com.ResObj.ResComList;
 import com.ResObj.ResCompanyObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
+import com.pojo.CmJob;
 import com.pojo.CmUser;
 import com.service.AreaService;
 import com.service.CompanyService;
+import com.service.JobService;
 import com.service.UserService;
 import com.tools.DateConvert;
 import com.tools.InputData;
@@ -27,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,10 +45,12 @@ public class CompanyCtrl {
     private CompanyService companyService;
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private JobService jobService;
     //张小丽：添加公司
     @RequestMapping(value = "/addCompany",method = RequestMethod.GET)
     public ModelAndView addCompany(String cname,String chr,String cphone,String cemail,
-                                        String cinfo,String cmark,String caddress,int city)throws  Exception{
+                                   String cinfo,String cmark,String caddress,int city)throws  Exception{
         ModelAndView mv = new ModelAndView();
         String cname0=new String(cname.getBytes("iso-8859-1"),"utf-8");
         String chr0=new String(chr.getBytes("iso-8859-1"),"utf-8");
@@ -63,10 +69,14 @@ public class CompanyCtrl {
     //张小丽：根据公司ID查询，即查找需要修改的公司信息
     @RequestMapping(value = "/findCompByCid",method = RequestMethod.GET)
     public String findCompByCid(int cid, ModelMap  modelMap){
-       CmCompany cmCompany=companyService.findCompByCid(cid);
+        CmCompany cmCompany=companyService.findCompByCid(cid);
         List<CmArea> data=areaService.findAllArea();
+        CmArea cmArea=areaService.findAreaByCid(cid);
+        cmCompany.setCmAreaByAid(cmArea);
+        List<CmArea>data2=areaService.findAreaByAApro(cmArea.getAprovince());
         modelMap.addAttribute("allAreaList",data);
         modelMap.put("findCompByCid",cmCompany);
+        modelMap.put("findCityByApro",data2);
         return  "/system/company/CompUpdate";
     }
     //张小丽：根据公司ID查询，即查找需要修改的公司信息
@@ -74,6 +84,12 @@ public class CompanyCtrl {
     public String findCompByCid2(int cid, ModelMap  modelMap){
         CmCompany cmCompany=companyService.findCompByCid(cid);
         List<CmArea> data=areaService.findAllArea();
+        CmArea cmArea=areaService.findAreaByCid(cid);
+        cmCompany.setCmAreaByAid(cmArea);
+        List<CmArea>data2=areaService.findAreaByAApro(cmArea.getAprovince());
+        modelMap.addAttribute("allAreaList",data);
+        modelMap.put("findCompByCid",cmCompany);
+        modelMap.put("findCityByApro",data2);
         modelMap.addAttribute("state","10001");
         modelMap.addAttribute("info","修改成功！");
         modelMap.addAttribute("allAreaList",data);
@@ -83,7 +99,7 @@ public class CompanyCtrl {
     //张小丽：修改公司信息
     @RequestMapping(value = "/updateCompany",method = RequestMethod.GET)
     public ModelAndView updateCompany(int cid,String cname,String chr,String cphone,String cemail,String aprovince,
-                                String cinfo,String cmark,String caddress,int city,ModelMap modelMap) throws Exception{
+                                      String cinfo,String cmark,String caddress,int city,ModelMap modelMap) throws Exception{
         ModelAndView mv=new ModelAndView();
         String cname0=new String(cname.getBytes("iso-8859-1"),"utf-8");
         String chr0=new String(chr.getBytes("iso-8859-1"),"utf-8");
@@ -92,7 +108,7 @@ public class CompanyCtrl {
         String caddress0=new String(caddress.getBytes("iso-8859-1"),"utf-8");
         boolean flag=companyService.updateCompany(cid, cname0, chr0, cphone, cemail, cinfo0, cmark0, caddress0, city);
         if (flag){
-          // "/system/company/CompUpdate"
+            // "/system/company/CompUpdate"
             mv.setViewName("redirect:/company/findCompByCid2?cid="+cid);
         }
         return mv;
@@ -102,15 +118,53 @@ public class CompanyCtrl {
      * @return
      */
     @RequestMapping(value = "/findAllCompany")
-    public ModelAndView findAllCompany(ModelMap modelMap){
-        ModelAndView mv = new ModelAndView();
-        List<ResCompanyObj> companyList = companyService.FindALLCompany();
-        System.out.println(companyList);
+    public String findAllCompany(ModelMap modelMap){
+        List<ResComList> companyList = new ArrayList<>();
+        List<CmCompany> company = companyService.FindALLCompany();
+        for(CmCompany com : company){
+            ResComList rcl = new ResComList();
+            rcl.setCstate(com.getCstate());
+            rcl.setChr(com.getChr());
+            rcl.setCid(com.getCid());
+            rcl.setCname(com.getCname());
+            rcl.setCphone(com.getCphone());
+            //按Cid查询该公司有多少招聘岗位
+            rcl.setCmJobs(jobService.findJobByCid(com.getCid()));
+            //计算该公司在岗学生人数
+            rcl.setStuCount(companyService.StuCountByCid(com.getCid()));
+            companyList.add(rcl);
+        }
+        //每页显示的条数
+        int pageSize = 5;
+        int page = 1;
+        //计算公司总数
+        int total = companyService.CompanyCount();
+        String pageCode = this.genPagation(total, page, pageSize);
         modelMap.addAttribute("companylist",companyList);
-        mv.setViewName("system/company/selectAllCom");
-        return mv;
+        modelMap.put("pageCode",pageCode);
+        return "system/company/selectAllCom";
+    }
+    /**
+     * 查询该公司该岗位下的学生信息
+     * @param cid
+     * @param jid
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/findStuInfoByJname")
+    public String findStuInfoByJname(String cid,String jid,ModelMap modelMap){
+        List<ResCompanyObj> dataList = companyService.findStuInfoByJname(Integer.parseInt(cid),Integer.parseInt(jid));
+        modelMap.addAttribute("dataList",dataList);
+        return "/system/company/StudentInfo";
     }
 
+    /**
+     * 查看该公司下的在岗学生数量
+     * @return
+     */
+    public String findStuCountByCid(){
+        return null;
+    }
     /**
      * 按公司ID 查询该公司信息
      * @param modelMap
@@ -118,14 +172,19 @@ public class CompanyCtrl {
      * @return
      */
     @RequestMapping(value = "/findByCompCid")
-    @ResponseBody
-    public ModelAndView SelectByCid(ModelMap modelMap,String cid){
-        ModelAndView mv = new ModelAndView();
+    public String SelectByCid(ModelMap modelMap,String cid){
         System.out.println(cid);
-        List<CmCompany> dateList = companyService.findCompByCid1(Integer.parseInt(cid));
+        List<CmCompany> dateList = companyService.findByCompCid(Integer.parseInt(cid));
+        for(CmCompany comp : dateList) {
+            //按Cid查询该公司有多少招聘岗位
+            List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
+            //计算该公司的在岗学生人数
+            int stuCount = companyService.StuCountByCid(comp.getCid());
+            modelMap.addAttribute("jobList",jobList);
+            modelMap.put("stuCount",stuCount);
+        }
         modelMap.addAttribute("dateList",dateList);
-        mv.setViewName("system/company/CompInfo");
-        return mv;
+        return  "/system/company/CompInfo";
     }
     /**
      * 按条件搜索相关企业
@@ -139,13 +198,18 @@ public class CompanyCtrl {
         System.out.println(searchType);
         System.out.println(searchtext);
         if(searchType.equals("cname")) {
-            List<ResCompanyObj> listdata = companyService.FindByCName(searchtext);
+            List<CmCompany> listdata = companyService.FindByCName(searchtext);
+            for(CmCompany comp : listdata){
+                List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
+                modelMap.addAttribute("jobList",jobList);
+            }
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("chr")){
-            List<ResCompanyObj> listdata = companyService.FindByCHr(searchtext);
-            modelMap.addAttribute("listdata", listdata);
-        }else if(searchType.equals("jname")){
-            List<ResCompanyObj> listdata = companyService.FindByCJname(searchtext);
+            List<CmCompany> listdata = companyService.FindByCHr(searchtext);
+            for(CmCompany comp : listdata){
+                List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
+                modelMap.addAttribute("jobList",jobList);
+            }
             modelMap.addAttribute("listdata", listdata);
         }
         mv.setViewName("system/company/CompSearch");
@@ -169,6 +233,40 @@ public class CompanyCtrl {
         return null;
     }
 
+    /**
+     * 分页处理
+     * @param totalNum 总页数
+     * @param currentPage 当前页
+     * @param pageSize 一页显示几条
+     * @return
+     */
+    private String genPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/company/findAllCompany?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/company/findAllCompany?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/company/findAllCompany?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/company/findAllCompany?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/company/findAllCompany?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
+    }
     /*TianYu 公司数据导入*/
     @RequestMapping(value = "/inputCompany")
     public String inputCompany(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model){

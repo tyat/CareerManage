@@ -21,7 +21,8 @@ public class ResEmpObj {
     private Date eleave;
     private String ereason;
     private String jname;
-    private String uname;
+    private Boolean jtype;
+    private String urname;
     private String sname;
     private Boolean ssex;
     private String spro;
@@ -30,11 +31,13 @@ public class ResEmpObj {
     private Integer rid;
     private Integer cid;
     private String cname;
+    private Integer iid;
+    private Integer isuccess;
 
     public ResEmpObj() {
     }
 
-    public ResEmpObj(Integer eid, Integer uid, Integer sid, Integer jid, Date etime, Integer esalary, String einfo, Integer estate, Boolean ewq, Date eleave, String ereason, String jname, String uname, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, Integer rid, Integer cid, String cname) {
+    public ResEmpObj(Integer eid, Integer uid, Integer sid, Integer jid, Date etime, Integer esalary, String einfo, Integer estate, Boolean ewq, Date eleave, String ereason, String jname, Boolean jtype, String urname, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, Integer rid, Integer cid, String cname, Integer iid, Integer isuccess) {
         this.eid = eid;
         this.uid = uid;
         this.sid = sid;
@@ -47,7 +50,8 @@ public class ResEmpObj {
         this.eleave = eleave;
         this.ereason = ereason;
         this.jname = jname;
-        this.uname = uname;
+        this.jtype = jtype;
+        this.urname = urname;
         this.sname = sname;
         this.ssex = ssex;
         this.spro = spro;
@@ -56,6 +60,8 @@ public class ResEmpObj {
         this.rid = rid;
         this.cid = cid;
         this.cname = cname;
+        this.iid = iid;
+        this.isuccess = isuccess;
     }
 
     public Integer getEid() {
@@ -154,12 +160,20 @@ public class ResEmpObj {
         this.jname = jname;
     }
 
-    public String getUname() {
-        return uname;
+    public Boolean getJtype() {
+        return jtype;
     }
 
-    public void setUname(String uname) {
-        this.uname = uname;
+    public void setJtype(Boolean jtype) {
+        this.jtype = jtype;
+    }
+
+    public String getUrname() {
+        return urname;
+    }
+
+    public void setUrname(String urname) {
+        this.urname = urname;
     }
 
     public String getSname() {
@@ -224,6 +238,22 @@ public class ResEmpObj {
 
     public void setCname(String cname) {
         this.cname = cname;
+    }
+
+    public Integer getIid() {
+        return iid;
+    }
+
+    public void setIid(Integer iid) {
+        this.iid = iid;
+    }
+
+    public Integer getIsuccess() {
+        return isuccess;
+    }
+
+    public void setIsuccess(Integer isuccess) {
+        this.isuccess = isuccess;
     }
 }
 

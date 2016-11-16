@@ -21,7 +21,12 @@ public class DirectionService {
         return  data;
 
     }
-
+    //zxl:查询就业生的就业动向
+    public CmDirection findDirByUeid(int ueid){
+        String hsql="select  new com.pojo.CmDirection(d.did, d.dname,d.dstate)  from  CmUnemp un inner  join  un.cmDirectionByDid d where un.ueid=? and d.dstate=0";
+        List<CmDirection>data=(List<CmDirection>) hibernateTemplate.find(hsql,ueid);
+        return  data.get(0);
+    }
     /**
      * 显示所有未就业学生的准备方向
      * @return

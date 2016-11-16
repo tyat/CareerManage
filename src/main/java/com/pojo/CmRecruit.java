@@ -1,5 +1,6 @@
 package com.pojo;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
@@ -10,8 +11,8 @@ public class CmRecruit {
     private Integer rid;
     private Boolean rsex;
     private Integer rsalary;
-    private Date rstart;
-    private Date rend;
+    private Timestamp rstart;
+    private Timestamp rend;
     private Integer rnum;
     private String rinfo;
     private Integer rstate;
@@ -44,19 +45,19 @@ public class CmRecruit {
         this.rsalary = rsalary;
     }
 
-    public Date getRstart() {
+    public Timestamp getRstart() {
         return rstart;
     }
 
-    public void setRstart(Date rstart) {
+    public void setRstart(Timestamp rstart) {
         this.rstart = rstart;
     }
 
-    public Date getRend() {
+    public Timestamp getRend() {
         return rend;
     }
 
-    public void setRend(Date rend) {
+    public void setRend(Timestamp rend) {
         this.rend = rend;
     }
 
@@ -83,6 +84,20 @@ public class CmRecruit {
     public void setRstate(Integer rstate) {
         this.rstate = rstate;
     }
+    public CmRecruit() {
+    }
+
+    public CmRecruit(CmArea cmAreaByAid, CmCompany cmCompanyByCid, Timestamp rstart, Timestamp rend, CmJob cmJobByJid, String rinfo, Integer rnum, Integer rsalary) {
+        this.cmAreaByAid = cmAreaByAid;
+        this.cmCompanyByCid = cmCompanyByCid;
+        this.rstart = rstart;
+        this.rend = rend;
+        this.cmJobByJid = cmJobByJid;
+        this.rinfo = rinfo;
+        this.rnum = rnum;
+        this.rsalary = rsalary;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

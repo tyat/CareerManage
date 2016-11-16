@@ -47,78 +47,114 @@ public class EmpCtrl {
     private AreaService areaService;
     //zxl：添加就业生
     @RequestMapping(value = "/addEmp",method = RequestMethod.POST)
-    public ModelAndView addEmp(int sid,String cname,String chr,String cphone,int city,String caddress,String cemail,
-                         String etime,String itime,int Icity,String iaddress,String itype,int job,int Jcity,
-                         int rsalary,int ewq,String einfo,String cinfo,String cmark, int add_time,int add_time2,ModelMap modelMap) throws  Exception{
+    public ModelAndView addEmp(String sid,String sno,String addsname,int addssex,String addsbirth,String addspro,String addsgrade,
+                               String addsclass,String addscode,String addsphone,String addsemail,String addsdetail,
+                               String cname,String chr,String cphone,int city,String caddress,String cemail,
+                               String etime,String itime,int Icity,String iaddress,String itype,int job,int Jcity,
+                               int rsalary,int ewq,String einfo,String cinfo,String cmark, int add_time,int add_time2,ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
-        CmArea cmArea1=new CmArea();
-        cmArea1.setAid(city);
-        CmCompany  cmCompany=new CmCompany(cname,chr,cphone,cemail,cinfo,cmark,caddress,cmArea1,new DateConvert().convert());
-        CmRecruit cmRecruit=new CmRecruit();
-        CmArea  cmArea2=new CmArea();
-        cmArea2.setAid(Jcity);
-        cmRecruit.setCmAreaByAid(cmArea2);
-        cmRecruit.setCmCompanyByCid(cmCompany);
-        cmRecruit.setRstart(new DateConvert().convert());
-        cmRecruit.setRend(new DateConvert().convert());
-        CmJob  cmJob=new CmJob();
-        cmJob.setJid(job);
-        cmRecruit.setCmJobByJid(cmJob);
-        cmRecruit.setRinfo("");
-        cmRecruit.setRnum(0);
-        cmRecruit.setRsalary(rsalary);
-        CmInter cmInter=new CmInter();
-        CmArea cmArea3=new CmArea();
-        cmArea3.setAid(Icity);
-        cmInter.setCmAreaByAid(cmArea3);
-        cmInter.setCmRecruitByRid(cmRecruit);
-        CmStudent cmStudent=new CmStudent();
-        cmStudent.setSid(sid);
-        cmInter.setCmStudentBySid(cmStudent);
-        cmInter.setIaddress(iaddress);
-        cmInter.setIsuccess(1);
-        String sadd_time=add_time+"";
-        String sadd_time2=add_time2*5+"";
-        if (add_time<10){
-            sadd_time="0"+sadd_time;
-        }
-        if (add_time2*5<10){
-            sadd_time2="0"+sadd_time2;
-        }
-        String []dates=itime.split("-");
-        for (int i=0;i<dates.length;i++){
-            if (Integer.parseInt(dates[i])<10){
-                dates[i]="0"+dates[i];
+        if (!sid.equals("")){
+            //公司表操作
+            CmArea cmArea1=new CmArea();
+            cmArea1.setAid(city);
+            CmCompany  cmCompany=new CmCompany(cname,chr,cphone,cemail,cinfo,cmark,caddress,cmArea1,new DateConvert().convert());
+            //招聘表操作
+            CmArea  cmArea2=new CmArea();
+            cmArea2.setAid(Jcity);
+            CmJob  cmJob=new CmJob();
+            cmJob.setJid(job);
+            CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany,new DateConvert().convert(),new DateConvert().convert(),cmJob,"",0,rsalary);
+            //面试表操作
+            CmArea cmArea3=new CmArea();
+            CmStudent cmStudent=new CmStudent();
+            cmStudent.setSid(Integer.parseInt(sid));
+            cmArea3.setAid(Icity);
+            String sadd_time=add_time+"";
+            String sadd_time2=add_time2*5+"";
+            if (add_time<10){
+                sadd_time="0"+sadd_time;
+            }
+            if (add_time2*5<10){
+                sadd_time2="0"+sadd_time2;
+            }
+            String []dates=itime.split("-");
+            for (int i=0;i<dates.length;i++){
+                if (Integer.parseInt(dates[i])<10){
+                    dates[i]="0"+dates[i];
+                }
+            }
+            itime=dates[0]+"-"+dates[1]+"-"+dates[2];
+            CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"),itype);
+            //就业是生表操作
+            CmUser cmUser=new CmUser();
+            cmUser.setUid(0);
+            boolean flag=false;
+            if (ewq==1){
+                flag=true;
+            }
+            CmEmp cmEmp=new CmEmp(cmUser,cmJob,cmStudent,new DateConvert().StringtoTime(etime),einfo,rsalary,new DateConvert().SysDate(),flag);
+            boolean flag1=empService.addEmp(cmCompany,cmRecruit,cmInter,cmEmp);
+            if (flag){
+                mv.setViewName("redirect:/emp/forAddEmp2");
+            }
+        }else{
+            //学生表操作
+            boolean flagsex=false;
+            if (addssex==1){
+                flagsex=true;
+            }else {
+                flagsex=true;
+            }
+            CmStudent cmStudent=new CmStudent(sno,addsname,flagsex,new DateConvert().StringtoDate(addsbirth),addspro,Integer.parseInt(addsgrade),Integer.parseInt(addsclass),addsphone,addsemail,addscode,addsdetail);
+            //公司表操作
+            CmArea cmArea1=new CmArea();
+            cmArea1.setAid(city);
+            CmCompany  cmCompany=new CmCompany(cname,chr,cphone,cemail,cinfo,cmark,caddress,cmArea1,new DateConvert().convert());
+            //招聘表操作
+            CmArea  cmArea2=new CmArea();
+            cmArea2.setAid(Jcity);
+            CmJob  cmJob=new CmJob();
+            cmJob.setJid(job);
+            CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany,new DateConvert().convert(),new DateConvert().convert(),cmJob,"",0,rsalary);
+            //面试表操作
+            CmArea cmArea3=new CmArea();
+            cmArea3.setAid(Icity);
+            String sadd_time=add_time+"";
+            String sadd_time2=add_time2*5+"";
+            if (add_time<10){
+                sadd_time="0"+sadd_time;
+            }
+            if (add_time2*5<10){
+                sadd_time2="0"+sadd_time2;
+            }
+            String []dates=itime.split("-");
+            for (int i=0;i<dates.length;i++){
+                if (Integer.parseInt(dates[i])<10){
+                    dates[i]="0"+dates[i];
+                }
+            }
+            itime=dates[0]+"-"+dates[1]+"-"+dates[2];
+            CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"),itype);
+            //就业是生表操作
+            CmUser cmUser=new CmUser();
+            cmUser.setUid(0);
+            boolean flag=false;
+            if (ewq==1){
+                flag=true;
+            }
+            CmEmp cmEmp=new CmEmp(cmUser,cmJob,cmStudent,new DateConvert().StringtoTime(etime),einfo,rsalary,new DateConvert().SysDate(),flag);
+            boolean flag1=empService.addEmpStu(cmStudent,cmCompany,cmRecruit,cmInter,cmEmp);
+            if (flag){
+                mv.setViewName("redirect:/emp/forAddEmp2");
             }
         }
-        itime=dates[0]+"-"+dates[1]+"-"+dates[2];
-        cmInter.setItime(new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"));
-        cmInter.setItype(itype);
-        CmEmp cmEmp=new CmEmp();
-        CmUser cmUser=new CmUser();
-        cmUser.setUid(0);
-        cmEmp.setCmUserByUid(cmUser);
-        cmEmp.setCmJobByJid(cmJob);
-        cmEmp.setCmStudentBySid(cmStudent);
-        cmEmp.setEtime(new DateConvert().StringtoTime(etime));
-        cmEmp.setEinfo(einfo);
-        cmEmp.setEsalary(rsalary);
-        cmEmp.setEleave(new DateConvert().SysDate());
-        boolean flag=false;
-        if (ewq==1){
-            flag=true;
-        }
-        cmEmp.setEwq(flag);
-        boolean flag1=empService.addEmp(cmCompany,cmRecruit,cmInter,cmEmp);
-        if (flag){
-            mv.setViewName("redirect:/emp/forAddEmp2");
-        }
+
         return mv;
     }
     //zxl：修改就业生
     @RequestMapping(value = "/updateEmp",method = RequestMethod.POST)
     public ModelAndView updateEmp(int sid, int user, String etime,
-                            int esalary, String einfo, int ewq,ModelMap modelMap) throws  Exception{
+                                  int esalary, String einfo, int ewq,ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
         boolean flag=empService.updateEmp(sid,user,etime,esalary,einfo,ewq);
         if (flag){
@@ -163,12 +199,14 @@ public class EmpCtrl {
         //查询该同学的基本信息
         CmStudent cmStudent=studentService.findStuBySid(sid);
         CmEmp cmEmp=empService.findEmpBySid(sid);
+        CmUser cmUser=userService.findUserByEmp(cmEmp.getEid());
         //cmEmp.setEtime(new DateConvert().subDate(cmEmp.getEtime()));
         modelMap.addAttribute("allUser",data1);
         modelMap.addAttribute("findBySid",cmJob);
         modelMap.addAttribute("findCompanyBySid",cmCompany);
         modelMap.addAttribute("findStuBySid",cmStudent);
         modelMap.addAttribute("findEmpBySid",cmEmp);
+        modelMap.addAttribute("findUserByEmp",cmUser);
         return  "/system/employed/EmpUpdate";
     }
     //zxl：为修改就业生信息做准备，查询出所有的公司，推荐人以及岗位
@@ -183,6 +221,7 @@ public class EmpCtrl {
         //查询该同学的基本信息
         CmStudent cmStudent=studentService.findStuBySid(sid);
         CmEmp cmEmp=empService.findEmpBySid(sid);
+        CmUser cmUser=userService.findUserByEmp(cmEmp.getEid());
         modelMap.addAttribute("state","10001");
         modelMap.addAttribute("info","修改成功！");
         modelMap.addAttribute("allUser",data1);
@@ -190,44 +229,93 @@ public class EmpCtrl {
         modelMap.addAttribute("findCompanyBySid",cmCompany);
         modelMap.addAttribute("findStuBySid",cmStudent);
         modelMap.addAttribute("findEmpBySid",cmEmp);
+        modelMap.addAttribute("findUserByEmp",cmUser);
         return  "/system/employed/EmpUpdate";
     }
+
 
     /**
      * 查询显示所有已就业学生
      * @return
      */
     @RequestMapping(value = "/findAllEmp")
-    public ModelAndView FindAllEmp(ModelMap modelMap){
-        ModelAndView mv = new ModelAndView();
+    public String FindAllEmp(ModelMap modelMap){
         List<ResEmpObj> empList = empService.FindAllEmp();
-        System.out.println(empList);
+        //每页显示的条数
+        int pageSize = 5;
+        int page = 1;
+        //计算就业生总数
+        int total = empService.EmpCount();
+        String pageCode = this.genPagation(total, page, pageSize);
         modelMap.addAttribute("empList",empList);
-        mv.setViewName("system/employed/selectAllEmp");
-        return mv;
+        modelMap.put("pageCode",pageCode);
+        return "system/employed/selectAllEmp";
+    }
+
+
+    /**
+     * 按Cid查询该公司下所有已就业学生信息
+     * @param cid
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/findEmpStuByCid")
+    public String findEmpStuByCid(String cid,ModelMap modelMap){
+        List<ResEmpObj> empStu = empService.findEmpStuByCid(Integer.parseInt(cid));
+        modelMap.addAttribute("empStu",empStu);
+        return "/system/employed/CompEmpstu";
+    }
+    /**
+     * 按Jname查询该岗位下所有已就业学生信息
+     * @param jid
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/findEmpStuByJname")
+    public String findEmpStuByJname(String jid,ModelMap modelMap){
+        List<ResEmpObj> empStu = empService.findEmpStuByJname(Integer.parseInt(jid));
+        modelMap.addAttribute("empStu",empStu);
+        return "/system/employed/JnameEmpstu";
+    }
+
+    /**
+     * 查询该年级下该班级下的就业生信息
+     * @param sgrade
+     * @param sclass
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/findEmpStuBySclass")
+    public String findEmpStuBySclass(String sgrade,String sclass,ModelMap modelMap){
+        List<ResEmpObj> empStu = empService.findEmpStuBySclass(Integer.parseInt(sgrade),Integer.parseInt(sclass));
+        modelMap.addAttribute("empStu",empStu);
+        return "/system/employed/SgradeSclassEmpstu";
     }
 
     /**
      * 按条件搜索已就业学生信息
-     * @param searchtext,searchType
+     * @param startDate,endDate,searchtext,searchType
      * @return
      */
     @RequestMapping(value = "/findByEmp")
     @ResponseBody
-    public ModelAndView findByName(ModelMap modelMap, String searchtext, String searchType){
+    public ModelAndView findByName(ModelMap modelMap,String startDate,String endDate,String searchtext, String searchType){
         ModelAndView mv = new ModelAndView();
         System.out.println(searchType);
         System.out.println(searchtext);
+        List<ResEmpObj> Empdata = empService.FindByEtime(startDate,endDate);
+        modelMap.addAttribute("Empdata",Empdata);
         if(searchType.equals("cname")) {
             List<ResEmpObj> listdata = empService.FindByCname(searchtext);
-            System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("jname")){
             List<ResEmpObj> listdata = empService.FindByJname(searchtext);
-            System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("sname")){
             List<ResEmpObj> listdata = empService.FindBySname(searchtext);
+            modelMap.addAttribute("listdata", listdata);
+        }else if(searchType.equals("sgrade")){
+            List<ResEmpObj> listdata = empService.FindBySgrade(Integer.parseInt(searchtext));
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }
@@ -252,6 +340,40 @@ public class EmpCtrl {
             return mv;
         }
         return null;
+    }
+    /**
+     * 分页处理
+     * @param totalNum 总页数
+     * @param currentPage 当前页
+     * @param pageSize 一页显示几条
+     * @return
+     */
+    private String genPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/emp/findAllEmp?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/emp/findAllEmp?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/emp/findAllEmp?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/emp/findAllEmp?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/emp/findAllEmp?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
     }
 
     /*TianYu 就业生数据导入*/

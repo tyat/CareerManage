@@ -20,6 +20,7 @@ import java.util.List;
 public class JobCtrl {
     @Autowired
     private JobService jobService;
+
     /**
      * 查询显示所有的岗位信息
      * @param modelMap
@@ -28,9 +29,15 @@ public class JobCtrl {
     @RequestMapping(value = "/findAllJob")
     public ModelAndView findAllJob(ModelMap modelMap){
         ModelAndView mv = new ModelAndView();
-        List<CmJob> dataList = jobService.findAllJob1();
+        List<CmJob> dataList = jobService.findAllJobInfo();
+        for(CmJob job : dataList){
+            System.out.println(job.getJtype());
+            //按岗位类型jtype查询该类型下所有的岗位标签
+            List<CmJob> jobList = jobService.findJobByJtype(job.getJtype());
+            modelMap.addAttribute("jobList",jobList);
+        }
         System.out.println(dataList);
-        modelMap.addAttribute("dataList",dataList);
+        modelMap.put("dataList",dataList);
         mv.setViewName("system/admin/gangweiInfo");
         return mv;
     }
@@ -48,11 +55,6 @@ public class JobCtrl {
         ModelAndView mv = new ModelAndView();
         System.out.println(jname);
         System.out.println(jtype);
-        if(jtype.equals("true")){
-            Integer jtype1 = 1;
-        }else if(jtype.equals("false")){
-            Integer jtype1 = 0;
-        }
         CmJob cmJob = new CmJob(jname,jtype,jinfo);
         boolean isSucc = jobService.addJob(cmJob);
         if(isSucc) {

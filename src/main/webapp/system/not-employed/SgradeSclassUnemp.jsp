@@ -35,12 +35,14 @@
                     <div class="search-box">
                         <form action="/unemp/findByUnEmp">
                             <select id="searchType" name="searchType" style="width: 80px;">
-                                <option value="sgrade">按年级</option>
                                 <option value="sname">按姓名</option>
                                 <option value="dname">按学生动向</option>
                             </select>
-                            <input type="text" name="searchtext" onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
+                            <input type="text" name="searchtext"  onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
+                                返回上一页
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -55,7 +57,7 @@
         </div>
 
         <div id="allUnemp">
-            <c:forEach varStatus="i" var="list" items="${UnempList}">
+            <c:forEach varStatus="i" var="list" items="${dataList}">
                 <!--准备就业的表这是一条记录开始-->
                 <table  class="pure-table pure-table-bordered left">
                     <tr>
@@ -97,7 +99,7 @@
         </div>
 
         <div id="ZhunBei-table">
-            <c:forEach varStatus="i" var="list" items="${UnempList}">
+            <c:forEach varStatus="i" var="list" items="${dataList}">
                 <c:if test="${list.did == 1}">
                     <!--这是一条记录开始-->
                     <table  class="pure-table pure-table-bordered left">
@@ -149,7 +151,7 @@
         </div>
         <div id="KaoYan-table">
             <!--这是一条记录开始-->
-            <c:forEach varStatus="i" var="list" items="${UnempList}">
+            <c:forEach varStatus="i" var="list" items="${dataList}">
                 <c:if test="${list.did == 2}">
                     <table  class="pure-table pure-table-bordered left">
                         <tr>
@@ -206,7 +208,7 @@
             </ul>
         </div>
         <div class="left-button-footer">
-            <button type="submit" class="mybutton" value="Submit" onclick="window.open('/unemp/outputUnemp')">导出数据</button>
+            <button class="mybutton" type="button" onclick="">导出数据</button>
         </div>
     </div>
 </div>
