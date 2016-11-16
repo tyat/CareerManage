@@ -68,24 +68,24 @@ public class UserService {
     }
     //zxl：修改密码
     public  boolean updateUpwd(int uid, String oldpwd,String newpwd){
-       CmUser cmUser=findByUidUpwd(uid,oldpwd);
+        CmUser cmUser=findByUidUpwd(uid,oldpwd);
         newpwd=new MD5().getMD5String(newpwd);
         if(cmUser!=null){
-           String hsql="update CmUser u set u.upwd=? where u.uid=?";
+            String hsql="update CmUser u set u.upwd=? where u.uid=?";
             hibernateTemplate.bulkUpdate(hsql,newpwd,uid);
             return true;
         }
         return  false;
     }
     //zxl：根据用户名查询用户是否存在
-     public CmUser findUser(String uname){
-         String hsql="select new com.pojo.CmUser(u.uname,u.upwd) from CmUser u where u.uname=?";
-         List<CmUser>data=(List<CmUser>)hibernateTemplate.find(hsql,uname);
-         if (data.size()>0){
-             return  data.get(0);
-         }
-         return null;
-     }
+    public CmUser findUser(String uname){
+        String hsql="select new com.pojo.CmUser(u.uname,u.upwd) from CmUser u where u.uname=?";
+        List<CmUser>data=(List<CmUser>)hibernateTemplate.find(hsql,uname);
+        if (data.size()>0){
+            return  data.get(0);
+        }
+        return null;
+    }
     //zxl：修改用户信息
     public boolean  updateUser(int uid1,String urname,String uphone,String uemail){
         String hsql="update CmUser u set u.urname=?,u.uphone=?,u.uemail=?  where u.uid=?";
@@ -102,11 +102,18 @@ public class UserService {
         return null;
     }
     //zxl：修改学生权限
-     public  boolean updateUrank(int uid,int urank){
-         String hsql="update CmUser u set u.urank=?  where u.uid=?";
-         hibernateTemplate.bulkUpdate(hsql,urank,uid);
-         return  true;
-     }
+    public  boolean updateUrank(int uid,int urank){
+        String hsql="update CmUser u set u.urank=?  where u.uid=?";
+        hibernateTemplate.bulkUpdate(hsql,urank,uid);
+        return  true;
+    }
+    //zxl:查询就业生的推荐人
+    public CmUser findUserByEmp(int eid){
+        String hsql="select  new com.pojo.CmUser(u.uid,u.uname,u.urname, u.upwd, u.uemail, u.uphone,u.urank) " +
+                "from CmEmp e inner join e.cmUserByUid u where e.eid=?";
+        List<CmUser>data=(List<CmUser>) hibernateTemplate.find(hsql,eid);
+        return  data.get(0);
+    }
 
 
     public static void main(String[] args){

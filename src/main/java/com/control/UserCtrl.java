@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class UserCtrl {
     public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request){
         CmUser cmUser=userService.findlogin(uname,upwd);
         if (cmUser!=null){
-          //  model.addAttribute("cmUser",cmUser);
+            //  model.addAttribute("cmUser",cmUser);
             request.getSession().setAttribute("cmUser",cmUser);
             return "/index";
         }else{
@@ -131,7 +132,13 @@ public class UserCtrl {
             mv.setViewName("redirect:/user/selectAllUser");
         }
         return mv;
-
+    }
+    //zxl:退出
+    @RequestMapping(value = "/quit",method = RequestMethod.GET)
+    public String quit(HttpServletRequest request) throws  Exception{
+        HttpSession session=request.getSession();
+        session.setAttribute("cmUser",null);
+        return  "/login";
     }
 
 

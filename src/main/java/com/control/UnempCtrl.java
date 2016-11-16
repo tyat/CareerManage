@@ -75,30 +75,60 @@ public class UnempCtrl {
     }
     //zxl：添加未就业生
     @RequestMapping(value = "/addUnEmp",method = RequestMethod.POST)
-    public ModelAndView addUnEmp(int sid, int did, String jid, String uesalary, String uetime, String ueschool, String uemajor, int uesuccess, ModelMap modelMap) throws Exception{
+    public ModelAndView addUnEmp(String sid,String sno,String addsname,int addssex,String addsbirth,String addspro,
+                                 String addsgrade, String addsclass,String addscode,String addsphone,String addsemail,
+                                 String addsdetail, int did, String jid, String uesalary, String uetime, String ueschool,
+                                 String uemajor,int uesuccess, ModelMap modelMap) throws Exception{
         ModelAndView mv=new ModelAndView();
-        CmStudent cmStudent=new CmStudent();
-        cmStudent.setSid(sid);
-        CmDirection cmDirection=new CmDirection();
-        cmDirection.setDid(did);
-       if (!uesalary.equals("")){
-           CmJob cmJob=new CmJob();
-           cmJob.setJid(Integer.parseInt(jid));
-           Date date=new DateConvert().StringtoDate(uetime);
-           CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
-           boolean flag= unempServive.addUnEmp(cmUnemp);
-           if (flag){
-               mv.setViewName("redirect:/direction/selectAllDirection3");
-           }
-       }else{
-//           String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
-//           String uemajor0=new String(uemajor.getBytes("iso-8859-1"),"utf-8");
-           CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
-           boolean flag= unempServive.addUnEmp(cmUnemp);
-           if (flag){
-               mv.setViewName("redirect:/direction/selectAllDirection3");
-           }
-       }
+        if (!sid.equals("")){
+            CmStudent cmStudent=new CmStudent();
+            cmStudent.setSid(Integer.parseInt(sid));
+            CmDirection cmDirection=new CmDirection();
+            cmDirection.setDid(did);
+            if (!uesalary.equals("")){
+                CmJob cmJob=new CmJob();
+                cmJob.setJid(Integer.parseInt(jid));
+                Date date=new DateConvert().StringtoDate(uetime);
+                CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
+                boolean flag= unempServive.addUnEmp(cmUnemp);
+                if (flag){
+                    mv.setViewName("redirect:/direction/selectAllDirection3");
+                }
+            }else{
+                CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
+                boolean flag= unempServive.addUnEmp(cmUnemp);
+                if (flag){
+                    mv.setViewName("redirect:/direction/selectAllDirection3");
+                }
+            }
+        }else {
+            //学生表操作
+            boolean flagsex=false;
+            if (addssex==1){
+                flagsex=true;
+            }else {
+                flagsex=true;
+            }
+            CmStudent cmStudent=new CmStudent(sno,addsname,flagsex,new DateConvert().StringtoDate(addsbirth),addspro,Integer.parseInt(addsgrade),Integer.parseInt(addsclass),addsphone,addsemail,addscode,addsdetail);
+            CmDirection cmDirection=new CmDirection();
+            cmDirection.setDid(did);
+            if (!uesalary.equals("")){
+                CmJob cmJob=new CmJob();
+                cmJob.setJid(Integer.parseInt(jid));
+                Date date=new DateConvert().StringtoDate(uetime);
+                CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
+                boolean flag= unempServive.addUnEmp2(cmStudent,cmUnemp);
+                if (flag){
+                    mv.setViewName("redirect:/direction/selectAllDirection3");
+                }
+            }else{
+                CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
+                boolean flag= unempServive.addUnEmp2(cmStudent,cmUnemp);
+                if (flag){
+                    mv.setViewName("redirect:/direction/selectAllDirection3");
+                }
+            }
+        }
         return mv;
     }
     //zxl：修改未就业
@@ -107,11 +137,12 @@ public class UnempCtrl {
         ModelAndView mv=new ModelAndView();
         CmDirection cmDirection=new CmDirection();
         cmDirection.setDid(did);
-        if (!uesalary.equals("")){
+        if (!(did==2||did==5)){
             Date date=new DateConvert().StringtoDate(uetime);
             boolean flag= unempServive.updateUnEmp(sid,did,Integer.parseInt(jid),Integer.parseInt(uesalary),date);
             if (flag){
                 mv.setViewName("redirect:/direction/selectAllDirection4?sid="+sid);
+                // System.out.println("这是一个傻逼的sid-----------------"+sid);
             }
         }else{
 //            String ueschool0=new String(ueschool.getBytes("iso-8859-1"),"utf-8");
@@ -124,6 +155,7 @@ public class UnempCtrl {
         }
         return mv;
     }
+
     //zxl：统计未就业情况分布
     @RequestMapping(value = "/DrawUnEmp",method = RequestMethod.GET)
     public  String DrawNotEmp(ModelMap modelMap){
@@ -142,17 +174,39 @@ public class UnempCtrl {
         return "/system/not-employed/DrawNotEmp";
     }
 
+
+    /**
+     * 查询显示所有未就业学生
+     * @param modelMap
+     * @return
+     */
     @RequestMapping(value = "/findAllUnemp")
-    @ResponseBody
-    public ModelAndView FindAllUnemp(ModelMap modelMap){
-        ModelAndView mv = new ModelAndView();
+    public String FindAllUnemp(ModelMap modelMap){
         List<ResUnempObj> UnempList = unempServive.FindAllUnemp();
-        System.out.println(UnempList);
+        //每页显示的条数
+        int pageSize = 5;
+        int page = 1;
+        //计算未就业生总数
+        int total = unempServive.UnEmpCount();
+        String pageCode = this.genPagation(total, page, pageSize);
         modelMap.addAttribute("UnempList",UnempList);
-        mv.setViewName("system/not-employed/selectAllNotEmp");
-        return mv;
+        modelMap.put("pageCode",pageCode);
+        return "system/not-employed/selectAllNotEmp";
     }
 
+    /**
+     * 查询该年级下该班级下所有未就业学生信息
+     * @param sgrade
+     * @param sclass
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/findUnEmpStuBySclass")
+    public String findUnEmpStuBySclass(String sgrade,String sclass,ModelMap modelMap){
+        List<ResUnempObj> dataList = unempServive.findUnempBySclass(Integer.parseInt(sgrade),Integer.parseInt(sclass));
+        modelMap.addAttribute("dataList",dataList);
+        return "/system/not-employed/SgradeSclassUnemp";
+    }
     /**
      * 按条件搜索未就业学生信息
      * @param searchtext,searchType
@@ -164,16 +218,16 @@ public class UnempCtrl {
         ModelAndView mv = new ModelAndView();
         System.out.println(searchType);
         System.out.println(searchtext);
-        if(searchType.equals("sclass")) {
-            List<ResUnempObj> listdata = unempServive.FindBySclass(searchtext);
-            System.out.println(listdata);
-            modelMap.addAttribute("listdata", listdata);
-        }else if(searchType.equals("jname")){
-            List<ResUnempObj> listdata = unempServive.FindByJname(searchtext);
+        if(searchType.equals("sgrade")) {
+            List<ResUnempObj> listdata = unempServive.FindBySgrade(Integer.parseInt(searchtext));
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("sname")){
             List<ResUnempObj> listdata = unempServive.FindBySname(searchtext);
+            System.out.println(listdata);
+            modelMap.addAttribute("listdata", listdata);
+        }else if(searchType.equals("dname")){
+            List<ResUnempObj> listdata = unempServive.FindByDname(searchtext);
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }
@@ -199,7 +253,40 @@ public class UnempCtrl {
         }
         return null;
     }
-
+    /**
+     * 分页处理
+     * @param totalNum 总页数
+     * @param currentPage 当前页
+     * @param pageSize 一页显示几条
+     * @return
+     */
+    private String genPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/unemp/findAllUnemp?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/unemp/findAllUnemp?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/unemp/findAllUnemp?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/unemp/findAllUnemp?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/unemp/findAllUnemp?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
+    }
     /*TianYu 未就业学生数据导入*/
     @RequestMapping(value = "/inputUnemp")
     public String inputUnemp(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model){

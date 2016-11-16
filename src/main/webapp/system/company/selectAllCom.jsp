@@ -14,6 +14,7 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="../../css/default.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap.css"/>
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
 </head>
@@ -34,10 +35,9 @@
                         <form action="/company/findByComp">
                             <select id="searchType" name="searchType" style="width: 80px;">
                                 <option value="cname" ${searchType eq "cname"?'selected':''}>按企业名称</option>
-                                <option value="jname" ${searchType eq "jname"?'selected':''}>按岗位</option>
                                 <option value="chr" ${searchType eq "chr"?'selected':''}>按联系人</option>
                             </select>
-                            <input id="searchtext" name="searchtext" type="text"  value="${searchtext}"/>
+                            <input id="searchtext" name="searchtext" type="text"  onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
                         </form>
                     </div>
@@ -61,12 +61,15 @@
                 <tbody>
                 <c:forEach varStatus="i" var="list" items="${companylist}" >
                     <tr>
-                        <td><input class="mybutton" type="button" onclick="selectCompByCid(${list.cid})" value="${list.cname}" /></td>
-                        <td>${list.jname}</td>
+                        <td><button class="mybutton" type="button" onclick="ShowCompByCid(${list.cid})">${list.cname}</button></td>
+                        <td><c:forEach var="job" items="${list.cmJobs}">
+                            <button class="mybutton" type="button" onclick="selectRecruitInfo(${list.cid},${job.jid})">@${job.jname}&nbsp;&nbsp;</button>
+                        </c:forEach>
+                        </td>
                         <td>${list.chr}</td>
                         <td>${list.cphone}</td>
-                        <td>2人</td>
-                        <td><input class="mybutton" type="button" onclick="AreYouSourCompany(${list.cid})" value="删除"></td>
+                        <td>${list.stuCount}人</td>
+                        <td><button class="mybutton" type="button" onclick="AreYouSourCompany(${list.cid})">删除</button></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -74,12 +77,11 @@
             <div class="table-slipline"></div>
             <!--这是表格结束-->
         </div>
-        <div class="button-footer">
-
-            <div class="right-button-footer">
-                <div id="Page">
-                    <a href="#">«</a><span>1</span><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">6</a><a href="#">»</a>
-                </div>
+        <div>
+            <div class="pagination pagination-centered">
+                <ul>
+                    ${pageCode }
+                </ul>
             </div>
             <div class="left-button-footer">
                 <button type="submit" class="mybutton" value="Submit" onclick="window.open('/company/outputCompany')">导出数据</button>

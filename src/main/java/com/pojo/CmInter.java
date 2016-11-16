@@ -1,5 +1,6 @@
 package com.pojo;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ public class CmInter {
     private Integer iid;
     private String iaddress;
     private String itype;
-    private Date itime;
+    private Timestamp itime;
     private Integer isuccess;
     private Integer istate;
     private CmStudent cmStudentBySid;
@@ -40,11 +41,11 @@ public class CmInter {
         this.itype = itype;
     }
 
-    public Date getItime() {
+    public Timestamp getItime() {
         return itime;
     }
 
-    public void setItime(Date itime) {
+    public void setItime(Timestamp itime) {
         this.itime = itime;
     }
 
@@ -63,6 +64,19 @@ public class CmInter {
     public void setIstate(Integer istate) {
         this.istate = istate;
     }
+    public CmInter() {
+    }
+
+    public CmInter(CmArea cmAreaByAid, CmRecruit cmRecruitByRid, CmStudent cmStudentBySid, String iaddress, Integer isuccess, Timestamp itime, String itype) {
+        this.cmAreaByAid = cmAreaByAid;
+        this.cmRecruitByRid = cmRecruitByRid;
+        this.cmStudentBySid = cmStudentBySid;
+        this.iaddress = iaddress;
+        this.isuccess = isuccess;
+        this.itime = itime;
+        this.itype = itype;
+    }
+
 
     @Override
     public boolean equals(Object o) {

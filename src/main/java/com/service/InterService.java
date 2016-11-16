@@ -39,7 +39,7 @@ public class InterService {
         /*long da = d.getTime();
         Timestamp ts = new Timestamp(da);*/
         System.out.println("d--------"+d);
-        inter.setItime(d);
+       // inter.setItime(d);
         inter.setIsuccess(0);
         inter.setIstate(0);
         try {

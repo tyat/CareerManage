@@ -3,9 +3,8 @@ package com.control;
 import com.ResObj.InterResObj;
 import com.ResObj.ResUnempObj;
 import com.pojo.CmArea;
-import com.service.AreaService;
-import com.service.InterService;
-import com.service.UnempService;
+import com.pojo.CmUser;
+import com.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,7 +27,10 @@ public class InterCtrl {
     private AreaService areaService;
     @Autowired
     private UnempService unempService;
-
+    @Autowired
+    private EmpService empService;
+    @Autowired
+    private UserService userService;
     //查询所有面试记录——ly
     @RequestMapping(value = "/inter/findAll",method = RequestMethod.GET )
     public String findAll(ModelMap modelMap){
@@ -46,6 +48,8 @@ public class InterCtrl {
         List<CmArea> areaList = areaService.findAllArea();
         session.setAttribute("areaList",areaList);
         session.setAttribute("rid",rid);
+        List<CmUser>userList=userService.findAllUser();
+        session.setAttribute("userList",userList);
         return "system/meeting/ThisMeetStudents";
     }
 
@@ -136,9 +140,19 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter",method = RequestMethod.POST )
-    public String updateInter(int iid,int isuccess,int rid,ModelMap modelMap,RedirectAttributes attr) throws ParseException {
+    public String updateInter(int iid, int isuccess, int rid, int sid, String esalary, String etime, int ewq, int uid, String einfo,
+                              ModelMap modelMap, RedirectAttributes attr) throws java.lang.Exception,ParseException {
         boolean ResMsg = interService.updateInter(iid,isuccess);
         if(ResMsg){
+            if (isuccess==1){
+                boolean flag=empService.addEmp2(rid,sid,esalary,etime,ewq,uid,einfo);
+                if (flag){
+                    modelMap.addAttribute("addEmp2","修改成功！");
+                }else{
+                    modelMap.addAttribute("addEmp2","修改失败，该生已就业请先删除就业信息！");
+                }
+
+            }
             modelMap.addAttribute("ResMsg","编辑成功！");
         }else{
             modelMap.addAttribute("ResMsg","编辑失败！");

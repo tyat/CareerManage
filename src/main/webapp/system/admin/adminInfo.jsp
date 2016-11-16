@@ -105,11 +105,10 @@
             <!--这是表格结束-->
         </div>
         <div id="AdminPwd">
-                <button class="mybutton" type="button" onclick="HideAdminPwd()">取消</button>
             <p>修改密码</p>
             <form  action="/user/updateUpwd" method="post" id="updateUpwd" name="updateUpwd">
                 <table  class="pure-table pure-table-bordered left">
-                   <input type="hidden" id="uid" name="uid" value="${cmUser.uid}"/>
+                    <input type="hidden" id="uid" name="uid" value="${cmUser.uid}"/>
                     <tr>
                         <td>旧密码：</td>
                         <td>
@@ -140,45 +139,45 @@
 
         <div id="zhezhaobg"></div>
         <div id="AdminUpdate">
-        <p>修改个人信息</p>
-        <form  action="/user/updateUser" method="get">
-            <input type="hidden" id="uid1" name="uid1" value="${cmUser.uid}">
-            <table  class="pure-table pure-table-bordered left">
-                <tr>
-                    <td>用户名：</td>
-                    <td>
-                        <input type="text" id="uname" value="${cmUser.uname}" disabled="disabled" name="uname" required="required" onblur="cheshi()"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>真实姓名：</td>
-                    <td>
-                        <input type="text"  name="urname" placeholder="" value="${cmUser.urname}"  id="urname"value="" required="required"  />
-                    </td>
-                </tr>
-                <tr>
-                    <td>邮箱：</td>
-                    <td>
-                        <input type="text" name="uemail" id="uemail" value="${cmUser.uemail}"  required="required"  onblur="v_email(this.id)"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>电话：</td>
-                    <td>
-                        <input type="text" name="uphone" id="uphone" value="${cmUser.uphone}"  required="required" />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <input class="mybutton" type="submit" style="width: 100px;"/>
-                        <button class="mybutton"  style="width:100px;" onclick="HideAdminUpdate()">取消</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
+            <p>修改个人信息</p>
+            <form  action="/user/updateUser" method="get">
+                <input type="hidden" id="uid1" name="uid1" value="${cmUser.uid}">
+                <table  class="pure-table pure-table-bordered left">
+                    <tr>
+                        <td>用户名：</td>
+                        <td>
+                            <input type="text" id="uname" value="${cmUser.uname}" disabled="disabled" name="uname" required="required" onblur="cheshi()"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>真实姓名：</td>
+                        <td>
+                            <input type="text"  name="urname" placeholder="" value="${cmUser.urname}"  id="urname"value="" required="required"  />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>邮箱：</td>
+                        <td>
+                            <input type="text" name="uemail" id="uemail" value="${cmUser.uemail}"  required="required"  onblur="v_email(this.id)"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>电话：</td>
+                        <td>
+                            <input type="text" name="uphone" id="uphone" value="${cmUser.uphone}"  required="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <input class="mybutton" type="submit" style="width: 100px;"/>
+                            <input class="mybutton" type="button"  style="width:100px;" onclick="HideAdminUpdate()" value="取消"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
         <div id="zhezhaobg2"></div>
     </div>
-
+</div>
 </body>
 </html>

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -41,13 +40,13 @@ public class RecruitService {
         recruit.setRsex(rsex);
         recruit.setRsalary(rsalary);
         recruit.setRnum(rnum);
-        recruit.setRstart(new Date());//发布时间为当前系统时间
+       // recruit.setRstart(new Date());//发布时间为当前系统时间
         DateFormat df = DateFormat.getDateInstance();
         Date d = df.parse(rend);
         /*long da = d.getTime();
         Timestamp ts = new Timestamp(da);*/
         System.out.println("d--------"+d);
-        recruit.setRend(d);
+      //  recruit.setRend(d);
         recruit.setRinfo(rinfo);
         recruit.setRstate(0);
         try {
@@ -83,7 +82,7 @@ public class RecruitService {
             Date d = df.parse(rend);
             /*long da = d.getTime();
             Timestamp ts = new Timestamp(da);*/
-            recruit.setRend(d);
+          //  recruit.setRend(d);
             recruit.setRinfo(rinfo);
             hibernateTemplate.saveOrUpdate(recruit);
             return true;

@@ -15,17 +15,8 @@ function HideDetailInfo(){
 	document.getElementById("zhezhaobg").style.display="none";
 }
 
-function AreYouSour(){
-    var result = confirm('您确定要删除该条记录吗！');
-    if(result){
-        alert("已删除！");
-    }else{
-        alert('不删除！');
-    }
-}
 
-
-function selectCompByCid(cid){
+function ShowCompByCid(cid){
     var result = confirm('查看该公司信息！');
     if(result){
         window.location.href = "/company/findByCompCid?cid="+cid;
@@ -35,8 +26,27 @@ function selectCompByCid(cid){
     }
 }
 
+function findEmpStuByCid(cid){
+    var result = confirm('该公司下所有学生信息！');
+    if(result){
+        window.location.href = "/emp/findEmpStuByCid?cid="+cid;
+        alert('成功！');
+    }else{
+        alert('取消！');
+    }
+}
+
+function selectRecruitInfo(cid,jid){
+    var result = confirm('查看该公司该岗位下学生信息！');
+    if(result){
+        window.location.href = "/company/findStuInfoByJname?cid="+cid +"&jid="+jid;
+    }else{
+        alert('取消！');
+    }
+}
+
 function AreYouSourCompany(cid){
-	var result = confirm('您确定要删除该条记录吗！');
+    var result = confirm('您确定要删除该条记录吗！');
     if(result){
         window.location.href = "/company/delCompany?cid="+cid;
         alert('删除成功！');
@@ -45,6 +55,34 @@ function AreYouSourCompany(cid){
     }
 }
 
+function ShowEmpStuBySclass(sgrade,sclass){
+    var result = confirm('您确定吗！');
+    if(result){
+        window.location.href = "/emp/findEmpStuBySclass?sgrade="+sgrade+"&sclass="+sclass;
+        alert('成功！');
+    }else{
+        alert('取消！');
+    }
+}
+function ShowEmpStuByJname(jid){
+    var result = confirm('您确定吗！');
+    if(result){
+        window.location.href = "/emp/findEmpStuByJname?jid="+jid;
+        alert('成功！');
+    }else{
+        alert('取消！');
+    }
+}
+
+function ShowUnempStuBySclass(sgrade,sclass){
+    var result = confirm('您确定吗！');
+    if(result){
+        window.location.href = "/unemp/findUnEmpStuBySclass?sgrade="+sgrade+"&sclass="+sclass;
+        alert('成功！');
+    }else{
+        alert('取消！');
+    }
+}
 function AreYouSouremp(eid){
     var result = confirm('您确定要删除该条记录吗！');
     if(result){
@@ -110,20 +148,20 @@ function ShowMarkCanvars(){
 	document.getElementById("mark-text").style.display="none";
 	document.getElementById("qiwang-text").style.display="none";
 }
-/*---------------UnEmp------------------*/
+/*---------------UnEmp未就业生------------------*/
 function ShowAllUnEmp(){
-    document.getElementById("allUnEmp-table").style.display="block";
-	document.getElementById("KaoYan-table").style.display="none";
-	document.getElementById("ZhunBei-table").style.display="none";
+    document.getElementById("allUnemp").style.display="block";
+    document.getElementById("KaoYan-table").style.display="none";
+    document.getElementById("ZhunBei-table").style.display="none";
 }
 function ShowKaoYan(){
-    document.getElementById("allUnEmp-table").style.display="none";
-	document.getElementById("KaoYan-table").style.display="block";
-	document.getElementById("ZhunBei-table").style.display="none";
+    document.getElementById("allUnemp").style.display="none";
+    document.getElementById("KaoYan-table").style.display="block";
+    document.getElementById("ZhunBei-table").style.display="none";
 }  function ShowZhunBei(){
-    document.getElementById("allUnEmp-table").style.display="none";
-	document.getElementById("KaoYan-table").style.display="none";
-	document.getElementById("ZhunBei-table").style.display="block";
+    document.getElementById("allUnemp").style.display="none";
+    document.getElementById("KaoYan-table").style.display="none";
+    document.getElementById("ZhunBei-table").style.display="block";
 }
 /*-----------------------------------------------*/
 
@@ -144,23 +182,19 @@ function HideUpload(){
 	document.getElementById("zhezhaobg").style.display="none";
 }
 
-/*-----------------------------------------------------------*/
+/*------------------------就业生--------------------------------*/
 function ShowAllEmpStu(){
-	document.getElementById("allempstu").style.display="block";
-    document.getElementById("kaifastu").style.display="none";
-	document.getElementById("feikaifastu").style.display="none";
+    document.getElementById("kaifastu").style.display="block";
+    document.getElementById("feikaifastu").style.display="block";
 }
 function ShowKaifaEmpStu(){
-    document.getElementById("allempstu").style.display="none";
     document.getElementById("kaifastu").style.display="block";
-	document.getElementById("feikaifastu").style.display="none";
+    document.getElementById("feikaifastu").style.display="none";
 }
 function ShowFeikaifaEmpStu(){
-    document.getElementById("allempstu").style.display="none";
     document.getElementById("kaifastu").style.display="none";
-	document.getElementById("feikaifastu").style.display="block";
+    document.getElementById("feikaifastu").style.display="block";
 }
-
 
 /*---------------------------------------------------------*/
 

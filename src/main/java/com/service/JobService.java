@@ -39,7 +39,7 @@ public class JobService {
     }
     //zxl：查询所有的岗位
     public List<CmJob> findAllJob(){
-       String hsql="select new com.pojo.CmJob(j.jid,j.jname) from CmJob j";
+        String hsql="select new com.pojo.CmJob(j.jid,j.jname) from CmJob j";
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql);
         return  data;
     }
@@ -59,18 +59,54 @@ public class JobService {
         List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,rid);
         return  data.get(0);
     }
-
+    //zxl:查询未就业生的期望岗位
+    public CmJob findJobByUeid(int ueid){
+        String hsql="select  new com.pojo.CmJob(j.jid,j.jname)  from  CmUnemp un inner  join  un.cmJobByJid j where un.ueid=?";
+        List<CmJob>data=(List<CmJob>) hibernateTemplate.find(hsql,ueid);
+        return  data.get(0);
+    }
     /**
      * 查询显示所有的岗位信息
      * @return
      */
-    public List<CmJob> findAllJob1(){
-        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype, job.jstate,job.jinfo) from CmJob job where job.jstate = 0";
+    public List<CmJob> findAllJobInfo(){
+        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype, job.jstate,job.jinfo) " +
+                "from CmJob job where job.jstate = 0";
         List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql);
         System.out.println(data.size());
         return data;
     }
+    /**
+     * 按岗位类型jtype查询该类型下所有的岗位标签
+     * @return
+     */
+    public List<CmJob> findJobByJtype(boolean jtype){
+        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype,job.jstate,job.jinfo) " +
+                "from CmJob job where job.jstate = 0 and job.jtype = ?";
+        List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql,jtype);
+        System.out.println(data.size());
+        return data;
+    }
 
+    public List<CmJob> findJobById(int jid){
+        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype, job.jstate,job.jinfo) from CmJob job where job.jstate = 0 and job.jid = ?";
+        List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql,jid);
+        System.out.println(data.size());
+        return data;
+    }
+
+    /**
+     * 按Cid查询该公司有多少招聘岗位
+     * @param cid
+     * @return
+     */
+    public List<CmJob> findJobByCid(int cid){
+        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype, job.jstate,job.jinfo) from CmRecruit rec " +
+                "inner join rec.cmJobByJid job where job.jstate = 0 and rec.cmCompanyByCid.cid = ?";
+        List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql,cid);
+        System.out.println(data.size());
+        return data;
+    }
     /**
      *添加岗位标签
      * @param cmJob
