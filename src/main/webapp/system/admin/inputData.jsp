@@ -16,9 +16,6 @@
     <script type="text/javascript" src="../../js/valid.js" ></script>
     <script type="text/javascript" src="../../js/Cityjs/jquery.js" ></script>
     <script type="text/javascript">
-        <c:if test="${!empty file}">
-            alert(${file});
-        </c:if>
 
         function area(){
             document.getElementById("area").submit();
@@ -45,7 +42,7 @@
         }
     </script>
 </head>
-<body>
+<body onload="init()">
 <div class="table-box">
     <div class="table-content">
         <!--这是标题栏-->
@@ -144,5 +141,13 @@
         <div id="zhezhaobg2"></div>
     </div>
 </div>
+<script type="text/javascript">
+function init() {
+<c:if test="${!empty file}">
+    alert(${file});
+</c:if>
+alert("File"+${file});
+}
+</script>
 </body>
 </html>

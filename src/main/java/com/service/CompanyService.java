@@ -1,5 +1,6 @@
 package com.service;
 
+import com.ResObj.ResCompanyAll;
 import com.ResObj.ResCompanyObj;
 import com.pojo.CmArea;
 import com.pojo.CmCompany;
@@ -202,8 +203,8 @@ public class CompanyService {
 
     /*TianYu 导出公司数据*/
     public String outputCompany(){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate,rec.rid,job.jid,job.jname) from CmCompany comp inner join comp.cmRecruitsByCid rec inner join rec.cmJobByJid job where comp.cstate=0";
-        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql);
+        String hsql = "select new com.ResObj.ResCompanyAll(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cemail,comp.cinfo,comp.cmark,comp.caddress,comp.ctime,job.jname) from CmCompany comp inner join comp.cmRecruitsByCid rec inner join rec.cmJobByJid job where comp.cstate=0";
+        List<ResCompanyAll> data = (List<ResCompanyAll>) hibernateTemplate.find(hsql);
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("公司信息表");
         HSSFRow row1 = sheet.createRow(0);
@@ -216,16 +217,26 @@ public class CompanyService {
         row2.createCell(1).setCellValue("公司名称");
         row2.createCell(2).setCellValue("HR姓名");
         row2.createCell(3).setCellValue("HR电话");
-        row2.createCell(4).setCellValue("岗位名称");
+        row2.createCell(4).setCellValue("邮箱");
+        row2.createCell(5).setCellValue("公司简介");
+        row2.createCell(6).setCellValue("地址");
+        row2.createCell(7).setCellValue("添加时间");
+        row2.createCell(8).setCellValue("岗位名称");
+        row2.createCell(9).setCellValue("备注");
         int rownum = 2;
         // 在sheet里创建数据
-        for(ResCompanyObj es : data){
+        for(ResCompanyAll es : data){
             HSSFRow row = sheet.createRow(rownum);
             row.createCell(0).setCellValue(es.getCid());
             row.createCell(1).setCellValue(es.getCname());
             row.createCell(2).setCellValue(es.getChr());
             row.createCell(3).setCellValue(es.getCphone());
-            row.createCell(4).setCellValue(es.getJname());
+            row.createCell(4).setCellValue(es.getCemail());
+            row.createCell(5).setCellValue(es.getCinfo());
+            row.createCell(6).setCellValue(es.getCaddress());
+            row.createCell(7).setCellValue(es.getCtime());
+            row.createCell(8).setCellValue(es.getJname());
+            row.createCell(9).setCellValue(es.getCmark());
             rownum++;
         }
         OutputData od = new OutputData();
