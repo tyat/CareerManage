@@ -64,12 +64,13 @@ public class GradeService {
     public int findByType(int sid,int type){
         String hsql = "select count(*) from CmGrade g where g.cmStudentBySid.sid = ?";
         if(type==1){
-            hsql = hsql + " and (g.gfslx = 1 and g.gcj = '不及格' and g.gbkcj = '不及格') or (g.gfslx = 2 and CONVERT(g.gcj , SIGNED) < 60 and CONVERT(g.gbkcj , SIGNED) < 60)";
+            hsql = hsql + " and ((g.gfslx = 1 and g.gcj = '不及格' and g.gbkcj = '不及格') or (g.gfslx = 2 and CONVERT(g.gcj , SIGNED) < 60 and CONVERT(g.gbkcj , SIGNED) < 60))";
         }else if(type==2){
             hsql = hsql + " and g.gkcm in ('Java语言基础','Java在移动通信中应用','网页设计','网页设计课程设计','数据库应用技术','JSP应用技术与AJAX','JSP应用技术与AJAX课程设计','SSH应用技术','SSH应用技术课程设计','IPhone/android嵌入式移动开发技术基础','IPhone/android嵌入式移动开发技术','软件测试技术与工具','IT项目管理','IT项目管理课程设计','Web前端技术','IT文档规范与编写','IPhone开发入门','CMMI标准工作流程','JAVA EE商用项目实践','项目开发模型','企业职业素养训练')";
         }
         List<?> data = hibernateTemplate.find(hsql,sid);
         if(data.get(0)!=null){
+            System.out.println("科目数："+type+" ----- "+Integer.parseInt(data.get(0).toString()));
             return Integer.parseInt(data.get(0).toString());
         }
         return 0;

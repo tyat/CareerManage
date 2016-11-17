@@ -45,6 +45,14 @@
                 $("#sclass").attr("value",json.sclass);
                 $("#sphone").attr("value",json.sphone);
                 $("#semail").attr("value",json.semail);
+                $("#sstate option").removeAttr("selected"); //移除属性selected
+                if(json.sstate==0){
+                    $("#sstate0").attr("selected","selected");
+                }else if(json.sstate==2){
+                    $("#sstate1").attr("selected","selected");
+                }else if(json.sstate==3) {
+                    $("#sstate2").attr("selected", "selected");
+                }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown){
                 alert(XMLHttpRequest.status);
@@ -65,6 +73,14 @@
     var msg="${ResMsg}";
     if(msg!=""){
         alert(msg);
+    }
+    function  onclickload() {
+        var sstate = document.getElementById("sstate").value;
+        if(sstate==2){
+            document.getElementById("addcause").style.display ="block";
+        }else {
+            document.getElementById("addcause").style.display ="none";
+        }
     }
 </script>
 
@@ -196,28 +212,15 @@
     </div>
     <p>修改学生信息：</p>
     <form action="/student/updateStudent" method="post">
-        <table  class="pure-table pure-table-bordered left">
+        <table  class="pure-table pure-table-bordered">
             <input type="hidden" name="sid" id="sid" >
             <tr>
                 <td>姓名：</td>
                 <td>
                     <input type="text" name="sname" id="sname" disabled="disabled" />
                 </td>
-
-            <tr>
-                <td>年级：</td>
-                <td>
-                    <input type="text" name="sgrade" id="sgrade" />
-                </td>
             </tr>
             <tr>
-            <tr>
-                <td>班级：</td>
-                <td>
-                    <input type="text" name="sclass" id="sclass" />
-                </td>
-            </tr>
-            <tr><tr>
                 <td>联系电话：</td>
                 <td>
                     <input type="text" name="sphone" id="sphone" />
@@ -229,6 +232,34 @@
                     <input type="text" name="semail" id="semail" />
                 </td>
             </tr>
+            <tr>
+                <td>状态：</td>
+                <td>
+                    <select name="sstate" id="sstate" onchange="onclickload()">
+                        <option id="sstate0" value="0">正常</option>
+                        <option id="sstate1" value="2">留级</option>
+                        <option id="sstate2" value="3">休学</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div id="addcause">
+            <table class="pure-table pure-table-bordered" style="margin-top: 0px;">
+                <tr>
+                    <td>年级：</td>
+                    <td>
+                        <input type="text" name="sgrade" id="sgrade" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>班级：</td>
+                    <td>
+                        <input type="text" name="sclass" id="sclass" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <table class="pure-table pure-table-bordered" style="margin-top: 0px;">
             <tr>
                 <td colspan="2" style="text-align: center;">
                     <button class="mybutton" type="button" style="width: 200px; " onclick="this.form.submit()">保存</button>

@@ -36,7 +36,7 @@
                 <ul>
                     <li><a href="/company/findAllCompany" target=main>查看企业信息</a></li>
                     <li><a href="/area/selectAllArea" target=main>添加企业</a></li>
-                    <li><a href="system/company/AllCompRecruit.html" target=main>招聘信息</a></li>
+                    <%--<li><a href="system/company/AllCompRecruit.html" target=main>招聘信息</a></li>--%>
                     <li><a href="/job/findAllJob" target=main>岗位管理</a></li>
                 </ul>
             </dd>

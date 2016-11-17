@@ -55,11 +55,12 @@ public class StudentService {
     }
 
     //编辑学生信息——ly
-    public boolean updateStudent(int sid,int sgrade,int sclass,String sphone,String semail){
+    public boolean updateStudent(int sid,int sstate,int sgrade,int sclass,String sphone,String semail){
         CmStudent student = this.findBySid(sid);
         if(student!=null){
             student.setSgrade(sgrade);
             student.setSclass(sclass);
+            student.setSstate(sstate);
             student.setSphone(sphone);
             student.setSemail(semail);
             hibernateTemplate.saveOrUpdate(student);

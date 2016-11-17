@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/default.css"/>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/Date.js" ></script>
 
 <script type="javascript">
 
@@ -31,10 +32,11 @@
     });
     /*$("input[@name='smark'][value=${student.smark}").attr("checked",true);*/
 
+
 </script>
 
 </head>
-<body onload="Activeli()">
+<body onload="activeli()">
 <div class="table-box">
     <div class="table-content">
         <div class="table-head">
@@ -176,56 +178,152 @@
 
         </div>
         <div id="qiwang-text">
-            <form  id="form1" action="/student/updateExpectation" method="post" >
-                <input type="hidden" name="sid" value="${student.sid}">
-                <input type="hidden" name="dname" value="${student.dname}">
-                <table  class="pure-table pure-table-bordered left" id="table-qiwang">
-                    <tr>
-                        <td width="150px">姓名：</td>
-                        <td> <input type="text" id="qw-stuname" disabled="disabled" value="${student.sname}"/></td>
-                    </tr>
-                    <c:if test="${!(student.dname.equals('考研'))}">
+            <c:if test="${isUnemp}">
+                <form  id="form1" action="/student/updateExpectation" method="post" >
+                    <input type="hidden" name="sid" value="${student.sid}">
+                    <input type="hidden" name="did" value="${student.did}">
+                    <table  class="pure-table pure-table-bordered left" id="table-qiwang">
                         <tr>
-                            <td>期望就业岗位：</td>
+                            <td width="150px">姓名：</td>
+                            <td> <input type="text" id="qw-stuname" disabled="disabled" value="${student.sname}"/></td>
+                        </tr>
+                        <c:if test="${!(student.did==2||student.did==5)}">
+                            <tr>
+                                <td>期望就业岗位：</td>
 
+                                <td>
+                                    <select name="str1" id="qw-gw">
+                                        <c:forEach items="${jobList}" var="job">
+                                            <c:choose>
+                                                <c:when test="${job.jid==student.jid }">
+                                                    <option value="${job.jid }" selected="selected">${job.jname}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${job.jid }">${job.jname}</option>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>期望薪资：</td>
+                                <td><input type="text" id="qw-gz" name="str2" value="${student.uesalary}"/></td>
+                            </tr>
+                            <%--<tr>
+                                <td>期望就业时间：</td>
+                                <td><input type="text" id="qw-ti" name="str3" value="${student.uetime}"/></td>
+                            </tr>--%>
+                        </c:if>
+                        <c:if test="${student.did==2||student.did==5}">
+                            <tr>
+                                <td>期望院校：</td>
+                                <td><input type="text" id="qw-comp" name="str1" value="${student.ueschool}"/></td>
+                            </tr>
+                            <tr>
+                                <td>期望专业：</td>
+                                <td><input type="text" id="qw-ad" name="str2" value="${student.uemajor}"/></td>
+                            </tr>
+                            <%--<tr>
+                                <td>结果：</td>
+                                <td>
+                                    <select id="qw-jg" name="uesuccess">
+                                        <option  value="0">暂无</option>
+                                        <option value="1">成功</option>
+                                        <option value="2">失败</option>
+                                    </select>
+                                    <input type="text" id="" name="str3" value="${student.uesuccess}"/>
+                                </td>
+                            </tr>--%>
+                        </c:if>
+                        <tr>
+                            <td></td>
                             <td>
-                                <select name="str1" id="qw-gw">
-                                    <c:forEach items="${jobList}" var="job">
-                                        <c:choose>
-                                            <c:when test="${job.jid==student.jid }">
-                                                <option value="${job.jid }" selected="selected">${job.jname}</option>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <option value="${job.jid }">${job.jname}</option>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </c:forEach>
-                                </select>
+                                <button class="mybutton" type="button" onclick="this.form.submit()" style="margin-left: 80px;">保存</button>
                             </td>
                         </tr>
-                        <tr>
-                            <td>期望薪资：</td>
-                            <td><input type="text" id="qw-gz" name="str2" value="${student.uesalary}"/></td>
+                    </table>
+                </form>
+            </c:if>
+            <c:if test="${!isUnemp}">
+                该学生还未填写就业期望！请添加：<br><br>
+                <form method="post" action="/unemp/addUnEmpBySid">
+                    <!--这是一条记录开始-->
+                    <input type="hidden" name="sid" value="${student.sid}">
+                    <div id="mydiv1">
+                        <table  class="pure-table pure-table-bordered left">
+                            <tr>
+                                <td width="200px">姓名：</td>
+                                <td><input type="text"  id="sname" name="sname" value="${student.sname}" disabled="disabled"  /></td>
+                            </tr>
+                            <tr>
+                                <td>学生动向：</td>
+                                <td>
+                                    <select id="did" name="did" onchange="ceshi()">
+                                        <c:forEach items="${allDirection}" var="s" varStatus="stu">
+                                            <option id="dids" value="${s.did}">${s.dname}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="thisdiv1" name="thisdiv1">
+
+                        <table  class="pure-table pure-table-bordered left">
+                            <tr>
+                                <td width="200px" >期望岗位：</td>
+                                <td>
+                                    <select id="jid" name="jid">
+                                        <c:forEach items="${jobList}" var="s" varStatus="stu">
+                                            <option id="jids" value="${s.jid}">${s.jname}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr >
+                                <td width="200px">期望月薪：</td>
+                                <td><input type="text" id="uesalary" name="uesalary" value=""  onkeyup="value=value.replace(/[^\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"/></td>
+                            </tr>
+                            <tr>
+                                <td>期望实习时间：</td>
+                                <td><input type="text" id="uetime" name="uetime"  onclick="choose_date_czw('uetime')"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="thisdiv2"  name="thisdiv2">
+                        <table  class="pure-table pure-table-bordered left">
+                            <tr>
+                                <td width="200px">期望院校：</td>
+                                <td><input type="text" id="ueschool" name="ueschool" value=""/></td>
+                            </tr>
+                            <tr>
+                                <td width="200px">期望专业：</td>
+                                <td><input type="text" id="uemajor" name="uemajor" value=""/></td>
+                            </tr>
+                            <tr>
+                                <td>结果：</td>
+                                <td>
+                                    <select id="uesuccess" name="uesuccess">
+                                        <option  value="0">暂无</option>
+                                        <option value="1">成功</option>
+                                        <option value="2">失败</option>
+                                    </select>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                    <table class="pure-table pure-table-bordered left">
+                        <tr >
+                            <td colspan="2" style="text-align: center;">
+                                <input class="mybutton" type="submit" >
+                            </td>
                         </tr>
-                    </c:if>
-                    <c:if test="${student.dname.equals('考研')}">
-                        <tr>
-                            <td>期望院校：</td>
-                            <td><input type="text" id="qw-comp" name="str1" value="${student.ueschool}"/></td>
-                        </tr>
-                        <tr>
-                            <td>期望专业：</td>
-                            <td><input type="text" id="qw-ad" name="str2" value="${student.uemajor}"/></td>
-                        </tr>
-                    </c:if>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <button class="mybutton" type="button" onclick="this.form.submit()" style="margin-left: 80px;">保存</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+                    </table>
+                </form>
+            </c:if>
 
         </div>
         <div id="mark-canvars">
@@ -282,6 +380,38 @@
         document.getElementById("mark-canvars").style.display="block";
         document.getElementById("mark-text").style.display="none";
         document.getElementById("qiwang-text").style.display="none";
+    }
+    function activeli() {
+        startload();
+        function removeActiveClass(node) {
+            node.className = '';
+        }
+        document.querySelector('.table-bar ul ').onclick = function (e) {
+            Array.prototype.forEach.call(document.querySelectorAll('.table-bar ul  > li'), removeActiveClass);
+            var target = e.target;
+            target.className = 'active-li';
+        }
+    }
+    function  startload() {
+        if(${!isUnemp}){
+            document.getElementById("thisdiv1").style.display ="block";
+            document.getElementById("thisdiv2").style.display ="none";
+            document.getElementById("mydiv1").style.display ="block";
+        }else{
+            document.getElementById("thisdiv1").style.display ="none";
+            document.getElementById("thisdiv2").style.display ="none";
+            document.getElementById("mydiv1").style.display ="none";
+        }
+    }
+    function  ceshi() {
+        var did = document.getElementById("did").value;
+        if(did=="2"||did=="5"){
+            document.getElementById("thisdiv1").style.display ="none";
+            document.getElementById("thisdiv2").style.display ="block";
+        }else {
+            document.getElementById("thisdiv1").style.display ="block";
+            document.getElementById("thisdiv2").style.display ="none";
+        }
     }
 </script>
 </body>

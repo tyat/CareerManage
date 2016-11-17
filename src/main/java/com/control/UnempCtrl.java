@@ -320,4 +320,34 @@ public class UnempCtrl {
         httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
     }
+
+    //按sid添加未就业生——ly
+    @RequestMapping(value = "/addUnEmpBySid",method = RequestMethod.POST)
+    public ModelAndView addUnEmpBySid(int sid,int did, String jid, String uesalary, String uetime, String ueschool,
+                                 String uemajor,int uesuccess) throws Exception{
+        System.out.println("sid---"+sid);
+        ModelAndView mv=new ModelAndView();
+        CmStudent cmStudent=studentService.findBySid(sid);
+        System.out.println("cmStudent---"+cmStudent.getSname());
+        CmDirection cmDirection=new CmDirection();
+        cmDirection.setDid(did);
+        if (!uesalary.equals("")){
+            CmJob cmJob=new CmJob();
+            cmJob.setJid(Integer.parseInt(jid));
+            Date date=new DateConvert().StringtoDate(uetime);
+            CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
+            System.out.println("cmUnemp---"+cmUnemp.getCmStudentBySid().getSname());
+            boolean flag= unempServive.addUnEmp(cmUnemp);
+            if (flag){
+                mv.setViewName("redirect:/grade/findStudentDetail");
+            }
+        }else{
+            CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
+            boolean flag= unempServive.addUnEmp(cmUnemp);
+            if (flag){
+                mv.setViewName("redirect:/grade/findStudentDetail");
+            }
+        }
+        return mv;
+    }
 }
