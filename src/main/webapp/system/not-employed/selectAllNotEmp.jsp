@@ -46,7 +46,8 @@
                 </div>
             </div>
         </div>
-        <div class="table-bar not-emp">
+        <hr class="fengexian">
+        <div class="table-bar">
             <ul>
                 <li class="active-li" onclick="ShowAllUnEmp()"> 全部动向 </li>
                 <li onclick="ShowZhunBei()">准备就业</li>

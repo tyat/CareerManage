@@ -26,7 +26,7 @@
                 <div style="float: left;">
                     <span>信息管理</span><div class="left-arrow"></div>
                     <span>学生信息</span><div class="left-arrow"></div>
-                    <span>2013级</span></div><br />
+                </div><br />
                 <div class="Big-title">
                     <div class="littil-title">
                         学生信息
@@ -83,10 +83,10 @@
                     <td>${dataList.jname}</td>
                 </tr>
             </table>
-            </c:forEach>
+
             <div class="table-slipline"></div>
             <!--这是一条记录结束-->
-
+            </c:forEach>
         </div>
     </div>
     <div class="button-footer">
