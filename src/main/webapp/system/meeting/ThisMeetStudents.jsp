@@ -65,18 +65,15 @@
                     $("#iid").attr("value",json.iid);
                     $("#sname").attr("value",json.sname);
                     $("#sid").attr("value",json.sid);
+                    $("#isuccess option").removeAttr("selected"); //移除属性selected
                     //alert(json.isuccess);
                     if(json.isuccess==0){
-                        $("#isuccess option").removeAttr("selected"); //移除属性selected
                         $("#isuccess0").attr("selected","selected");
                     }else if(json.isuccess==1){
-                        $("#isuccess option").removeAttr("selected");
                         $("#isuccess1").attr("selected","selected");
                     }else if(json.isuccess==2){
-                        $("#isuccess option").removeAttr("selected");
                         $("#isuccess2").attr("selected","selected");
                     }else{
-                        $("#isuccess option").removeAttr("selected");
                         $("#isuccess3").attr("selected","selected");
                     }
                 },

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -319,5 +320,36 @@ public class UnempCtrl {
         httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"ISO-8859-1"));
         httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
+    }
+
+    //按sid添加未就业生——ly
+    @RequestMapping(value = "/addUnEmpBySid",method = RequestMethod.POST)
+    public ModelAndView addUnEmpBySid(int sid,int did, String jid, String uesalary, String uetime, String ueschool,
+                                 String uemajor,int uesuccess,RedirectAttributes attr) throws Exception{
+        System.out.println("sid---"+sid);
+        ModelAndView mv=new ModelAndView();
+        CmStudent cmStudent=studentService.findBySid(sid);
+        System.out.println("cmStudent---"+cmStudent.getSname());
+        CmDirection cmDirection=new CmDirection();
+        cmDirection.setDid(did);
+        attr.addAttribute("sid", sid);
+        if (!uesalary.equals("")){
+            CmJob cmJob=new CmJob();
+            cmJob.setJid(Integer.parseInt(jid));
+            Date date=new DateConvert().StringtoDate(uetime);
+            CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,cmJob,Integer.parseInt(uesalary),date);
+            System.out.println("cmUnemp---"+cmUnemp.getCmStudentBySid().getSname());
+            boolean flag= unempServive.addUnEmp(cmUnemp);
+            if (flag){
+                mv.setViewName("redirect:/grade/findStudentDetail");
+            }
+        }else{
+            CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
+            boolean flag= unempServive.addUnEmp(cmUnemp);
+            if (flag){
+                mv.setViewName("redirect:/grade/findStudentDetail");
+            }
+        }
+        return mv;
     }
 }

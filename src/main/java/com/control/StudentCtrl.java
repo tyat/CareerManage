@@ -160,8 +160,9 @@ public class StudentCtrl {
 
     //编辑学生信息——ly
     @RequestMapping(value = "/updateStudent",method = RequestMethod.POST )
-    public String updateStudent(int sid,int sgrade,int sclass,String sphone,String semail,ModelMap modelMap,RedirectAttributes attr){
-        boolean ResMsg = studentService.updateStudent(sid,sgrade,sclass,sphone,semail);
+    public String updateStudent(int sid,int sstate,int sgrade,int sclass,String sphone,String semail,ModelMap modelMap,RedirectAttributes attr){
+        System.out.println("sgrade---"+sgrade);
+        boolean ResMsg = studentService.updateStudent(sid,sstate,sgrade,sclass,sphone,semail);
         if(ResMsg){
             modelMap.addAttribute("ResMsg","编辑成功！");
         }else{
@@ -173,9 +174,9 @@ public class StudentCtrl {
 
     //编辑学生期望——ly
     @RequestMapping(value = "/updateExpectation",method = RequestMethod.POST )
-    public String updateExpectation(int sid,String dname,String str1,String str2,ModelMap modelMap,RedirectAttributes attr){
+    public String updateExpectation(int sid,int did,String str1,String str2,ModelMap modelMap,RedirectAttributes attr){
         boolean ResMsg = false;
-        if(dname.equals("考研")){
+        if(did==2||did==5){
             ResMsg = unempService.updateKyExpectation(sid,str1,str2);
         }else{
             Integer jid = Integer.parseInt(str1);
