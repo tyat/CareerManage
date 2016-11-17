@@ -48,12 +48,16 @@
                     $("#sname").attr("value",json.sname);
                     $("#sid").attr("value",json.sid);
                     if(json.isuccess==0){
+                        $("#isuccess option").removeAttr("selected"); //移除属性selected
                         $("#isuccess0").attr("selected","selected");
                     }else if(json.isuccess==1){
+                        $("#isuccess option").removeAttr("selected");
                         $("#isuccess1").attr("selected","selected");
                     }else if(json.isuccess==2){
+                        $("#isuccess option").removeAttr("selected");
                         $("#isuccess2").attr("selected","selected");
                     }else{
+                        $("#isuccess option").removeAttr("selected");
                         $("#isuccess3").attr("selected","selected");
                     }
                     showMeetResult();
@@ -75,10 +79,15 @@
         }
         function  onclickload() {
             var isuccess = document.getElementById("isuccess").value;
-            if(isuccess=="1"){
+            if(isuccess==1){
                 document.getElementById("mydiv").style.display ="";
+                document.getElementById("addcause").style.display ="none";
+            }else if(isuccess==2){
+                document.getElementById("mydiv").style.display ="none";
+                document.getElementById("addcause").style.display ="block";
             }else {
                 document.getElementById("mydiv").style.display ="none";
+                document.getElementById("addcause").style.display ="none";
             }
         }
         function  startload() {
@@ -220,6 +229,14 @@
                         </td>
                     </tr>
                 </table>
+                <div id="addcause">
+                    <table class="pure-table pure-table-bordered">
+                        <tr>
+                            <td>未就业原因:</td>
+                            <td><input type="text" name="isuccleave" id="isuccleave" /></td>
+                        </tr>
+                    </table>
+                </div>
                 <div id="mydiv">
                     <table class="pure-table pure-table-bordered">
                         <input type="hidden" name="sid" id="sid"/>

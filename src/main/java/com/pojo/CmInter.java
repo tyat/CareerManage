@@ -15,6 +15,7 @@ public class CmInter {
     private CmStudent cmStudentBySid;
     private CmRecruit cmRecruitByRid;
     private CmArea cmAreaByAid;
+
     private String isuccleave;
 
     public Integer getIid() {
@@ -65,7 +66,6 @@ public class CmInter {
         this.istate = istate;
     }
 
-
     public String getIsuccleave() {
         return isuccleave;
     }
@@ -86,6 +86,8 @@ public class CmInter {
         this.itime = itime;
         this.itype = itype;
     }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -99,6 +101,7 @@ public class CmInter {
         if (itime != null ? !itime.equals(cmInter.itime) : cmInter.itime != null) return false;
         if (isuccess != null ? !isuccess.equals(cmInter.isuccess) : cmInter.isuccess != null) return false;
         if (istate != null ? !istate.equals(cmInter.istate) : cmInter.istate != null) return false;
+        if (isuccleave != null ? !isuccleave.equals(cmInter.isuccleave) : cmInter.isuccleave != null) return false;
 
         return true;
     }
@@ -111,6 +114,7 @@ public class CmInter {
         result = 31 * result + (itime != null ? itime.hashCode() : 0);
         result = 31 * result + (isuccess != null ? isuccess.hashCode() : 0);
         result = 31 * result + (istate != null ? istate.hashCode() : 0);
+        result = 31 * result + (isuccleave != null ? isuccleave.hashCode() : 0);
         return result;
     }
 
