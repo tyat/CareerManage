@@ -214,20 +214,21 @@ public class UnempCtrl {
      */
     @RequestMapping(value = "/findByUnEmp")
     @ResponseBody
-    public ModelAndView findByName(ModelMap modelMap, String searchtext, String searchType){
+    public ModelAndView findByName(ModelMap modelMap, String searchtext, String searchType) throws Exception{
         ModelAndView mv = new ModelAndView();
         System.out.println(searchType);
         System.out.println(searchtext);
+        String searchtext0=new String(searchtext.getBytes("iso-8859-1"),"utf-8");
         if(searchType.equals("sgrade")) {
-            List<ResUnempObj> listdata = unempServive.FindBySgrade(Integer.parseInt(searchtext));
+            List<ResUnempObj> listdata = unempServive.FindBySgrade(Integer.parseInt(searchtext0));
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("sname")){
-            List<ResUnempObj> listdata = unempServive.FindBySname(searchtext);
+            List<ResUnempObj> listdata = unempServive.FindBySname(searchtext0);
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("dname")){
-            List<ResUnempObj> listdata = unempServive.FindByDname(searchtext);
+            List<ResUnempObj> listdata = unempServive.FindByDname(searchtext0);
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
         }

@@ -33,11 +33,11 @@
                     </div>
                     <div class="search-box">
                         <from action="/company/findbyname">
-                            <select id="searchType" name="searchType" style="width: 80px;">
+                            <select id="searchType" name="searchType" style="width:120px;height: 30px;">
                                 <option value="cname" ${searchType eq "cname"?'selected':''}>按企业名称</option>
                                 <option value="chr" ${searchType eq "chr"?'selected':''}>按联系人</option>
                             </select>
-                            <input id="searchtext" name="searchtext" type="text"  onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
+                            <input id="searchtext" name="searchtext" type="text" style="width:120px;height: 30px;" onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
                             <button class="mybutton" type="submit" > <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页

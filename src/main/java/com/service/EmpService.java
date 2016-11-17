@@ -205,7 +205,7 @@ public class EmpService {
      * @return
      */
     public List<ResEmpObj> findEmpStuBySclass(int sgrade,int sclass){
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
                 "from CmStudent stu " +
                 "inner join stu.cmIntersBySid inter " +
                 "inner join inter.cmRecruitByRid rec " +
@@ -235,7 +235,7 @@ public class EmpService {
      */
     public List<ResEmpObj> FindBySname(String sname){
         System.out.println(sname);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
                 "from CmStudent stu " +
                 "inner join stu.cmIntersBySid inter " +
                 "inner join inter.cmRecruitByRid rec " +
@@ -255,7 +255,7 @@ public class EmpService {
      */
     public List<ResEmpObj> FindByJname(String jname){
         System.out.println(jname);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
                 "from CmStudent stu " +
                 "inner join stu.cmIntersBySid inter " +
                 "inner join inter.cmRecruitByRid rec " +
@@ -273,7 +273,7 @@ public class EmpService {
      */
     public List<ResEmpObj> FindByCname(String cname){
         System.out.println(cname);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
                 "from CmStudent stu " +
                 "inner join stu.cmIntersBySid inter " +
                 "inner join inter.cmRecruitByRid rec " +
@@ -291,7 +291,7 @@ public class EmpService {
      */
     public List<ResEmpObj> FindBySgrade(int sgrade){
         System.out.println(sgrade);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
                 "from CmStudent stu " +
                 "inner join stu.cmIntersBySid inter " +
                 "inner join inter.cmRecruitByRid rec " +
@@ -304,13 +304,13 @@ public class EmpService {
         return data;
     }
     /**
-     * 按企业名称查询已就业学生信息
+     * 按时间段查询已就业学生信息
      * @return
      */
     public List<ResEmpObj> FindByEtime(String startDate,String endDate){
         System.out.println(startDate);
         System.out.println(endDate);
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.uname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
                 "from CmStudent stu " +
                 "inner join stu.cmIntersBySid inter " +
                 "inner join inter.cmRecruitByRid rec " +
@@ -318,7 +318,7 @@ public class EmpService {
                 "inner join rec.cmJobByJid job " +
                 "inner join stu.cmEmpsBySid emp " +
                 "inner join emp.cmUserByUid user " +
-                "where emp.estate=0 and inter.isuccess=1 and comp.cname like ?";
+                "where emp.estate=0 and inter.isuccess=1 and TO_DAYS(emp.etime)>=TO_DAYS(?) and TO_DAYS(emp.etime)<=TO_DAYS(?)";
         Object[] value = {startDate,endDate};
         List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql,value);
         return data;

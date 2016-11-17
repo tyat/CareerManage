@@ -191,21 +191,22 @@ public class CompanyCtrl {
      * @param searchtext,searchType
      * @return
      */
-    @RequestMapping(value = "/findByComp")
+    @RequestMapping(value = "/findByComp" )
     @ResponseBody
-    public ModelAndView findByName(ModelMap modelMap, String searchtext, String searchType){
+    public ModelAndView findByName(ModelMap modelMap, String searchtext, String searchType) throws Exception{
         ModelAndView mv = new ModelAndView();
         System.out.println(searchType);
         System.out.println(searchtext);
+        String searchtext0=new String(searchtext.getBytes("iso-8859-1"),"utf-8");
         if(searchType.equals("cname")) {
-            List<CmCompany> listdata = companyService.FindByCName(searchtext);
+            List<CmCompany> listdata = companyService.FindByCName(searchtext0);
             for(CmCompany comp : listdata){
                 List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
                 modelMap.addAttribute("jobList",jobList);
             }
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("chr")){
-            List<CmCompany> listdata = companyService.FindByCHr(searchtext);
+            List<CmCompany> listdata = companyService.FindByCHr(searchtext0);
             for(CmCompany comp : listdata){
                 List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
                 modelMap.addAttribute("jobList",jobList);

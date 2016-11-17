@@ -47,11 +47,12 @@ public class EmpCtrl {
     private AreaService areaService;
     //zxl：添加就业生
     @RequestMapping(value = "/addEmp",method = RequestMethod.POST)
+    //int add_time,int add_time2
     public ModelAndView addEmp(String sid,String sno,String addsname,int addssex,String addsbirth,String addspro,String addsgrade,
                                String addsclass,String addscode,String addsphone,String addsemail,String addsdetail,
                                String cname,String chr,String cphone,int city,String caddress,String cemail,
                                String etime,String itime,int Icity,String iaddress,String itype,int job,int Jcity,
-                               int rsalary,int ewq,String einfo,String cinfo,String cmark, int add_time,int add_time2,ModelMap modelMap) throws  Exception{
+                               int rsalary,int ewq,String einfo,String cinfo,String cmark,ModelMap modelMap) throws  Exception{
         ModelAndView mv=new ModelAndView();
         if (!sid.equals("")){
             //公司表操作
@@ -63,20 +64,21 @@ public class EmpCtrl {
             cmArea2.setAid(Jcity);
             CmJob  cmJob=new CmJob();
             cmJob.setJid(job);
-            CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany,new DateConvert().convert(),new DateConvert().convert(),cmJob,"",0,rsalary);
+            //new DateConvert().convert()
+            CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany,new Date(),new Date(),cmJob,"",0,rsalary);
             //面试表操作
             CmArea cmArea3=new CmArea();
             CmStudent cmStudent=new CmStudent();
             cmStudent.setSid(Integer.parseInt(sid));
             cmArea3.setAid(Icity);
-            String sadd_time=add_time+"";
-            String sadd_time2=add_time2*5+"";
-            if (add_time<10){
-                sadd_time="0"+sadd_time;
-            }
-            if (add_time2*5<10){
-                sadd_time2="0"+sadd_time2;
-            }
+//            String sadd_time=add_time+"";
+//            String sadd_time2=add_time2*5+"";
+//            if (add_time<10){
+//                sadd_time="0"+sadd_time;
+//            }
+//            if (add_time2*5<10){
+//                sadd_time2="0"+sadd_time2;
+//            }
             String []dates=itime.split("-");
             for (int i=0;i<dates.length;i++){
                 if (Integer.parseInt(dates[i])<10){
@@ -84,7 +86,8 @@ public class EmpCtrl {
                 }
             }
             itime=dates[0]+"-"+dates[1]+"-"+dates[2];
-            CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"),itype);
+            //new DateConvert().StringtoUtilDate(itime+" " +sadd_time+":"+sadd_time2+":00")
+            CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoUtilDate(itime),itype);
             //就业是生表操作
             CmUser cmUser=new CmUser();
             cmUser.setUid(0);
@@ -115,18 +118,19 @@ public class EmpCtrl {
             cmArea2.setAid(Jcity);
             CmJob  cmJob=new CmJob();
             cmJob.setJid(job);
-            CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany,new DateConvert().convert(),new DateConvert().convert(),cmJob,"",0,rsalary);
+            // DateConvert().convert(),new DateConvert().convert()
+            CmRecruit cmRecruit=new CmRecruit(cmArea2,cmCompany, new Date(),new Date(),cmJob,"",0,rsalary);
             //面试表操作
             CmArea cmArea3=new CmArea();
             cmArea3.setAid(Icity);
-            String sadd_time=add_time+"";
-            String sadd_time2=add_time2*5+"";
-            if (add_time<10){
-                sadd_time="0"+sadd_time;
-            }
-            if (add_time2*5<10){
-                sadd_time2="0"+sadd_time2;
-            }
+//            String sadd_time=add_time+"";
+//            String sadd_time2=add_time2*5+"";
+//            if (add_time<10){
+//                sadd_time="0"+sadd_time;
+//            }
+//            if (add_time2*5<10){
+//                sadd_time2="0"+sadd_time2;
+//            }
             String []dates=itime.split("-");
             for (int i=0;i<dates.length;i++){
                 if (Integer.parseInt(dates[i])<10){
@@ -134,7 +138,7 @@ public class EmpCtrl {
                 }
             }
             itime=dates[0]+"-"+dates[1]+"-"+dates[2];
-            CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoTime2(itime+" " +sadd_time+":"+sadd_time2+":00"),itype);
+            CmInter cmInter=new CmInter(cmArea3,cmRecruit,cmStudent,iaddress,1,new DateConvert().StringtoUtilDate(itime),itype);
             //就业是生表操作
             CmUser cmUser=new CmUser();
             cmUser.setUid(0);
@@ -299,25 +303,29 @@ public class EmpCtrl {
      */
     @RequestMapping(value = "/findByEmp")
     @ResponseBody
-    public ModelAndView findByName(ModelMap modelMap,String startDate,String endDate,String searchtext, String searchType){
+    public ModelAndView findByName(ModelMap modelMap,String startDate,String endDate,String searchtext, String searchType) throws Exception{
         ModelAndView mv = new ModelAndView();
         System.out.println(searchType);
         System.out.println(searchtext);
-        List<ResEmpObj> Empdata = empService.FindByEtime(startDate,endDate);
-        modelMap.addAttribute("Empdata",Empdata);
+        String searchtext0=new String(searchtext.getBytes("iso-8859-1"),"utf-8");
         if(searchType.equals("cname")) {
-            List<ResEmpObj> listdata = empService.FindByCname(searchtext);
+            List<ResEmpObj> listdata = empService.FindByCname(searchtext0);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("jname")){
-            List<ResEmpObj> listdata = empService.FindByJname(searchtext);
+            List<ResEmpObj> listdata = empService.FindByJname(searchtext0);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("sname")){
-            List<ResEmpObj> listdata = empService.FindBySname(searchtext);
+            List<ResEmpObj> listdata = empService.FindBySname(searchtext0);
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("sgrade")){
-            List<ResEmpObj> listdata = empService.FindBySgrade(Integer.parseInt(searchtext));
+            List<ResEmpObj> listdata = empService.FindBySgrade(Integer.parseInt(searchtext0));
             System.out.println(listdata);
             modelMap.addAttribute("listdata", listdata);
+        }else {
+            System.out.println(startDate);
+            System.out.println(endDate);
+            List<ResEmpObj> Empdata = empService.FindByEtime(startDate,endDate);
+            modelMap.addAttribute("listdata",Empdata);
         }
         System.out.println("返回到页面------------");
         mv.setViewName("system/employed/EmpSearch");
