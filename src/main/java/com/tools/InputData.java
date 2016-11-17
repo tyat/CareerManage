@@ -32,8 +32,12 @@ public class InputData {
                 continue;
             }
             CmArea ca = new CmArea();
-            ca.setAprovince(r.getCell(0).getStringCellValue());
-            ca.setAcity(r.getCell(1).getStringCellValue());
+            if (r.getCell(0).getStringCellValue()!=null){
+                ca.setAprovince(r.getCell(0).getStringCellValue());
+            }
+            if (r.getCell(1).getStringCellValue()!=null){
+                ca.setAcity(r.getCell(1).getStringCellValue());
+            }
             temp.add(ca);
         }
         fileIn.close();
@@ -56,7 +60,9 @@ public class InputData {
             }
             CmStudent stu = new CmStudent();
             // 取出当前行第1个单元格数据，并封装在info实体stuName属性上
-            stu.setSname(r.getCell(1).getStringCellValue());
+            if (r.getCell(1).getStringCellValue()!=null){
+                stu.setSname(r.getCell(1).getStringCellValue());
+            }
             String sex = r.getCell(2).getStringCellValue();
             System.out.println("sex:" + sex);
             if (sex.equals("男")) {

@@ -284,10 +284,18 @@ public class UnempService {
             row.createCell(6).setCellValue(es.getDname());
             row.createCell(7).setCellValue(es.getJname());
             row.createCell(8).setCellValue(es.getUesalary());
-            row.createCell(9).setCellValue(es.getUetime());
-            row.createCell(10).setCellValue(es.getUeschool());
-            row.createCell(11).setCellValue(es.getUemajor());
-            row.createCell(12).setCellValue(es.getUesuccess());
+            if(es.getUetime()!=null){
+                row.createCell(9).setCellValue(es.getUetime());
+            }
+            if(es.getUetime()!=null) {
+                row.createCell(10).setCellValue(es.getUeschool());
+            }
+            if(es.getUemajor()!=null) {
+                row.createCell(11).setCellValue(es.getUemajor());
+            }
+            if(es.getUesuccess()!=null) {
+                row.createCell(12).setCellValue(es.getUesuccess());
+            }
             if (es.getUesuccess() == 0) {
                 row.createCell(12).setCellValue("暂无");
             } else if (es.getUesuccess() == 1) {

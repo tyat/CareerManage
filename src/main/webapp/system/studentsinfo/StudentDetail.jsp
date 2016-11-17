@@ -156,6 +156,7 @@
                 </table>
             </c:if>
             <c:if test="${zxreport==null}">
+                <br>
                 该学生没有中兴课程成绩
             </c:if>
 

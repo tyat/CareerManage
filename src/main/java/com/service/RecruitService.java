@@ -157,7 +157,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where r.rstate = 0 order by r.rstart";
+                "where r.rstate = 0 order by r.rstart desc ";
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql);
         System.out.println("所有招聘信息数量：   "+data.size());
         System.out.println("发布时间：   "+data.get(0).getRstart());

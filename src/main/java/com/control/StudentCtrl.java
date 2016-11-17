@@ -213,14 +213,14 @@ public class StudentCtrl {
         //String search = new String(searchtext.getBytes("iso-8859-1"),"utf-8");
         List<CmStudent> studentList = new ArrayList<CmStudent> ();
         if(type==0){
-            studentList = studentService.findBySname(searchtext);
+            Integer sgrade = Integer.parseInt(searchtext);
+            studentList = studentService.findBySgrade(sgrade);
             modelMap.addAttribute("studentList",studentList);
         }else if(type==1){
             studentList = studentService.findBySpro(searchtext);
             modelMap.addAttribute("studentList",studentList);
         }else{
-            Integer sgrade = Integer.parseInt(searchtext);
-            studentList = studentService.findBySgrade(sgrade);
+            studentList = studentService.findBySname(searchtext);
             modelMap.addAttribute("studentList",studentList);
         }
         System.out.println("学生列表： "+studentList);

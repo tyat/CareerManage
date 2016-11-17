@@ -16,6 +16,8 @@
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script type="text/javascript" src="../../js/showele.js" ></script>
+    <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+
     <script type="text/javascript">
         function postwith(url, param) {
             var myForm = document.createElement("form");
@@ -32,7 +34,7 @@
             document.body.removeChild(myForm);
         }
         function query(){
-            var searchtext = document.getElementById("searchtext").value;
+            var searchtext = document.getElementById("search").value;
             if (searchtext == "") {
                 alert("关键字不能为空！");
             }else{
@@ -80,15 +82,21 @@
                 <table  class="pure-table pure-table-bordered" style="text-align: left;">
                     <tr>
                         <td>姓名</td>
+                        <td>学号</td>
                         <td>性别</td>
                         <td>年级</td>
                         <td>班级</td>
+                        <td>能力认定</td>
+                        <td>状态</td>
                     </tr>
                     <c:forEach var="student" items="${studentList}">
                     <!--这是一条记录开始-->
                     <tr>
                         <td>
                             <a href="/student/findBySid?sid=${student.sid}">${student.sname}</a>
+                        </td>
+                        <td>
+                            ${student.sno}
                         </td>
                         <td>
                             <c:if test="${!(student.ssex)}">
@@ -100,6 +108,25 @@
                         </td>
                         <td><a href="/student/findBySgrade?sgrade=${student.sgrade}">${student.sgrade}级</a></td>
                         <td><a href="javascript:postwith('/student/findBySclass',{'spro':'${student.spro}','sclass':'${student.sclass}'})">${student.spro}${student.sclass}班</a></td>
+                        <td>
+                            <c:if test="${student.smark!=null}">
+                                ${student.smark}星
+                            </c:if>
+                            <c:if test="${student.smark==null}">
+                                暂无评分
+                            </c:if>
+                        </td>
+                        <td>
+                            <c:if test="${student.sstate==0}">
+                                正常
+                            </c:if>
+                            <c:if test="${student.sstate==2}">
+                                留级
+                            </c:if>
+                            <c:if test="${student.sstate==3}">
+                                休学
+                            </c:if>
+                        </td>
                     </tr>
                     <!--这是一条记录结束-->
                     </c:forEach>
@@ -128,7 +155,7 @@
             </div>
         </div>
         <div class="left-button-footer">
-            <button class="mybutton" type="button" onclick="alert('弹出下载框！')"> <span>导出数据</span></button>
+            <%--<button class="mybutton" type="button" onclick="alert('弹出下载框！')"> <span>导出数据</span></button>--%>
         </div>
     </div>
 </div>

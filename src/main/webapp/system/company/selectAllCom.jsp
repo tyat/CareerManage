@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List" %>
 <%@ page import="com.*" isELIgnored="false" %>
 <html>
 <head>
@@ -33,11 +32,11 @@
                     </div>
                     <div class="search-box">
                         <form action="/company/findByComp">
-                            <select id="searchType" name="searchType" style="width: 80px;">
+                            <select id="searchType" name="searchType" style="width: 120px;height: 30px">
                                 <option value="cname" ${searchType eq "cname"?'selected':''}>按企业名称</option>
                                 <option value="chr" ${searchType eq "chr"?'selected':''}>按联系人</option>
                             </select>
-                            <input id="searchtext" name="searchtext" type="text"  onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
+                            <input id="searchtext" name="searchtext" type="text" style="width:120px;height: 30px;" onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
                         </form>
                     </div>
@@ -45,6 +44,7 @@
             </div>
         </div>
         <!--这是标题栏结束-->
+        <hr class="fengexian">
         <div>
             <!--这是表格开始-->
             <table  class="pure-table pure-table-bordered CompInfo1">
@@ -68,7 +68,7 @@
                         </td>
                         <td>${list.chr}</td>
                         <td>${list.cphone}</td>
-                        <td>${list.stuCount}人</td>
+                        <td><button class="mybutton" type="button" onclick="location='/company/forCompStuInfo?cid=${list.cid}'">${list.stuCount}人</button></td>
                         <td><button class="mybutton" type="button" onclick="AreYouSourCompany(${list.cid})">删除</button></td>
                     </tr>
                 </c:forEach>

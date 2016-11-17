@@ -167,9 +167,7 @@
                 </div>
             </div>
             <div class="left-button-footer">
-                <button class="mybutton" type="button" onclick="alert('弹出保存对话框')"> <span>批量导出数据</span></button>
-                <button class="mybutton" type="button" onclick="alert('弹出文件上传框')"> <span>批量导入数据</span></button>
-                <button class="mybutton" type="button" onclick="ShowDetailTip()"> <span>下载Excel模板</span></button>
+                <button type="submit" class="mybutton" value="Submit" onclick="window.open('/recruit/outputRecruit')">导出数据</button>
             </div>
         </div>
     </div>

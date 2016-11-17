@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="com.*" isELIgnored="false" %>
 <html>
 <head>
@@ -35,13 +35,13 @@
                     </div>
                     <div class="search-box">
                         <form action="/emp/findByEmp">
-                            <select id="searchType" name="searchType" style="width: 80px;">
+                            <select id="searchType" name="searchType" style="width:120px;height: 30px;">
                                 <option value="sname">按姓名</option>
                                 <option value="jname">按岗位</option>
                                 <option value="cname">按企业</option>
                                 <option value="sgrade">按年级</option>>
                             </select>
-                            <input type="text" id="searchtext" name="searchtext"  onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
+                            <input type="text" id="searchtext" name="searchtext" style="width:120px;height: 30px;" onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页
@@ -89,25 +89,17 @@
                         <tr>
                             <td>岗位:</td>
                             <td colspan="5">
-                                <div class="gangwei-box">
-                                    <a href="#">@${list.jname}</a>&nbsp;
-                                </div>
+                                <button class="mybutton" type="button" onclick="ShowEmpStuByJname(${list.jid})">@${list.jname}</button>
                             </td>
                         </tr>
                         <tr>
                             <td>实习日期：</td>
-                            <td colspan="2">${list.etime}</td>
+                            <td colspan="2">${fn:substring(list.etime,0,10)}</td>
                             <td>实习补贴：</td>
                             <td colspan="2">${list.esalary}元/月</td>
                             <td rowspan="4">
                                 <button class="mybutton" type="button" onclick="AreYouSouremp(${list.eid})">删除</button>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>离职日期：</td>
-                            <td colspan="2">${list.eleave}</td>
-                            <td>离职原因：</td>
-                            <td colspan="2">${list.ereason}</td>
                         </tr>
                         <tr>
                             <td>推荐人：</td>
@@ -169,18 +161,12 @@
                         </tr>
                         <tr>
                             <td>实习日期：</td>
-                            <td colspan="2">${list.etime}</td>
+                            <td colspan="2">${fn:substring(list.etime,0,10)}</td>
                             <td>实习补贴：</td>
                             <td colspan="2">${list.esalary}元/月</td>
                             <td rowspan="4">
                                 <button class="mybutton" type="button" onclick="AreYouSouremp(${list.eid})">删除</button>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>离职日期：</td>
-                            <td colspan="2">${list.eleave}</td>
-                            <td>离职原因：</td>
-                            <td colspan="2">${list.ereason}</td>
                         </tr>
                         <tr>
                             <td>推荐人：</td>

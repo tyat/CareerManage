@@ -18,6 +18,8 @@
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script type="text/javascript" src="../../js/showele.js" ></script>
+    <script type="text/javascript" src="../../js/Date.js" ></script>
+    <script src="../../js/addtime.js" type="text/javascript"></script>
     <script type="text/javascript" src="../../js/upload.js" ></script>
 
 </head>
@@ -34,6 +36,7 @@
                     <div class="littil-title">
                         就业生信息
                     </div>
+                    <div><br></div>
                     <div class="search-box">
                         <form action="/emp/findByEmp">
                                 <span>
@@ -49,13 +52,14 @@
                                 <option value="sgrade">按年级</option>
                                 <option value="cname">按企业</option>
                             </select>
-                            <input type="text" id="searchtext" name="searchtext"  onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
-                            <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <input type="text" id="searchtext" name="searchtext"  style="width:120px;height: 30px;" onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
+                            <button class="mybutton" type="button" onclick="this.form.submit()">搜索</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <hr class="fengexian">
         <div class="table-bar">
             <ul>
                 <li class="active-li" onclick="ShowAllEmpStu()"> 全部岗位 </li>

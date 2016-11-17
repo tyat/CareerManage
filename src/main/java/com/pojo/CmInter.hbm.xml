@@ -14,6 +14,7 @@
         <property name="itime" column="itime"/>
         <property name="isuccess" column="isuccess"/>
         <property name="istate" column="istate" not-null="false"/>
+        <property name="isuccleave" column="isuccleave"/>
         <many-to-one name="cmStudentBySid" class="com.pojo.CmStudent">
             <column name="sid"/>
         </many-to-one>
