@@ -20,7 +20,6 @@ function ShowCompByCid(cid){
     var result = confirm('查看该公司信息！');
     if(result){
         window.location.href = "/company/findByCompCid?cid="+cid;
-        alert('成功！');
     }else{
         alert('取消！');
     }
@@ -30,7 +29,6 @@ function findEmpStuByCid(cid){
     var result = confirm('该公司下所有学生信息！');
     if(result){
         window.location.href = "/emp/findEmpStuByCid?cid="+cid;
-        alert('成功！');
     }else{
         alert('取消！');
     }
@@ -49,7 +47,6 @@ function AreYouSourCompany(cid){
     var result = confirm('您确定要删除该条记录吗！');
     if(result){
         window.location.href = "/company/delCompany?cid="+cid;
-        alert('删除成功！');
     }else{
         alert('不删除！');
     }
@@ -59,7 +56,6 @@ function ShowEmpStuBySclass(sgrade,sclass){
     var result = confirm('您确定吗！');
     if(result){
         window.location.href = "/emp/findEmpStuBySclass?sgrade="+sgrade+"&sclass="+sclass;
-        alert('成功！');
     }else{
         alert('取消！');
     }
@@ -68,7 +64,6 @@ function ShowEmpStuByJname(jid){
     var result = confirm('您确定吗！');
     if(result){
         window.location.href = "/emp/findEmpStuByJname?jid="+jid;
-        alert('成功！');
     }else{
         alert('取消！');
     }
@@ -78,7 +73,6 @@ function ShowUnempStuBySclass(sgrade,sclass){
     var result = confirm('您确定吗！');
     if(result){
         window.location.href = "/unemp/findUnEmpStuBySclass?sgrade="+sgrade+"&sclass="+sclass;
-        alert('成功！');
     }else{
         alert('取消！');
     }
@@ -87,7 +81,6 @@ function AreYouSouremp(eid){
     var result = confirm('您确定要删除该条记录吗！');
     if(result){
         window.location.href = "/emp/delEmp?eid="+eid;
-        alert('删除成功！');
     }else{
         alert('不删除！');
     }
@@ -97,7 +90,6 @@ function AreYouSourDir(did){
     var result = confirm('您确定要删除该条记录吗！');
     if(result){
         window.location.href = "/direction/delDiretion?did="+did;
-        alert('删除成功！');
     }else{
         alert('不删除！');
     }
@@ -107,7 +99,6 @@ function AreYouSourUnemp(ueid){
     var result = confirm('您确定要删除该条记录吗！');
     if(result){
         window.location.href = "/unemp/delUnEmp?ueid="+ueid;
-        alert('删除成功！');
     }else{
         alert('不删除！');
     }

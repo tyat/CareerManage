@@ -44,6 +44,12 @@ public class DateConvert {
         Date date=sdf.parse(s);
         return  new java.sql.Date(date.getTime());
     }
+    //zxl：字符串转java.util.date
+    public Date StringtoUtilDate(String s) throws  Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date=sdf.parse(s);
+        return  date;
+    }
     //zxl：得到系统sql时间
     public java.sql.Date SysDate() throws  Exception{
         String dt = new String(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

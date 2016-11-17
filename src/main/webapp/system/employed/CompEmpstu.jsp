@@ -34,13 +34,13 @@
                     </div>
                     <div class="search-box">
                         <form action="/emp/findByEmp">
-                            <select id="searchType" name="searchType" style="width: 80px;">
+                            <select id="searchType" name="searchType" style="width:120px;height: 30px;">
                                 <option value="sname">按姓名</option>
                                 <option value="jname">按岗位</option>
                                 <option value="cname">按企业</option>
                             </select>
                             <input type="text" id="searchtext" name="searchtext"  value="输入字符"/>
-                            <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
+                            <button class="mybutton" type="button" style="width:120px;height: 30px;" onclick="this.form.submit()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页
                             </button>

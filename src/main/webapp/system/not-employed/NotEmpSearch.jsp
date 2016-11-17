@@ -34,12 +34,12 @@
                     </div>
                     <div class="search-box">
                         <form action="/unemp/findByUnEmp">
-                            <select id="searchType" name="searchType" style="width: 80px;">
+                            <select id="searchType" name="searchType" style="width:120px;height: 30px;">
                                 <option value="sgrade">按年级</option>
                                 <option value="sname">按姓名</option>
                                 <option value="dname">按学生动向</option>
                             </select>
-                            <input type="text" name="searchtext"  onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
+                            <input type="text" name="searchtext" style="width:120px;height: 30px;" onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页

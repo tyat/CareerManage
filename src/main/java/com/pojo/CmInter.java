@@ -15,6 +15,7 @@ public class CmInter {
     private CmStudent cmStudentBySid;
     private CmRecruit cmRecruitByRid;
     private CmArea cmAreaByAid;
+    private String isuccleave;
 
     public Integer getIid() {
         return iid;
@@ -63,6 +64,16 @@ public class CmInter {
     public void setIstate(Integer istate) {
         this.istate = istate;
     }
+
+
+    public String getIsuccleave() {
+        return isuccleave;
+    }
+
+    public void setIsuccleave(String isuccleave) {
+        this.isuccleave = isuccleave;
+    }
+
     public CmInter() {
     }
 
@@ -75,8 +86,6 @@ public class CmInter {
         this.itime = itime;
         this.itype = itype;
     }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

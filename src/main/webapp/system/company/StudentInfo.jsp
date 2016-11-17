@@ -83,7 +83,6 @@
                     <td>${dataList.jname}</td>
                 </tr>
             </table>
-                <br>
             </c:forEach>
             <div class="table-slipline"></div>
             <!--这是一条记录结束-->
