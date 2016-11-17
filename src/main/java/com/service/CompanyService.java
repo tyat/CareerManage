@@ -140,6 +140,70 @@ public class CompanyService {
         return data;
     }
     /**
+     *  查询该公司下的所有学生信息
+     * @return
+     */
+    public List<ResCompanyObj> findCompStuInfo(int cid){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+                "from CmCompany comp " +
+                "inner join comp.cmRecruitsByCid rec " +
+                "inner join rec.cmIntersByRid inter " +
+                "inner join rec.cmJobByJid job " +
+                "inner join inter.cmStudentBySid stu " +
+                "where comp.cid=? and inter.isuccess=1 ";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,cid);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     *  按姓名查询该公司下的所有学生信息
+     * @return
+     */
+    public List<ResCompanyObj> findCompStuInfoBySname(String sname){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+                "from CmCompany comp " +
+                "inner join comp.cmRecruitsByCid rec " +
+                "inner join rec.cmIntersByRid inter " +
+                "inner join rec.cmJobByJid job " +
+                "inner join inter.cmStudentBySid stu " +
+                "where comp.cid=? and stu.sname=? and inter.isuccess=1 ";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,sname);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     *  按年级查询该公司下的所有学生信息
+     * @return
+     */
+    public List<ResCompanyObj> findCompStuInfoBySgrade(int sgrade){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+                "from CmCompany comp " +
+                "inner join comp.cmRecruitsByCid rec " +
+                "inner join rec.cmIntersByRid inter " +
+                "inner join rec.cmJobByJid job " +
+                "inner join inter.cmStudentBySid stu " +
+                "where comp.cid=? and stu.sgrade=? and inter.isuccess=1 ";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,sgrade);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     *  按岗位查询该公司下的所有学生信息
+     * @return
+     */
+    public List<ResCompanyObj> findCompStuInfoByJname(String janme){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+                "from CmCompany comp " +
+                "inner join comp.cmRecruitsByCid rec " +
+                "inner join rec.cmIntersByRid inter " +
+                "inner join rec.cmJobByJid job " +
+                "inner join inter.cmStudentBySid stu " +
+                "where comp.cid=? and job.jname=? and inter.isuccess=1 ";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,janme);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
      * 按公司ID 查询该公司信息
      * @param cid
      * @return

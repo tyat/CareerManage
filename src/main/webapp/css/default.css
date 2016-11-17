@@ -129,11 +129,6 @@ textarea{
 	border:  solid 1px #E0E0E0;
 	height: 10px;
 }
-/*.add-box{
-	width: 10%;
-	float: left;
-	margin-left: 10%;
-}*/
 .search-box{
 	float: right;
 	margin-right: 30px;
@@ -147,16 +142,6 @@ textarea{
 	margin-bottom:10px;
 	margin-top:10px;
 	height:2px;
-}
-.table-notemp{
-	width: 100%;
-	height: 60px;
-	margin-top: 10px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 10px;
-	border-top: 1px solid #E0E0E0;
-
 }
 .table-bar{
 	width: 50%;
@@ -188,7 +173,7 @@ textarea{
 	width: 10%;
 	margin-left: 20px;
 }
-}.table-bar ul li{
+.table-bar ul li{
 	color: #000;
 }
 .table-bar ul li:hover{

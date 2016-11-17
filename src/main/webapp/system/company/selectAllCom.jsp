@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.List" %>
 <%@ page import="com.*" isELIgnored="false" %>
 <html>
 <head>
@@ -69,7 +68,7 @@
                         </td>
                         <td>${list.chr}</td>
                         <td>${list.cphone}</td>
-                        <td>${list.stuCount}人</td>
+                        <td><button class="mybutton" type="button" onclick="location='/company/forCompStuInfo?cid=${list.cid}'">${list.stuCount}人</button></td>
                         <td><button class="mybutton" type="button" onclick="AreYouSourCompany(${list.cid})">删除</button></td>
                     </tr>
                 </c:forEach>

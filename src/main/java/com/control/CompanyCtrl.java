@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -159,6 +160,18 @@ public class CompanyCtrl {
     }
 
     /**
+     * 查询该公司下的所有在岗学生信息
+     * @param cid
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/forCompStuInfo")
+    public String findCompStuInfo(String cid,ModelMap modelMap){
+        List<ResCompanyObj> dataList = companyService.findCompStuInfo(Integer.parseInt(cid));
+        modelMap.addAttribute("dataList",dataList);
+        return "/system/company/CompStuInfo";
+    }
+    /**
      * 查看该公司下的在岗学生数量
      * @return
      */
@@ -214,6 +227,31 @@ public class CompanyCtrl {
             modelMap.addAttribute("listdata", listdata);
         }
         mv.setViewName("system/company/CompSearch");
+        return mv;
+    }
+    /**
+     * 按条件搜索相关在岗学生名单
+     * @param searchtext,searchType
+     * @return
+     */
+    @RequestMapping(value = "/findByType" )
+    @ResponseBody
+    public ModelAndView findByType(ModelMap modelMap, String searchtext, String searchType) throws Exception{
+        ModelAndView mv = new ModelAndView();
+        System.out.println(searchType);
+        System.out.println(searchtext);
+        String searchtext0=new String(searchtext.getBytes("iso-8859-1"),"utf-8");
+        if(searchType.equals("sname")) {
+            List<ResCompanyObj> listdata = companyService.findCompStuInfoBySname(searchtext0);
+            modelMap.addAttribute("dataList", listdata);
+        }else if(searchType.equals("sgrade")){
+            List<ResCompanyObj> listdata = companyService.findCompStuInfoBySgrade(Integer.parseInt(searchtext0));
+            modelMap.addAttribute("dataList", listdata);
+        }else if(searchType.equals("jname")){
+            List<ResCompanyObj> listdata = companyService.findCompStuInfoByJname(searchtext0);
+            modelMap.addAttribute("dataList", listdata);
+        }
+        mv.setViewName("system/company/CompStuInfo");
         return mv;
     }
     /**

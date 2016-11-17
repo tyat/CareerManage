@@ -12,6 +12,7 @@ public class ResCompanyObj {
     private String chr;
     private String cphone;
     private Integer cstate;
+    private Date ctime;
     private Integer rid;
     private Integer sid;
     private String sno;
@@ -61,13 +62,16 @@ public class ResCompanyObj {
         this.isuccess = isuccess;
     }
 
-    public ResCompanyObj(Integer cid, String cname, String chr, String cphone, Integer cstate, Integer rid, Integer jid, String jname) {
+    public ResCompanyObj(Integer cid, String cname, Date ctime, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, String sphone, Integer jid, String jname) {
         this.cid = cid;
         this.cname = cname;
-        this.chr = chr;
-        this.cphone = cphone;
-        this.cstate = cstate;
-        this.rid = rid;
+        this.ctime = ctime;
+        this.sname = sname;
+        this.ssex = ssex;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sclass = sclass;
+        this.sphone = sphone;
         this.jid = jid;
         this.jname = jname;
     }
@@ -119,6 +123,14 @@ public class ResCompanyObj {
 
     public void setCstate(Integer cstate) {
         this.cstate = cstate;
+    }
+
+    public Date getCtime() {
+        return ctime;
+    }
+
+    public void setCtime(Date ctime) {
+        this.ctime = ctime;
     }
 
     public Integer getRid() {
@@ -288,4 +300,5 @@ public class ResCompanyObj {
     public void setIsuccess(Integer isuccess) {
         this.isuccess = isuccess;
     }
+
 }
