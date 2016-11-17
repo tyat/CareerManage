@@ -286,7 +286,7 @@ td,th{padding:0}
 
 /*备注详情开始*/
 /*-----------------------------------------------------------这里包含很多遮罩的div------*/
-#mark-canvars,#qiwang-text
+#mark-canvars,#qiwang-text,#addcause
 {
 	display: none;
 }

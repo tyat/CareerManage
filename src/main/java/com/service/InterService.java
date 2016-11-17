@@ -62,10 +62,13 @@ public class InterService {
     }
 
     //编辑面试学生——ly
-    public boolean updateInter(int iid,int isuccess){
+    public boolean updateInter(int iid,int isuccess,String isuccleave){
         CmInter inter = this.findByIid(iid);
         if(inter!=null){
             inter.setIsuccess(isuccess);
+            if(isuccleave!=null){
+                inter.setIsuccleave(isuccleave);
+            }
             hibernateTemplate.saveOrUpdate(inter);
             return true;
         }

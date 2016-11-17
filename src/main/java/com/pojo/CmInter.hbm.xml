@@ -23,5 +23,6 @@
         <many-to-one name="cmAreaByAid" class="com.pojo.CmArea">
             <column name="aid"/>
         </many-to-one>
+        <property name="isuccleave" column="isuccleave"/>
     </class>
 </hibernate-mapping>

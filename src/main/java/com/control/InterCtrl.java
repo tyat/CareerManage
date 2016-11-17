@@ -144,9 +144,11 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter",method = RequestMethod.POST )
-    public String updateInter(int iid, int isuccess, int rid, int sid, String esalary, String etime, int ewq, int uid, String einfo,
+    public String updateInter(int iid, int isuccess, int rid,@RequestParam(value = "isuccleave",required = false)String isuccleave, int sid, String esalary, String etime, int ewq, int uid, String einfo,
                               ModelMap modelMap, RedirectAttributes attr) throws java.lang.Exception,ParseException {
-        boolean ResMsg = interService.updateInter(iid,isuccess);
+        System.out.println("isuccleave----"+isuccleave);
+        System.out.println("esalary----"+esalary);
+        boolean ResMsg = interService.updateInter(iid,isuccess,isuccleave);
         if(ResMsg){
             if (isuccess==1){
                 boolean flag=empService.addEmp2(rid,sid,esalary,etime,ewq,uid,einfo);
@@ -167,8 +169,8 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter2",method = RequestMethod.POST )
-    public String updateInter2(int iid,int isuccess,int sid, String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap) throws java.lang.Exception, ParseException {
-        boolean ResMsg = interService.updateInter(iid,isuccess);
+    public String updateInter2(int iid,int isuccess,@RequestParam(value = "isuccleave",required = false)String isuccleave, int sid, String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap) throws java.lang.Exception, ParseException {
+        boolean ResMsg = interService.updateInter(iid,isuccess,isuccleave);
         if(ResMsg){
             if (isuccess==1){
                 boolean flag=empService.addEmp3(iid,sid,esalary,etime,ewq,uid,einfo);
@@ -188,8 +190,9 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter3",method = RequestMethod.POST )
-    public String updateInter3(int iid,int sid,int isuccess,String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap,RedirectAttributes attr)  throws java.lang.Exception,  ParseException {
-        boolean ResMsg = interService.updateInter(iid,isuccess);
+    public String updateInter3(int iid,int sid,int isuccess,@RequestParam(value = "isuccleave",required = false)String isuccleave, String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap,RedirectAttributes attr)  throws java.lang.Exception,  ParseException {
+        System.out.println("isuccleave---"+isuccleave);
+        boolean ResMsg = interService.updateInter(iid,isuccess,isuccleave);
         if(ResMsg){
             if (isuccess==1) {
                 boolean flag = empService.addEmp3(iid, sid, esalary, etime, ewq, uid, einfo);

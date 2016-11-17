@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../../js/showele.js" ></script>
     <link rel="stylesheet" type="text/css" href="../../css/default.css"/>
     <link rel="stylesheet" href="../../css/icon.css" />
-
+    <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
     function postwith(url, param) {
@@ -56,7 +56,7 @@
                 <div style="float: left;">
                     <span>信息管理</span><div class="left-arrow"></div>
                     <span>学生列表</span><div class="left-arrow"></div>
-                    <span>2013级</span></div><br />
+                    </div><br />
                 <div class="Big-title">
                     <div class="littil-title">
                         学生列表
@@ -81,10 +81,12 @@
                 <table  class="pure-table pure-table-bordered"  >
                     <tr>
                         <td>姓名</td>
+                        <td>学号</td>
                         <td>性别</td>
                         <td>年级</td>
                         <td>班级</td>
                         <td>能力认定</td>
+                        <td>状态</td>
                     </tr>
 
                     <c:forEach var="student" items="${studentList}">
@@ -92,6 +94,9 @@
                     <tr>
                         <td>
                             <a href="/student/findBySid?sid=${student.sid}">${student.sname}</a>
+                        </td>
+                        <td>
+                            ${student.sno}
                         </td>
                         <td>
                             <c:if test="${!(student.ssex)}">
@@ -104,7 +109,23 @@
                         <td><a href="/student/findBySgrade?sgrade=${student.sgrade}">${student.sgrade}级</a></td>
                         <td><a href="javascript:postwith('/student/findBySclass',{'spro':'${student.spro}','sclass':'${student.sclass}'})">${student.spro}${student.sclass}班</a></td>
                         <td>
-                            <button type="button" class="mybutton" onclick="location='/grade/findStudentDetail?sid=${student.sid}'">${student.smark}星</button>
+                            <c:if test="${student.smark!=null}">
+                                ${student.smark}星
+                            </c:if>
+                            <c:if test="${student.smark==null}">
+                                暂无评分
+                            </c:if>
+                        </td>
+                        <td>
+                            <c:if test="${student.sstate==0}">
+                                正常
+                            </c:if>
+                            <c:if test="${student.sstate==2}">
+                                留级
+                            </c:if>
+                            <c:if test="${student.sstate==3}">
+                                休学
+                            </c:if>
                         </td>
                     </tr>
                     <!--这是一条记录结束-->

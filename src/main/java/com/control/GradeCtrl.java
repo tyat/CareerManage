@@ -3,6 +3,7 @@ package com.control;
 import com.ResObj.UnempResObj;
 import com.pojo.CmGrade;
 import com.pojo.CmJob;
+import com.pojo.CmStudent;
 import com.service.GradeService;
 import com.service.JobService;
 import com.service.StudentService;
@@ -35,8 +36,14 @@ public class GradeCtrl {
     public String findStudentDetail(@RequestParam("sid")int sid, ModelMap modelMap){
         System.out.println("findStudentDetail------");
         System.out.println("sid------"+sid);
-        UnempResObj unempResObj = studentService.findUnempBySid(sid);
-        modelMap.addAttribute("student",unempResObj);
+        Boolean flag = studentService.isUnemp(sid);
+        if(flag){
+            UnempResObj unempResObj = studentService.findDetailBySid(sid);
+            modelMap.addAttribute("student",unempResObj);
+        }else{
+            CmStudent student = studentService.findBySid(sid);
+            modelMap.addAttribute("student",student);
+        }
         List<CmJob> jobList = jobService.findAll();
         modelMap.addAttribute("jobList",jobList);
         int comcredit = gradeService.findComcredit(sid);
