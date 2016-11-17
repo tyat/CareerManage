@@ -1,8 +1,17 @@
 package com.service;
 
+import com.ResObj.UnempResObj;
 import com.pojo.CmGrade;
+import com.pojo.CmJob;
+import com.pojo.CmStudent;
 import com.pojo.CmUser;
 import com.tools.InputData;
+import com.tools.OutputData;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +110,56 @@ public class GradeService {
         } catch (IOException e) {
             return "数据格式错误！";
         }
+    }
+
+    /*TianYu 导出一位学生成绩数据*/
+    public String outputGrade(int sid){
+        System.out.println(sid+"---------");
+        StudentService studentService = new StudentService();
+        GradeService gradeService = new GradeService();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("学生成绩");
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell = row1.createCell(0);
+        row1.setHeight((short)20);
+        cell.setCellValue("学生成绩");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 5));
+        HSSFRow row2 = sheet.createRow(1);
+        row2.createCell(0).setCellValue("学生姓名");
+        row2.createCell(1).setCellValue("性别");
+        row2.createCell(2).setCellValue("学号");
+        row2.createCell(3).setCellValue("专业");
+        row2.createCell(4).setCellValue("年级");
+        row2.createCell(5).setCellValue("班级");
+        row2.createCell(6).setCellValue("入学年份");
+        row2.createCell(7).setCellValue("预计毕业时间");
+        row2.createCell(8).setCellValue("已修必修学分");
+        row2.createCell(9).setCellValue("已修选修学分");
+        row2.createCell(10).setCellValue("总科目数");
+        row2.createCell(11).setCellValue("毕业清考数");
+        row2.createCell(12).setCellValue("中兴课程科目总数");
+        row2.createCell(13).setCellValue("学生等级评价");
+        row2.createCell(14).setCellValue("学生评语");
+        HSSFRow row = sheet.createRow(2);
+        CmStudent cs = studentService.findBySid(sid);
+        row.createCell(0).setCellValue(cs.getSname());
+        row.createCell(1).setCellValue(cs.getSsex());
+        row.createCell(2).setCellValue(cs.getSno());
+        row.createCell(3).setCellValue(cs.getSpro());
+        row.createCell(4).setCellValue(cs.getSgrade());
+        row.createCell(5).setCellValue(cs.getSclass());
+        row.createCell(6).setCellValue(cs.getSgrade());
+        row.createCell(7).setCellValue(cs.getSgrade()+4);
+        row.createCell(8).setCellValue(gradeService.findComcredit(sid));
+        row.createCell(9).setCellValue(gradeService.findOpcredit(sid));
+        row.createCell(10).setCellValue(gradeService.findByType(sid,0));
+        row.createCell(11).setCellValue(gradeService.findByType(sid,1));
+        row.createCell(12).setCellValue(gradeService.findByType(sid,2));
+        row.createCell(13).setCellValue(cs.getSmark());
+        row.createCell(14).setCellValue(cs.getSassess());
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb,"公司信息");
+        return file;
     }
 
 }
