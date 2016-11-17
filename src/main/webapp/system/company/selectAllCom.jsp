@@ -45,6 +45,7 @@
             </div>
         </div>
         <!--这是标题栏结束-->
+        <hr class="fengexian">
         <div>
             <!--这是表格开始-->
             <table  class="pure-table pure-table-bordered CompInfo1">
