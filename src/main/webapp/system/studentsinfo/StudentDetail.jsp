@@ -170,7 +170,7 @@
                 <div class="left-button-footer">
                     <button class="mybutton" type="button" onclick="location=''">打印</button>
                     &nbsp;&nbsp;
-                    <button class="mybutton" type="button" onclick="ShowDetailTip()"> <span>导出数据</span></button>
+                    <button type="submit" class="mybutton" value="Submit" onclick="window.open('/grade/outgrade?sid='+${student.sid})">导出数据</button>
                     <!--<button class="icon-filein" type="button" onclick="ShowDetailTip()"> <span>导入数据</span></button>
                     <button class="icon-down" type="button" onclick="ShowDetailTip()"> <span>下载Excel模板</span></button>-->
                 </div>

@@ -303,8 +303,7 @@
             </div>
             <div class="left-button-footer">
                 <button class="mybutton" type="button" onclick="location='/inter/addpro?rid=${rid}'">添加面试学生</button>
-                &nbsp;&nbsp;
-                <button class="mybutton" type="button" onclick="alert('弹出保存对话框')"> <span>批量导出数据</span></button>
+                &nbsp;
             </div>
         </div>
     </div>

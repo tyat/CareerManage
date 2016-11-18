@@ -3,6 +3,12 @@ package com.service;
 import com.ResObj.InterResObj;
 import com.pojo.CmInter;
 import org.hibernate.Session;
+import com.tools.OutputData;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
@@ -283,9 +289,27 @@ public class InterService {
     }
 
     //按发布时间段查询面试信息——ly
-    public List<InterResObj> FindByDate2(String startDate,String endDate){
-        System.out.println("startDate----"+startDate);
-        System.out.println("endDate----"+endDate);
+    public List<InterResObj> FindByDate2(String startDate,String endDate) {
+        System.out.println("startDate----" + startDate);
+        System.out.println("endDate----" + endDate);
+        String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,c.cid,c.cname,j.jid,j.jname,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.sno) " +
+                "from CmInter i " +
+                "inner join i.cmRecruitByRid r " +
+                "inner join r.cmCompanyByCid c " +
+                "inner join r.cmJobByJid j " +
+                "inner join i.cmAreaByAid a " +
+                "inner join i.cmStudentBySid s where i.istate = 0 and (TO_DAYS(i.itime)>=TO_DAYS(?) and TO_DAYS(i.itime)<=TO_DAYS(?)) order by i.itime desc ";
+        Object[] value = {startDate, endDate};
+        List<InterResObj> data = (List<InterResObj>) hibernateTemplate.find(hsql, value);
+        if (data.size() > 0) {
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    /*TianYu 导出全部面试学生*/
+    public String outputInter(){
         String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,c.cid,c.cname,j.jid,j.jname,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.sno) " +
                 "from CmInter i " +
                 "inner join i.cmRecruitByRid r " +
@@ -293,13 +317,62 @@ public class InterService {
                 "inner join r.cmJobByJid j " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 and (TO_DAYS(i.itime)>=TO_DAYS(?) and TO_DAYS(i.itime)<=TO_DAYS(?)) order by i.itime desc ";
-        Object[] value = {startDate,endDate};
-        List<InterResObj> data = (List<InterResObj>) hibernateTemplate.find(hsql,value);
-        if(data.size()>0){
-            return data;
+                "where i.istate = 0 ";
+        List<InterResObj> data = (List<InterResObj>)hibernateTemplate.find(hsql);
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("面试信息表");
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell = row1.createCell(0);
+        row1.setHeight((short)20);
+        cell.setCellValue("面试信息");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 12));
+        HSSFRow row2 = sheet.createRow(1);
+        row2.createCell(0).setCellValue("姓名");
+        row2.createCell(1).setCellValue("性别");
+        row2.createCell(2).setCellValue("专业");
+        row2.createCell(3).setCellValue("年级");
+        row2.createCell(4).setCellValue("班级");
+        row2.createCell(5).setCellValue("学号");
+        row2.createCell(6).setCellValue("电话");
+        row2.createCell(7).setCellValue("面试企业");
+        row2.createCell(8).setCellValue("面试岗位");
+        row2.createCell(9).setCellValue("面试时间");
+        row2.createCell(10).setCellValue("面试城市");
+        row2.createCell(11).setCellValue("面试地点");
+        row2.createCell(12).setCellValue("面试方式");
+        row2.createCell(13).setCellValue("面试状态");
+        int rownum = 2;
+        // 在sheet里创建数据
+        for(InterResObj es : data){
+            HSSFRow row = sheet.createRow(rownum);
+            row.createCell(0).setCellValue(es.getSname());
+            if(es.getSsex()){
+                row.createCell(1).setCellValue("女");
+            }else{
+                row.createCell(1).setCellValue("男");
+            }
+            row.createCell(2).setCellValue(es.getSpro());
+            row.createCell(3).setCellValue(es.getSgrade());
+            row.createCell(4).setCellValue(es.getSclass());
+            row.createCell(5).setCellValue(es.getSno());
+            row.createCell(6).setCellValue(es.getSphone());
+            row.createCell(7).setCellValue(es.getCname());
+            row.createCell(8).setCellValue(es.getJname());
+            row.createCell(9).setCellValue(es.getItime());
+            row.createCell(10).setCellValue(es.getAprovince()+es.getAcity());
+            row.createCell(11).setCellValue(es.getIaddress());
+            row.createCell(12).setCellValue(es.getItype());
+            if (es.getIsuccess()==0){
+                row.createCell(13).setCellValue("暂无");
+            }else if(es.getIsuccess()==1){
+                row.createCell(13).setCellValue("成功");
+            }else if(es.getIsuccess()==2){
+                row.createCell(13).setCellValue("失败");
+            }
+            rownum++;
         }
-        System.out.println("未查到相关数据！");
-        return null;
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb,"面试信息");
+        return file;
     }
 }

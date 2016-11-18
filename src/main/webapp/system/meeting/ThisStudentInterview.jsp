@@ -177,7 +177,7 @@
                 </div>--%>
             </div>
             <div class="left-button-footer">
-                <button class="mybutton" type="button" onclick="alert('弹出保存对话框')"> <span>批量导出数据</span></button>
+                <button class="mybutton" type="button" onclick="window.open('/inter/outputInter')"> <span>导出数据</span></button>
             </div>
         </div>
     </div>

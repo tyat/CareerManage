@@ -9,7 +9,12 @@ import com.service.DirectionService;
 import com.service.GradeService;
 import com.service.JobService;
 import com.service.StudentService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -75,7 +81,7 @@ public class GradeCtrl {
     }
 
     /*TianYu 成绩数据导入*/
-    @RequestMapping(value = "/inputGrade")
+    @RequestMapping(value = "/grade/inputGrade")
     public String inputGrade(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model){
         String path = request.getSession().getServletContext().getRealPath("upload");
         String msg;
@@ -94,5 +100,17 @@ public class GradeCtrl {
         model.addAttribute("file", msg);
         System.out.println(msg);
         return "/system/admin/inputData";
+    }
+
+    /*TianYu 成绩数据导出*/
+    @RequestMapping(value = "/grade/outgrade",method = RequestMethod.GET )
+    public ResponseEntity<byte[]> Download(@RequestParam("sid")int sid,HttpServletRequest httpServletRequest) throws IOException {
+        System.out.println("outCtrl--------"+sid);
+        File file = new File(gradeService.outputGrade(sid));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String fileName = file.getName();
+        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"ISO-8859-1"));
+        httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
     }
 }
