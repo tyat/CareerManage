@@ -21,6 +21,14 @@
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript">
+        function  showInterview(){
+            document.getElementById("showInterview").style.display="block";
+            document.getElementById("zhezhaobg").style.display="block";
+        }
+        function  hideInterview(){
+            document.getElementById("showInterview").style.display="none";
+            document.getElementById("zhezhaobg").style.display="none";
+        }
         function findcity() {
             var myselect = document.getElementById("aprovince");
             var index = myselect.selectedIndex;
@@ -79,7 +87,7 @@
             </div>
         </div>
         <div>
-            <form action="/inter/addInter" method="post">
+            <form action="/inter/addInters" method="post">
             <c:if test="${unempList!=null}">
             <!--这是一条记录开始-->
                 <table  class="pure-table pure-table-bordered">
@@ -92,7 +100,7 @@
                     </tr>
                     <c:forEach var="unemp" items="${unempList}">
                         <tr>
-                            <td><input type="radio" name="sid" id="sid" value="${unemp.sid}" required="required"/></td>
+                            <td><input type="checkbox" name="sid" id="sid" value="${unemp.sid}"/></td>
                             <td id="fsname">${unemp.sname}</td>
                             <td id="fsex">
                                 <c:if test="${!(unemp.ssex)}">
@@ -106,6 +114,11 @@
                             <td id="fsprosclass">${unemp.spro}${unemp.sclass}班</td>
                         </tr>
                     </c:forEach>
+                    <tr>
+                        <td colspan="5">
+                            <button class="mybutton" type="button" onclick="showInterview()">下一步</button>
+                        </td>
+                    </tr>
                 </table>
 
             <div class="table-slipline"></div>
@@ -115,48 +128,55 @@
                 暂时没有未就业生信息
             </c:if>
 
+            <div id="showInterview">
+                <div class="tab-close">
+                    <button class="mybutton" type="button" onclick="hideInterview()">取消</button>
+                </div>
+                <div class="interview">
+                    <table  class="pure-table pure-table-bordered" style="width:400px; margin-left: 200px;">
+                        <input type="hidden" name="rid" value="${rid}">
+                        <input type="hidden" name="sid">
+                        <tr>
+                            <td>面试时间：</td>
+                            <td >
+                                <input type="text" id="itime" name="itime" onclick="choose_date_czw('itime');" required="required"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>面试城市：</td>
+                            <td>
+                                <select name="aprovince" id="aprovince" onchange="javascript:findcity();">
+                                    <option selected="selected"></option>
+                                    <c:forEach items="${areaList}" var="area">
+                                        <option value="${area.aprovince}">${area.aprovince}</option>
+                                    </c:forEach>
+                                </select>
+                                <select id="city" name="aid">
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>面试地点：</td>
+                            <td>
+                                <input type="text" name="iaddress" required="required"/>
+                            </td>
+                        </tr>
+                        <tr>；
+                            <td >面试方式：</td>
+                            <td ><input type="text" name="itype" required="required"/></td>
+                        </tr>
+                        <tr style="text-align: center;">
+                            <td colspan="2">
+                                <input type="submit" value="保存" name="" class="mybutton"  />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div id="zhezhaobg"></div>
 
-                <table  class="pure-table pure-table-bordered" style="text-align:left">
-                    <input type="hidden" name="rid" value="${rid}">
-                    <input type="hidden" name="sid">
-                    <tr>
-                        <td>面试时间：</td>
-                        <td >
-                            <input type="text" id="add_date" name="itime" onclick="choose_date_czw('add_date');" required="required"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>面试城市：</td>
-                        <td>
-                            <select name="aprovince" id="aprovince" onchange="javascript:findcity();">
-                                <option selected="selected"></option>
-                                <c:forEach items="${areaList}" var="area">
-                                    <option value="${area.aprovince}">${area.aprovince}</option>
-                                </c:forEach>
-                            </select>
-                            <select id="city" name="aid">
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>面试地点：</td>
-                        <td>
-                            <input type="text" name="iaddress" required="required"/>
-                        </td>
-                    </tr>
-                    <tr>；
-                        <td >面试方式：</td>
-                        <td ><input type="text" name="itype" required="required"/></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td colspan="2">
-                            <input type="submit" value="保存" name="" class="mybutton"  />
-                        </td>
-                    </tr>
-                </table>
             </form>
             <div class="table-slipline"></div>
-
 
         </div>
     </div>

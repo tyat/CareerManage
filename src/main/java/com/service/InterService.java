@@ -2,10 +2,12 @@ package com.service;
 
 import com.ResObj.InterResObj;
 import com.pojo.CmInter;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -44,10 +46,43 @@ public class InterService {
         inter.setIstate(0);
         try {
             hibernateTemplate.save(inter);
+            return true;
         }catch (Exception e){
             System.out.println("添加面试学生出错");
         }
         return false;
+    }
+
+    //批量增加面试学生——ly
+    public boolean addInters(String sid,int rid, int aid, String iaddress, String itype, String itime) throws ParseException {
+        Session session = hibernateTemplate.getSessionFactory().openSession();
+        String spl[] = sid.split(",");
+        List<String> list = new ArrayList<String>();
+        for (int i = 0; i < spl.length; i++) {
+            list.add(spl[i]);
+        }
+        System.out.println("sid的list集合----"+list);
+        try {
+            for (int j = 0; j < list.size(); j++){
+                CmInter inter = new CmInter();
+                inter.setCmStudentBySid(studentService.findBySid(Integer.parseInt(list.get(j))));
+                inter.setCmRecruitByRid(recruitService.findByRid(rid));
+                inter.setCmAreaByAid(areaService.findByAid(aid));
+                inter.setIaddress(iaddress);
+                inter.setItype(itype);
+                DateFormat df = DateFormat.getDateInstance();
+                Date d = df.parse(itime);
+                System.out.println("d--------"+d);
+                inter.setItime(d);
+                inter.setIsuccess(0);
+                inter.setIstate(0);
+                session.save(inter);
+            }
+            session.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     //删除面试学生——ly
@@ -83,7 +118,7 @@ public class InterService {
                 "inner join i.cmRecruitByRid r " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 and i.cmRecruitByRid.rid = ? ";
+                "where i.istate = 0 and i.cmRecruitByRid.rid = ? order by i.itime desc";
         if(type==0){
             hsql = hsql + "and s.sname like ?";
             Object[] value = {rid,"%"+searchtext+"%"};
@@ -98,6 +133,25 @@ public class InterService {
             Object[] value = {rid,sgrade};
             data = (List<InterResObj>)hibernateTemplate.find(hsql,value);
         }
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //按发布时间段查询面试信息——ly
+    public List<InterResObj> FindByDate(int rid,String startDate,String endDate){
+        System.out.println("startDate----"+startDate);
+        System.out.println("endDate----"+endDate);
+        String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.ssex,s.sbirth,s.spro,s.sgrade,s.sclass,s.sphone) " +
+                "from CmInter i " +
+                "inner join i.cmRecruitByRid r " +
+                "inner join i.cmAreaByAid a " +
+                "inner join i.cmStudentBySid s "  +
+                "where i.istate = 0 and i.cmRecruitByRid.rid = ? and (TO_DAYS(i.itime)>=TO_DAYS(?) and TO_DAYS(i.itime)<=TO_DAYS(?)) order by i.itime desc ";
+        Object[] value = {rid,startDate,endDate};
+        List<InterResObj> data = (List<InterResObj>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
             return data;
         }
@@ -141,7 +195,7 @@ public class InterService {
                 "inner join r.cmJobByJid j " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 and s.sid = ? ";
+                "where i.istate = 0 and s.sid = ? order by i.itime desc ";
         List<InterResObj> data = (List<InterResObj>)hibernateTemplate.find(hsql,sid);
         if(data.size()>0){
             return data;
@@ -173,7 +227,7 @@ public class InterService {
                 "inner join i.cmRecruitByRid r " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 and r.rid = ?";
+                "where i.istate = 0 and r.rid = ? order by i.itime desc ";
         List<InterResObj> data = (List<InterResObj>)hibernateTemplate.find(hsql,rid);
         if(data.size()>0){
             return data;
@@ -191,7 +245,7 @@ public class InterService {
                 "inner join r.cmJobByJid j " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 ";
+                "where i.istate = 0 order by i.itime desc ";
         List<InterResObj> data = (List<InterResObj>)hibernateTemplate.find(hsql);
         if(data.size()>0){
             return data;
@@ -209,7 +263,7 @@ public class InterService {
                 "inner join r.cmJobByJid j " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 ";
+                "where i.istate = 0 order by i.itime desc ";
         List<InterResObj> data = new ArrayList<InterResObj>();
         if(type==0){
             hsql = hsql + "and s.sname like ?";
@@ -221,6 +275,27 @@ public class InterService {
             hsql = hsql + "and c.cname like ?";
             data = (List<InterResObj>)hibernateTemplate.find(hsql,"%"+searchtext+"%");
         }
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //按发布时间段查询面试信息——ly
+    public List<InterResObj> FindByDate2(String startDate,String endDate){
+        System.out.println("startDate----"+startDate);
+        System.out.println("endDate----"+endDate);
+        String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,c.cid,c.cname,j.jid,j.jname,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.sno) " +
+                "from CmInter i " +
+                "inner join i.cmRecruitByRid r " +
+                "inner join r.cmCompanyByCid c " +
+                "inner join r.cmJobByJid j " +
+                "inner join i.cmAreaByAid a " +
+                "inner join i.cmStudentBySid s "  +
+                "where i.istate = 0 and (TO_DAYS(i.itime)>=TO_DAYS(?) and TO_DAYS(i.itime)<=TO_DAYS(?)) order by i.itime desc ";
+        Object[] value = {startDate,endDate};
+        List<InterResObj> data = (List<InterResObj>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
             return data;
         }

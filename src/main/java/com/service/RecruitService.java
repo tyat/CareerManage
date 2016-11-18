@@ -106,6 +106,25 @@ public class RecruitService {
         return null;
     }
 
+    //按发布时间段查询招聘信息——ly
+    public List<RecruitResObj> FindByDate(String startDate,String endDate){
+        System.out.println("startDate----"+startDate);
+        System.out.println("endDate----"+endDate);
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where r.rstate = 0 and TO_DAYS(r.rstart)>=TO_DAYS(?) and TO_DAYS(r.rstart)<=TO_DAYS(?) ";
+        Object[] value = {startDate,endDate};
+        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,value);
+        if(data.size()>0){
+            return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
     //按cid查询招聘信息——ly
     public List<RecruitResObj> findByCid(int cid){
         String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
@@ -148,7 +167,6 @@ public class RecruitService {
         System.out.println("未查到相关数据！");
         return null;
     }
-
 
     //查询所有招聘信息——ly
     public List<RecruitResObj> findAll(){
