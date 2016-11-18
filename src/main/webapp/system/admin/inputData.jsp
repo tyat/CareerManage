@@ -7,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false"  %>
 <html>
 <head>
     <title>Title</title>
@@ -105,9 +106,9 @@
                         <button type="submit" class="mybutton" value="Submit" onclick="window.open('/upload/Grade(ok).xls')">下载模板</button>
                     </td>
                     <td>
-                        <form action="/area/inputGrade" method="post" enctype="multipart/form-data" id="grade">
+                        <form action="/grade/inputGrade" method="post" enctype="multipart/form-data" id="grade">
                             <input type="file" name="file" />
-                            <button type="submit" class="mybutton" value="Submit" onclick="student()">开始导入</button>
+                            <button type="submit" class="mybutton" value="Submit" onclick="grade()">开始导入</button>
                         </form>
                     </td>
                 </tr>

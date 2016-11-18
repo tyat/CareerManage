@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
+import sun.java2d.cmm.CMSManager;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class InputData {
         return temp;
     }
 
-    public List<CmGrade> inputGrade(String path) throws IOException {
+    public List<CmGrade> inputGrade(String path) throws Exception {
         List<CmGrade> temp = new ArrayList();
         FileInputStream fileIn = new FileInputStream(path);
         Workbook wb0 = new HSSFWorkbook(fileIn);
@@ -100,7 +101,9 @@ public class InputData {
             }
             CmGrade cg = new CmGrade();
             String hql = "from CmStudent cs where cs.sname = ? ";
-            cg.setCmStudentBySid((CmStudent)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue()).get(0));
+            System.out.print("+++++++"+r.getCell(0).getStringCellValue());
+            List<CmStudent>  cs = (List<CmStudent>)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue());
+            cg.setCmStudentBySid(cs.get(0));
             cg.setGxq(r.getCell(1).getStringCellValue());
             cg.setGxn(r.getCell(2).getStringCellValue());
             cg.setGkcm(r.getCell(3).getStringCellValue());
@@ -125,7 +128,7 @@ public class InputData {
         return temp;
     }
 
-    public List<CmCompany> inputCompany(String path) throws IOException {
+    public List<CmCompany> inputCompany(String path) throws Exception {
         List<CmCompany> temp = new ArrayList();
         FileInputStream fileIn = new FileInputStream(path);
         Workbook wb0 = new HSSFWorkbook(fileIn);
@@ -167,7 +170,7 @@ public class InputData {
         return temp;
     }
 
-    public List<CmEmp> inputEmp(String path) throws IOException {
+    public List<CmEmp> inputEmp(String path) throws Exception {
         List<CmEmp> temp = new ArrayList();
         FileInputStream fileIn = new FileInputStream(path);
         Workbook wb0 = new HSSFWorkbook(fileIn);
@@ -202,7 +205,7 @@ public class InputData {
         return temp;
     }
 
-    public List<CmUnemp> inputUnemp(String path) throws IOException {
+    public List<CmUnemp> inputUnemp(String path) throws Exception {
         List<CmUnemp> temp = new ArrayList();
         FileInputStream fileIn = new FileInputStream(path);
         Workbook wb0 = new HSSFWorkbook(fileIn);
