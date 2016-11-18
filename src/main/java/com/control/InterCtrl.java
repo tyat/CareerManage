@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +39,7 @@ public class InterCtrl {
     private EmpService empService;
     @Autowired
     private UserService userService;
+
     //查询所有面试记录——ly
     @RequestMapping(value = "/inter/findAll",method = RequestMethod.GET )
     public String findAll(ModelMap modelMap){
@@ -89,6 +91,20 @@ public class InterCtrl {
     @RequestMapping(value = "/inter/addInter",method = RequestMethod.POST )
     public String addInter(int sid,int rid, int aid, String iaddress, String itype, String itime, ModelMap modelMap, RedirectAttributes attr) throws ParseException {
         boolean ResMsg = interService.addInter(sid, rid, aid, iaddress, itype, itime);
+        if(ResMsg){
+            modelMap.addAttribute("ResMsg","添加成功！");
+        }else{
+            modelMap.addAttribute("ResMsg","添加失败！");
+        }
+        attr.addAttribute("rid", rid);
+        return "redirect:/inter/findByRid";
+    }
+
+    //批量增加面试学生——ly
+    @RequestMapping(value = "/inter/addInters",method = RequestMethod.POST )
+    public String addInters(String sid,int rid, int aid, String iaddress, String itype, String itime, ModelMap modelMap, RedirectAttributes attr) throws ParseException {
+        System.out.println("checkbox---"+sid);
+        boolean ResMsg = interService.addInters(sid, rid, aid, iaddress, itype, itime);
         if(ResMsg){
             modelMap.addAttribute("ResMsg","添加成功！");
         }else{
@@ -219,11 +235,18 @@ public class InterCtrl {
 
     //搜索该招聘信息下的面试学生——ly
     @RequestMapping(value = "/inter/query",method = RequestMethod.POST )
-    public String query(int rid, int type, String searchtext, ModelMap modelMap){
+    public String query(int rid, int type, String searchtext, @RequestParam(value = "date",required = false) String date, ModelMap modelMap){
         System.out.println("rid------"+rid);
         System.out.println("type------"+type);
         System.out.println("searchtext------"+searchtext);
-        List<InterResObj> interList = interService.query(rid,type,searchtext);
+        String spl[] = searchtext.split(",");
+        List<InterResObj> interList = new ArrayList<>();
+        if(type==3){
+            System.out.println("searchtext----"+spl[spl.length-1]);
+            interList = interService.FindByDate(rid,spl[spl.length-1],date);
+        }else{
+            interList = interService.query(rid,type,searchtext);
+        }
         modelMap.addAttribute("interList",interList);
         System.out.println("面试学生列表： "+interList);
         modelMap.addAttribute("rid",rid);
@@ -234,10 +257,17 @@ public class InterCtrl {
 
     //搜索面试学生——ly
     @RequestMapping(value = "/inter/query2",method = RequestMethod.POST )
-    public String query2(int type, String searchtext, ModelMap modelMap){
+    public String query2(int type, String searchtext, @RequestParam(value = "date",required = false) String date, ModelMap modelMap){
         System.out.println("type------"+type);
         System.out.println("searchtext------"+searchtext);
-        List<InterResObj> interList = interService.query2(type,searchtext);
+        String spl[] = searchtext.split(",");
+        List<InterResObj> interList = new ArrayList<>();
+        if(type==3){
+            System.out.println("searchtext----"+spl[spl.length-1]);
+            interList = interService.FindByDate2(spl[spl.length-1],date);
+        }else{
+            interList = interService.query2(type,searchtext);
+        }
         modelMap.addAttribute("interList",interList);
         System.out.println("面试学生列表： "+interList);
         List<CmUser>userList=userService.findAllUser();

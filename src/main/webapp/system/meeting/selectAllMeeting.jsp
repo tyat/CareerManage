@@ -19,6 +19,7 @@
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../../js/Date.js" ></script>
 
     <script type="text/javascript">
         function  showRinfo(){
@@ -55,21 +56,36 @@
                 alert('不删除！');
             }
         }
+
+        var msg="${ResMsg}";
+        if(msg!=""){
+            alert(msg);
+        }
+        function  startload() {
+            document.getElementById("mydate").style.display ="none";
+        }
+        function  showDateInput() {
+            var type = document.getElementById("type").value;
+            if(type==1){
+                document.getElementById("mysearch").style.display ="none";
+                document.getElementById("mydate").style.display = "block";
+            }else {
+                document.getElementById("mysearch").style.display ="block";
+                document.getElementById("mydate").style.display = "none";
+            }
+        }
         function query(){
             var searchtext = document.getElementById("searchtext").value;
-            if (searchtext == "") {
+            var rstart = document.getElementById("rstart").value;
+            if (searchtext == ""&&rstart=="") {
                 alert("关键字不能为空！");
             }else{
                 $("#search").submit();
             }
         }
-        var msg="${ResMsg}";
-        if(msg!=""){
-            alert(msg);
-        }
     </script>
 </head>
-<body>
+<body onload="startload()">
 <div class="table-box">
     <div class="table-content">
         <!--这是标题栏-->
@@ -85,17 +101,33 @@
                     </div>
                     <div class="search-box">
                         <form action="/recruit/query" method="post" name="search" id="search">
-                            <select name="type">
-                                <option value="0">按企业名称</option>
-                            </select>
-                            <input type="text" name="searchtext" id="searchtext" placeholder="请输入……"/>
-                            <button class="mybutton" type="button" onclick="query()"> <span>搜索</span> </button>
+                            <table style="background: none; margin-left: 400px;">
+                                <tr>
+                                    <td>
+                                        <select name="type"id="type" onchange="showDateInput();">
+                                            <option value="0">按企业名称</option>
+                                            <option value="1">按招聘时间</option>
+                                        </select>
+                                    </td>&nbsp;
+                                    <td id="mysearch">
+                                        <input type="text" name="searchtext" id="searchtext" placeholder="请输入……"/>
+                                    </td>
+                                    <td id="mydate">
+                                        <input type="text" id="rstart" name="searchtext" onclick="choose_date_czw('rstart');"/>
+                                        <input type="text" id="rend" name="date" onclick="choose_date_czw('rend');"/>
+                                    </td>&nbsp;
+                                    <td>
+                                        <button class="mybutton" type="button" onclick="query()"> <span>搜索</span> </button>
+                                    </td>
+                                </tr>
+                            </table>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <!--这是标题栏结束-->
+        <br>
         <div>
             <c:if test="${recruitList!=null}">
             <!--这是一条记录开始-->
@@ -162,9 +194,9 @@
         </div>
         <div class="button-footer">
             <div class="right-button-footer">
-                <div id="Page">
+                <%--<div id="Page">
                     <a href="#">«</a><span>1</span><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">6</a><a href="#">»</a>
-                </div>
+                </div>--%>
             </div>
             <div class="left-button-footer">
                 <button type="submit" class="mybutton" value="Submit" onclick="window.open('/recruit/outputRecruit')">导出数据</button>
@@ -188,5 +220,6 @@
     <div id="zhezhaobg"></div>
 
 </div>
+
 </body>
 </html>

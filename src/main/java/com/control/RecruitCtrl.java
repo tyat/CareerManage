@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -129,13 +130,18 @@ public class RecruitCtrl {
 
     //搜索招聘信息——ly
     @RequestMapping(value = "/recruit/query",method = RequestMethod.POST )
-    public String query(int type, String searchtext, ModelMap modelMap){
+    public String query(int type, String searchtext, @RequestParam(value = "date",required = false) String date, ModelMap modelMap){
+        String spl[] = searchtext.split(",");
+        System.out.println("searchtext----"+searchtext);
+        System.out.println("date----"+date);
         List<RecruitResObj> recruitList = new ArrayList<RecruitResObj>();
         if(type==0){
             recruitList = recruitService.findByCname(searchtext);
             modelMap.addAttribute("recruitList",recruitList);
         }else if(type==1){
-            //按招聘岗位/时间
+            System.out.println("searchtext----"+spl[spl.length-1]);
+            recruitList = recruitService.FindByDate(spl[spl.length-1],date);
+            modelMap.addAttribute("recruitList",recruitList);
         }
         return "system/meeting/MeetSearch";
     }
