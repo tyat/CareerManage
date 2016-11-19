@@ -31,7 +31,7 @@ public class StudentService {
     }
     //zxl：根据学生学号查询学生信息
     public CmStudent findStuBySid(int sid){
-        String hsql="select new com.pojo.CmStudent(s.sid, s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass) from CmStudent s where s.sid=? and s.sstate=0";
+        String hsql="select new com.pojo.CmStudent(s.sid, s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass) from CmStudent s where s.sid=?";
         List<CmStudent>data=(List<CmStudent>) hibernateTemplate.find(hsql,sid);
         CmStudent cmStudent=data.get(0);
         return  cmStudent;
