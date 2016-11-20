@@ -2,19 +2,23 @@ package com.service;
 
 import com.ResObj.ResCompanyAll;
 import com.ResObj.ResCompanyObj;
-import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import com.tools.InputData;
 import com.tools.OutputData;
+import com.tools.PageBean;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -100,14 +104,20 @@ public class CompanyService {
      *  查询所有企业信息
      * @return
      */
-    public List<CmCompany> FindALLCompany(){
-        String hsql = "select new com.pojo.CmCompany(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate) " +
+    public List<CmCompany> FindALLCompany(final PageBean pageBean){
+        final String hsql = "select new com.pojo.CmCompany(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate) " +
                 "from CmCompany comp " +
-                "where comp.cstate = 0";
-        List<CmCompany> data = (List<CmCompany>) hibernateTemplate.find(hsql);
-        int total = data.size();
+                "where comp.cstate = 0 ";
+        final List<CmCompany> list = hibernateTemplate.execute(new HibernateCallback<List>() {
+            @Override
+            public List doInHibernate(Session session) throws HibernateException {
+                List list2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                return list2;
+            }
+        });
+        int total = list.size();
         System.out.println(total);
-        return data;
+        return list;
     }
 
     /**
@@ -126,12 +136,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findStuInfoByJname(int cid,int jid){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,rec.rid,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,job.jid,job.jname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,rec.rid,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,job.jid,job.jname,inter.iid,inter.isuccess,emp.etime) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid s " +
+                "inner join s.cmEmpsBySid emp " +
                 "where comp.cid=? and job.jid=? and inter.isuccess=1 ";
         Object[] value = {cid,jid};
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,value);
@@ -144,12 +155,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfo(int cid){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,cid);
         System.out.println(data.size());
@@ -160,12 +172,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfoBySname(String sname){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and stu.sname=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,sname);
         System.out.println(data.size());
@@ -176,12 +189,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfoBySgrade(int sgrade){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and stu.sgrade=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,sgrade);
         System.out.println(data.size());
@@ -192,12 +206,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfoByJname(String janme){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and job.jname=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,janme);
         System.out.println(data.size());

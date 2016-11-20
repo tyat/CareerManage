@@ -12,6 +12,7 @@ import com.service.JobService;
 import com.service.UserService;
 import com.tools.DateConvert;
 import com.tools.InputData;
+import com.tools.PageBean;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -119,9 +120,13 @@ public class CompanyCtrl {
      * @return
      */
     @RequestMapping(value = "/findAllCompany")
-    public String findAllCompany(ModelMap modelMap){
+    public String findAllCompany(ModelMap modelMap, @RequestParam("page") String page){
         List<ResComList> companyList = new ArrayList<>();
-        List<CmCompany> company = companyService.FindALLCompany();
+        //每页显示的条数
+        int pageSize = 5;
+        //处理分页类
+        PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
+        List<CmCompany> company = companyService.FindALLCompany(pageBean);
         for(CmCompany com : company){
             ResComList rcl = new ResComList();
             rcl.setCstate(com.getCstate());
@@ -135,14 +140,11 @@ public class CompanyCtrl {
             rcl.setStuCount(companyService.StuCountByCid(com.getCid()));
             companyList.add(rcl);
         }
-        //每页显示的条数
-        int pageSize = 5;
-        int page = 1;
         //计算公司总数
         int total = companyService.CompanyCount();
-        String pageCode = this.genPagation(total, page, pageSize);
-        modelMap.addAttribute("companylist",companyList);
+        String pageCode = this.genPagation(total, Integer.parseInt(page), pageSize);
         modelMap.put("pageCode",pageCode);
+        modelMap.addAttribute("companylist",companyList);
         return "system/company/selectAllCom";
     }
     /**

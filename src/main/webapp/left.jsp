@@ -34,7 +34,7 @@
             <dt>信息管理<img src="img/select_xl01.png"></dt>
             <dd class="first_dd"><a href="#">企业信息</a>
                 <ul>
-                    <li><a href="/company/findAllCompany" target=main>查看企业信息</a></li>
+                    <li><a href="/company/findAllCompany?page=1" target=main>查看企业信息</a></li>
                     <li><a href="/area/selectAllArea" target=main>添加企业</a></li>
                     <%--<li><a href="system/company/AllCompRecruit.html" target=main>招聘信息</a></li>--%>
                 </ul>
@@ -42,13 +42,13 @@
 
             <dd><a href="#" >就业生信息</a>
                 <ul>
-                    <li><a href="/emp/findAllEmp" target=main>查看信息</a></li>
+                    <li><a href="/emp/findAllEmp?page=1" target=main>查看信息</a></li>
                     <li><a href="/emp/forAddEmp" target=main>添加就业生</a></li>
                 </ul>
             </dd>
             <dd><a href="#" >未就业生信息</a>
                 <ul>
-                    <li><a href="/unemp/findAllUnemp" target=main>查看信息</a></li>
+                    <li><a href="/unemp/findAllUnemp?page=1" target=main>查看信息</a></li>
                     <li><a href="/direction/selectAllDirection" target=main>添加未就业生</a></li>
                 </ul>
             </dd>

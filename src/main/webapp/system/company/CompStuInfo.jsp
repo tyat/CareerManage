@@ -87,7 +87,7 @@
                         <a href="ThisCompEmpSearch.html'">${dataList.jname}</a>&nbsp;
                     </td>
                     <td>${dataList.sphone}</td>
-                    <td>${fn:substring(dataList.ctime,0,10)}</td>
+                    <td>${fn:substring(dataList.etime,0,10)}</td>
                 </tr>
                 </c:forEach>
             </table>

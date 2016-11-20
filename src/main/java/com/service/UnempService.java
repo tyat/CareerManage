@@ -5,13 +5,16 @@ import com.pojo.CmStudent;
 import com.pojo.CmUnemp;
 import com.tools.InputData;
 import com.tools.OutputData;
+import com.tools.PageBean;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -137,6 +140,27 @@ public class UnempService {
                 "inner join unemp.cmDirectionByDid dir " +
                 "where unemp.uestate = 0";
         List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     * 分页查询所有未就业学生信息
+     * @return
+     */
+    public List<ResUnempObj> findAllUnempPage(final PageBean pageBean){
+        final String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu " +
+                "inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where unemp.uestate = 0";
+       final List<ResUnempObj> data = hibernateTemplate.execute(new HibernateCallback<List<ResUnempObj>>() {
+            @Override
+            public List<ResUnempObj> doInHibernate(Session session) throws HibernateException {
+                List<ResUnempObj> list2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                return list2;
+            }
+        });
         System.out.println(data.size());
         return data;
     }
