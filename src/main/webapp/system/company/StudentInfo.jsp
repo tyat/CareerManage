@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page import="com.*" isELIgnored="false" %>
 <html>
 <head>
@@ -68,8 +69,8 @@
                 <tr>
                     <td>联系方式：</td>
                     <td>${dataList.sphone}</td>
-                    <td>邮箱：</td>
-                    <td>${dataList.semail}</td>
+                    <td>入职时间：</td>
+                    <td>${fn:substring(dataList.etime,0,10)}</td>
                     <td>身份证号：</td>
                     <td>${dataList.scode}</td>
 
@@ -91,7 +92,7 @@
     </div>
     <div class="button-footer">
         <div class="left-button-footer">
-            <button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>导出数据</span></button>
+           <!-- <button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>导出数据</span></button>-->
 
         </div>
     </div>

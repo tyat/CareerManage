@@ -62,7 +62,7 @@ public class AreaService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmArea>  ls = input.inputArea(path);
+            List<CmArea>  ls = input.inputArea(input.ConvertPath(path));
             for (CmArea ca : ls){
                 session.save(ca);
             }

@@ -4,6 +4,7 @@ import com.ResObj.ResEmpObj;
 import com.pojo.*;
 import com.service.*;
 import com.tools.DateConvert;
+import com.tools.PageBean;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -243,14 +244,15 @@ public class EmpCtrl {
      * @return
      */
     @RequestMapping(value = "/findAllEmp")
-    public String FindAllEmp(ModelMap modelMap){
-        List<ResEmpObj> empList = empService.FindAllEmp();
+    public String FindAllEmp(ModelMap modelMap,@RequestParam("page") String page){
         //每页显示的条数
         int pageSize = 5;
-        int page = 1;
+        //处理分页类
+        PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
+        List<ResEmpObj> empList = empService.FindAllEmp(pageBean);
         //计算就业生总数
         int total = empService.EmpCount();
-        String pageCode = this.genPagation(total, page, pageSize);
+        String pageCode = this.genPagation(total, Integer.parseInt(page), pageSize);
         modelMap.addAttribute("empList",empList);
         modelMap.put("pageCode",pageCode);
         return "system/employed/selectAllEmp";

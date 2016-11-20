@@ -50,8 +50,9 @@ public class RecruitCtrl {
         //查询面试人数
         /*int InterCount = interService.findByRidCount(1);
         modelMap.addAttribute("InterCount",InterCount);*/
-        int weekrecruit = recruitService.findCountByWeek();
-        modelMap.addAttribute("weekrecruit",weekrecruit);
+        //查询近一周招聘发布数量
+        int weekcomrecruit = recruitService.findComCountByWeek();
+        modelMap.addAttribute("weekcomrecruit",weekcomrecruit);
         return "system/meeting/selectAllMeeting";
     }
 

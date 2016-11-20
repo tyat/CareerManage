@@ -5,13 +5,16 @@ import com.pojo.CmStudent;
 import com.pojo.CmUnemp;
 import com.tools.InputData;
 import com.tools.OutputData;
+import com.tools.PageBean;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -141,6 +144,27 @@ public class UnempService {
         return data;
     }
     /**
+     * 分页查询所有未就业学生信息
+     * @return
+     */
+    public List<ResUnempObj> findAllUnempPage(final PageBean pageBean){
+        final String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu " +
+                "inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where unemp.uestate = 0";
+       final List<ResUnempObj> data = hibernateTemplate.execute(new HibernateCallback<List<ResUnempObj>>() {
+            @Override
+            public List<ResUnempObj> doInHibernate(Session session) throws HibernateException {
+                List<ResUnempObj> list2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                return list2;
+            }
+        });
+        System.out.println(data.size());
+        return data;
+    }
+    /**
      * 查询该年级下该班级下所有未就业学生信息
      * @return
      */
@@ -217,16 +241,15 @@ public class UnempService {
         System.out.println(ueid);
         String hsql="update CmUnemp unemp set unemp.uestate=1 where unemp.ueid = ?";
         hibernateTemplate.bulkUpdate(hsql,ueid);
-        System.out.println("******************************");
         return true;
     }
 
     /*TianYu 上传excel*/
-    public String uploadUnemp(String path){
+    public String uploadUnemp(String path) throws Exception {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmUnemp>  ls = input.inputUnemp(path);
+            List<CmUnemp>  ls = input.inputUnemp(input.ConvertPath(path));
             for (CmUnemp cc : ls){
                 session.save(cc);
             }
@@ -289,15 +312,21 @@ public class UnempService {
             row.createCell(8).setCellValue(es.getUesalary());
             if(es.getUetime()!=null){
                 row.createCell(9).setCellValue(es.getUetime());
+            }else{
+                row.createCell(9).setCellValue("无");
             }
-            if(es.getUetime()!=null) {
+            if(es.getUeschool()!=null) {
                 row.createCell(10).setCellValue(es.getUeschool());
+            }else{
+                row.createCell(10).setCellValue("无");
             }
             if(es.getUemajor()!=null) {
                 row.createCell(11).setCellValue(es.getUemajor());
+            }else{
+                row.createCell(11).setCellValue("无");
             }
-            if(es.getUesuccess()!=null) {
-                row.createCell(12).setCellValue(es.getUesuccess());
+            if(es.getUesuccess()==null) {
+                row.createCell(12).setCellValue("暂无");
             }
             if (es.getUesuccess() == 0) {
                 row.createCell(12).setCellValue("暂无");

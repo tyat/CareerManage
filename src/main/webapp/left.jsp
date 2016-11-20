@@ -34,24 +34,22 @@
             <dt>信息管理<img src="img/select_xl01.png"></dt>
             <dd class="first_dd"><a href="#">企业信息</a>
                 <ul>
-                    <li><a href="/company/findAllCompany" target=main>查看企业信息</a></li>
+                    <li><a href="/company/findAllCompany?page=1" target=main>查看企业信息</a></li>
                     <li><a href="/area/selectAllArea" target=main>添加企业</a></li>
                     <%--<li><a href="system/company/AllCompRecruit.html" target=main>招聘信息</a></li>--%>
-                    <li><a href="/job/findAllJob" target=main>岗位管理</a></li>
                 </ul>
             </dd>
 
             <dd><a href="#" >就业生信息</a>
                 <ul>
-                    <li><a href="/emp/findAllEmp" target=main>查看信息</a></li>
+                    <li><a href="/emp/findAllEmp?page=1" target=main>查看信息</a></li>
                     <li><a href="/emp/forAddEmp" target=main>添加就业生</a></li>
                 </ul>
             </dd>
             <dd><a href="#" >未就业生信息</a>
                 <ul>
-                    <li><a href="/unemp/findAllUnemp" target=main>查看信息</a></li>
+                    <li><a href="/unemp/findAllUnemp?page=1" target=main>查看信息</a></li>
                     <li><a href="/direction/selectAllDirection" target=main>添加未就业生</a></li>
-                    <li><a href="/direction/findAllDirection" target=main>未就业方向管理</a></li>
                 </ul>
             </dd>
             <dd><a href="#" >招聘及面试信息</a>
@@ -81,6 +79,12 @@
             <dd class="first_dd"><a href="system/admin/adminInfo.jsp" target=main>个人信息</a></dd>
             <dd><a href="/user/selectAllUser" target=main>管理员列表</a></dd>
             <dd><a href="/system/admin/inputData.jsp" target=main>数据初始化</a></dd>
+            <dd><a href="#" >数据管理</a>
+                <ul>
+                    <li><a href="/job/findAllJob" target=main>岗位管理</a></li>
+                    <li><a href="/direction/findAllDirection" target=main>未就业方向管理</a></li>
+                </ul>
+            </dd>
         </dl>
     </div>
     <!--leftbarend-->

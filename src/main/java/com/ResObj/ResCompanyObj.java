@@ -13,6 +13,7 @@ public class ResCompanyObj {
     private String cphone;
     private Integer cstate;
     private Date ctime;
+    private Date etime;
     private Integer rid;
     private Integer sid;
     private String sno;
@@ -62,18 +63,35 @@ public class ResCompanyObj {
         this.isuccess = isuccess;
     }
 
-    public ResCompanyObj(Integer cid, String cname, Date ctime, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, String sphone, Integer jid, String jname) {
+    public ResCompanyObj(Integer cid, String cname, Date etime, String sname, Boolean ssex, String spro, Integer sgrade, String sno, Integer sid, Integer smark, Integer sclass, String sphone, Integer jid, String jname) {
         this.cid = cid;
         this.cname = cname;
-        this.ctime = ctime;
+        this.etime = etime;
         this.sname = sname;
         this.ssex = ssex;
         this.spro = spro;
         this.sgrade = sgrade;
+        this.sno =sno;
+        this.sid = sid;
+        this.smark = smark;
         this.sclass = sclass;
         this.sphone = sphone;
         this.jid = jid;
         this.jname = jname;
+    }
+
+    public ResCompanyObj(Integer cid,String cname,Date etime,String sname, Boolean ssex,String spro,Integer sgrade,Integer sclass,String sphone,Integer jid,String jname){
+        this.cid = cid;
+        this.cname = cname;
+        this.etime = etime;
+        this.sname =sname;
+        this.ssex =ssex;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sclass =sclass;
+        this.sphone= sphone;
+        this.jid = jid;
+        this.jname=jname;
     }
 
     public ResCompanyObj(Integer cid, String cname, String chr, String cphone, Integer cstate, Integer rid) {
@@ -107,6 +125,14 @@ public class ResCompanyObj {
 
     public void setChr(String chr) {
         this.chr = chr;
+    }
+
+    public Date getEtime() {
+        return etime;
+    }
+
+    public void setEtime(Date etime) {
+        this.etime = etime;
     }
 
     public String getCphone() {

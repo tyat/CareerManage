@@ -55,7 +55,7 @@
                 <!--这是一条记录开始-->
                 <table  class="pure-table pure-table-bordered left">
                     <tr>
-                        <td rowspan="6" width="70px"><button class="mybutton" type="button" onclick="location='/grade/findStudetDetail?sid=${emplist.sid}'">${emplist.sname}</button></td>
+                        <td rowspan="6" width="70px"><button class="mybutton" type="button" onclick="location='/grade/findStudentDetail?sid=${emplist.sid}'">${emplist.sname}</button></td>
                         <td width="80px">班级：</td>
                         <td><a onclick="ShowEmpStuBySclass(${emplist.sgrade},${emplist.sclass})">${emplist.spro}${emplist.sclass}班</a></td>
                         <td width="60px">年级：</td>
@@ -74,14 +74,12 @@
                     </tr>
                     <tr>
                         <td >就业企业：</td>
-                        <td colspan="5"><button class="mybutton" type="button" onclick="ShowCompByCid(${emplist.cid})">${emplist.cname}</button></td>
+                        <td colspan="5"><button class="mybutton" type="button" onclick="findEmpStuByCid(${emplist.cid})">${emplist.cname}</button></td>
                     </tr>
                     <tr>
                         <td>岗位:</td>
                         <td colspan="5">
-                            <div class="gangwei-box">
-                                <a href="#">@${emplist.jname}</a>&nbsp;
-                            </div>
+                            <button class="mybutton" type="button" onclick="ShowEmpStuByJname(${emplist.jid})">@${emplist.jname}</button>
                         </td>
                     </tr>
                     <tr>
@@ -123,7 +121,7 @@
                 </ul>
             </div>
             <div class="left-button-footer">
-                <button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>导出数据</span></button>
+                <%--<button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>导出数据</span></button>--%>
             </div>
         </div>
     </div>

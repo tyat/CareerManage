@@ -61,7 +61,7 @@
                 <!--准备就业的表这是一条记录开始-->
                 <table  class="pure-table pure-table-bordered left">
                     <tr>
-                        <td rowspan="5"><a href="../studentsinfo/StudentsSearch.html">${list.sname}</a></td>
+                        <td rowspan="5"><a href="/grade/findStudentDetail?sid=${list.sid}">${list.sname}</a></td>
                         <td width="100px">班级：</td>
                         <td width="100px">
                             <a onclick="ShowUnempStuBySclass(${list.sgrade},${list.sclass})">${list.spro}${list.sclass}班</a>

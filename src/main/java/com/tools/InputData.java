@@ -21,7 +21,15 @@ import java.util.List;
  * Created by TianYu on 2016/11/10.
  */
 public class InputData {
+    @Autowired
     private HibernateTemplate hibernateTemplate;
+
+    public String ConvertPath(String path){
+        String headPath = path.substring(0,3);
+        String lastPath = path.substring(2);
+        return headPath+lastPath;
+    }
+
     public List<CmArea> inputArea(String path) throws IOException {
         List<CmArea> temp = new ArrayList();
         FileInputStream fileIn = new FileInputStream(path);
@@ -101,7 +109,7 @@ public class InputData {
             }
             CmGrade cg = new CmGrade();
             String hql = "from CmStudent cs where cs.sname = ? ";
-            System.out.print("+++++++"+r.getCell(0).getStringCellValue());
+            System.out.println(r.getCell(0).getStringCellValue()+"-----");
             List<CmStudent>  cs = (List<CmStudent>)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue());
             cg.setCmStudentBySid(cs.get(0));
             cg.setGxq(r.getCell(1).getStringCellValue());
@@ -138,8 +146,17 @@ public class InputData {
                 continue;
             }
             CmCompany cc = new CmCompany();
+            CmArea cas= new CmArea();
             cc.setCname(r.getCell(0).getStringCellValue());
-            String hql = "from CmArea ca where ca.acity = ? ";
+            String hql = "from new com.pojo.CmArea ca where ca.acity = ? ";
+            System.out.println(r.getCell(2).getStringCellValue());
+            List<CmArea> ls = (List<CmArea>)hibernateTemplate.find(hql,"深圳");
+            if(ls.isEmpty()){
+                System.out.println("列表为空！");
+            }else{
+                cas=ls.get(0);
+                System.out.println(cas.getAprovince());
+            }
             CmArea ca = (CmArea) hibernateTemplate.find(hql,r.getCell(2).getStringCellValue()).get(0);
             if (ca == null) {
                 CmArea caa = new CmArea();

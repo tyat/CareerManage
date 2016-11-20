@@ -7,6 +7,7 @@ import com.service.StudentService;
 import com.service.UnempService;
 import com.tools.DateConvert;
 
+import com.tools.PageBean;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -182,14 +183,14 @@ public class UnempCtrl {
      * @return
      */
     @RequestMapping(value = "/findAllUnemp")
-    public String FindAllUnemp(ModelMap modelMap){
-        List<ResUnempObj> UnempList = unempServive.FindAllUnemp();
+    public String FindAllUnemp(ModelMap modelMap,@RequestParam("page") String page){
         //每页显示的条数
         int pageSize = 5;
-        int page = 1;
+        PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
+        List<ResUnempObj> UnempList = unempServive.findAllUnempPage(pageBean);
         //计算未就业生总数
         int total = unempServive.UnEmpCount();
-        String pageCode = this.genPagation(total, page, pageSize);
+        String pageCode = this.genPagation(total, Integer.parseInt(page), pageSize);
         modelMap.addAttribute("UnempList",UnempList);
         modelMap.put("pageCode",pageCode);
         return "system/not-employed/selectAllNotEmp";
@@ -305,9 +306,14 @@ public class UnempCtrl {
         } catch (Exception e) {
             msg = "文件上传失败！";
         }
-        msg = unempServive.uploadUnemp(path+"\\"+fileName);
-        model.addAttribute("file", msg);
-        System.out.println(msg);
+        try {
+            msg = unempServive.uploadUnemp(path+"\\"+fileName);
+            model.addAttribute("file", msg);
+            System.out.println(msg);
+            return "/system/admin/inputData";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "/system/admin/inputData";
     }
 

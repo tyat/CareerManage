@@ -2,19 +2,23 @@ package com.service;
 
 import com.ResObj.ResCompanyAll;
 import com.ResObj.ResCompanyObj;
-import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import com.tools.InputData;
 import com.tools.OutputData;
+import com.tools.PageBean;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -100,14 +104,20 @@ public class CompanyService {
      *  查询所有企业信息
      * @return
      */
-    public List<CmCompany> FindALLCompany(){
-        String hsql = "select new com.pojo.CmCompany(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate) " +
+    public List<CmCompany> FindALLCompany(final PageBean pageBean){
+        final String hsql = "select new com.pojo.CmCompany(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate) " +
                 "from CmCompany comp " +
-                "where comp.cstate = 0";
-        List<CmCompany> data = (List<CmCompany>) hibernateTemplate.find(hsql);
-        int total = data.size();
+                "where comp.cstate = 0 ";
+        final List<CmCompany> list = hibernateTemplate.execute(new HibernateCallback<List>() {
+            @Override
+            public List doInHibernate(Session session) throws HibernateException {
+                List list2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                return list2;
+            }
+        });
+        int total = list.size();
         System.out.println(total);
-        return data;
+        return list;
     }
 
     /**
@@ -126,12 +136,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findStuInfoByJname(int cid,int jid){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,rec.rid,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,job.jid,job.jname,inter.iid,inter.isuccess) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,rec.rid,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.sphone,s.semail,s.scode,s.smark,s.sassess,s.sstate,s.sdetail,job.jid,job.jname,inter.iid,inter.isuccess,emp.etime) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid s " +
+                "inner join s.cmEmpsBySid emp " +
                 "where comp.cid=? and job.jid=? and inter.isuccess=1 ";
         Object[] value = {cid,jid};
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,value);
@@ -144,12 +155,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfo(int cid){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,cid);
         System.out.println(data.size());
@@ -160,12 +172,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfoBySname(String sname){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and stu.sname=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,sname);
         System.out.println(data.size());
@@ -176,12 +189,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfoBySgrade(int sgrade){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and stu.sgrade=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,sgrade);
         System.out.println(data.size());
@@ -192,12 +206,13 @@ public class CompanyService {
      * @return
      */
     public List<ResCompanyObj> findCompStuInfoByJname(String janme){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,emp.etime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid stu " +
+                "inner join stu.cmEmpsBySid emp " +
                 "where comp.cid=? and job.jname=? and inter.isuccess=1 ";
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,janme);
         System.out.println(data.size());
@@ -288,7 +303,7 @@ public class CompanyService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmCompany>  ls = input.inputCompany(path);
+            List<CmCompany>  ls = input.inputCompany(input.ConvertPath(path));
             for (CmCompany cc : ls){
                 session.save(cc);
             }
@@ -297,7 +312,6 @@ public class CompanyService {
         } catch (IOException e) {
             return "数据格式错误！";
         } catch (Exception e) {
-            e.printStackTrace();
             return "数据格式错误！";
         }
     }
@@ -328,21 +342,81 @@ public class CompanyService {
         // 在sheet里创建数据
         for(ResCompanyAll es : data){
             HSSFRow row = sheet.createRow(rownum);
-            row.createCell(0).setCellValue(es.getCid());
-            row.createCell(1).setCellValue(es.getCname());
-            row.createCell(2).setCellValue(es.getChr());
-            row.createCell(3).setCellValue(es.getCphone());
-            row.createCell(4).setCellValue(es.getCemail());
-            row.createCell(5).setCellValue(es.getCinfo());
-            row.createCell(6).setCellValue(es.getCaddress());
-            row.createCell(7).setCellValue(es.getCtime());
-            row.createCell(8).setCellValue(es.getJname());
-            row.createCell(9).setCellValue(es.getCmark());
-            rownum++;
+                row.createCell(0).setCellValue(es.getCid());
+                row.createCell(1).setCellValue(es.getCname());
+                row.createCell(2).setCellValue(es.getChr());
+                row.createCell(3).setCellValue(es.getCphone());
+                row.createCell(4).setCellValue(es.getCemail());
+                row.createCell(5).setCellValue(es.getCinfo());
+                row.createCell(6).setCellValue(es.getCaddress());
+                row.createCell(7).setCellValue(es.getCtime());
+                row.createCell(8).setCellValue(es.getJname());
+                row.createCell(9).setCellValue(es.getCmark());
+                rownum++;
         }
         OutputData od = new OutputData();
         String file = od.fileNameConvert(wb,"公司信息");
         return file;
     }
+
+    /*查询该公司下所有学生信息*/
+    public String outputComStu(int cid){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sno,stu.sid,stu.smark,stu.sclass,stu.sphone,job.jid,job.jname) " +
+                "from CmCompany comp " +
+                "inner join comp.cmRecruitsByCid rec " +
+                "inner join rec.cmIntersByRid inter " +
+                "inner join rec.cmJobByJid job " +
+                "inner join inter.cmStudentBySid stu " +
+                "where comp.cid=? and inter.isuccess=1 ";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,cid);
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("公司学生信息表");
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell = row1.createCell(0);
+        row1.setHeight((short)20);
+        cell.setCellValue(data.get(0).getCname()+"公司学生信息");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 10));
+        HSSFRow row2 = sheet.createRow(1);
+        row2.createCell(0).setCellValue("sid");
+        row2.createCell(1).setCellValue("姓名");
+        row2.createCell(2).setCellValue("性别");
+        row2.createCell(3).setCellValue("学号");
+        row2.createCell(4).setCellValue("专业");
+        row2.createCell(5).setCellValue("年级");
+        row2.createCell(6).setCellValue("班级");
+        row2.createCell(7).setCellValue("联系方式");
+        row2.createCell(8).setCellValue("邮箱");
+        row2.createCell(9).setCellValue("就业岗位");
+        row2.createCell(10).setCellValue("星级");
+        int rownum = 2;
+        for(ResCompanyObj es : data){
+            HSSFRow row = sheet.createRow(rownum);
+                row.createCell(0).setCellValue(es.getCid());
+                row.createCell(1).setCellValue(es.getSname());
+            if(es.getSsex()){
+                row.createCell(2).setCellValue("女");
+            }else{
+                row.createCell(2).setCellValue("男");
+            }
+                row.createCell(3).setCellValue(es.getSno());
+                row.createCell(4).setCellValue(es.getSpro());
+                row.createCell(5).setCellValue(es.getSgrade());
+                row.createCell(6).setCellValue(es.getSclass());
+                row.createCell(7).setCellValue(es.getSphone());
+                row.createCell(8).setCellValue(es.getSemail());
+                row.createCell(9).setCellValue(es.getJname());
+            if (es.getSmark()==null){
+                row.createCell(10).setCellValue("暂无");
+            }else{
+                row.createCell(10).setCellValue(es.getSmark());
+            }
+
+                rownum++;
+        }
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb,"公司学生信息");
+        return file;
+    }
+
 
 }

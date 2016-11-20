@@ -82,7 +82,7 @@ public class GradeCtrl {
 
     /*TianYu 成绩数据导入*/
     @RequestMapping(value = "/grade/inputGrade")
-    public String inputGrade(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model){
+    public String inputGrade(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model) throws Exception {
         String path = request.getSession().getServletContext().getRealPath("upload");
         String msg;
         String fileName = file.getOriginalFilename();

@@ -82,7 +82,7 @@
                         <button type="submit" class="mybutton" value="Submit" onclick="window.open('/upload/Student(ok).xls')">下载模板</button>
                     </td>
                     <td>
-                        <form action="/area/inputStudent" method="post" enctype="multipart/form-data" id="student">
+                        <form action="/student/inputStudent" method="post" enctype="multipart/form-data" id="student">
                             <input type="file" name="file" />
                             <button type="submit" class="mybutton" value="Submit" onclick="student()">开始导入</button>
                         </form>
@@ -94,7 +94,7 @@
                         <button type="submit" class="mybutton" value="Submit" onclick="window.open('/upload/Company(ok).xls')">下载模板</button>
                     </td>
                     <td>
-                        <form action="/area/inputCompany" method="post" enctype="multipart/form-data" id="company">
+                        <form action="/company/inputCompany" method="post" enctype="multipart/form-data" id="company">
                             <input type="file" name="file" />
                             <button type="submit" class="mybutton" value="Submit" onclick="company()">开始导入</button>
                         </form>
@@ -118,7 +118,7 @@
                         <button type="submit" class="mybutton" value="Submit" onclick="window.open('/upload/Emp(ok).xls')">下载模板</button>
                     </td>
                     <td>
-                        <form action="/area/inputEmp" method="post" enctype="multipart/form-data" id="empstu">
+                        <form action="/emp/inputEmp" method="post" enctype="multipart/form-data" id="empstu">
                             <input type="file" name="file" />
                             <button type="submit" class="mybutton" value="Submit" onclick="empstu()">开始导入</button>
                         </form>
@@ -130,7 +130,7 @@
                         <button type="submit" class="mybutton" value="Submit" onclick="window.open('/upload/Unemp(ok).xls')">下载模板</button>
                     </td>
                     <td>
-                        <form action="/area/inputUnemp" method="post" enctype="multipart/form-data" id="unempstu">
+                        <form action="/unemp/inputUnemp" method="post" enctype="multipart/form-data" id="unempstu">
                             <input type="file" name="file" />
                             <button type="submit" class="mybutton" value="Submit" onclick="unempstu()">开始导入</button>
                         </form>

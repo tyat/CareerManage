@@ -87,7 +87,7 @@
                         <a href="ThisCompEmpSearch.html'">${dataList.jname}</a>&nbsp;
                     </td>
                     <td>${dataList.sphone}</td>
-                    <td>${fn:substring(dataList.ctime,0,10)}</td>
+                    <td>${fn:substring(dataList.etime,0,10)}</td>
                 </tr>
                 </c:forEach>
             </table>
@@ -100,7 +100,7 @@
                 </div>
             </div>
             <div class="left-button-footer">
-                <button class="mybutton" type="button" onclick="alert('弹出下载框！')"> <span>导出数据</span></button>
+                <button type="submit" class="mybutton" value="Submit" onclick="window.open('/company/outputComStu?cid=${dataList.get(0).cid}')">导出数据</button>
             </div>
         </div>
     </div>

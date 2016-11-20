@@ -205,7 +205,7 @@ public class RecruitService {
 
     //查询近七天招聘发布数量——ly
     public int findCountByWeek(){
-        String hsql = "select count(*) from CmRecruit r where r.rstate = 0 and (DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(r.rstart))";
+        String hsql = "select count(*) from CmRecruit r where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7)";
         List<?> data = hibernateTemplate.find(hsql);
         if (data.get(0)!=null) {
             return Integer.parseInt(data.get(0).toString());
@@ -215,7 +215,7 @@ public class RecruitService {
 
     //查询近七天发布招聘的公司数量——ly
     public int findComCountByWeek(){
-        String hsql = "select distinct count(r.cmCompanyByCid) from CmRecruit r where r.rstate = 0 and (DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(r.rstart))";
+        String hsql = "select count(distinct r.cmCompanyByCid.cid) from CmRecruit r where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7)";
         List<?> data = hibernateTemplate.find(hsql);
         if (data.get(0)!=null) {
             return Integer.parseInt(data.get(0).toString());
@@ -230,7 +230,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where r.rstate = 0 and (DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(r.rstart)) order by r.rstart desc ";
+                "where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7) order by r.rstart desc ";
         List<CmRecruit> data = (List<CmRecruit>)hibernateTemplate.find(hsql);
         if(data.size()>0){
             return data.get(0);
@@ -280,10 +280,14 @@ public class RecruitService {
             row.createCell(5).setCellValue(es.getChr());
             row.createCell(6).setCellValue(es.getCphone());
             row.createCell(7).setCellValue(es.getCemail());
-            if(es.getRsex()){
-                row.createCell(8).setCellValue("女");
+            if (es.getRsex()==null){
+                row.createCell(8).setCellValue("不限");
             }else{
-                row.createCell(8).setCellValue("男");
+                if(es.getRsex()){
+                    row.createCell(8).setCellValue("女");
+                }else{
+                    row.createCell(8).setCellValue("男");
+                }
             }
             row.createCell(9).setCellValue(es.getRsalary());
             row.createCell(10).setCellValue(es.getRstart());

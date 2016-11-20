@@ -310,9 +310,8 @@ public class InterService {
 
     //查询当天面试学生数量——ly
     public int findCountByDay() {
-        String hsql = "select count(*) from CmInter i where i.istate = 0 and i.itime = ? order by i.itime desc ";
-        System.out.println("取系统时间----------"+new Date());
-        List<?> data = hibernateTemplate.find(hsql, new Date());
+        String hsql = "select count(*) from CmInter i where i.istate = 0 and TO_DAYS(i.itime) = TO_DAYS(NOW()) order by i.itime desc ";
+        List<?> data = hibernateTemplate.find(hsql);
         if (data.get(0)!=null) {
             return Integer.parseInt(data.get(0).toString());
         }
@@ -327,9 +326,8 @@ public class InterService {
                 "inner join r.cmCompanyByCid c " +
                 "inner join r.cmJobByJid j " +
                 "inner join i.cmAreaByAid a " +
-                "inner join i.cmStudentBySid s where i.istate = 0 and i.itime = ? order by i.itime desc ";
-        System.out.println("取系统时间----------"+new Date());
-        List<InterResObj> data = (List<InterResObj>) hibernateTemplate.find(hsql, new Date());
+                "inner join i.cmStudentBySid s where i.istate = 0 and TO_DAYS(i.itime) = TO_DAYS(NOW()) order by i.itime desc ";
+        List<InterResObj> data = (List<InterResObj>) hibernateTemplate.find(hsql);
         if (data.size() > 0) {
             return data;
         }
@@ -339,7 +337,7 @@ public class InterService {
 
     /*TianYu 导出全部面试学生*/
     public String outputInter(){
-        String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,c.cid,c.cname,j.jid,j.jname,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.sno) " +
+        String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,c.cid,c.cname,j.jid,j.jname,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.ssex,s.sno,s.spro,s.sgrade,s.sclass,s.sphone) " +
                 "from CmInter i " +
                 "inner join i.cmRecruitByRid r " +
                 "inner join r.cmCompanyByCid c " +
@@ -375,10 +373,14 @@ public class InterService {
         for(InterResObj es : data){
             HSSFRow row = sheet.createRow(rownum);
             row.createCell(0).setCellValue(es.getSname());
-            if(es.getSsex()){
-                row.createCell(1).setCellValue("女");
+            if (es.getSsex()==null){
+                row.createCell(1).setCellValue("性别不限");
             }else{
-                row.createCell(1).setCellValue("男");
+                if(es.getSsex()){
+                    row.createCell(1).setCellValue("女");
+                }else{
+                    row.createCell(1).setCellValue("男");
+                }
             }
             row.createCell(2).setCellValue(es.getSpro());
             row.createCell(3).setCellValue(es.getSgrade());

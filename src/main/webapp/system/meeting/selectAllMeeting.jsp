@@ -97,7 +97,7 @@
                 </div> <br />
                 <div class="Big-title">
                     <div class="littil-title">
-                        企业招聘信息  shuliang${weekrecruit}
+                        企业招聘信息
                     </div>
                     <div class="search-box">
                         <form action="/recruit/query" method="post" name="search" id="search">
