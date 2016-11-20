@@ -157,7 +157,6 @@ public class UnempCtrl {
         }
         return mv;
     }
-
     //zxl：统计未就业情况分布
     @RequestMapping(value = "/DrawUnEmp",method = RequestMethod.GET)
     public  String DrawNotEmp(ModelMap modelMap){
