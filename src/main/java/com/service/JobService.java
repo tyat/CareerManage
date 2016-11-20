@@ -106,8 +106,8 @@ public class JobService {
      * @return
      */
     public List<CmJob> findJobByCid(int cid){
-        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype, job.jstate,job.jinfo) from CmRecruit rec " +
-                "inner join rec.cmJobByJid job where job.jstate = 0 and rec.cmCompanyByCid.cid = ?";
+        String hsql = "select new com.pojo.CmJob(job.jid,job.jname,job.jtype,job.jstate,job.jinfo) from CmRecruit rec " +
+                "inner join rec.cmJobByJid job where job.jstate = 0 and rec.cmCompanyByCid.cid = ? group by job.jname";
         List<CmJob> data = (List<CmJob>) hibernateTemplate.find(hsql,cid);
         System.out.println(data.size());
         return data;

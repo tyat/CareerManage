@@ -49,60 +49,64 @@
         <hr class="fengexian">
         <div class="table-bar">
             <ul>
-                <li class="active-li" onclick="ShowAllUnEmp()"> 全部动向 </li>
-                <li onclick="ShowZhunBei()">准备就业</li>
+                <li onclick="location='/unemp/findAllUnemp?page=1'"> 全部动向 </li>
+                <li class="active-li" onclick="ShowZhunBei()">准备就业</li>
                 <li onclick="ShowKaoYan()">其他</li>
             </ul>
         </div>
 
         <div>
             <c:forEach varStatus="i" var="list" items="${UnempList}">
-                <!--准备就业的表这是一条记录开始-->
-                <table  class="pure-table pure-table-bordered left">
-                    <tr>
-                        <td rowspan="2" width="70px"><a href="../studentsinfo/StudentsSearch.html">${list.sname}</a></td>
-                        <td width="100px">班级：</td>
-                        <td width="100px">
-                            <a onclick="ShowUnempStuBySclass(${list.sgrade},${list.sclass})">${list.spro}${list.sclass}班</a>
-                        </td>
-                        <td width="50px">年级：</td>
-                        <td>${list.sgrade}级
-                        </td>
-                        <td width="50px">性别：</td>
-                        <td> <c:if test="${list.ssex==false}">
-                            男
-                        </c:if>
-                            <c:if test="${list.ssex==true}">
-                                女
+                    <!--这是一条记录开始-->
+                    <table  class="pure-table pure-table-bordered left">
+                        <tr>
+                            <td rowspan="4" width="70px">
+                                <a href="../studentsinfo/StudentsSearch.html">${list.sname}</a>
+                            </td>
+                            <td width="100px">班级：</td>
+                            <td width="100px">
+                                <a onclick="ShowUnempStuBySclass(${list.sgrade},${list.sclass})">${list.spro}${list.sclass}班</a>
+                            </td>
+                            <td width="50px">年级：</td>
+                            <td>
+                                    ${list.sgrade}级
+                            </td>
+                            <td width="50px">性别：</td>
+                            <td> <c:if test="${list.ssex==false}">
+                                男
                             </c:if>
-                        </td>
-                        <td>操作</td>
-                    </tr>
-                    <tr>
-                        <td>学生动向：</td>
-                        <td colspan="5">
-                                ${list.dname}
-                        </td>
-                        <td rowspan="4">
-                            <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
-                            <br>
-                            <br>
-                            <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
-                        </td>
-                    </tr>
-                </table>
-                <div class="table-slipline"></div>
-                <!--准备就业的表这是一条记录结束-->
+                                <c:if test="${list.ssex==true}">
+                                    女
+                                </c:if>
+                            </td>
+                            <td>操作</td>
+                        </tr>
+                        <tr>
+                            <td>期望岗位：</td>
+                            <td colspan="5">${list.jname}</td>
+                            <td rowspan="3">
+                                <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
+                                <br>
+                                <br>
+                                <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>期望月薪:</td>
+                            <td colspan="5">${list.uesalary}元/月</td>
+                        </tr>
+                        <tr>
+                            <td>期望实习时间:</td>
+                            <td colspan="5">${list.uetime}</td>
+                        </tr>
+                    </table>
+                    <div class="table-slipline"></div>
+                    <!--这是一条记录结束-->
             </c:forEach>
         </div>
-
-    </div>
+</div>
     <div>
-        <div class="pagination pagination-centered">
-            <ul>
-                ${pageCode }
-            </ul>
-        </div>
+
         <div class="left-button-footer">
             <button type="submit" class="mybutton" value="Submit" onclick="window.open('/unemp/outputUnemp')">导出数据</button>
         </div>

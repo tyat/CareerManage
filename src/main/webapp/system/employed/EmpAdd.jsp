@@ -16,7 +16,7 @@
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script type="text/javascript" src="../../js/showele.js" ></script>
-    <script type="text/javascript" src="../../js/Date.js" ></script>
+    <script type="text/javascript" src="../../js/Date3.js" ></script>
     <script src="../../js/addtime.js" type="text/javascript"></script>
     <script type="text/javascript" src="../../js/upload.js" ></script>
     <script language="javascript">

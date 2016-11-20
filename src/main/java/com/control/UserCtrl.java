@@ -2,6 +2,7 @@ package com.control;
 
 import com.mysql.fabric.Response;
 import com.pojo.CmUser;
+import com.service.UnempService;
 import com.service.UserService;
 import com.tools.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ import java.util.Map;
 public class UserCtrl {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UnempService unempService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
         return "/login";
@@ -47,11 +50,13 @@ public class UserCtrl {
     }
     //zxl：登陆
     @RequestMapping(value = "/login",method =RequestMethod.POST)
-    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request){
+    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request)throws Exception{
         CmUser cmUser=userService.findlogin(uname,upwd);
         if (cmUser!=null){
             //  model.addAttribute("cmUser",cmUser);
             request.getSession().setAttribute("cmUser",cmUser);
+            int unempmonth=unempService.findSumNotEmpMonth();
+            request.getSession().setAttribute("unempmonth",unempmonth);
             return "/index";
         }else{
             try{

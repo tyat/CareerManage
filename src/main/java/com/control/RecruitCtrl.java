@@ -49,7 +49,7 @@ public class RecruitCtrl {
         //当前页
         modelMap.addAttribute("page",page);
         //每页显示的条数
-        int pageSize = 10;
+        int pageSize = 5;
         modelMap.addAttribute("pageSize",pageSize);
         //处理分页类
         PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
