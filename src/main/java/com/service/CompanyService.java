@@ -312,7 +312,7 @@ public class CompanyService {
         } catch (IOException e) {
             return "数据格式错误！";
         } catch (Exception e) {
-            return "数据格式错误！"
+            return "数据格式错误！";
         }
     }
 
