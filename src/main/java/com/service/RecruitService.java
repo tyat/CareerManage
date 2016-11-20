@@ -145,7 +145,7 @@ public class RecruitService {
     public CmRecruit findByRid(int rid){
         String hsql = "from CmRecruit r where r.rid = ?";
         List<CmRecruit> data = (List<CmRecruit>)hibernateTemplate.find(hsql,rid);
-        if(data.get(0)!=null){
+        if(data.size()>0){
             return data.get(0);
         }
         System.out.println("未查到相关数据！");
@@ -198,6 +198,42 @@ public class RecruitService {
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
             return data;
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //查询近七天招聘发布数量——ly
+    public int findCountByWeek(){
+        String hsql = "select count(*) from CmRecruit r where r.rstate = 0 and (DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(r.rstart))";
+        List<?> data = hibernateTemplate.find(hsql);
+        if (data.get(0)!=null) {
+            return Integer.parseInt(data.get(0).toString());
+        }
+        return 0;
+    }
+
+    //查询近七天发布招聘的公司数量——ly
+    public int findComCountByWeek(){
+        String hsql = "select distinct count(r.cmCompanyByCid) from CmRecruit r where r.rstate = 0 and (DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(r.rstart))";
+        List<?> data = hibernateTemplate.find(hsql);
+        if (data.get(0)!=null) {
+            return Integer.parseInt(data.get(0).toString());
+        }
+        return 0;
+    }
+
+    //查询近七天招聘信息——ly
+    public CmRecruit findByWeek(){
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where r.rstate = 0 and (DATE_SUB(CURDATE(), INTERVAL 7 DAY) <= date(r.rstart)) order by r.rstart desc ";
+        List<CmRecruit> data = (List<CmRecruit>)hibernateTemplate.find(hsql);
+        if(data.size()>0){
+            return data.get(0);
         }
         System.out.println("未查到相关数据！");
         return null;

@@ -118,7 +118,7 @@
                 </div> <br />
                 <div class="Big-title">
                     <div class="littil-title">
-                        面试信息
+                        面试信息shuliang${dayinter}
                     </div>
                     <div class="search-box">
                         <form action="/inter/query2" method="post" name="search" id="search">

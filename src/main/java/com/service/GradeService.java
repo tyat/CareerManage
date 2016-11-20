@@ -108,7 +108,7 @@ public class GradeService {
             }
             session.close();
             return "导入成功！";
-        } catch (IOException e) {
+        } catch (Exception e) {
             return "数据格式错误！";
         }
     }

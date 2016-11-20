@@ -234,6 +234,9 @@ public class UnempService {
             return "导入成功！";
         } catch (IOException e) {
             return "数据格式错误！";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "数据格式错误！";
         }
     }
 
