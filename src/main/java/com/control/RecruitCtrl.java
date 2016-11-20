@@ -6,6 +6,7 @@ import com.pojo.CmCompany;
 import com.pojo.CmJob;
 import com.pojo.CmRecruit;
 import com.service.*;
+import com.tools.PageBean;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -44,16 +45,57 @@ public class RecruitCtrl {
 
     //获取所有招聘信息列表——ly
     @RequestMapping(value = "/recruit/findAllRecruits",method = RequestMethod.GET )
-    public String findAll(ModelMap modelMap){
-        List<RecruitResObj> recruitList = recruitService.findAll();
+    public String findAll(String page,ModelMap modelMap){
+        //当前页
+        modelMap.addAttribute("page",page);
+        //每页显示的条数
+        int pageSize = 10;
+        modelMap.addAttribute("pageSize",pageSize);
+        //处理分页类
+        PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
+        List<RecruitResObj> recruitList = recruitService.findAll(pageBean);
         modelMap.addAttribute("recruitList",recruitList);
         //查询面试人数
         /*int InterCount = interService.findByRidCount(1);
         modelMap.addAttribute("InterCount",InterCount);*/
-        //查询近一周招聘发布数量
-        int weekcomrecruit = recruitService.findComCountByWeek();
-        modelMap.addAttribute("weekcomrecruit",weekcomrecruit);
+        //学生总数
+        int totalCount = recruitService.findAllCount();
+        modelMap.addAttribute("totalCount",totalCount);
+        //总页数
+        int pageCount = (totalCount % pageSize == 0)?(totalCount / pageSize):(totalCount / pageSize +1);
+        modelMap.addAttribute("pageCount",pageCount);
+        String pageCode = this.findAllgenPagation(totalCount, Integer.parseInt(page), pageSize);
+        modelMap.put("pageCode",pageCode);
         return "system/meeting/selectAllMeeting";
+    }
+
+    //分页处理——ly
+    private String findAllgenPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/recruit/findAllRecruits?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/recruit/findAllRecruits?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/recruit/findAllRecruits?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/recruit/findAllRecruits?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/recruit/findAllRecruits?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
     }
 
     //查询招聘详情——ly
