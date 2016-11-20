@@ -84,7 +84,7 @@
                         </tr>
                         <tr>
                             <td >就业企业：</td>
-                            <td colspan="5"><button class="mybutton" type="button" onclick="ShowCompByCid(${list.cid})">${list.cname}</button></td>
+                            <td colspan="5"><button class="mybutton" type="button" onclick="findEmpStuByCid(${list.cid})">${list.cname}</button></td>
                         </tr>
                         <tr>
                             <td>岗位:</td>

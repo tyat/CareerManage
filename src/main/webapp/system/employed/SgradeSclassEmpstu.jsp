@@ -74,14 +74,12 @@
                         </tr>
                         <tr>
                             <td >就业企业：</td>
-                            <td colspan="5"><button class="mybutton" type="button" onclick="ShowCompByCid(${emplist.cid})">${emplist.cname}</button></td>
+                            <td colspan="5"><button class="mybutton" type="button" onclick="findEmpStuByCid(${emplist.cid})">${emplist.cname}</button></td>
                         </tr>
                         <tr>
                             <td>岗位:</td>
                             <td colspan="5">
-                                <div class="gangwei-box">
-                                    <a href="#">@${emplist.jname}</a>&nbsp;
-                                </div>
+                                <button class="mybutton" type="button" onclick="ShowEmpStuByJname(${emplist.jid})">@${emplist.jname}</button>
                             </td>
                         </tr>
                         <tr>

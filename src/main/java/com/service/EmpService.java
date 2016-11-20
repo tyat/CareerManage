@@ -6,8 +6,11 @@ import com.pojo.*;
 import com.tools.DateConvert;
 import com.tools.InputData;
 import com.tools.OutputData;
+import com.tools.PageBean;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -147,8 +150,8 @@ public class EmpService {
      *查询所有已就业学生信息
      * @return
      */
-    public List<ResEmpObj> FindAllEmp(){
-        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+    public List<ResEmpObj> FindAllEmp(final PageBean pageBean){
+        final String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
                 "from CmStudent stu " +
                 "inner join stu.cmIntersBySid inter " +
                 "inner join inter.cmRecruitByRid rec " +
@@ -156,10 +159,17 @@ public class EmpService {
                 "inner join rec.cmJobByJid job " +
                 "inner join stu.cmEmpsBySid emp " +
                 "inner join emp.cmUserByUid user " +
-                "where emp.estate=0 and inter.isuccess=1";
-        List<ResEmpObj> data = (List<ResEmpObj>) hibernateTemplate.find(hsql);
-        System.out.println(data.size());
-        return data;
+                "where emp.estate=0 and inter.isuccess=1 " +
+                "order by emp.etime desc ";
+        final List<ResEmpObj> list = hibernateTemplate.execute(new HibernateCallback<List>() {
+            @Override
+            public List doInHibernate(Session session) throws HibernateException {
+                List list2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                return list2;
+            }
+        });
+        System.out.println(list.size());
+        return list;
     }
     /**
      *按Cid查询该公司下所有已就业学生信息
