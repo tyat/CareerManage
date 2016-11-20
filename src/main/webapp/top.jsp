@@ -23,7 +23,8 @@
 </div>
 <div class="loginpic">
     <button id="user_icon" type="button"  value="login_user"><span>&nbsp;&nbsp;&nbsp;当前用户：${cmUser.uname}</span></button>
-    <a id="loginout_icon"  href="/user/quit" target="_self;index" > <span style="font-size: 10px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出</span> </a>
+    <a id="loginout_icon"  href="/user/quit" target="_self;index" > <span style="font-size: 10px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出</span> &nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <%--<button id="loginout_icon" type="button" value="logout" onclick="location='/user/quit',target='index'"> <span>退出</span> </button>--%>
 </div>
 <div class="indexline"></div>
 </body>
