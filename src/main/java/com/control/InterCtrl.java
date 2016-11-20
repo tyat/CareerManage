@@ -47,6 +47,9 @@ public class InterCtrl {
         modelMap.addAttribute("interList",interList);
         List<CmUser>userList=userService.findAllUser();
         modelMap.addAttribute("userList",userList);
+        //查询当天参加面试的学生数量
+        /*int dayinter = interService.findCountByDay();
+        modelMap.addAttribute("dayinter",dayinter);*/
         return "system/meeting/AllInterviews";
     }
 

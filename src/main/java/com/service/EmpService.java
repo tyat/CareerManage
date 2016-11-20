@@ -389,7 +389,7 @@ public class EmpService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmEmp>  ls = input.inputEmp(path);
+            List<CmEmp>  ls = input.inputEmp(input.ConvertPath(path));
             for (CmEmp cc : ls){
                 session.save(cc);
             }

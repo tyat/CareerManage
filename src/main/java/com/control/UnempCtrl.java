@@ -330,9 +330,14 @@ public class UnempCtrl {
         } catch (Exception e) {
             msg = "文件上传失败！";
         }
-        msg = unempServive.uploadUnemp(path+"\\"+fileName);
-        model.addAttribute("file", msg);
-        System.out.println(msg);
+        try {
+            msg = unempServive.uploadUnemp(path+"\\"+fileName);
+            model.addAttribute("file", msg);
+            System.out.println(msg);
+            return "/system/admin/inputData";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "/system/admin/inputData";
     }
 

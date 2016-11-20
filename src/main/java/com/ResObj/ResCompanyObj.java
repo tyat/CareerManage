@@ -13,6 +13,7 @@ public class ResCompanyObj {
     private String cphone;
     private Integer cstate;
     private Date ctime;
+    private Date etime;
     private Integer rid;
     private Integer sid;
     private String sno;
@@ -34,12 +35,11 @@ public class ResCompanyObj {
     private Integer iid;
     private Date itime;
     private Integer isuccess;
-    private Date etime;
 
     public ResCompanyObj() {
     }
 
-    public ResCompanyObj(Integer cid, String cname, Integer rid, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, String sphone, String semail, String scode, Integer smark, String sassess, Integer sstate, String sdetail, Integer jid, String jname, Integer iid, Integer isuccess, Date etime) {
+    public ResCompanyObj(Integer cid, String cname, Integer rid, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, String sphone, String semail, String scode, Integer smark, String sassess, Integer sstate, String sdetail, Integer jid, String jname, Integer iid, Integer isuccess) {
         this.cid = cid;
         this.cname = cname;
         this.rid = rid;
@@ -61,10 +61,9 @@ public class ResCompanyObj {
         this.jname = jname;
         this.iid = iid;
         this.isuccess = isuccess;
-        this.etime = etime;
     }
 
-    public ResCompanyObj(Integer cid, String cname, Date etime, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, String sphone, Integer jid, String jname) {
+    public ResCompanyObj(Integer cid, String cname, Date etime, String sname, Boolean ssex, String spro, Integer sgrade, String sno, Integer sid, Integer smark, Integer sclass, String sphone, Integer jid, String jname) {
         this.cid = cid;
         this.cname = cname;
         this.etime = etime;
@@ -72,10 +71,27 @@ public class ResCompanyObj {
         this.ssex = ssex;
         this.spro = spro;
         this.sgrade = sgrade;
+        this.sno =sno;
+        this.sid = sid;
+        this.smark = smark;
         this.sclass = sclass;
         this.sphone = sphone;
         this.jid = jid;
         this.jname = jname;
+    }
+
+    public ResCompanyObj(Integer cid,String cname,Date etime,String sname, Boolean ssex,String spro,Integer sgrade,Integer sclass,String sphone,Integer jid,String jname){
+        this.cid = cid;
+        this.cname = cname;
+        this.etime = etime;
+        this.sname =sname;
+        this.ssex =ssex;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sclass =sclass;
+        this.sphone= sphone;
+        this.jid = jid;
+        this.jname=jname;
     }
 
     public ResCompanyObj(Integer cid, String cname, String chr, String cphone, Integer cstate, Integer rid) {
@@ -109,6 +125,14 @@ public class ResCompanyObj {
 
     public void setChr(String chr) {
         this.chr = chr;
+    }
+
+    public Date getEtime() {
+        return etime;
+    }
+
+    public void setEtime(Date etime) {
+        this.etime = etime;
     }
 
     public String getCphone() {
@@ -303,11 +327,4 @@ public class ResCompanyObj {
         this.isuccess = isuccess;
     }
 
-    public Date getEtime() {
-        return etime;
-    }
-
-    public void setEtime(Date etime) {
-        this.etime = etime;
-    }
 }

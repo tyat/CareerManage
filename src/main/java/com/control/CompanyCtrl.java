@@ -324,7 +324,7 @@ public class CompanyCtrl {
 
     /*TianYu 导出公司数据*/
     @RequestMapping(value = "/outputCompany")
-    public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {
+    public ResponseEntity<byte[]> DownloadCom(HttpServletRequest httpServletRequest) throws IOException {
         File file = new File(companyService.outputCompany());
         HttpHeaders httpHeaders = new HttpHeaders();
         String fileName = file.getName();
@@ -333,4 +333,14 @@ public class CompanyCtrl {
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
     }
 
+    /*TianYu 导出公司学生数据*/
+    @RequestMapping(value = "/outputComStu")
+    public ResponseEntity<byte[]> DownloadStu(@RequestParam("cid") String cid,HttpServletRequest httpServletRequest) throws IOException {
+        File file = new File(companyService.outputComStu(Integer.parseInt(cid)));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String fileName = file.getName();
+        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"ISO-8859-1"));
+        httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
+    }
 }

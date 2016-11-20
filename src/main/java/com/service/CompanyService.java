@@ -305,7 +305,7 @@ public class CompanyService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmCompany>  ls = input.inputCompany(path);
+            List<CmCompany>  ls = input.inputCompany(input.ConvertPath(path));
             for (CmCompany cc : ls){
                 session.save(cc);
             }
@@ -344,21 +344,81 @@ public class CompanyService {
         // 在sheet里创建数据
         for(ResCompanyAll es : data){
             HSSFRow row = sheet.createRow(rownum);
-            row.createCell(0).setCellValue(es.getCid());
-            row.createCell(1).setCellValue(es.getCname());
-            row.createCell(2).setCellValue(es.getChr());
-            row.createCell(3).setCellValue(es.getCphone());
-            row.createCell(4).setCellValue(es.getCemail());
-            row.createCell(5).setCellValue(es.getCinfo());
-            row.createCell(6).setCellValue(es.getCaddress());
-            row.createCell(7).setCellValue(es.getCtime());
-            row.createCell(8).setCellValue(es.getJname());
-            row.createCell(9).setCellValue(es.getCmark());
-            rownum++;
+                row.createCell(0).setCellValue(es.getCid());
+                row.createCell(1).setCellValue(es.getCname());
+                row.createCell(2).setCellValue(es.getChr());
+                row.createCell(3).setCellValue(es.getCphone());
+                row.createCell(4).setCellValue(es.getCemail());
+                row.createCell(5).setCellValue(es.getCinfo());
+                row.createCell(6).setCellValue(es.getCaddress());
+                row.createCell(7).setCellValue(es.getCtime());
+                row.createCell(8).setCellValue(es.getJname());
+                row.createCell(9).setCellValue(es.getCmark());
+                rownum++;
         }
         OutputData od = new OutputData();
         String file = od.fileNameConvert(wb,"公司信息");
         return file;
     }
+
+    /*查询该公司下所有学生信息*/
+    public String outputComStu(int cid){
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sno,stu.sid,stu.smark,stu.sclass,stu.sphone,job.jid,job.jname) " +
+                "from CmCompany comp " +
+                "inner join comp.cmRecruitsByCid rec " +
+                "inner join rec.cmIntersByRid inter " +
+                "inner join rec.cmJobByJid job " +
+                "inner join inter.cmStudentBySid stu " +
+                "where comp.cid=? and inter.isuccess=1 ";
+        List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,cid);
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("公司学生信息表");
+        HSSFRow row1 = sheet.createRow(0);
+        HSSFCell cell = row1.createCell(0);
+        row1.setHeight((short)20);
+        cell.setCellValue(data.get(0).getCname()+"公司学生信息");
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 10));
+        HSSFRow row2 = sheet.createRow(1);
+        row2.createCell(0).setCellValue("sid");
+        row2.createCell(1).setCellValue("姓名");
+        row2.createCell(2).setCellValue("性别");
+        row2.createCell(3).setCellValue("学号");
+        row2.createCell(4).setCellValue("专业");
+        row2.createCell(5).setCellValue("年级");
+        row2.createCell(6).setCellValue("班级");
+        row2.createCell(7).setCellValue("联系方式");
+        row2.createCell(8).setCellValue("邮箱");
+        row2.createCell(9).setCellValue("就业岗位");
+        row2.createCell(10).setCellValue("星级");
+        int rownum = 2;
+        for(ResCompanyObj es : data){
+            HSSFRow row = sheet.createRow(rownum);
+                row.createCell(0).setCellValue(es.getCid());
+                row.createCell(1).setCellValue(es.getSname());
+            if(es.getSsex()){
+                row.createCell(2).setCellValue("女");
+            }else{
+                row.createCell(2).setCellValue("男");
+            }
+                row.createCell(3).setCellValue(es.getSno());
+                row.createCell(4).setCellValue(es.getSpro());
+                row.createCell(5).setCellValue(es.getSgrade());
+                row.createCell(6).setCellValue(es.getSclass());
+                row.createCell(7).setCellValue(es.getSphone());
+                row.createCell(8).setCellValue(es.getSemail());
+                row.createCell(9).setCellValue(es.getJname());
+            if (es.getSmark()==null){
+                row.createCell(10).setCellValue("暂无");
+            }else{
+                row.createCell(10).setCellValue(es.getSmark());
+            }
+
+                rownum++;
+        }
+        OutputData od = new OutputData();
+        String file = od.fileNameConvert(wb,"公司学生信息");
+        return file;
+    }
+
 
 }
