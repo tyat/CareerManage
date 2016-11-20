@@ -173,6 +173,36 @@ public class UnempService {
         return data;
     }
     /**
+     * 查询其他意向未就业学生
+     * @return
+     */
+    public List<ResUnempObj> AllOthers(){
+        String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu " +
+                "inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where unemp.uestate = 0 and dir.did != 0";
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     * 查询所有准备就业学生
+     * @return
+     */
+    public List<ResUnempObj> AllDirectionEmp(int did){
+        String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu " +
+                "inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where unemp.uestate = 0 and dir.did=?";
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,did);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
      * 分页查询所有未就业学生信息
      * @return
      */
@@ -270,22 +300,24 @@ public class UnempService {
         System.out.println(ueid);
         String hsql="update CmUnemp unemp set unemp.uestate=1 where unemp.ueid = ?";
         hibernateTemplate.bulkUpdate(hsql,ueid);
-        System.out.println("******************************");
         return true;
     }
 
     /*TianYu 上传excel*/
-    public String uploadUnemp(String path){
+    public String uploadUnemp(String path) throws Exception {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmUnemp>  ls = input.inputUnemp(path);
+            List<CmUnemp>  ls = input.inputUnemp(input.ConvertPath(path));
             for (CmUnemp cc : ls){
                 session.save(cc);
             }
             session.close();
             return "导入成功！";
         } catch (IOException e) {
+            return "数据格式错误！";
+        } catch (Exception e) {
+            e.printStackTrace();
             return "数据格式错误！";
         }
     }
@@ -339,15 +371,21 @@ public class UnempService {
             row.createCell(8).setCellValue(es.getUesalary());
             if(es.getUetime()!=null){
                 row.createCell(9).setCellValue(es.getUetime());
+            }else{
+                row.createCell(9).setCellValue("无");
             }
-            if(es.getUetime()!=null) {
+            if(es.getUeschool()!=null) {
                 row.createCell(10).setCellValue(es.getUeschool());
+            }else{
+                row.createCell(10).setCellValue("无");
             }
             if(es.getUemajor()!=null) {
                 row.createCell(11).setCellValue(es.getUemajor());
+            }else{
+                row.createCell(11).setCellValue("无");
             }
-            if(es.getUesuccess()!=null) {
-                row.createCell(12).setCellValue(es.getUesuccess());
+            if(es.getUesuccess()==null) {
+                row.createCell(12).setCellValue("暂无");
             }
             if (es.getUesuccess() == 0) {
                 row.createCell(12).setCellValue("暂无");

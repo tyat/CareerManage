@@ -145,7 +145,7 @@ public class RecruitService {
     public CmRecruit findByRid(int rid){
         String hsql = "from CmRecruit r where r.rid = ?";
         List<CmRecruit> data = (List<CmRecruit>)hibernateTemplate.find(hsql,rid);
-        if(data.get(0)!=null){
+        if(data.size()>0){
             return data.get(0);
         }
         System.out.println("未查到相关数据！");
@@ -203,6 +203,42 @@ public class RecruitService {
         return null;
     }
 
+    //查询近七天招聘发布数量——ly
+    public int findCountByWeek(){
+        String hsql = "select count(*) from CmRecruit r where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7)";
+        List<?> data = hibernateTemplate.find(hsql);
+        if (data.get(0)!=null) {
+            return Integer.parseInt(data.get(0).toString());
+        }
+        return 0;
+    }
+
+    //查询近七天发布招聘的公司数量——ly
+    public int findComCountByWeek(){
+        String hsql = "select count(distinct r.cmCompanyByCid.cid) from CmRecruit r where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7)";
+        List<?> data = hibernateTemplate.find(hsql);
+        if (data.get(0)!=null) {
+            return Integer.parseInt(data.get(0).toString());
+        }
+        return 0;
+    }
+
+    //查询近七天招聘信息——ly
+    public CmRecruit findByWeek(){
+        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+                "from CmRecruit r " +
+                "inner join r.cmAreaByAid a " +
+                "inner join r.cmJobByJid j " +
+                "inner join r.cmCompanyByCid c " +
+                "where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7) order by r.rstart desc ";
+        List<CmRecruit> data = (List<CmRecruit>)hibernateTemplate.find(hsql);
+        if(data.size()>0){
+            return data.get(0);
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
     /*导出招聘信息*/
     public String outputRecruit(){
         String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
@@ -244,10 +280,14 @@ public class RecruitService {
             row.createCell(5).setCellValue(es.getChr());
             row.createCell(6).setCellValue(es.getCphone());
             row.createCell(7).setCellValue(es.getCemail());
-            if(es.getRsex()){
-                row.createCell(8).setCellValue("女");
+            if (es.getRsex()==null){
+                row.createCell(8).setCellValue("不限");
             }else{
-                row.createCell(8).setCellValue("男");
+                if(es.getRsex()){
+                    row.createCell(8).setCellValue("女");
+                }else{
+                    row.createCell(8).setCellValue("男");
+                }
             }
             row.createCell(9).setCellValue(es.getRsalary());
             row.createCell(10).setCellValue(es.getRstart());

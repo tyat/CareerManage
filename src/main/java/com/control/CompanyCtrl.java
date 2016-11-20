@@ -160,7 +160,6 @@ public class CompanyCtrl {
         modelMap.addAttribute("dataList",dataList);
         return "/system/company/StudentInfo";
     }
-
     /**
      * 查询该公司下的所有在岗学生信息
      * @param cid
@@ -172,13 +171,6 @@ public class CompanyCtrl {
         List<ResCompanyObj> dataList = companyService.findCompStuInfo(Integer.parseInt(cid));
         modelMap.addAttribute("dataList",dataList);
         return "/system/company/CompStuInfo";
-    }
-    /**
-     * 查看该公司下的在岗学生数量
-     * @return
-     */
-    public String findStuCountByCid(){
-        return null;
     }
     /**
      * 按公司ID 查询该公司信息
@@ -268,7 +260,7 @@ public class CompanyCtrl {
         ModelAndView mv = new ModelAndView();
         boolean isSucc = companyService.DelCompany(Integer.parseInt(cid));
         if(isSucc) {
-            mv.setViewName("redirect:findAllCompany");
+            mv.setViewName("redirect:/company/findAllCompany?page=1");
             return mv;
         }
         return null;
@@ -332,7 +324,7 @@ public class CompanyCtrl {
 
     /*TianYu 导出公司数据*/
     @RequestMapping(value = "/outputCompany")
-    public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {
+    public ResponseEntity<byte[]> DownloadCom(HttpServletRequest httpServletRequest) throws IOException {
         File file = new File(companyService.outputCompany());
         HttpHeaders httpHeaders = new HttpHeaders();
         String fileName = file.getName();
@@ -341,4 +333,14 @@ public class CompanyCtrl {
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
     }
 
+    /*TianYu 导出公司学生数据*/
+    @RequestMapping(value = "/outputComStu")
+    public ResponseEntity<byte[]> DownloadStu(@RequestParam("cid") String cid,HttpServletRequest httpServletRequest) throws IOException {
+        File file = new File(companyService.outputComStu(Integer.parseInt(cid)));
+        HttpHeaders httpHeaders = new HttpHeaders();
+        String fileName = file.getName();
+        httpHeaders.setContentDispositionFormData("attachment",java.net.URLEncoder.encode(fileName,"ISO-8859-1"));
+        httpHeaders.setContentType(MediaType.parseMediaType("application/xls"));
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),httpHeaders, HttpStatus.CREATED);
+    }
 }

@@ -102,14 +102,16 @@ public class GradeService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmGrade>  ls = input.inputGrade(path);
+            List<CmGrade>  ls = input.inputGrade(input.ConvertPath(path));
             for (CmGrade cc : ls){
                 session.save(cc);
             }
             session.close();
             return "导入成功！";
-        } catch (IOException e) {
-            return "数据格式错误！";
+        }  catch (IOException e) {
+            return "文件读写错误！";
+        } catch (Exception e) {
+            return "数据格式错误!";
         }
     }
 
