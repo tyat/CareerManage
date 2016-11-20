@@ -51,7 +51,7 @@
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
             <tx:method name="del*" propagation="REQUIRED" />
-            <tx:method name="find*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
             <tx:method name="get*" propagation="REQUIRED" read-only="false" />
             <tx:method name="page*" propagation="REQUIRED" read-only="false" />
             <tx:method name="createHQLQuery" propagation="REQUIRED" />

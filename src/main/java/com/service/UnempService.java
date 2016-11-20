@@ -217,7 +217,6 @@ public class UnempService {
         System.out.println(ueid);
         String hsql="update CmUnemp unemp set unemp.uestate=1 where unemp.ueid = ?";
         hibernateTemplate.bulkUpdate(hsql,ueid);
-        System.out.println("******************************");
         return true;
     }
 
@@ -226,7 +225,7 @@ public class UnempService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmUnemp>  ls = input.inputUnemp(path);
+            List<CmUnemp>  ls = input.inputUnemp(input.ConvertPath(path));
             for (CmUnemp cc : ls){
                 session.save(cc);
             }

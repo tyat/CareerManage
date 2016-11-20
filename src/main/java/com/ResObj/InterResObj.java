@@ -78,6 +78,30 @@ public class InterResObj {
         this.sno = sno;
     }
 
+    public InterResObj(Integer iid, String iaddress, String itype, Date itime, Integer isuccess, int rid, int cid, String cname, int jid, String jname, int aid, String aprovince, String acity, Integer sid, String sname, boolean ssex, String sno,String spro,int sgrade,int sclass,String sphone) {
+        this.iid = iid;
+        this.iaddress = iaddress;
+        this.itype = itype;
+        this.itime = itime;
+        this.isuccess = isuccess;
+        this.rid = rid;
+        this.cid = cid;
+        this.cname = cname;
+        this.ssex = ssex;
+        this.jid = jid;
+        this.jname = jname;
+        this.aid = aid;
+        this.aprovince = aprovince;
+        this.acity = acity;
+        this.sid = sid;
+        this.sname = sname;
+        this.sno = sno;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sphone = sphone;
+        this.sclass = sclass;
+    }
+
     /*public static Timestamp stringToTimestamp(String dateStr){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();

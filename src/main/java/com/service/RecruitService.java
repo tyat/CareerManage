@@ -244,10 +244,14 @@ public class RecruitService {
             row.createCell(5).setCellValue(es.getChr());
             row.createCell(6).setCellValue(es.getCphone());
             row.createCell(7).setCellValue(es.getCemail());
-            if(es.getRsex()){
-                row.createCell(8).setCellValue("女");
+            if (es.getRsex()==null){
+                row.createCell(8).setCellValue("不限");
             }else{
-                row.createCell(8).setCellValue("男");
+                if(es.getRsex()){
+                    row.createCell(8).setCellValue("女");
+                }else{
+                    row.createCell(8).setCellValue("男");
+                }
             }
             row.createCell(9).setCellValue(es.getRsalary());
             row.createCell(10).setCellValue(es.getRstart());

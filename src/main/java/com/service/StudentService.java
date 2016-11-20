@@ -241,7 +241,7 @@ public class StudentService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmStudent>  ls = input.inputStudent(path);
+            List<CmStudent>  ls = input.inputStudent(input.ConvertPath(path));
             for (CmStudent cc : ls){
                 session.save(cc);
             }

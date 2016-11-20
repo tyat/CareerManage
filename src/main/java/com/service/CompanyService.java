@@ -288,7 +288,7 @@ public class CompanyService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmCompany>  ls = input.inputCompany(path);
+            List<CmCompany>  ls = input.inputCompany(input.ConvertPath(path));
             for (CmCompany cc : ls){
                 session.save(cc);
             }
@@ -297,7 +297,7 @@ public class CompanyService {
         } catch (IOException e) {
             return "数据格式错误！";
         } catch (Exception e) {
-            return "数据读写错误！";
+            return "数据格式错误！"
         }
     }
 
@@ -346,7 +346,7 @@ public class CompanyService {
 
     /*查询该公司下所有学生信息*/
     public String outputComStu(int cid){
-        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,stu.sphone,job.jid,job.jname) " +
+        String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sno,stu.sid,stu.smark,stu.sclass,stu.sphone,job.jid,job.jname) " +
                 "from CmCompany comp " +
                 "inner join comp.cmRecruitsByCid rec " +
                 "inner join rec.cmIntersByRid inter " +
@@ -376,11 +376,13 @@ public class CompanyService {
         int rownum = 2;
         for(ResCompanyObj es : data){
             HSSFRow row = sheet.createRow(rownum);
-            System.out.println("ResCom___"+data.get(0).getSname()+data.get(0).getSsex());
-            System.out.println(es.getSname());
-                row.createCell(0).setCellValue(es.getSid());           /*此处抛空指针异常*/
+                row.createCell(0).setCellValue(es.getCid());
                 row.createCell(1).setCellValue(es.getSname());
-                row.createCell(2).setCellValue(es.getSsex());
+            if(es.getSsex()){
+                row.createCell(2).setCellValue("女");
+            }else{
+                row.createCell(2).setCellValue("男");
+            }
                 row.createCell(3).setCellValue(es.getSno());
                 row.createCell(4).setCellValue(es.getSpro());
                 row.createCell(5).setCellValue(es.getSgrade());
@@ -388,7 +390,12 @@ public class CompanyService {
                 row.createCell(7).setCellValue(es.getSphone());
                 row.createCell(8).setCellValue(es.getSemail());
                 row.createCell(9).setCellValue(es.getJname());
+            if (es.getSmark()==null){
+                row.createCell(10).setCellValue("暂无");
+            }else{
                 row.createCell(10).setCellValue(es.getSmark());
+            }
+
                 rownum++;
         }
         OutputData od = new OutputData();
