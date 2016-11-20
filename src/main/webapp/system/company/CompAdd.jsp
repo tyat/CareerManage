@@ -62,8 +62,8 @@
                         添加企业信息
                     </div>
                     <div class="search-box">
-                        <button class="mybutton" type="button" onclick="ShowUpload()"> 批量导入数据</button>
-                        <button class="mybutton" type="button" onclick="alert('弹出文件下载框')">下载Excel模板</button>
+                        <%--<button class="mybutton" type="button" onclick="ShowUpload()"> 批量导入数据</button>
+                        <button class="mybutton" type="button" onclick="alert('弹出文件下载框')">下载Excel模板</button>--%>
                     </div>
                     <span style="color: red" ><h3>${info}</h3></span><br>
                 </div>

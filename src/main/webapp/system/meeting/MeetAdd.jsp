@@ -77,8 +77,8 @@
                         添加招聘信息
                     </div>
                     <div class="search-box">
-                        <button class="mybutton" type="button" onclick="ShowUpload()" > <span>导入数据</span></button>
-                        <button class="mybutton" type="button"  onclick="alert('弹出下载页')"> <span>下载Excel模板</span></button>
+                        <%--<button class="mybutton" type="button" onclick="ShowUpload()" > <span>导入数据</span></button>
+                        <button class="mybutton" type="button"  onclick="alert('弹出下载页')"> <span>下载Excel模板</span></button>--%>
                     </div>
                 </div>
             </div>

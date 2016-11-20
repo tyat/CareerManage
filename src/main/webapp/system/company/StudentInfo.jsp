@@ -91,7 +91,7 @@
     </div>
     <div class="button-footer">
         <div class="left-button-footer">
-            <button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>导出数据</span></button>
+           <%-- <button class="mybutton" type="button" onclick="alert('弹出下载框')"> <span>导出数据</span></button>--%>
 
         </div>
     </div>

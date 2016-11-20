@@ -222,7 +222,7 @@ public class UnempService {
     }
 
     /*TianYu 上传excel*/
-    public String uploadUnemp(String path){
+    public String uploadUnemp(String path) throws Exception {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
@@ -286,15 +286,21 @@ public class UnempService {
             row.createCell(8).setCellValue(es.getUesalary());
             if(es.getUetime()!=null){
                 row.createCell(9).setCellValue(es.getUetime());
+            }else{
+                row.createCell(9).setCellValue("无");
             }
-            if(es.getUetime()!=null) {
+            if(es.getUeschool()!=null) {
                 row.createCell(10).setCellValue(es.getUeschool());
+            }else{
+                row.createCell(10).setCellValue("无");
             }
             if(es.getUemajor()!=null) {
                 row.createCell(11).setCellValue(es.getUemajor());
+            }else{
+                row.createCell(11).setCellValue("无");
             }
-            if(es.getUesuccess()!=null) {
-                row.createCell(12).setCellValue(es.getUesuccess());
+            if(es.getUesuccess()==null) {
+                row.createCell(12).setCellValue("暂无");
             }
             if (es.getUesuccess() == 0) {
                 row.createCell(12).setCellValue("暂无");
