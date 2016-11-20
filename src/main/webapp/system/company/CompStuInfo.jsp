@@ -33,7 +33,7 @@
                         在岗学生名单
                     </div>
                     <div class="search-box">
-                        <form action="/company/findByType">
+                        <!--<form action="/company/findByType">
                             <select id="searchType" name="searchType" style="width:120px;height: 30px;">
                                 <option value="sname">按姓名</option>
                                 <option value="jname">按岗位</option>
@@ -41,15 +41,17 @@
                             </select>
                             <input type="text" id="searchtext" name="searchtext" style="width:120px;height: 30px;" onfocus="javascript:if(this.value=='请输入字符...')this.value='';" required="required" placeholder="请输入字符..."/>
                             <button class="mybutton" type="button" onclick="this.form.submit()"> <span>搜索</span> </button>
-                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
-                                返回上一页
-                            </button>
-                        </form>
+                        </form>-->
+                        <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
+                            返回上一页
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
         <!--这是标题栏结束-->
+        <br>
+        <br>
         <div>
             <table  class="pure-table pure-table-bordered CompInfo1">
                 <tr>
@@ -64,17 +66,11 @@
                 <c:forEach var="dataList" items="${dataList}" varStatus="i">
                 <!--这是一条记录开始-->
                 <tr>
-                    <td>
-                        <a href="../studentsinfo/StudentInfo.html">
-                                ${dataList.sname}</a>
+                    <td>${dataList.sname}
                     </td>
-                    <td>
-                        <a href="ThisCompEmpSearch.html">
-                                ${dataList.sgrade}</a>
+                    <td>${dataList.sgrade}
                     </td>
-                    <td>
-                        <a href="ThisCompEmpSearch.html">
-                                ${dataList.spro}${dataList.sclass}班</a>
+                    <td>${dataList.spro}${dataList.sclass}班
                     </td>
                     <td><c:if test="${dataList.ssex==false}">
                         <a>男</a>
@@ -83,8 +79,7 @@
                             <a>女</a>
                         </c:if>
                     </td>
-                    <td>
-                        <a href="ThisCompEmpSearch.html'">${dataList.jname}</a>&nbsp;
+                    <td>${dataList.jname}
                     </td>
                     <td>${dataList.sphone}</td>
                     <td>${fn:substring(dataList.etime,0,10)}</td>
@@ -100,7 +95,7 @@
                 </div>
             </div>
             <div class="left-button-footer">
-                <button class="mybutton" type="button" onclick="alert('弹出下载框！')"> <span>导出数据</span></button>
+                <!--<button class="mybutton" type="button" onclick="alert('弹出下载框！')"> <span>导出数据</span></button>-->
             </div>
         </div>
     </div>

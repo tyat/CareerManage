@@ -160,7 +160,6 @@ public class CompanyCtrl {
         modelMap.addAttribute("dataList",dataList);
         return "/system/company/StudentInfo";
     }
-
     /**
      * 查询该公司下的所有在岗学生信息
      * @param cid
@@ -172,13 +171,6 @@ public class CompanyCtrl {
         List<ResCompanyObj> dataList = companyService.findCompStuInfo(Integer.parseInt(cid));
         modelMap.addAttribute("dataList",dataList);
         return "/system/company/CompStuInfo";
-    }
-    /**
-     * 查看该公司下的在岗学生数量
-     * @return
-     */
-    public String findStuCountByCid(){
-        return null;
     }
     /**
      * 按公司ID 查询该公司信息
@@ -268,7 +260,7 @@ public class CompanyCtrl {
         ModelAndView mv = new ModelAndView();
         boolean isSucc = companyService.DelCompany(Integer.parseInt(cid));
         if(isSucc) {
-            mv.setViewName("redirect:findAllCompany");
+            mv.setViewName("redirect:/company/findAllCompany?page=1");
             return mv;
         }
         return null;

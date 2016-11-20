@@ -125,7 +125,9 @@ public class CompanyService {
      * @return
      */
     public int StuCountByCid(int cid){
-        String hsql = "select count(*) from CmStudent stu inner join stu.cmIntersBySid inter inner join inter.cmRecruitByRid rec " +
+        String hsql = "select count(*) from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
                 "where rec.cmCompanyByCid.cid = ? and inter.isuccess=1";
         List<?> total = hibernateTemplate.find(hsql,cid);
         System.out.println(Integer.parseInt(total.get(0).toString()));
@@ -143,7 +145,7 @@ public class CompanyService {
                 "inner join rec.cmJobByJid job " +
                 "inner join inter.cmStudentBySid s " +
                 "inner join s.cmEmpsBySid emp " +
-                "where comp.cid=? and job.jid=? and inter.isuccess=1 ";
+                "where comp.cid=? and job.jid=? and inter.isuccess=1 order by emp.etime desc ";
         Object[] value = {cid,jid};
         List<ResCompanyObj> data = (List<ResCompanyObj>) hibernateTemplate.find(hsql,value);
         int total = data.size();
@@ -310,6 +312,8 @@ public class CompanyService {
             session.close();
             return "导入成功！";
         } catch (IOException e) {
+            return "数据格式错误！";
+        } catch (Exception e) {
             return "数据格式错误！";
         }
     }

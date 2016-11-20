@@ -257,7 +257,42 @@ public class EmpCtrl {
         modelMap.put("pageCode",pageCode);
         return "system/employed/selectAllEmp";
     }
-
+    /**
+     * 查询显示开发岗所有已就业学生
+     * @return
+     */
+    @RequestMapping(value = "/KaifaEmp")
+    public String FindAllKaifaEmp(ModelMap modelMap,String jtype){
+//        //每页显示的条数
+//        int pageSize = 5;
+//        //处理分页类
+//        PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
+        List<ResEmpObj> empList = empService.FindAllKaifaEmp(Boolean.parseBoolean(jtype));
+//        //计算就业生总数
+//        int total = empService.EmpCount();
+//        String pageCode = this.genPagation(total, Integer.parseInt(page), pageSize);
+//        modelMap.put("pageCode",pageCode);
+        modelMap.addAttribute("empList",empList);
+        return "system/employed/selectAllKaifaEmp";
+    }
+    /**
+     * 查询显示非开发岗所有已就业学生
+     * @return
+     */
+    @RequestMapping(value = "/FeikaifaEmp")
+    public String FindAllFeikaifaEmp(ModelMap modelMap,String jtype){
+//        //每页显示的条数
+//        int pageSize = 5;
+//        //处理分页类
+//        PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
+        List<ResEmpObj> empList = empService.FindAllFeiKaifaEmp(Boolean.parseBoolean(jtype));
+//        //计算就业生总数
+//        int total = empService.EmpCount();
+//        String pageCode = this.genPagation(total, Integer.parseInt(page), pageSize);
+//        modelMap.put("pageCode",pageCode);
+        modelMap.addAttribute("empList",empList);
+        return "system/employed/selectAllFeiKaifaEmp";
+    }
 
     /**
      * 按Cid查询该公司下所有已就业学生信息
@@ -346,7 +381,7 @@ public class EmpCtrl {
         ModelAndView mv = new ModelAndView();
         Boolean isSucc = empService.DelEmp(Integer.parseInt(eid));
         if(isSucc){
-            mv.setViewName("redirect:findAllEmp");
+            mv.setViewName("redirect:/emp/findAllEmp?page=1");
             return mv;
         }
         return null;

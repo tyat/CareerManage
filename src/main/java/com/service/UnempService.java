@@ -144,6 +144,36 @@ public class UnempService {
         return data;
     }
     /**
+     * 查询其他意向未就业学生
+     * @return
+     */
+    public List<ResUnempObj> AllOthers(){
+        String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu " +
+                "inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where unemp.uestate = 0 and dir.did != 0";
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
+     * 查询所有准备就业学生
+     * @return
+     */
+    public List<ResUnempObj> AllDirectionEmp(int did){
+        String hsql = "select new com.ResObj.ResUnempObj(unemp.ueid,stu.sid,job.jid,dir.did,unemp.uesalary,unemp.uetime,unemp.ueschool,unemp.uemajor,unemp.uesuccess,unemp.uestate,job.jname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,dir.dname) " +
+                "from CmUnemp unemp " +
+                "inner join unemp.cmStudentBySid stu " +
+                "inner join unemp.cmJobByJid job " +
+                "inner join unemp.cmDirectionByDid dir " +
+                "where unemp.uestate = 0 and dir.did=?";
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,did);
+        System.out.println(data.size());
+        return data;
+    }
+    /**
      * 分页查询所有未就业学生信息
      * @return
      */
@@ -241,7 +271,6 @@ public class UnempService {
         System.out.println(ueid);
         String hsql="update CmUnemp unemp set unemp.uestate=1 where unemp.ueid = ?";
         hibernateTemplate.bulkUpdate(hsql,ueid);
-        System.out.println("******************************");
         return true;
     }
 

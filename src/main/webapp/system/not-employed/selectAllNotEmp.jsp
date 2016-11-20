@@ -55,19 +55,18 @@
             </ul>
         </div>
 
-        <div id="allUnemp">
+        <div>
             <c:forEach varStatus="i" var="list" items="${UnempList}">
                 <!--准备就业的表这是一条记录开始-->
                 <table  class="pure-table pure-table-bordered left">
                     <tr>
-                        <td rowspan="5"><a href="../studentsinfo/StudentsSearch.html">${list.sname}</a></td>
+                        <td rowspan="2" width="70px"><a href="../studentsinfo/StudentsSearch.html">${list.sname}</a></td>
                         <td width="100px">班级：</td>
                         <td width="100px">
                             <a onclick="ShowUnempStuBySclass(${list.sgrade},${list.sclass})">${list.spro}${list.sclass}班</a>
                         </td>
                         <td width="50px">年级：</td>
-                        <td>
-                                ${list.sgrade}级
+                        <td>${list.sgrade}级
                         </td>
                         <td width="50px">性别：</td>
                         <td> <c:if test="${list.ssex==false}">
@@ -97,108 +96,6 @@
             </c:forEach>
         </div>
 
-        <div id="ZhunBei-table">
-            <c:forEach varStatus="i" var="list" items="${UnempList}">
-                <c:if test="${list.did == 0}">
-                    <!--这是一条记录开始-->
-                    <table  class="pure-table pure-table-bordered left">
-                        <tr>
-                            <td rowspan="4">
-                                <a href="../studentsinfo/StudentsSearch.html">${list.sname}</a>
-                            </td>
-                            <td width="100px">班级：</td>
-                            <td width="100px">
-                                <a onclick="ShowUnempStuBySclass(${list.sgrade},${list.sclass})">${list.spro}${list.sclass}班</a>
-                            </td>
-                            <td width="50px">年级：</td>
-                            <td>
-                                    ${list.sgrade}级
-                            </td>
-                            <td width="50px">性别：</td>
-                            <td> <c:if test="${list.ssex==false}">
-                                男
-                            </c:if>
-                                <c:if test="${list.ssex==true}">
-                                    女
-                                </c:if>
-                            </td>
-                            <td>操作</td>
-                        </tr>
-                        <tr>
-                            <td>期望岗位：</td>
-                            <td colspan="5">${list.jname}</td>
-                            <td rowspan="3">
-                                <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
-                                <br>
-                                <br>
-                                <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>期望月薪:</td>
-                            <td colspan="5">${list.uesalary}元/月</td>
-                        </tr>
-                        <tr>
-                            <td>期望实习时间:</td>
-                            <td colspan="5">${list.uetime}</td>
-                        </tr>
-                    </table>
-                    <div class="table-slipline"></div>
-                    <!--这是一条记录结束-->
-                </c:if>
-            </c:forEach>
-        </div>
-        <div id="KaoYan-table">
-            <!--这是一条记录开始-->
-            <c:forEach varStatus="i" var="list" items="${UnempList}">
-                <c:if test="${list.did != 0}">
-                    <table  class="pure-table pure-table-bordered left">
-                        <tr>
-                            <td rowspan="4">${list.sname}</td>
-                            <td width="100px">班级：</td>
-                            <td width="100px">
-                                <a onclick="ShowUnempStuBySclass(${list.sgrade},${list.sclass})">${list.spro}${list.sclass}班</a>
-                            </td>
-                            <td width="50px">年级：</td>
-                            <td>${list.sgrade}级</td>
-                            <td width="50px">性别：</td>
-                            <td> <c:if test="${list.ssex==false}">
-                                男
-                            </c:if>
-                                <c:if test="${list.ssex==true}">
-                                    女
-                                </c:if>
-                            </td>
-                            <td>操作</td>
-                        </tr>
-                        <tr>
-                            <td>期望院校：</td>
-                            <td colspan="5">${list.ueschool}</td>
-                            <td rowspan="3">
-                                <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
-                                <br>
-                                <br>
-                                <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>期望专业:</td>
-                            <td colspan="5">${list.uemajor}</td>
-                        </tr>
-                        <tr>
-                            <td>考研结果:</td>
-                            <td colspan="5">
-                                <c:if test="${list.uesuccess == 1}">成功</c:if>
-                                <c:if test="${list.uesuccess == 0}">暂无</c:if>
-                                <c:if test="${list.uesuccess == 2}">失败</c:if>
-                            </td>
-                        </tr>
-                    </table>
-                    <div class="table-slipline"></div>
-                    <!--这是一条记录结束-->
-                </c:if>
-            </c:forEach>
-        </div>
     </div>
     <div>
         <div class="pagination pagination-centered">

@@ -40,7 +40,7 @@
                                 <option value="jname">按岗位</option>
                                 <option value="cname">按企业</option>
                             </select>
-                            <input type="text" id="searchtext" name="searchtext"  value="输入字符"/>
+                            <input type="text" id="searchtext" name="searchtext" style="width:120px;height: 30px;" value="请输入字符"/>
                             <button class="mybutton" type="button" style="width:120px;height: 30px;" onclick="this.form.submit()"> <span>搜索</span> </button>
                             <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
                                 返回上一页
@@ -74,14 +74,12 @@
                     </tr>
                     <tr>
                         <td >就业企业：</td>
-                        <td colspan="5"><button class="mybutton" type="button" onclick="ShowCompByCid(${emplist.cid})">${emplist.cname}</button></td>
+                        <td colspan="5"><button class="mybutton" type="button" onclick="findEmpStuByCid(${emplist.cid})">${emplist.cname}</button></td>
                     </tr>
                     <tr>
                         <td>岗位:</td>
                         <td colspan="5">
-                            <div class="gangwei-box">
-                                <a href="#">@${emplist.jname}</a>&nbsp;
-                            </div>
+                            <button class="mybutton" type="button" onclick="ShowEmpStuByJname(${emplist.jid})">@${emplist.jname}</button>
                         </td>
                     </tr>
                     <tr>
