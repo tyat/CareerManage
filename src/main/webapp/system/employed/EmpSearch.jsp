@@ -64,7 +64,7 @@
                     <!--这是一条记录开始-->
                     <table  class="pure-table pure-table-bordered left">
                         <tr>
-                            <td rowspan="6" width="70px"><button class="mybutton" type="button" onclick="location='/grade/findStudetDetail?sid=${list.sid}'">${list.sname}</button></td>
+                            <td rowspan="6" width="70px"><button class="mybutton" type="button" onclick="location='/grade/findStudentDetail?sid=${list.sid}'">${list.sname}</button></td>
                             <td width="80px">班级：</td>
                             <td><a onclick="ShowEmpStuBySclass(${list.sgrade},${list.sclass})">${list.spro}${list.sclass}班</a></td>
                             <td width="60px">年级：</td>

@@ -121,7 +121,6 @@
                     </tr>
                 </table>
 
-            <div class="table-slipline"></div>
             <!--这是一条记录结束-->
             </c:if>
             <c:if test="${unempList==null}">
@@ -176,7 +175,6 @@
             <div id="zhezhaobg"></div>
 
             </form>
-            <div class="table-slipline"></div>
 
         </div>
     </div>

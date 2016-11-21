@@ -157,7 +157,6 @@ public class UnempCtrl {
         }
         return mv;
     }
-
     //zxl：统计未就业情况分布
     @RequestMapping(value = "/DrawUnEmp",method = RequestMethod.GET)
     public  String DrawNotEmp(ModelMap modelMap){
@@ -196,6 +195,30 @@ public class UnempCtrl {
         return "system/not-employed/selectAllNotEmp";
     }
 
+    /**
+     * 查询显示所有准备就业学生
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/directionEmp")
+    public String AllDirectionEmp(ModelMap modelMap,String did){
+        List<ResUnempObj> UnempList = unempServive.AllDirectionEmp(Integer.parseInt(did));
+        modelMap.addAttribute("UnempList",UnempList);
+        System.out.println("************************");
+        return "system/not-employed/AllDirectionEmp";
+    }
+    /**
+     * 查询显示所有其他动向的学生
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping(value = "/directionOthers")
+    public String AllOthers(ModelMap modelMap){
+        List<ResUnempObj> UnempList = unempServive.AllOthers();
+        modelMap.addAttribute("UnempList",UnempList);
+        System.out.println("************************");
+        return "system/not-employed/AllDirectionOthers";
+    }
     /**
      * 查询该年级下该班级下所有未就业学生信息
      * @param sgrade
@@ -251,7 +274,7 @@ public class UnempCtrl {
         ModelAndView mv = new ModelAndView();
         Boolean isSucc = unempServive.DelUnEmp(Integer.parseInt(ueid));
         if(isSucc){
-            mv.setViewName("redirect:findAllUnemp");
+            mv.setViewName("redirect:/unemp/findAllUnemp?page=1");
             return mv;
         }
         return null;

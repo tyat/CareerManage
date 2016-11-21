@@ -175,6 +175,44 @@ public class EmpService {
         return list;
     }
     /**
+     *查询开发岗所有已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindAllKaifaEmp(boolean jtype){
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1 and job.jtype=? " +
+                "order by emp.etime desc ";
+        List<ResEmpObj> list = (List<ResEmpObj> )hibernateTemplate.find(hsql,jtype);
+        System.out.println(list.size());
+        return list;
+    }
+    /**
+     *查询非开发岗所有已就业学生信息
+     * @return
+     */
+    public List<ResEmpObj> FindAllFeiKaifaEmp(boolean jtype){
+        String hsql = "select new com.ResObj.ResEmpObj(emp.eid,user.uid,stu.sid,job.jid,emp.etime,emp.esalary,emp.einfo,emp.estate,emp.ewq,emp.eleave,emp.ereason,job.jname,job.jtype,user.urname,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sclass,rec.rid,comp.cid,comp.cname,inter.iid,inter.isuccess) " +
+                "from CmStudent stu " +
+                "inner join stu.cmIntersBySid inter " +
+                "inner join inter.cmRecruitByRid rec " +
+                "inner join rec.cmCompanyByCid comp " +
+                "inner join rec.cmJobByJid job " +
+                "inner join stu.cmEmpsBySid emp " +
+                "inner join emp.cmUserByUid user " +
+                "where emp.estate=0 and inter.isuccess=1 and job.jtype=? " +
+                "order by emp.etime desc ";
+        List<ResEmpObj> list = (List<ResEmpObj> )hibernateTemplate.find(hsql,jtype);
+        System.out.println(list.size());
+        return list;
+    }
+    /**
      *按Cid查询该公司下所有已就业学生信息
      * @return
      */

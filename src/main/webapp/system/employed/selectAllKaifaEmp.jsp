@@ -42,7 +42,7 @@
                                 <span>
                                     <input id="startDate" name="startDate" style="width:120px;height: 30px;" placeholder="起始日期" type="text" value="${startDate }" onclick="choose_date_czw('startDate')"/>
                                 </span>
-                                <span>
+                            <span>
                                     <input id="endDate" name="endDate" style="width:120px;height: 30px;" placeholder="终止日期" type="text" value="${endDate }" onclick="choose_date_czw('endDate')"/>
                                 </span>
                             <select id="searchType" name="searchType" style="width: 80px;">
@@ -62,8 +62,8 @@
         <hr class="fengexian">
         <div class="table-bar">
             <ul>
-                <li class="active-li" onclick="ShowAllEmpStu()"> 全部岗位 </li>
-                <li onclick="ShowKaifaEmpStu()"> 开发岗 </li>
+                <li onclick="location='/emp/findAllEmp?page=1'"> 全部岗位 </li>
+                <li class="active-li" onclick="ShowKaifaEmpStu()"> 开发岗 </li>
                 <li onclick="ShowFeikaifaEmpStu()"> 非开发岗 </li>
             </ul>
         </div>
@@ -75,7 +75,7 @@
                     <table  class="pure-table pure-table-bordered left">
                         <tr>
                             <td rowspan="6" width="70px">
-                                <button class="mybutton" type="button" onclick="location='/grade/findStudentDetail?sid=${emplist.sid}'">${emplist.sname}</button>
+                                <button class="mybutton" type="button" onclick="location='/grade/findStudetDetail?sid=${emplist.sid}'">${emplist.sname}</button>
                             </td>
                             <td width="80px">班级：</td>
                             <td><a onclick="ShowEmpStuBySclass(${emplist.sgrade},${emplist.sclass})">${emplist.spro}${emplist.sclass}班</a></td>
@@ -207,11 +207,6 @@
     </div>
 
     <div>
-        <div class="pagination pagination-centered">
-            <ul>
-                ${pageCode }
-            </ul>
-        </div>
         <div class="left-button-footer">
             <button type="submit" class="mybutton" value="Submit" onclick="window.open('/emp/outputEmp')">导出数据</button>
         </div>

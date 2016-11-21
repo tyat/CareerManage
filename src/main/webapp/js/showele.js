@@ -53,7 +53,7 @@ function AreYouSourCompany(cid){
 }
 
 function ShowEmpStuBySclass(sgrade,sclass){
-    var result = confirm('您确定吗！');
+    var result = confirm('查看该年级该班级下已就业生！');
     if(result){
         window.location.href = "/emp/findEmpStuBySclass?sgrade="+sgrade+"&sclass="+sclass;
     }else{
@@ -61,7 +61,7 @@ function ShowEmpStuBySclass(sgrade,sclass){
     }
 }
 function ShowEmpStuByJname(jid){
-    var result = confirm('您确定吗！');
+    var result = confirm('查看该岗位下已就业生！');
     if(result){
         window.location.href = "/emp/findEmpStuByJname?jid="+jid;
     }else{
@@ -70,7 +70,7 @@ function ShowEmpStuByJname(jid){
 }
 
 function ShowUnempStuBySclass(sgrade,sclass){
-    var result = confirm('您确定吗！');
+    var result = confirm('查看该年级该班级下未就业生！');
     if(result){
         window.location.href = "/unemp/findUnEmpStuBySclass?sgrade="+sgrade+"&sclass="+sclass;
     }else{
@@ -141,18 +141,22 @@ function ShowMarkCanvars(){
 }
 /*---------------UnEmp未就业生------------------*/
 function ShowAllUnEmp(){
-    document.getElementById("allUnemp").style.display="block";
-    document.getElementById("KaoYan-table").style.display="none";
-    document.getElementById("ZhunBei-table").style.display="none";
 }
 function ShowKaoYan(){
-    document.getElementById("allUnemp").style.display="none";
-    document.getElementById("KaoYan-table").style.display="block";
-    document.getElementById("ZhunBei-table").style.display="none";
-}  function ShowZhunBei(){
-    document.getElementById("allUnemp").style.display="none";
-    document.getElementById("KaoYan-table").style.display="none";
-    document.getElementById("ZhunBei-table").style.display="block";
+    var result = confirm('其他意向！');
+    if(result){
+        window.location.href = "/unemp/directionOthers";
+    }else{
+        return false;
+    }
+}
+function ShowZhunBei(){
+    var result = confirm('准备就业！');
+    if(result){
+        window.location.href = "/unemp/directionEmp?did=0";
+    }else{
+        return false;
+    }
 }
 /*-----------------------------------------------*/
 
@@ -179,12 +183,20 @@ function ShowAllEmpStu(){
     document.getElementById("feikaifastu").style.display="block";
 }
 function ShowKaifaEmpStu(){
-    document.getElementById("kaifastu").style.display="block";
-    document.getElementById("feikaifastu").style.display="none";
+    var result = confirm('开发岗！');
+    if(result){
+        window.location.href = "/emp/KaifaEmp?jtype=true";
+    }else{
+        return false;
+    }
 }
 function ShowFeikaifaEmpStu(){
-    document.getElementById("kaifastu").style.display="none";
-    document.getElementById("feikaifastu").style.display="block";
+    var result = confirm('非开发岗！');
+    if(result){
+        window.location.href = "/emp/FeikaifaEmp?jtype=false";
+    }else{
+        return false;
+    }
 }
 
 /*---------------------------------------------------------*/
