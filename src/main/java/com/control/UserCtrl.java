@@ -1,9 +1,9 @@
 package com.control;
 
+import com.ResObj.EmpIncrease;
 import com.mysql.fabric.Response;
 import com.pojo.CmUser;
-import com.service.UnempService;
-import com.service.UserService;
+import com.service.*;
 import com.tools.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,14 @@ public class UserCtrl {
     @Autowired
     private UserService userService;
     @Autowired
+    private EmpService empService;
+    @Autowired
     private UnempService unempService;
+    @Autowired
+    private InterService interService;
+    @Autowired
+    private RecruitService recruitService;
+
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
         return "/login";
@@ -55,8 +62,22 @@ public class UserCtrl {
         if (cmUser!=null){
             //  model.addAttribute("cmUser",cmUser);
             request.getSession().setAttribute("cmUser",cmUser);
+            //zxl：近一个月准备就业学生数
             int unempmonth=unempService.findSumNotEmpMonth();
             request.getSession().setAttribute("unempmonth",unempmonth);
+            /*TianYu 就业增量统计*/
+            List<EmpIncrease> ls =empService.Increase();
+            request.getSession().setAttribute("empIncrease",empService.Increase());
+            //今天参加面试的学生数量——ly
+            int dayInter = interService.findCountByDay();
+            request.getSession().setAttribute("dayInter",dayInter);
+            //近一周企业发布的招聘信息数——ly
+            int weekRecruit = recruitService.findCountByWeek();
+            request.getSession().setAttribute("weekRecruit",weekRecruit);
+            //近一周发布招聘信息的企业数——ly
+            int weekRecruitCom = recruitService.findComCountByWeek();
+            request.getSession().setAttribute("weekRecruitCom",weekRecruitCom);
+
             return "/index";
         }else{
             try{

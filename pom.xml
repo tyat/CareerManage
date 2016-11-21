@@ -29,6 +29,13 @@
       <version>${jstl.version}</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/taglibs/fmt -->
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>fmt</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>

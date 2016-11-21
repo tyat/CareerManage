@@ -199,6 +199,14 @@ public class RecruitCtrl {
         return "system/meeting/MeetSearch";
     }
 
+    //近一周企业发布的招聘信息——ly
+    @RequestMapping(value = "/recruit/findByWeek",method = RequestMethod.GET )
+    public String findByWeek(ModelMap modelMap){
+        List<RecruitResObj> recruitList = recruitService.findByWeek();
+        modelMap.addAttribute("recruitList",recruitList);
+        return "system/meeting/MeetSearch";
+    }
+
     /*TianYu 导出招聘信息数据*/
     @RequestMapping(value = "/recruit/outputRecruit")
     public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {

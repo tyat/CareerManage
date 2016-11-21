@@ -244,16 +244,16 @@ public class RecruitService {
     }
 
     //查询近七天招聘信息——ly
-    public CmRecruit findByWeek(){
+    public List<RecruitResObj> findByWeek(){
         String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
                 "from CmRecruit r " +
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
                 "where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7) order by r.rstart desc ";
-        List<CmRecruit> data = (List<CmRecruit>)hibernateTemplate.find(hsql);
+        List<RecruitResObj> data = (List<RecruitResObj>)hibernateTemplate.find(hsql);
         if(data.size()>0){
-            return data.get(0);
+            return data;
         }
         System.out.println("未查到相关数据！");
         return null;

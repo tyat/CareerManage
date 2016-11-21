@@ -320,6 +320,14 @@ public class InterCtrl {
         return "system/meeting/InterviewSearch";
     }
 
+    //今天参加面试的学生——ly
+    @RequestMapping(value = "/inter/findByDay",method = RequestMethod.GET )
+    public String findByDay(ModelMap modelMap){
+        List<InterResObj> interList = interService.findByDay();
+        modelMap.addAttribute("interList",interList);
+        return "system/meeting/InterviewSearch";
+    }
+
     /*TianYu 导出面试数据*/
     @RequestMapping(value = "/inter/outputInter")
     public ResponseEntity<byte[]> Download(HttpServletRequest httpServletRequest) throws IOException {

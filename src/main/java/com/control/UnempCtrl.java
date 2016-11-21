@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -156,6 +157,107 @@ public class UnempCtrl {
             }
         }
         return mv;
+    }
+    //zxl:查询近一个月准备就业学生
+    @RequestMapping(value = "/findAllUnempMonth",method = RequestMethod.GET)
+    public  String findAllUnempMonth(ModelMap modelMap) throws Exception{
+        List<ResUnempObj> UnempList=unempServive.findAllUnempMonth();
+        modelMap.addAttribute("UnempList",UnempList);
+         return "/system/not-employed/selectNotEmpMonth";
+    }
+    //zxl:就业生未就业生情况分布
+    @RequestMapping(value = "/findAllCount",method = RequestMethod.GET)
+    public  String findAllCount(ModelMap modelMap) throws Exception{
+        //计算未就业生数量
+        int allNotEmpCount=unempServive.findAllNotEmpCount();
+        modelMap.addAttribute("allNotEmpCount",allNotEmpCount);
+        //计算就业生的数量
+        int allEmpCount=empService.findAllEmpCount();
+        modelMap.addAttribute("allEmpCount",allEmpCount);
+        //计算当前是那一年级
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        modelMap.addAttribute("year",year);
+        return "/system/not-employed/DrawEmpNotEmp";
+    }
+    @RequestMapping(value = "/findSumNotEmp",method = RequestMethod.GET)
+    public  String findSumNotEmp(ModelMap modelMap) throws Exception{
+        //1.准备就业
+        int index0=unempServive.findSumNotEmp(0);
+        //2.考研、保研
+        int index1=unempServive.findSumNotEmp(2)+unempServive.findSumNotEmp(5);
+        //3.其他，教师编，公务员，国家电网等等
+        int index2=unempServive.findAllNotEmpCount()-index0-index1;
+        modelMap.addAttribute("index0",index0);
+        modelMap.addAttribute("index1",index1);
+        modelMap.addAttribute("index2",index2);
+        //计算当前是那一年级
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        modelMap.addAttribute("year",year);
+         return "/system/not-employed/DrawNotEmp";
+    }
+    //zxl：调用
+    @RequestMapping(value = "/diaoyong",method = RequestMethod.GET)
+    public  String diaoyong(ModelMap modelMap) throws Exception{
+       /*2222222222222222222222222222222222222222222222222222*/
+       //计算近一个月准备就业的学生数量
+        int notEmpMonth=unempServive.findSumNotEmpMonth();
+        modelMap.addAttribute("notEmpMonth",notEmpMonth);
+        //查询近一个月准备就业学生
+        List<ResUnempObj> UnempList=unempServive.findAllUnempMonth();
+        modelMap.addAttribute("UnempList",UnempList);
+        // return "/system/not-employed/selectNotEmpMonth";
+        /*88888888888888888888888888888888888888888888888888888*/
+        //饼图11111111111111111111111111111
+        //计算未就业生数量
+        int allNotEmpCount=unempServive.findAllNotEmpCount();
+        modelMap.addAttribute("allNotEmpCount",allNotEmpCount);
+        //计算就业生的数量
+        int allEmpCount=empService.findAllEmpCount();
+        modelMap.addAttribute("allEmpCount",allEmpCount);
+        //计算当前是那一年级
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        modelMap.addAttribute("year",year);
+        //  return "/system/not-employed/DrawEmpNotEmp";
+        //饼图222222222222222222222222222222222222222
+        //计算准备就业的人数
+            //1.准备就业
+        int index0=unempServive.findSumNotEmp(0);
+           //2.考研、保研
+        int index1=unempServive.findSumNotEmp(2)+unempServive.findSumNotEmp(5);
+           //3.其他，教师编，公务员，国家电网等等
+        int index2=unempServive.findAllNotEmpCount()-index0-index1;
+        modelMap.addAttribute("index0",index0);
+        modelMap.addAttribute("index1",index1);
+        modelMap.addAttribute("index2",index2);
+        // return "/system/not-employed/DrawNotEmp";
+        //饼图33333333333333333333333333333333333333
+        //计算就业生从事职业的比例
+        int kaifa =empService.findEmpCountByType(true);
+        int feikaifa=empService.findEmpCountByType(false);
+        modelMap.addAttribute("kaifa",kaifa);
+        modelMap.addAttribute("feikaifa",feikaifa);
+        return "/system/employed/DrawEmp";
     }
     //zxl：统计未就业情况分布
     @RequestMapping(value = "/DrawUnEmp",method = RequestMethod.GET)
