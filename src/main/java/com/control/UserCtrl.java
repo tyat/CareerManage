@@ -1,8 +1,9 @@
 package com.control;
 
+import com.ResObj.EmpIncrease;
 import com.mysql.fabric.Response;
 import com.pojo.CmUser;
-import com.service.UnempService;
+import com.service.EmpService;
 import com.service.UserService;
 import com.tools.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class UserCtrl {
     @Autowired
     private UserService userService;
     @Autowired
-    private UnempService unempService;
+    private EmpService empService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
         return "/login";
@@ -50,13 +51,16 @@ public class UserCtrl {
     }
     //zxl：登陆
     @RequestMapping(value = "/login",method =RequestMethod.POST)
-    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request)throws Exception{
+    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request){
         CmUser cmUser=userService.findlogin(uname,upwd);
         if (cmUser!=null){
             //  model.addAttribute("cmUser",cmUser);
             request.getSession().setAttribute("cmUser",cmUser);
-            int unempmonth=unempService.findSumNotEmpMonth();
-            request.getSession().setAttribute("unempmonth",unempmonth);
+
+            /*TianYu 就业增量统计*/
+            List<EmpIncrease> ls =empService.Increase();
+            request.getSession().setAttribute("empIncrease",empService.Increase());
+
             return "/index";
         }else{
             try{
