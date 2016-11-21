@@ -381,7 +381,7 @@
                     <tr>
                         <td width="200px">备注:</td>
                         <td>
-                            <textarea cols="100" rows="4" id="einfo" name="einfo">这是就业生备注详情......</textarea>
+                            <textarea cols="60" rows="4" id="einfo" name="einfo">这是就业生备注详情......</textarea>
                         </td>
                     </tr>
                     <tr>

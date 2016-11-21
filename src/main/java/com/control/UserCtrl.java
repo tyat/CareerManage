@@ -83,7 +83,10 @@ public class UserCtrl {
             request.getSession().setAttribute("unempmonth",unempmonth);
             /*TianYu 就业增量统计*/
             List<EmpIncrease> ls =empService.Increase();
-            request.getSession().setAttribute("empIncrease",empService.Increase());
+            for (EmpIncrease ei : ls){
+                System.out.println(ei.getBeformonth()+ei.getData()+ei.getThismonth());
+            }
+            request.getSession().setAttribute("empIncrease",ls);
             return "/index";
         }else{
             try{

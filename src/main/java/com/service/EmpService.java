@@ -33,6 +33,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 /**
  * Created by Administrator on 2016/10/30.
  */
@@ -454,25 +456,38 @@ public class EmpService {
     /*TianYu 计算就业生增量*/
     public List<EmpIncrease> Increase(){
         Calendar cal = Calendar.getInstance();
-        int monthm = cal.get(Calendar.MONTH);
-        int month = cal.get(Calendar.MONTH) + 1;
+        String monthm = Integer.toString(cal.get(Calendar.MONTH));
+        String month = Integer.toString(cal.get(Calendar.MONTH) + 1);
         int year =  cal.get(Calendar.YEAR);
-        DateConvert dc = new DateConvert();
-        String hql = "select count(*) from CmEmp emp where emp.etime>= ? and emp.etime< ? ";
+        int yeary = cal.get(Calendar.YEAR);
         List<EmpIncrease> ls = new ArrayList<>();
         for(int i=6;i>0;i--){
-            if(month<1){
+            if(Integer.parseInt(month)<1){
                 year--;
-                month=12;
+                month="12";
+            }else if(Integer.parseInt(monthm)<1){
+                yeary--;
+                monthm="12";
+            }else if(Integer.parseInt(month)<10){
+                month = "0"+month;
+            }else if(Integer.parseInt(monthm)<10){
+                monthm = "0"+monthm;
             }
             EmpIncrease ei = new EmpIncrease();
-            ei.setBeformonth(dc.stToDate(year+"-"+monthm+"-01 0:00:00"));
-            ei.setThismonth(dc.stToDate(year+"-"+month+"-01 0:00:00"));
+            ei.setBeformonth(yeary+"-"+monthm);
+            ei.setThismonth(year+"-"+month);
+            int data = this.EmpCount3(year+"-"+monthm+"-01",year+"-"+month+"-01");
+            ei.setData(data+"");
             //System.out.println(hibernateTemplate.find(hql,dc.stToDate(year+"-"+monthm+"-01 0:00:00"),dc.stToDate(year+"-"+month+"-01 0:00:00")).get(0).toString()+"----");
-            ei.setData(hibernateTemplate.find(hql,dc.stToDate(year+"-"+monthm+"-01 0:00:00"),dc.stToDate(year+"-"+month+"-01 0:00:00")).get(0).toString());
+            //String data = hibernateTemplate.find(hql,year+"-"+monthm+"-01",year+"-"+month+"-01").get(0).toString();
+            System.out.println(data+"-----------");
             ls.add(ei);
-            month--;
-            monthm--;
+            int m1 = Integer.parseInt(month);
+            m1--;
+            month=Integer.toString(m1);
+            int m2 = Integer.parseInt(monthm);
+            m2--;
+            monthm=Integer.toString(m2);
         }
         return ls;
     }

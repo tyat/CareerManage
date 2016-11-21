@@ -18,11 +18,22 @@
         <div class="welcom-text" >欢迎登陆就业管理中心！ </div>
     </div>
     <div>
-        <span>近一个月准备就业的人数为<a href="/unemp/findAllUnempMonth" target=main><strong>${unempmonth}</strong></a>人</span><br>
-        <span><a href="/unemp/findAllCount" target=main><strong>就业生、未就业生分布</strong></a>|<a href="/unemp/findSumNotEmp" target=main><strong>未就业生情况分布</strong></a>|<a href="/emp/findEmpCountByType" target=main><strong>就业生情况分布</strong></a></span><br>
-        <span>就业生月增量：</span>
+        <table class="pure-table pure-table-bordered left">
+            <tr>
+                <td>
+                    <button class="mybutton" type="button" onclick="location='/unemp/findAllCount'">就业生、未就业生分布</button>
+                </td>
+                <td>
+                    <button class="mybutton" type="button" onclick="location='/unemp/findSumNotEmp'">未就业生情况分布</button>
+                </td>
+                <td>
+                    <button class="mybutton" type="button" onclick="location='/emp/findEmpCountByType'">就业生情况分布</button>
+                </td>
+            </tr>
+        </table>
         <table  class="pure-table pure-table-bordered CompInfo1">
             <tr>
+                <td rowspan="2">就业生月增量</td>
                 <td>日期</td>
                 <c:forEach items="${empIncrease}" var="emp">
                     <td> ${emp.thismonth}
@@ -39,19 +50,21 @@
         </table>
         <table class="pure-table pure-table-bordered left">
             <tr>
-                <td width="200px">近一个月就业学生数量：</td>
+                <td>近一个月准备就业的人数</td>
+                <td>近一个月就业学生数量</td>
+                <td>当前已就业学生数量</td>
+                <td>当前未就业学生数量</td>
+            </tr>
+            <tr>
+                <td>
+                    <button class="mybutton" type="button" onclick="location='/unemp/findAllUnempMonth'">${unempmonth}</button>
+                </td>
                 <td>
                     <button class="mybutton" type="button" onclick="location='/unemp/findAllUnemp?page=1'">${EmpCountByMonth}</button>
                 </td>
-            </tr>
-            <tr>
-                <td width="200px">当前已就业学生数量：</td>
                 <td>
                     <button class="mybutton" type="button" onclick="location='/unemp/findAllUnemp?page=1'">${empCount}</button>
                 </td>
-            </tr>
-            <tr>
-                <td width="200px">当前未就业学生数量：</td>
                 <td>
                     <button class="mybutton" type="button" onclick="location='/unemp/findAllUnemp?page=1'">${unempCount}</button>
                 </td>
