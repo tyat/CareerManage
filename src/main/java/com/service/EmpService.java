@@ -272,8 +272,31 @@ public class EmpService {
      * @return
      */
     public int EmpCount(){
-        String hsql = "select count(*) from CmEmp emp where emp.estate = 0";
+        String hsql = "select count(*) from CmEmp emp where emp.estate = 0 ";
         List<?> total = hibernateTemplate.find(hsql);
+        System.out.println(Integer.parseInt(total.get(0).toString()));
+        return Integer.parseInt(total.get(0).toString());
+    }
+    /**
+     * 统计就业生数量
+     * @return
+     */
+    public int EmpCount2(){
+        String hsql = "select count(*) from CmEmp emp where emp.estate = 0 order by emp.etime desc ";
+        List<?> total = hibernateTemplate.find(hsql);
+        System.out.println(Integer.parseInt(total.get(0).toString()));
+        return Integer.parseInt(total.get(0).toString());
+    }
+    /**
+     * 统计近一个月就业学生数量
+     * @return
+     */
+    public int EmpCount3(String currentDate2,String currentDate){
+        String hsql = "select count(*) from CmEmp emp " +
+                "where emp.estate = 0 and TO_DAYS(emp.etime)>=TO_DAYS(?) and TO_DAYS(emp.etime)<=TO_DAYS(?) " +
+                "order by emp.etime desc ";
+        Object[] value = {currentDate2,currentDate};
+        List<?> total = hibernateTemplate.find(hsql,value);
         System.out.println(Integer.parseInt(total.get(0).toString()));
         return Integer.parseInt(total.get(0).toString());
     }

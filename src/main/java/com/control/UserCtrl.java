@@ -2,6 +2,8 @@ package com.control;
 
 import com.mysql.fabric.Response;
 import com.pojo.CmUser;
+import com.service.EmpService;
+import com.service.UnempService;
 import com.service.UserService;
 import com.tools.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -30,6 +31,10 @@ import java.util.Map;
 public class UserCtrl {
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmpService empService;
+    @Autowired
+    private UnempService unempService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
         return "/login";
@@ -50,7 +55,27 @@ public class UserCtrl {
     public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request){
         CmUser cmUser=userService.findlogin(uname,upwd);
         if (cmUser!=null){
-            //  model.addAttribute("cmUser",cmUser);
+            //统计当前已就业生数量
+            int empCount = empService.EmpCount2();
+            System.out.println(empCount);
+            request.getSession().setAttribute("empCount",empCount);
+            //统计当前未就业生数量
+            int unempCount = unempService.UnEmpCount2();
+            System.out.println(unempCount);
+            request.getSession().setAttribute("unempCount",unempCount);
+            //近一个月就业学生数量
+            //获取系统当前时间
+            Date day = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String currentDate = df.format(day);
+            //获取系统一个月之前时间
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.MONTH, -1);
+            String currentDate2 = df.format(c.getTime());
+            System.out.println(currentDate2);
+            System.out.println(currentDate);
+            int EmpCountByMonth = empService.EmpCount3(currentDate2,currentDate);
+            request.getSession().setAttribute("EmpCountByMonth",EmpCountByMonth);
             request.getSession().setAttribute("cmUser",cmUser);
             return "/index";
         }else{

@@ -215,7 +215,17 @@ public class UnempService {
      * @return
      */
     public int UnEmpCount(){
-        String hsql = "select count(*) from CmUnemp unemp where unemp.uestate = 0";
+        String hsql = "select count(*) from CmUnemp unemp where unemp.uestate = 0 ";
+        List<?> total = hibernateTemplate.find(hsql);
+        System.out.println(Integer.parseInt(total.get(0).toString()));
+        return Integer.parseInt(total.get(0).toString());
+    }
+    /**
+     * 统计未就业生数量
+     * @return
+     */
+    public int UnEmpCount2(){
+        String hsql = "select count(*) from CmUnemp unemp where unemp.uestate = 0 order by unemp.uetime desc ";
         List<?> total = hibernateTemplate.find(hsql);
         System.out.println(Integer.parseInt(total.get(0).toString()));
         return Integer.parseInt(total.get(0).toString());
