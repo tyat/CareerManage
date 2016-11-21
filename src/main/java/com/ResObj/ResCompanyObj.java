@@ -39,7 +39,7 @@ public class ResCompanyObj {
     public ResCompanyObj() {
     }
 
-    public ResCompanyObj(Integer cid, String cname, Integer rid, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, String sphone, String semail, String scode, Integer smark, String sassess, Integer sstate, String sdetail, Integer jid, String jname, Integer iid, Integer isuccess) {
+    public ResCompanyObj(Integer cid, String cname, Integer rid, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, String sphone, String semail, String scode, Integer smark, String sassess, Integer sstate, String sdetail, Integer jid, String jname, Integer iid, Integer isuccess,Date etime) {
         this.cid = cid;
         this.cname = cname;
         this.rid = rid;
@@ -61,6 +61,7 @@ public class ResCompanyObj {
         this.jname = jname;
         this.iid = iid;
         this.isuccess = isuccess;
+        this.etime = etime;
     }
 
     public ResCompanyObj(Integer cid, String cname, Date etime, String sname, Boolean ssex, String spro, Integer sgrade, String sno, Integer sid, Integer smark, Integer sclass, String sphone, Integer jid, String jname) {
