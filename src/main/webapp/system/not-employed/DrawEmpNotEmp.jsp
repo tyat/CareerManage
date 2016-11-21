@@ -19,15 +19,15 @@
         window.onload = function() {
             var canvas = document.getElementById("pie_canvas");
             var seriesData = [
-                {name:"就业生", value:${index0}, color:"RGBA(255,0,0,1)"},
-                {name:"未就业生", value:${index1}, color:"RGBA(255,255,0,1)"},
+                {name:"就业生", value:${allEmpCount}, color:"RGBA(255,0,0,1)"},
+                {name:"未就业生", value:${allNotEmpCount}, color:"RGBA(255,255,0,1)"}]
             var config = {
                 width : 475,
                 height: 400,
                 series: seriesData,
                 canvas: canvas,
                 unit: "kg",
-                title:"2013级学生非就业情况分布",
+                title:"${year}级学生就业情况分布",
                 tooltips : {
                     enable : true
                 },
@@ -50,7 +50,7 @@
 <div class="table-content">
     <div class="table-head">
         <div class="table-address">
-            <span>统计分析</span><i style="color: #317EB4;">>></i><span>未就业生</span>
+            <span>统计分析</span><i style="color: #317EB4;">>></i><span>就业生、未就业生</span>
         </div>
     </div>
     <div class="big-canvar-box">

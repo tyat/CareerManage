@@ -36,6 +36,15 @@ public class StudentService {
         CmStudent cmStudent=data.get(0);
         return  cmStudent;
     }
+    //zxl：查询目前的年级
+    public  int findSgrage(){
+        String hsql="select  max (s.sgrade) from CmStudent s";
+        List<Long>data=(List<Long>) hibernateTemplate.find(hsql);
+        if (data.size()>0){
+            return new Integer(String.valueOf(data.get(0)));
+        }
+        return 0;
+    }
 
     //增加学生——ly
     public boolean addStudent(int sid){

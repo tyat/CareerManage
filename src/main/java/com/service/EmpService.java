@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import java.io.FileOutputStream;
@@ -41,6 +42,8 @@ public class EmpService {
     private  JobService jobService;
     @Autowired
     private UnempService unempService;
+    @Autowired
+    private  StudentService studentService;
     //zxl：添加就业生
     public  boolean addEmp(CmCompany cmCompany, CmRecruit cmRecruit,CmInter cmInter, CmEmp cmEmp){
         hibernateTemplate.save(cmCompany);
@@ -146,6 +149,45 @@ public class EmpService {
         return  true;
 
     }
+    //zxl：计算就业生数量
+    public int findAllEmpCount(){
+        String hsql="select  count(*) from CmEmp e inner join e.cmStudentBySid s where e.estate=0 and s.sgrade=?";
+      //  int sgrade=studentService.findSgrage();
+       // System.out.println("这是一个年级-----------------------"+sgrade);
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        List<Long>data=(List<Long>) hibernateTemplate.find(hsql,year);
+        if (data.size()>0){
+            return new Integer(String.valueOf(data.get(0)));
+        }
+        return 0;
+    }
+    //zxl;计算从事开发岗的人数
+    public int findEmpCountByType(boolean jtype){
+        String hsql="select  count(*) from CmEmp e inner join e.cmStudentBySid s inner  join e.cmJobByJid j where e.estate=0 and s.sgrade=? and j.jtype=?";
+        //  int sgrade=studentService.findSgrage();
+        // System.out.println("这是一个年级-----------------------"+sgrade);
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        List<Long>data=(List<Long>) hibernateTemplate.find(hsql,year,jtype);
+        if (data.size()>0){
+            return new Integer(String.valueOf(data.get(0)));
+        }
+        return 0;
+    }
+
     /**
      *查询所有已就业学生信息
      * @return

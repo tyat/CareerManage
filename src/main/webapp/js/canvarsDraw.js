@@ -94,7 +94,7 @@
             ctx.save();  
             var deltaArc = 0;  
             for(var i=0; i<nums; i++) {  
-                var precent = this.series[i].value/sum;  
+                var precent = this.series[i].value/sum;
                 this.renderPie(ctx, i, precent, deltaArc);  
                 deltaArc += 2*Math.PI * precent;  
             }  
@@ -220,7 +220,7 @@
         },  
           
         renderPie : function(ctx, index, precent, deltaArc) {  
-            var endAngle = deltaArc + 2*Math.PI*precent;  
+            var endAngle = deltaArc + 2*Math.PI*precent;
             ctx.beginPath();  
             ctx.arc(this.circle.cx, this.circle.cy, this.circle.radius, deltaArc, endAngle, false);  
             ctx.moveTo(this.circle.cx, this.circle.cy);  
