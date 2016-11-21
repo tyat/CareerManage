@@ -19,6 +19,8 @@
     <div class="welcom-text" >欢迎登陆就业管理中心！ </div>
 </div>
 <div>
+    <span>近一个月准备就业的人数为<a href="/unemp/findAllUnempMonth" target=main><strong>${unempmonth}</strong></a></span><br>
+    <span><a href="/unemp/findAllCount" target=main><strong>就业生、未就业生分布</strong></a>|<a href="/unemp/findSumNotEmp" target=main><strong>未就业生情况分布</strong></a>|<a href="/emp/findEmpCountByType" target=main><strong>就业生情况分布</strong></a></span><br>
     <span>就业生月增量：</span>
 <table  class="pure-table pure-table-bordered CompInfo1">
     <tr>

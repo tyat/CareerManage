@@ -158,6 +158,57 @@ public class UnempCtrl {
         }
         return mv;
     }
+    //zxl:查询近一个月准备就业学生
+    @RequestMapping(value = "/findAllUnempMonth",method = RequestMethod.GET)
+    public  String findAllUnempMonth(ModelMap modelMap) throws Exception{
+        List<ResUnempObj> UnempList=unempServive.findAllUnempMonth();
+        modelMap.addAttribute("UnempList",UnempList);
+         return "/system/not-employed/selectNotEmpMonth";
+    }
+    //zxl:就业生未就业生情况分布
+    @RequestMapping(value = "/findAllCount",method = RequestMethod.GET)
+    public  String findAllCount(ModelMap modelMap) throws Exception{
+        //计算未就业生数量
+        int allNotEmpCount=unempServive.findAllNotEmpCount();
+        modelMap.addAttribute("allNotEmpCount",allNotEmpCount);
+        //计算就业生的数量
+        int allEmpCount=empService.findAllEmpCount();
+        modelMap.addAttribute("allEmpCount",allEmpCount);
+        //计算当前是那一年级
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        modelMap.addAttribute("year",year);
+        return "/system/not-employed/DrawEmpNotEmp";
+    }
+    @RequestMapping(value = "/findSumNotEmp",method = RequestMethod.GET)
+    public  String findSumNotEmp(ModelMap modelMap) throws Exception{
+        //1.准备就业
+        int index0=unempServive.findSumNotEmp(0);
+        //2.考研、保研
+        int index1=unempServive.findSumNotEmp(2)+unempServive.findSumNotEmp(5);
+        //3.其他，教师编，公务员，国家电网等等
+        int index2=unempServive.findAllNotEmpCount()-index0-index1;
+        modelMap.addAttribute("index0",index0);
+        modelMap.addAttribute("index1",index1);
+        modelMap.addAttribute("index2",index2);
+        //计算当前是那一年级
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        modelMap.addAttribute("year",year);
+         return "/system/not-employed/DrawNotEmp";
+    }
     //zxl：调用
     @RequestMapping(value = "/diaoyong",method = RequestMethod.GET)
     public  String diaoyong(ModelMap modelMap) throws Exception{

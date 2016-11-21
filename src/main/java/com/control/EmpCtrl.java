@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -237,8 +238,26 @@ public class EmpCtrl {
         modelMap.addAttribute("findUserByEmp",cmUser);
         return  "/system/employed/EmpUpdate";
     }
-
-
+    //zxl:就业生情况分布
+    @RequestMapping(value = "/findEmpCountByType", method = RequestMethod.GET)
+    public  String  findEmpCountByType(ModelMap modelMap){
+        //计算就业生从事职业的比例
+        int kaifa =empService.findEmpCountByType(true);
+        int feikaifa=empService.findEmpCountByType(false);
+        modelMap.addAttribute("kaifa",kaifa);
+        modelMap.addAttribute("feikaifa",feikaifa);
+        //计算当前是那一年级
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        modelMap.addAttribute("year",year);
+        return "/system/employed/DrawEmp";
+    }
     /**
      * 查询显示所有已就业学生
      * @return
