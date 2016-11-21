@@ -74,7 +74,7 @@ public class DateConvert {
 
     /*TianYu String转util.date*/
     public Date stToDate(String str){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null; //初始化date
         try {
             date = sdf.parse(str);

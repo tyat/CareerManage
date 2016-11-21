@@ -17,9 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -39,7 +38,6 @@ public class UserCtrl {
     private InterService interService;
     @Autowired
     private RecruitService recruitService;
-
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
         return "/login";
@@ -57,17 +55,40 @@ public class UserCtrl {
     }
     //zxl：登陆
     @RequestMapping(value = "/login",method =RequestMethod.POST)
-    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request)throws Exception{
+    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request) throws Exception {
         CmUser cmUser=userService.findlogin(uname,upwd);
         if (cmUser!=null){
-            //  model.addAttribute("cmUser",cmUser);
+            //统计当前已就业生数量
+            int empCount = empService.EmpCount2();
+            System.out.println(empCount);
+            request.getSession().setAttribute("empCount",empCount);
+            //统计当前未就业生数量
+            int unempCount = unempService.UnEmpCount2();
+            System.out.println(unempCount);
+            request.getSession().setAttribute("unempCount",unempCount);
+            //近一个月就业学生数量
+            //获取系统当前时间
+            Date day = new Date();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String currentDate = df.format(day);
+            //获取系统一个月之前时间
+            Calendar c = Calendar.getInstance();
+            c.add(Calendar.MONTH, -1);
+            String currentDate2 = df.format(c.getTime());
+            System.out.println(currentDate2);
+            System.out.println(currentDate);
+            int EmpCountByMonth = empService.EmpCount3(currentDate2,currentDate);
+            request.getSession().setAttribute("EmpCountByMonth",EmpCountByMonth);
             request.getSession().setAttribute("cmUser",cmUser);
             //zxl：近一个月准备就业学生数
             int unempmonth=unempService.findSumNotEmpMonth();
             request.getSession().setAttribute("unempmonth",unempmonth);
             /*TianYu 就业增量统计*/
             List<EmpIncrease> ls =empService.Increase();
-            request.getSession().setAttribute("empIncrease",empService.Increase());
+            for (EmpIncrease ei : ls){
+                System.out.println(ei.getBeformonth()+ei.getData()+ei.getThismonth());
+            }
+            request.getSession().setAttribute("empIncrease",ls);
             //今天参加面试的学生数量——ly
             int dayInter = interService.findCountByDay();
             request.getSession().setAttribute("dayInter",dayInter);
@@ -77,7 +98,6 @@ public class UserCtrl {
             //近一周发布招聘信息的企业数——ly
             int weekRecruitCom = recruitService.findComCountByWeek();
             request.getSession().setAttribute("weekRecruitCom",weekRecruitCom);
-
             return "/index";
         }else{
             try{

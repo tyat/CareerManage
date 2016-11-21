@@ -6,11 +6,11 @@ import java.util.Date;
  * Created by TianYu on 2016/11/21.
  */
 public class EmpIncrease {
-    private Date thismonth;
-    private Date beformonth;
+    private String thismonth;
+    private String beformonth;
     private String data;
 
-    public EmpIncrease(Date thismonth, Date beformonth, String data) {
+    public EmpIncrease(String thismonth, String beformonth, String data) {
         this.thismonth = thismonth;
         this.beformonth = beformonth;
         this.data = data;
@@ -19,19 +19,19 @@ public class EmpIncrease {
     public EmpIncrease() {
     }
 
-    public Date getThismonth() {
+    public String getThismonth() {
         return thismonth;
     }
 
-    public void setThismonth(Date thismonth) {
+    public void setThismonth(String thismonth) {
         this.thismonth = thismonth;
     }
 
-    public Date getBeformonth() {
+    public String getBeformonth() {
         return beformonth;
     }
 
-    public void setBeformonth(Date beformonth) {
+    public void setBeformonth(String beformonth) {
         this.beformonth = beformonth;
     }
 
