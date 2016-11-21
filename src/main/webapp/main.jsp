@@ -18,6 +18,25 @@
         <div class="welcom-text" >欢迎登陆就业管理中心！ </div>
     </div>
     <div>
+        <span>近一个月准备就业的人数为<a href="/unemp/findAllUnempMonth" target=main><strong>${unempmonth}</strong></a>人</span><br>
+        <span><a href="/unemp/findAllCount" target=main><strong>就业生、未就业生分布</strong></a>|<a href="/unemp/findSumNotEmp" target=main><strong>未就业生情况分布</strong></a>|<a href="/emp/findEmpCountByType" target=main><strong>就业生情况分布</strong></a></span><br>
+        <span>就业生月增量：</span>
+        <table  class="pure-table pure-table-bordered CompInfo1">
+            <tr>
+                <td>日期</td>
+                <c:forEach items="${empIncrease}" var="emp">
+                    <td> ${emp.thismonth}
+                            <%--<fmt:formatDate value="${emp.thismonth}" pattern="yyyy-MM-dd"/> --%>
+                    </td>
+                </c:forEach>
+            </tr>
+            <tr>
+                <td>增量</td>
+                <c:forEach items="${empIncrease}" var="emp">
+                    <td>${emp.data}</td>
+                </c:forEach>
+            </tr>
+        </table>
         <table class="pure-table pure-table-bordered left">
             <tr>
                 <td width="200px">近一个月就业学生数量：</td>

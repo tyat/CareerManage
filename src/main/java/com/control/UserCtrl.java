@@ -1,5 +1,6 @@
 package com.control;
 
+import com.ResObj.EmpIncrease;
 import com.mysql.fabric.Response;
 import com.pojo.CmUser;
 import com.service.EmpService;
@@ -52,7 +53,7 @@ public class UserCtrl {
     }
     //zxl：登陆
     @RequestMapping(value = "/login",method =RequestMethod.POST)
-    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request){
+    public String  login(String uname, String upwd, ModelMap model,HttpServletRequest request) throws Exception {
         CmUser cmUser=userService.findlogin(uname,upwd);
         if (cmUser!=null){
             //统计当前已就业生数量
@@ -77,6 +78,12 @@ public class UserCtrl {
             int EmpCountByMonth = empService.EmpCount3(currentDate2,currentDate);
             request.getSession().setAttribute("EmpCountByMonth",EmpCountByMonth);
             request.getSession().setAttribute("cmUser",cmUser);
+            //zxl：近一个月准备就业学生数
+            int unempmonth=unempService.findSumNotEmpMonth();
+            request.getSession().setAttribute("unempmonth",unempmonth);
+            /*TianYu 就业增量统计*/
+            List<EmpIncrease> ls =empService.Increase();
+            request.getSession().setAttribute("empIncrease",empService.Increase());
             return "/index";
         }else{
             try{
