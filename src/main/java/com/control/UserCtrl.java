@@ -1,7 +1,9 @@
 package com.control;
 
+import com.ResObj.EmpIncrease;
 import com.mysql.fabric.Response;
 import com.pojo.CmUser;
+import com.service.EmpService;
 import com.service.UserService;
 import com.tools.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ import java.util.Map;
 public class UserCtrl {
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmpService empService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(){
         return "/login";
@@ -52,6 +56,11 @@ public class UserCtrl {
         if (cmUser!=null){
             //  model.addAttribute("cmUser",cmUser);
             request.getSession().setAttribute("cmUser",cmUser);
+
+            /*TianYu 就业增量统计*/
+            List<EmpIncrease> ls =empService.Increase();
+            request.getSession().setAttribute("empIncrease",empService.Increase());
+
             return "/index";
         }else{
             try{

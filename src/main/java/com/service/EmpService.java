@@ -1,5 +1,6 @@
 package com.service;
 
+import com.ResObj.EmpIncrease;
 import com.ResObj.EmpStu;
 import com.ResObj.ResEmpObj;
 import com.pojo.*;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import java.io.FileOutputStream;
@@ -344,6 +347,32 @@ public class EmpService {
         hibernateTemplate.bulkUpdate(hsql,eid);
         System.out.println("******************************");
         return true;
+    }
+
+    /*TianYu 计算就业生增量*/
+    public List<EmpIncrease> Increase(){
+        Calendar cal = Calendar.getInstance();
+        int monthm = cal.get(Calendar.MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year =  cal.get(Calendar.YEAR);
+        DateConvert dc = new DateConvert();
+        String hql = "select count(*) from CmEmp emp where emp.etime>= ? and emp.etime< ? ";
+        List<EmpIncrease> ls = new ArrayList<>();
+        for(int i=6;i>0;i--){
+            if(month<1){
+                year--;
+                month=12;
+            }
+            EmpIncrease ei = new EmpIncrease();
+            ei.setBeformonth(dc.stToDate(year+"-"+monthm+"-01 0:00:00"));
+            ei.setThismonth(dc.stToDate(year+"-"+month+"-01 0:00:00"));
+            //System.out.println(hibernateTemplate.find(hql,dc.stToDate(year+"-"+monthm+"-01 0:00:00"),dc.stToDate(year+"-"+month+"-01 0:00:00")).get(0).toString()+"----");
+            ei.setData(hibernateTemplate.find(hql,dc.stToDate(year+"-"+monthm+"-01 0:00:00"),dc.stToDate(year+"-"+month+"-01 0:00:00")).get(0).toString());
+            ls.add(ei);
+            month--;
+            monthm--;
+        }
+        return ls;
     }
 
     /*TianYu 上传excel*/

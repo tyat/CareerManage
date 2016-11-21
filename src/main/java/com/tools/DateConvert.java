@@ -3,6 +3,7 @@ package com.tools;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -56,6 +57,18 @@ public class DateConvert {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date=sdf.parse(dt);
         return  new java.sql.Date(date.getTime());
+    }
+
+    /*TianYu String转util.date*/
+    public Date stToDate(String str){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null; //初始化date
+        try {
+            date = sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 //    public Timestamp subDate(Timestamp date) throws Exception{
 //        String dt = new String(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));
