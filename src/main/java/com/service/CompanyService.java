@@ -361,6 +361,28 @@ public class CompanyService {
         return file;
     }
 
+    //查询近七天发布招聘的公司——ly
+    public List<CmCompany> findComByWeek(){
+        String hsql = "select distinct r.cmCompanyByCid.cid from CmRecruit r where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7)";
+        List<?> cidList = hibernateTemplate.find(hsql);
+        System.out.println("cid------"+cidList.toString());
+        String cidString = "";
+        for(int i=0;i<cidList.size()-1;i++){
+            cidString = cidString + cidList.get(i) + ",";
+        }
+        cidString = cidString + cidList.get(cidList.size()-1);
+        System.out.println("cidString------"+cidString);
+        String hsql2 = "select new com.pojo.CmCompany(comp.cid,comp.cname,comp.chr,comp.cphone,comp.cstate) " +
+                "from CmCompany comp " +
+                "where comp.cstate = 0 and comp.cid in (" + cidString + ")";
+        List<CmCompany> data = (List<CmCompany>)hibernateTemplate.find(hsql2);
+        if(data.size()>0){
+            System.out.println("公司数量------"+data.size());
+            return data;
+        }
+        return null;
+    }
+
     /*查询该公司下所有学生信息*/
     public String outputComStu(int cid){
         String hsql = "select new com.ResObj.ResCompanyObj(comp.cid,comp.cname,comp.ctime,stu.sname,stu.ssex,stu.spro,stu.sgrade,stu.sno,stu.sid,stu.smark,stu.sclass,stu.sphone,job.jid,job.jname) " +

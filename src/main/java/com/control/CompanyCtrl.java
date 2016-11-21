@@ -300,6 +300,31 @@ public class CompanyCtrl {
         pageCode.append("<li><a href='/company/findAllCompany?page="+totalPage+"'>尾页</a></li>");
         return pageCode.toString();
     }
+
+    //查询近七天发布招聘的公司——ly
+    @RequestMapping(value = "/findComByWeek" )
+    public ModelAndView findComByWeek(ModelMap modelMap){
+        List<ResComList> listdata = new ArrayList<>();
+        ModelAndView mv = new ModelAndView();
+        List<CmCompany> company = companyService.findComByWeek();
+        for(CmCompany com : company) {
+            ResComList rcl = new ResComList();
+            rcl.setCstate(com.getCstate());
+            rcl.setChr(com.getChr());
+            rcl.setCid(com.getCid());
+            rcl.setCname(com.getCname());
+            rcl.setCphone(com.getCphone());
+            //按Cid查询该公司有多少招聘岗位
+            rcl.setCmJobs(jobService.findJobByCid(com.getCid()));
+            //计算该公司在岗学生人数
+            rcl.setStuCount(companyService.StuCountByCid(com.getCid()));
+            listdata.add(rcl);
+        }
+        modelMap.addAttribute("listdata",listdata);
+        mv.setViewName("system/company/CompSearch1");
+        return mv;
+    }
+
     /*TianYu 公司数据导入*/
     @RequestMapping(value = "/inputCompany")
     public String inputCompany(@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request, ModelMap model){
