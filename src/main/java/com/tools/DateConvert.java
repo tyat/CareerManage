@@ -3,7 +3,9 @@ package com.tools;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -56,6 +58,30 @@ public class DateConvert {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date=sdf.parse(dt);
         return  new java.sql.Date(date.getTime());
+    }
+    //zxl：获取一个月以前的时间
+    public String  getStringDate() throws Exception{
+        SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+        Date beginDate = new Date();
+        Calendar date = Calendar.getInstance();
+        date.setTime(beginDate);
+        date.set(Calendar.DATE, date.get(Calendar.DATE)+30);
+        Date endDate = dft.parse(dft.format(date.getTime()));
+        String str = dft.format(endDate);
+        // System.out.println("这是一个日期------------"+str);
+        return  str;
+    }
+
+    /*TianYu String转util.date*/
+    public Date stToDate(String str){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null; //初始化date
+        try {
+            date = sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 //    public Timestamp subDate(Timestamp date) throws Exception{
 //        String dt = new String(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date));

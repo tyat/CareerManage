@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../../js/Cityjs/jquery.js" ></script>
     <link rel="stylesheet" type="text/css" href="../../css/default.css"/>
     <link rel="stylesheet" href="../../css/icon.css" />
-    <script type="text/javascript" src="../../js/Date.js" ></script>
+    <script type="text/javascript" src="../../js/Date3.js" ></script>
     <script language="JavaScript">
         function snoajax(){
             var sno = document.getElementById("sno").value;

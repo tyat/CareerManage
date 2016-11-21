@@ -8,8 +8,11 @@ import com.pojo.CmEmp;
 import com.pojo.CmStudent;
 import com.pojo.CmUnemp;
 import com.tools.InputData;
+import com.tools.PageBean;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +38,15 @@ public class StudentService {
         List<CmStudent>data=(List<CmStudent>) hibernateTemplate.find(hsql,sid);
         CmStudent cmStudent=data.get(0);
         return  cmStudent;
+    }
+    //zxl：查询目前的年级
+    public  int findSgrage(){
+        String hsql="select  max (s.sgrade) from CmStudent s";
+        List<Long>data=(List<Long>) hibernateTemplate.find(hsql);
+        if (data.size()>0){
+            return new Integer(String.valueOf(data.get(0)));
+        }
+        return 0;
     }
 
     //增加学生——ly
@@ -82,15 +94,31 @@ public class StudentService {
     }
 
     //查询所有学生——ly
-    public List<CmStudent> findAll(){
-        String hsql = "from CmStudent s order by s.sno ";
-        List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql);
-        System.out.println("所有学生数量：   "+data.size());
-        if(data.size()>0){
-            return data;
+    public List<CmStudent> findAll(final PageBean pageBean){
+        final String hsql = "from CmStudent s order by s.sno ";
+        final List<CmStudent> data = (List<CmStudent>) hibernateTemplate.execute(new HibernateCallback<List>() {
+            @Override
+            public List doInHibernate(Session session) throws HibernateException {
+                List data2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                System.out.println("所有学生数量：   "+data2.size());
+                if(data2.size()>0){
+                    return data2;
+                }
+                System.out.println("未查到相关数据！");
+                return null;
+            }
+        });
+        return data;
+    }
+
+    //查询所有学生数量——ly
+    public int findAllCount(){
+        String hsql = "select count(*) from CmStudent ";
+        List<?> data = hibernateTemplate.find(hsql);
+        if(data.get(0)!=null){
+            return Integer.parseInt(data.get(0).toString());
         }
-        System.out.println("未查到相关数据！");
-        return null;
+        return 0;
     }
 
     //按姓名模糊查询学生——ly

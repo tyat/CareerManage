@@ -2,6 +2,8 @@ package com.service;
 
 import com.ResObj.InterResObj;
 import com.pojo.CmInter;
+import com.tools.PageBean;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import com.tools.OutputData;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -10,6 +12,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -243,8 +246,8 @@ public class InterService {
     }
 
     //查询所有的面试记录——ly
-    public List<InterResObj> findAll(){
-        String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,c.cid,c.cname,j.jid,j.jname,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.sno) " +
+    public List<InterResObj> findAll(final PageBean pageBean){
+        final String hsql = "select new com.ResObj.InterResObj(i.iid,i.iaddress,i.itype,i.itime,i.isuccess,r.rid,c.cid,c.cname,j.jid,j.jname,a.aid,a.aprovince,a.acity,s.sid,s.sname,s.sno) " +
                 "from CmInter i " +
                 "inner join i.cmRecruitByRid r " +
                 "inner join r.cmCompanyByCid c " +
@@ -252,12 +255,28 @@ public class InterService {
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
                 "where i.istate = 0 order by i.itime desc ";
-        List<InterResObj> data = (List<InterResObj>)hibernateTemplate.find(hsql);
-        if(data.size()>0){
-            return data;
+        final List<InterResObj> data = (List<InterResObj>)hibernateTemplate.execute(new HibernateCallback<List>() {
+            @Override
+            public List doInHibernate(Session session) throws HibernateException {
+                List data2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                if(data2.size()>0){
+                    return data2;
+                }
+                System.out.println("未查到相关数据！");
+                return null;
+            }
+        });
+        return data;
+    }
+
+    //查询所有面试记录数量——ly
+    public int findAllCount(){
+        String hsql = "select count(*) from CmInter i where i.istate = 0 ";
+        List<?> data = hibernateTemplate.find(hsql);
+        if(data.get(0)!=null){
+            return Integer.parseInt(data.get(0).toString());
         }
-        System.out.println("未查到相关数据！");
-        return null;
+        return 0;
     }
 
     //按不同条件查询面试学生——ly

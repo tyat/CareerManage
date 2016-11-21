@@ -5,6 +5,7 @@ import com.ResObj.ResUnempObj;
 import com.pojo.CmArea;
 import com.pojo.CmUser;
 import com.service.*;
+import com.tools.PageBean;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -42,15 +43,56 @@ public class InterCtrl {
 
     //查询所有面试记录——ly
     @RequestMapping(value = "/inter/findAll",method = RequestMethod.GET )
-    public String findAll(ModelMap modelMap){
-        List<InterResObj> interList = interService.findAll();
+    public String findAll(String page,ModelMap modelMap){
+        //当前页
+        modelMap.addAttribute("page",page);
+        //每页显示的条数
+        int pageSize = 10;
+        modelMap.addAttribute("pageSize",pageSize);
+        //处理分页类
+        PageBean pageBean = new PageBean(Integer.parseInt(page),pageSize);
+        List<InterResObj> interList = interService.findAll(pageBean);
         modelMap.addAttribute("interList",interList);
         List<CmUser>userList=userService.findAllUser();
         modelMap.addAttribute("userList",userList);
-        //查询当天参加面试的学生数量
-        /*int dayinter = interService.findCountByDay();
-        modelMap.addAttribute("dayinter",dayinter);*/
+        //总条数
+        int totalCount = interService.findAllCount();
+        modelMap.addAttribute("totalCount",totalCount);
+        //总页数
+        int pageCount = (totalCount % pageSize == 0)?(totalCount / pageSize):(totalCount / pageSize +1);
+        modelMap.addAttribute("pageCount",pageCount);
+        String pageCode = this.findAllgenPagation(totalCount, Integer.parseInt(page), pageSize);
+        modelMap.put("pageCode",pageCode);
         return "system/meeting/AllInterviews";
+    }
+
+    //分页处理——ly
+    private String findAllgenPagation(int totalNum, int currentPage, int pageSize){
+        int totalPage = totalNum%pageSize==0?totalNum/pageSize:totalNum/pageSize+1;
+        StringBuffer pageCode = new StringBuffer();
+        pageCode.append("<li><a href='/inter/findAll?page=1'>首页</a></li>");
+        if(currentPage==1) {
+            pageCode.append("<li class='disabled'><a href='#'>上一页</a></li>");
+        }else {
+            pageCode.append("<li><a href='/inter/findAll?page="+(currentPage-1)+"'>上一页</a></li>");
+        }
+        for(int i=currentPage-2;i<=currentPage+2;i++) {
+            if(i<1||i>totalPage) {
+                continue;
+            }
+            if(i==currentPage) {
+                pageCode.append("<li class='active'><a href='#'>"+i+"</a></li>");
+            } else {
+                pageCode.append("<li><a href='/inter/findAll?page="+i+"'>"+i+"</a></li>");
+            }
+        }
+        if(currentPage==totalPage) {
+            pageCode.append("<li class='disabled'><a href='#'>下一页</a></li>");
+        } else {
+            pageCode.append("<li><a href='/inter/findAll?page="+(currentPage+1)+"'>下一页</a></li>");
+        }
+        pageCode.append("<li><a href='/inter/findAll?page="+totalPage+"'>尾页</a></li>");
+        return pageCode.toString();
     }
 
     //查询面试人员信息——ly
@@ -275,6 +317,14 @@ public class InterCtrl {
         System.out.println("面试学生列表： "+interList);
         List<CmUser>userList=userService.findAllUser();
         modelMap.addAttribute("userList",userList);
+        return "system/meeting/InterviewSearch";
+    }
+
+    //今天参加面试的学生——ly
+    @RequestMapping(value = "/inter/findByDay",method = RequestMethod.GET )
+    public String findByDay(ModelMap modelMap){
+        List<InterResObj> interList = interService.findByDay();
+        modelMap.addAttribute("interList",interList);
         return "system/meeting/InterviewSearch";
     }
 

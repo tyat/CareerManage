@@ -19,9 +19,8 @@
         window.onload = function() {
             var canvas = document.getElementById("pie_canvas");
             var seriesData = [
-                {name:"准备就业", value:${index0}, color:"RGBA(255,0,0,1)"},
-                {name:"考研、保研", value:${index1}, color:"RGBA(255,255,0,1)"},
-                {name:"其他(公务员等)", value:${index2}, color:"RGBA(0,0,255,1)"}]
+                {name:"开发岗", value:${kaifa}, color:"RGBA(255,0,0,1)"},
+                {name:"非开发岗", value:${feikaifa}, color:"RGBA(255,255,0,1)"}]
             var config = {
                 width : 475,
                 height: 400,

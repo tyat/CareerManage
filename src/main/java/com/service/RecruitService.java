@@ -3,12 +3,16 @@ package com.service;
 import com.ResObj.RecruitResObj;
 import com.pojo.CmRecruit;
 import com.tools.OutputData;
+import com.tools.PageBean;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
@@ -169,21 +173,37 @@ public class RecruitService {
     }
 
     //查询所有招聘信息——ly
-    public List<RecruitResObj> findAll(){
-        String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
+    public List<RecruitResObj> findAll(final PageBean pageBean){
+        final String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
                 "from CmRecruit r " +
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
                 "where r.rstate = 0 order by r.rstart desc ";
-        List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql);
-        System.out.println("所有招聘信息数量：   "+data.size());
-        System.out.println("发布时间：   "+data.get(0).getRstart());
-        if(data.size()>0){
-            return data;
+        final List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.execute(new HibernateCallback<List>() {
+            @Override
+            public List doInHibernate(Session session) throws HibernateException {
+                List data2 = session.createQuery(hsql).setFirstResult(pageBean.getStart()).setMaxResults(pageBean.getPageSize()).list();
+                //System.out.println("所有招聘信息数量：   "+data.size());
+                //System.out.println("发布时间：   "+data.get(0).getRstart());
+                if(data2.size()>0){
+                    return data2;
+                }
+                System.out.println("未查到相关数据！");
+                return null;
+            }
+        });
+        return data;
+    }
+
+    //查询所有招聘信息数量——ly
+    public int findAllCount(){
+        String hsql = "select count(*) from CmRecruit r where r.rstate = 0 ";
+        List<?> data = hibernateTemplate.find(hsql);
+        if(data.get(0)!=null){
+            return Integer.parseInt(data.get(0).toString());
         }
-        System.out.println("未查到相关数据！");
-        return null;
+        return 0;
     }
 
     //查询该公司下该岗位的招聘信息——ly
@@ -224,16 +244,16 @@ public class RecruitService {
     }
 
     //查询近七天招聘信息——ly
-    public CmRecruit findByWeek(){
+    public List<RecruitResObj> findByWeek(){
         String hsql = "select new com.ResObj.RecruitResObj(r.rid,r.rsex,r.rsalary,r.rstart,r.rend,r.rnum,r.rinfo,r.rstate,a.aid,a.aprovince,a.acity,j.jid,j.jname,c.cid,c.cname,c.chr,c.cphone,c.cemail) " +
                 "from CmRecruit r " +
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
                 "where r.rstate = 0 and (TO_DAYS( NOW( ) ) - TO_DAYS(r.rstart) <= 7) order by r.rstart desc ";
-        List<CmRecruit> data = (List<CmRecruit>)hibernateTemplate.find(hsql);
+        List<RecruitResObj> data = (List<RecruitResObj>)hibernateTemplate.find(hsql);
         if(data.size()>0){
-            return data.get(0);
+            return data;
         }
         System.out.println("未查到相关数据！");
         return null;

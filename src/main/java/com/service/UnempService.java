@@ -3,6 +3,7 @@ package com.service;
 import com.ResObj.ResUnempObj;
 import com.pojo.CmStudent;
 import com.pojo.CmUnemp;
+import com.tools.DateConvert;
 import com.tools.InputData;
 import com.tools.OutputData;
 import com.tools.PageBean;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -31,6 +34,8 @@ public class UnempService {
     private HibernateTemplate hibernateTemplate;
     @Autowired
     private JobService jobService;
+    @Autowired
+    private StudentService studentService;
 
     //编辑非考研学生期望——ly
     public boolean updateFkyExpectation(int sid,int jid,int uesalary){
@@ -128,6 +133,51 @@ public class UnempService {
         hibernateTemplate.bulkUpdate(hsql,sid);
         return true;
     }
+    //zxl：获取近一个月期望就业学生的数量
+    public  int  findSumNotEmpMonth() throws Exception{
+        String hsql="select  count(*) from CmUnemp un where un.cmDirectionByDid.did=0 and un.uestate=0 and TO_DAYS(un.uetime)>=TO_DAYS(?) and TO_DAYS(un.uetime)<=TO_DAYS(?)";
+        // String beginDate=new Date()
+        SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+        String str = dft.format(new java.util.Date());
+        List<Long>data=(List<Long>) hibernateTemplate.find(hsql,str,new DateConvert().getStringDate());
+        return new Integer(String.valueOf(data.get(0)));
+    }
+    //zxl：近一个月期望出去实习同学的详细信息
+    public List<ResUnempObj> findAllUnempMonth() throws Exception{
+        String hsql = "select new com.ResObj.ResUnempObj(un.ueid,s.sid,j.jid,d.did,un.uesalary,un.uetime,un.ueschool,un.uemajor,un.uesuccess,un.uestate,j.jname,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,d.dname) " +
+                "from CmUnemp un " +
+                "inner join un.cmStudentBySid s " +
+                "inner join un.cmJobByJid j " +
+                "inner join un.cmDirectionByDid d " +
+                "where d.did=0 and un.uestate=0 and TO_DAYS(un.uetime)>=TO_DAYS(?) and TO_DAYS(un.uetime)<=TO_DAYS(?)";
+        SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd");
+        String str = dft.format(new java.util.Date());
+        List<ResUnempObj> data = (List<ResUnempObj>) hibernateTemplate.find(hsql,str,new DateConvert().getStringDate());
+        if (data.size()>0){
+            return data;
+        }
+        return null;
+    }
+    //zxl：计算未就业生数量
+    public int findAllNotEmpCount(){
+        String hsql="select  count(*) from CmUnemp un inner join un.cmStudentBySid s where un.uestate=0 and s.sgrade=?";
+     //   int sgrade=studentService.findSgrage();
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH) + 1;
+        int year = cal.get(Calendar.YEAR);
+        if(month>=9){
+            year=year-3;
+        }else if (month<9){
+            year=year-4;
+        }
+        List<Long>data=(List<Long>) hibernateTemplate.find(hsql,year);
+        if (data.size()>0){
+            return new Integer(String.valueOf(data.get(0)));
+        }
+        return 0;
+    }
+
+
     /**
      * 查询所有未就业学生信息
      * @return

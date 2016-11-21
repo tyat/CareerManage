@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="../../css/icon.css" />
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/Date.js" ></script>
+    <link rel="stylesheet" type="text/css" href="../../css/bootstrap2.css"/>
 
     <script type="text/javascript">
         function  showMeetResult(){
@@ -206,18 +207,19 @@
                         <!--这是一条记录结束-->
                     </c:forEach>
                 </table>
-                <div class="table-slipline"></div>
                 <!--这是表格结束-->
             </c:if>
             <c:if test="${interList==null}">
                 暂时没有面试记录
             </c:if>
         </div>
-        <div class="button-footer">
-            <div class="right-button-footer">
-                <%--<div id="Page">
-                    <a href="#">«</a><span>1</span><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><a href="#">6</a><a href="#">»</a>
-                </div>--%>
+        <br/>
+        <div>
+            共&nbsp;${totalCount}&nbsp;条，每页&nbsp;${pageSize}&nbsp;条，共&nbsp;${pageCount}&nbsp;页，当前是第&nbsp;${page}&nbsp;页
+            <div class="pagination pagination-centered">
+                <ul>
+                    ${pageCode }
+                </ul>
             </div>
             <div class="left-button-footer">
                 <button type="submit" class="mybutton" value="Submit" onclick="window.open('/inter/outputInter')">导出数据</button>

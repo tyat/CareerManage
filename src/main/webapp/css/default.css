@@ -397,6 +397,15 @@ td,th{padding:0}
 	border: 1px solid saddlebrown;
 	
 }
+.canvars-box2{
+	width: 44%;
+	height: 400px;
+	margin-left: 200px;
+	margin-bottom: 10px;
+	background-color: #FFFFFF;
+	border: 1px solid saddlebrown;
+
+}
 /*画布分格box结束*/
 /*成绩单开始*/
 #qiwang-text，#mark-canvars{

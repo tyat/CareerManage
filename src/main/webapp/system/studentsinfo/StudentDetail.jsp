@@ -19,8 +19,20 @@
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="../../js/Date.js" ></script>
 
-<script type="javascript">
+    <style type='text/css'>
+        @media print{
+            .printhide{
+                display:none
+            }
+        }
+    </style>
+    <%--<style media="print">
+      .printshow{
+          display:block
+      }
+  </style>--%>
 
+<script type="javascript">
     var msg="${ResMsg}";
     if(msg!=""){
         alert(msg);
@@ -32,40 +44,45 @@
     });
     /*$("input[@name='smark'][value=${student.smark}").attr("checked",true);*/
 
-
 </script>
 
 </head>
 <body onload="activeli()">
 <div class="table-box">
     <div class="table-content">
-        <div class="table-head">
+        <div class="table-head" id="table-head">
             <div class="table-address">
-                <div style="float: left;">
-                    <span>信息管理</span>
-                    <div class="left-arrow"></div>
-                    <span>学生信息</span>
-                    <div class="left-arrow"></div>
-                    <span>详细信息</span>
-                </div><br />
+                <div class="printhide">
+                    <div style="float: left;">
+                        <span>信息管理</span>
+                        <div class="left-arrow"></div>
+                        <span>学生信息</span>
+                        <div class="left-arrow"></div>
+                        <span>详细信息</span>
+                    </div><br />
+                </div>
                 <div class="Big-title">
                     <div class="littil-title">
                         学生详细信息
                     </div>
-                    <div class="search-box">
-                        <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
-                            返回上一页
-                        </button>
+                    <div class="printhide">
+                        <div class="search-box">
+                            <button class="mybutton" type="button" onclick="JavaScript :history.back(-1)">
+                                返回上一页
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="table-bar">
-            <ul>
-                <li class="active-li" onclick="showMark()">成绩信息 </li>
-                <li onclick="showQiwang()">就业期望</li>
-                <li onclick="showMarkCanvars()">能力认定</li>
-            </ul>
+        <div class="printhide">
+            <div class="table-bar">
+                <ul>
+                    <li class="active-li" onclick="showMark()">成绩信息 </li>
+                    <li onclick="showQiwang()">就业期望</li>
+                    <li onclick="showMarkCanvars()">能力认定</li>
+                </ul>
+            </div>
         </div>
         <div id="mark-text">
             <!--这是一条记录开始-->
@@ -116,8 +133,6 @@
                 <tr>
                     <td >中兴课程总科目数:</td>
                     <td colspan="3">${zxsubjects}</td>
-                    <%--<td>毕业清考数:</td>
-                    <td colspan="3">${clearsubjects}</td>--%>
                 </tr>
                 <tr>
                     <td colspan="8" height="30px"></td>
@@ -164,18 +179,16 @@
 
             <div class="table-slipline"></div>
             <!--这是一条记录结束-->
-
+<div  class="printhide">
             <div class="button-footer">
 
                 <div class="left-button-footer">
-                    <button class="mybutton" type="button" onclick="location=''">打印</button>
+                    <button class="mybutton" type="button" onclick="printme()">打印</button>
                     &nbsp;&nbsp;
                     <button type="submit" class="mybutton" value="Submit" onclick="window.open('/grade/outgrade?sid='+${student.sid})">导出数据</button>
-                    <!--<button class="icon-filein" type="button" onclick="ShowDetailTip()"> <span>导入数据</span></button>
-                    <button class="icon-down" type="button" onclick="ShowDetailTip()"> <span>下载Excel模板</span></button>-->
                 </div>
             </div>
-
+</div>
         </div>
         <div id="qiwang-text">
             <c:if test="${isUnemp}">
@@ -412,6 +425,10 @@
             document.getElementById("thisdiv1").style.display ="block";
             document.getElementById("thisdiv2").style.display ="none";
         }
+    }
+    function printme() {
+        document.body.innerHTML=document.getElementById('table-head').innerHTML+'<br/>'+document.getElementById('mark-text').innerHTML+'<br/>'+document.getElementById('mark-canvars').innerHTML;
+        window.print();
     }
 </script>
 </body>
