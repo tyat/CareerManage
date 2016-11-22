@@ -97,10 +97,10 @@ public class InterCtrl {
 
     //查询面试人员信息——ly
     @RequestMapping(value = "/inter/findByRid",method = RequestMethod.GET )
-    public String findByRid(@RequestParam("rid")int rid, HttpServletRequest request){
+    public String findByRid(@RequestParam("rid")int rid,ModelMap modelMap, HttpServletRequest request){
         HttpSession session = request.getSession();
         List<InterResObj> interList = interService.findByRid(rid);
-        session.setAttribute("interList",interList);
+        modelMap.addAttribute("interList",interList);
         List<CmArea> areaList = areaService.findAllArea();
         session.setAttribute("areaList",areaList);
         session.setAttribute("rid",rid);
