@@ -59,7 +59,7 @@
         </tx:attributes>
     </tx:advice>
     <aop:config>
-        <aop:pointcut id="txPointcut" expression="execution(* com.service.*.*(..))" />
+        <aop:pointcut id="txPointcut" expression="(execution(* com.service.*.*(..))) or (execution(* com.tools.InputData.*(..)))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
     </aop:config>
     <tx:annotation-driven transaction-manager="transactionManager"/>
