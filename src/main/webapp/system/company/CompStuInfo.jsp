@@ -64,23 +64,17 @@
                 <c:forEach var="dataList" items="${dataList}" varStatus="i">
                 <!--这是一条记录开始-->
                 <tr>
-                    <td>
-                        <a href="../studentsinfo/StudentInfo.html">
-                                ${dataList.sname}</a>
+                    <td>${dataList.sname}
                     </td>
-                    <td>
-                        <a href="ThisCompEmpSearch.html">
-                                ${dataList.sgrade}</a>
+                    <td>${dataList.sgrade}
                     </td>
-                    <td>
-                        <a href="ThisCompEmpSearch.html">
-                                ${dataList.spro}${dataList.sclass}班</a>
+                    <td>${dataList.spro}${dataList.sclass}班
                     </td>
                     <td><c:if test="${dataList.ssex==false}">
-                        <a>男</a>
+                        男
                     </c:if>
                         <c:if test="${dataList.ssex==true}">
-                            <a>女</a>
+                            女
                         </c:if>
                     </td>
                     <td>

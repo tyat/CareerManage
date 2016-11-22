@@ -210,6 +210,8 @@ public class CompanyCtrl {
             for(CmCompany comp : listdata){
                 List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
                 modelMap.addAttribute("jobList",jobList);
+                int stuCount = companyService.StuCountByCid(comp.getCid());
+                modelMap.put("stuCount",stuCount);
             }
             modelMap.addAttribute("listdata", listdata);
         }else if(searchType.equals("chr")){
@@ -217,6 +219,8 @@ public class CompanyCtrl {
             for(CmCompany comp : listdata){
                 List<CmJob> jobList = jobService.findJobByCid(comp.getCid());
                 modelMap.addAttribute("jobList",jobList);
+                int stuCount = companyService.StuCountByCid(comp.getCid());
+                modelMap.put("stuCount",stuCount);
             }
             modelMap.addAttribute("listdata", listdata);
         }

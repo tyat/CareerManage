@@ -71,7 +71,7 @@
                         </td>
                         <td>${list.chr}</td>
                         <td>${list.cphone}</td>
-                        <td>2人</td>
+                        <td><button class="mybutton" type="button" onclick="location='/company/forCompStuInfo?cid=${list.cid}'">${stuCount}人</button></td>
                         <td><button class="mybutton" type="button" onclick="AreYouSourCompany(${list.cid})">删除</button></td>
                     </tr>
                 </c:forEach>
