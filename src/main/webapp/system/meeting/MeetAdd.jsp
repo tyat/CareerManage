@@ -134,6 +134,7 @@
                         <td >
                             <input type="radio" name="rsex" value="0" required="required">男
                             <input type="radio" name="rsex" value="1">女
+                            <%--<input type="radio" name="rsex" value="2">不限--%>
                         </td>
                     </tr>
                     <tr>
