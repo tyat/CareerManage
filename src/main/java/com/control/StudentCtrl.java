@@ -23,7 +23,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 /**
  * Created by w on 2016/10/26.
@@ -176,6 +179,7 @@ public class StudentCtrl {
     //查询学生的面试记录——ly
     @RequestMapping(value = "/findInterBySid",method = RequestMethod.GET )
     public String findInterBySid(@RequestParam("sid") int sid, ModelMap modelMap){
+        System.out.println("findInterBySid---"+sid);
         List<InterResObj> interList = interService.findInterBySid(sid);
         modelMap.addAttribute("interList", interList);
         System.out.println("interList---"+interList);
@@ -220,14 +224,17 @@ public class StudentCtrl {
 
     //编辑学生期望——ly
     @RequestMapping(value = "/updateExpectation",method = RequestMethod.POST )
-    public String updateExpectation(int sid,int did,String str1,String str2,ModelMap modelMap,RedirectAttributes attr){
+    public String updateExpectation(int sid,int did,String str1,String str2,String str3,ModelMap modelMap,RedirectAttributes attr) throws ParseException {
         boolean ResMsg = false;
         if(did==2||did==5){
-            ResMsg = unempService.updateKyExpectation(sid,str1,str2);
+            Integer success = Integer.parseInt(str3);
+            ResMsg = unempService.updateKyExpectation(sid,str1,str2,success);
         }else{
             Integer jid = Integer.parseInt(str1);
             Integer uesalary = Integer.parseInt(str2);
-            ResMsg = unempService.updateFkyExpectation(sid,jid,uesalary);
+            DateFormat df = DateFormat.getDateInstance();
+            Date uetime = df.parse(str3);
+            ResMsg = unempService.updateFkyExpectation(sid,jid,uesalary,uetime);
         }
         if(ResMsg){
             modelMap.addAttribute("ResMsg","编辑成功！");
@@ -249,6 +256,27 @@ public class StudentCtrl {
         }
         attr.addAttribute("sid", sid);
         return "redirect:/grade/findStudentDetail";
+    }
+
+    //编辑前——ly
+    @RequestMapping(value = "/updateAbilityPro",method = RequestMethod.GET )
+    @ResponseBody
+    public CmStudent updateAbilityPro(@RequestParam("sid") int sid){
+        CmStudent student = studentService.findBySid(sid);
+        return student;
+    }
+
+    //编辑学生能力认定——ly
+    @RequestMapping(value = "/updateAbility2",method = RequestMethod.POST )
+    public String updateAbility2(int sid,int smark,String sassess,ModelMap modelMap,RedirectAttributes attr){
+        boolean ResMsg = studentService.updateAbility(sid,smark,sassess);
+        if(ResMsg){
+            modelMap.addAttribute("ResMsg","编辑成功！");
+        }else{
+            modelMap.addAttribute("ResMsg","编辑失败!");
+        }
+        attr.addAttribute("page", 1);
+        return "redirect:/student/findAllStudents";
     }
 
     //搜索学生——ly

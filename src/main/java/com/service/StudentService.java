@@ -248,12 +248,27 @@ public class StudentService {
         return null;
     }
 
-    //按sid查询学生详细信息——ly
-    public UnempResObj findDetailBySid(int sid){
-        String hsql = "select new com.ResObj.UnempResObj(u.ueid,u.uesalary,u.uetime,u.ueschool,u.uemajor,u.uesuccess,u.uestate,j.jid,j.jname,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.smark,s.sassess,s.sstate,s.sdetail,d.did,d.dname,d.dstate) " +
-                "from CmStudent s " +
-                "inner join s.cmUnempsBySid u " +
+    //按sid查询未就业学生（非考研）——ly
+    public UnempResObj findUnempBySid1(int sid){
+        String hsql = "select new com.ResObj.UnempResObj(u.ueid,u.uesalary,u.uetime,u.uestate,j.jid,j.jname,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.smark,s.sassess,s.sstate,s.sdetail,d.did,d.dname,d.dstate) " +
+                "from CmUnemp u " +
+                "inner join u.cmStudentBySid s " +
                 "inner join u.cmJobByJid j " +
+                "inner join u.cmDirectionByDid d " +
+                "where s.sid = ?";
+        List<UnempResObj> unempList = (List<UnempResObj>) hibernateTemplate.find(hsql,sid);
+        if(unempList.size()>0){
+            return unempList.get(0);
+        }
+        System.out.println("未查到相关数据！");
+        return null;
+    }
+
+    //按sid查询未就业学生（考研）——ly
+    public UnempResObj findUnempBySid2(int sid){
+        String hsql = "select new com.ResObj.UnempResObj(u.ueid,u.ueschool,u.uemajor,u.uesuccess,u.uestate,s.sid,s.sno,s.sname,s.ssex,s.spro,s.sgrade,s.sclass,s.smark,s.sassess,s.sstate,s.sdetail,d.did,d.dname,d.dstate) " +
+                "from CmUnemp u " +
+                "inner join u.cmStudentBySid s " +
                 "inner join u.cmDirectionByDid d " +
                 "where s.sid = ?";
         List<UnempResObj> unempList = (List<UnempResObj>) hibernateTemplate.find(hsql,sid);

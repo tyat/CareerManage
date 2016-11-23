@@ -212,7 +212,7 @@
     </div>
     <p>修改学生信息：</p>
     <form action="/student/updateStudent" method="post">
-        <table  class="pure-table pure-table-bordered">
+        <table class="pure-table pure-table-bordered">
             <input type="hidden" name="sid" id="sid" >
             <tr>
                 <td>姓名：</td>

@@ -293,7 +293,7 @@ td,th{padding:0}
 {
 	display: none;
 }
-#showtabs-div,#showupload-div,.show-detail-tip,.show-detail-info,#showAddstu-div,#showMeetResult,#showRinfo,#showInterview,#AdminAdd,#AdminUpdate,#StuUpdate,#GangWeiAdd,#FangXiangAdd,#AdminPwd
+#showtabs-div,#showupload-div,.show-detail-tip,.show-detail-info,#showAddstu-div,#showMeetResult,#showRinfo,#showInterview,#AdminAdd,#AdminUpdate,#StuUpdate,#showAbility,#GangWeiAdd,#FangXiangAdd,#AdminPwd
 {
 	  display: none; 
       position: fixed; /*跟随滚动条*/

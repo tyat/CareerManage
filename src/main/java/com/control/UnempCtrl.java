@@ -472,12 +472,14 @@ public class UnempCtrl {
             System.out.println("cmUnemp---"+cmUnemp.getCmStudentBySid().getSname());
             boolean flag= unempServive.addUnEmp(cmUnemp);
             if (flag){
+
                 mv.setViewName("redirect:/grade/findStudentDetail");
             }
         }else{
             CmUnemp cmUnemp=new CmUnemp(cmStudent,cmDirection,ueschool,uemajor,uesuccess);
             boolean flag= unempServive.addUnEmp(cmUnemp);
             if (flag){
+
                 mv.setViewName("redirect:/grade/findStudentDetail");
             }
         }

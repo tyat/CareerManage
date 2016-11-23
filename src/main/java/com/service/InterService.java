@@ -204,7 +204,7 @@ public class InterService {
                 "inner join r.cmJobByJid j " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 and s.sid = ? order by i.itime desc ";
+                "where i.istate = 0 and s.sid = ? ";
         List<InterResObj> data = (List<InterResObj>)hibernateTemplate.find(hsql,sid);
         if(data.size()>0){
             return data;
