@@ -180,8 +180,8 @@ public class RecruitCtrl {
     //搜索招聘信息——ly
     @RequestMapping(value = "/recruit/query",method = RequestMethod.POST )
     public String query(int type, String searchtext, @RequestParam(value = "date",required = false) String date, ModelMap modelMap){
-        String spl[] = searchtext.split(",");
-        System.out.println("search----"+searchtext);
+        String spl[] = searchtext.split(",");//分割字符串
+        System.out.println("searchtext----"+searchtext);
         System.out.println("date----"+date);
         List<RecruitResObj> recruitList = new ArrayList<RecruitResObj>();
         if(type==0){
