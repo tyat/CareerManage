@@ -150,7 +150,7 @@ public class InputData {
             cc.setCname(r.getCell(0).getStringCellValue());
             String hql = "from new com.pojo.CmArea ca where ca.acity = ? ";
             System.out.println(r.getCell(2).getStringCellValue());
-            List<CmArea> ls = (List<CmArea>)hibernateTemplate.find(hql,"深圳");
+            List<CmArea> ls = (List<CmArea>)hibernateTemplate.find(hql,r.getCell(2).getStringCellValue());
             if(ls.isEmpty()){
                 System.out.println("列表为空！");
             }else{

@@ -184,7 +184,7 @@ public class StudentCtrl {
 
     //删除学生——ly
     @RequestMapping(value = "/delStudent",method = RequestMethod.GET )
-    public String delStudent(@RequestParam("sid")int sid,ModelMap modelMap){
+    public String delStudent(@RequestParam("sid")int sid,ModelMap modelMap,RedirectAttributes attr){
         boolean ResMsg = studentService.delStudent(sid);
         System.out.println("delStudent---"+ResMsg);
         if(ResMsg){
@@ -192,6 +192,7 @@ public class StudentCtrl {
         }else{
             modelMap.addAttribute("ResMsg","删除失败！");
         }
+        attr.addAttribute("page",1);
         return "redirect:/student/findAllStudents";
     }
 

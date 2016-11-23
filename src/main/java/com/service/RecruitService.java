@@ -42,6 +42,9 @@ public class RecruitService {
         recruit.setCmAreaByAid(areaService.findByAid(aid));
         recruit.setCmJobByJid(jobService.findByJid(jid));
         recruit.setRsex(rsex);
+        /*if(rsex!=null){
+            recruit.setRsex(rsex);
+        }*/
         recruit.setRsalary(rsalary);
         recruit.setRnum(rnum);
         recruit.setRstart(new Date());//发布时间为当前系统时间
@@ -81,6 +84,11 @@ public class RecruitService {
             recruit.setCmCompanyByCid(companyService.findCompByCid(cid));
             recruit.setRsalary(rsalary);
             recruit.setRsex(rsex);
+            /*if(rsex!=null){
+                recruit.setRsex(rsex);
+            }else{
+                recruit.setRsex(null);
+            }*/
             recruit.setRnum(rnum);
             DateFormat df = DateFormat.getDateInstance();
             Date d = df.parse(rend);
@@ -101,7 +109,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where r.rstate = 0 and c.cname like ? order by r.rstart";
+                "where r.rstate = 0 and c.cname like ? order by r.rstart desc ";
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,"%"+cname+"%");
         if(data.size()>0){
             return data;
@@ -119,7 +127,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where r.rstate = 0 and TO_DAYS(r.rstart)>=TO_DAYS(?) and TO_DAYS(r.rstart)<=TO_DAYS(?) ";
+                "where r.rstate = 0 and TO_DAYS(r.rstart)>=TO_DAYS(?) and TO_DAYS(r.rstart)<=TO_DAYS(?) order by r.rstart desc ";
         Object[] value = {startDate,endDate};
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
@@ -136,7 +144,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where r.rstate = 0 and c.cid = ? order by r.rstart";
+                "where r.rstate = 0 and c.cid = ? order by r.rstart desc ";
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,cid);
         if(data.size()>0){
             return data;
@@ -163,7 +171,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where r.rstate = 0 and r.rid = ? order by r.rstart";
+                "where r.rstate = 0 and r.rid = ? order by r.rstart desc ";
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,rid);
         if(data.size()>0){
             return data.get(0);
@@ -213,7 +221,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where c.cid = ? and j.jid = ? and r.rstate = 0 order by r.rstart";
+                "where c.cid = ? and j.jid = ? and r.rstate = 0 order by r.rstart desc ";
         Object[] value = {cid,jid};
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
@@ -266,7 +274,7 @@ public class RecruitService {
                 "inner join r.cmAreaByAid a " +
                 "inner join r.cmJobByJid j " +
                 "inner join r.cmCompanyByCid c " +
-                "where r.rstate = 0 order by r.rstart";
+                "where r.rstate = 0 order by r.rstart desc ";
         List<RecruitResObj> data = (List<RecruitResObj>) hibernateTemplate.find(hsql);
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("公司信息表");

@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.pojo.CmArea" table="cm_area" schema="career" dynamic-update="true" dynamic-insert="true">
+    <class name="com.pojo.CmArea" table="cm_area" schema="career" dynamic-update="true" dynamic-insert="true" >
         <id name="aid" type="java.lang.Integer">
             <column name="aid" />
             <generator class="native" />

@@ -37,11 +37,7 @@
     if(msg!=""){
         alert(msg);
     }
-    $("input[name='smark']").each(function(index) {
-        if ($("input:radio[name='smark']").get(index).value == ${student.smark}) {
-            $("input:radio[name='smark']").get(index).prop("checked","checked");
-        }
-    });
+
     /*$("input[@name='smark'][value=${student.smark}").attr("checked",true);*/
 
 </script>
@@ -347,21 +343,86 @@
 
                         <input type="hidden" name="sid" value="${student.sid}">
                         <fieldset class="starability-checkmark">
+                            <c:if test="${student.smark==1}">
+                                <input type="radio" id="rate5-6" name="smark" value="5" />
+                                <label for="rate5-6" title="非常好">5 stars</label>
 
-                            <input type="radio" id="rate5-6" name="smark" value="5" />
-                            <label for="rate5-6" title="非常好">5 stars</label>
+                                <input type="radio" id="rate4-6" name="smark" value="4"/>
+                                <label for="rate4-6" title="好">4 stars</label>
 
-                            <input type="radio" id="rate4-6" name="smark" value="4"/>
-                            <label for="rate4-6" title="好">4 stars</label>
+                                <input type="radio" id="rate3-6" name="smark" value="3" />
+                                <label for="rate3-6" title="一般">3 stars</label>
 
-                            <input type="radio" id="rate3-6" name="smark" value="3" />
-                            <label for="rate3-6" title="一般">3 stars</label>
+                                <input type="radio" id="rate2-6" name="smark" value="2" />
+                                <label for="rate2-6" title="不好">2 stars</label>
 
-                            <input type="radio" id="rate2-6" name="smark" value="2" />
-                            <label for="rate2-6" title="不好">2 stars</label>
+                                <input type="radio" id="rate1-6" name="smark" value="1" checked="checked"/>
+                                <label for="rate1-6" title="特别差">1 star</label>
+                            </c:if>
+                            <c:if test="${student.smark==2}">
+                                <input type="radio" id="rate5-6" name="smark" value="5" />
+                                <label for="rate5-6" title="非常好">5 stars</label>
 
-                            <input type="radio" id="rate1-6" name="smark" value="1" />
-                            <label for="rate1-6" title="特别差">1 star</label>
+                                <input type="radio" id="rate4-6" name="smark" value="4"/>
+                                <label for="rate4-6" title="好">4 stars</label>
+
+                                <input type="radio" id="rate3-6" name="smark" value="3" />
+                                <label for="rate3-6" title="一般">3 stars</label>
+
+                                <input type="radio" id="rate2-6" name="smark" value="2" checked="checked"/>
+                                <label for="rate2-6" title="不好">2 stars</label>
+
+                                <input type="radio" id="rate1-6" name="smark" value="1" />
+                                <label for="rate1-6" title="特别差">1 star</label>
+                            </c:if>
+                            <c:if test="${student.smark==3}">
+                                <input type="radio" id="rate5-6" name="smark" value="5" />
+                                <label for="rate5-6" title="非常好">5 stars</label>
+
+                                <input type="radio" id="rate4-6" name="smark" value="4"/>
+                                <label for="rate4-6" title="好">4 stars</label>
+
+                                <input type="radio" id="rate3-6" name="smark" value="3" checked="checked"/>
+                                <label for="rate3-6" title="一般">3 stars</label>
+
+                                <input type="radio" id="rate2-6" name="smark" value="2" />
+                                <label for="rate2-6" title="不好">2 stars</label>
+
+                                <input type="radio" id="rate1-6" name="smark" value="1"/>
+                                <label for="rate1-6" title="特别差">1 star</label>
+                            </c:if>
+                            <c:if test="${student.smark==4}">
+                                <input type="radio" id="rate5-6" name="smark" value="5" />
+                                <label for="rate5-6" title="非常好">5 stars</label>
+
+                                <input type="radio" id="rate4-6" name="smark" value="4" checked="checked"/>
+                                <label for="rate4-6" title="好">4 stars</label>
+
+                                <input type="radio" id="rate3-6" name="smark" value="3" />
+                                <label for="rate3-6" title="一般">3 stars</label>
+
+                                <input type="radio" id="rate2-6" name="smark" value="2" />
+                                <label for="rate2-6" title="不好">2 stars</label>
+
+                                <input type="radio" id="rate1-6" name="smark" value="1" />
+                                <label for="rate1-6" title="特别差">1 star</label>
+                            </c:if>
+                            <c:if test="${student.smark==5}">
+                                <input type="radio" id="rate5-6" name="smark" value="5" checked="checked" />
+                                <label for="rate5-6" title="非常好">5 stars</label>
+
+                                <input type="radio" id="rate4-6" name="smark" value="4"/>
+                                <label for="rate4-6" title="好">4 stars</label>
+
+                                <input type="radio" id="rate3-6" name="smark" value="3" />
+                                <label for="rate3-6" title="一般">3 stars</label>
+
+                                <input type="radio" id="rate2-6" name="smark" value="2" />
+                                <label for="rate2-6" title="不好">2 stars</label>
+
+                                <input type="radio" id="rate1-6" name="smark" value="1" />
+                                <label for="rate1-6" title="特别差">1 star</label>
+                            </c:if>
                         </fieldset>
                 </div>
                 <div class="starability-container">
@@ -426,6 +487,12 @@
             document.getElementById("thisdiv2").style.display ="none";
         }
     }
+    /*$("input[name='smark']").each(function(index) {
+        alert(smark+${student.smark});
+        if ($("input:radio[name='smark']").get(index).value == ${student.smark}) {
+            $("input:radio[name='smark']").get(index).prop("checked","checked");
+        }
+    });*/
     function printme() {
         document.body.innerHTML=document.getElementById('table-head').innerHTML+'<br/>'+document.getElementById('mark-text').innerHTML+'<br/>'+document.getElementById('mark-canvars').innerHTML;
         window.print();

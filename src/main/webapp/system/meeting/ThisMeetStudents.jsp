@@ -18,7 +18,7 @@
     <script src="../../js/showele.js" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" href="../../css/icon.css" />
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" src="../../js/Date.js" ></script>
+    <script type="text/javascript" src="../../js/Date2.js" ></script>
 
     <script type="text/javascript">
         /*function showAddStu(){

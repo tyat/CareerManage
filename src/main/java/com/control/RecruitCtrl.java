@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -122,25 +123,27 @@ public class RecruitCtrl {
 
     //增加招聘信息——ly
     @RequestMapping(value = "/recruit/addRecruit",method = RequestMethod.POST )
-    public String addRecruit(int cid,int aid,int jid,int rsalary,Boolean rsex,int rnum,String rend,String rinfo,ModelMap modelMap) throws ParseException {
+    public String addRecruit(int cid,int aid,int jid,int rsalary,@RequestParam(value = "rsex",required = false) Boolean rsex,int rnum,String rend,String rinfo,ModelMap modelMap,RedirectAttributes attr) throws ParseException {
         boolean ResMsg = recruitService.addRecruit(cid, aid, jid, rsalary, rsex, rnum, rend,rinfo);
         if(ResMsg){
             modelMap.addAttribute("ResMsg","添加成功！");
         }else{
             modelMap.addAttribute("ResMsg","添加失败！");
         }
+        attr.addAttribute("page", 1);
         return "redirect:/recruit/findAllRecruits";
     }
 
     //删除招聘信息——ly
     @RequestMapping(value = "/recruit/delRecruit",method = RequestMethod.GET )
-    public String delRecruit(int rid,ModelMap modelMap) throws ParseException {
+    public String delRecruit(int rid,ModelMap modelMap,RedirectAttributes attr) throws ParseException {
         boolean ResMsg = recruitService.delRecruit(rid);
         if(ResMsg){
             modelMap.addAttribute("ResMsg","删除成功！");
         }else{
             modelMap.addAttribute("ResMsg","删除失败！");
         }
+        attr.addAttribute("page",1);
         return "redirect:/recruit/findAllRecruits";
     }
 
@@ -163,13 +166,14 @@ public class RecruitCtrl {
 
     //编辑招聘信息——ly
     @RequestMapping(value = "/recruit/updateRecruit",method = RequestMethod.POST )
-    public String updateRecruit(int rid,int cid,int aid,int jid,int rsalary,Boolean rsex,int rnum,String rend,String rinfo, ModelMap modelMap) throws ParseException {
+    public String updateRecruit(int rid,int cid,int aid,int jid,int rsalary,@RequestParam(value = "rsex",required = false) Boolean rsex,int rnum,String rend,String rinfo, ModelMap modelMap,RedirectAttributes attr) throws ParseException {
         boolean ResMsg = recruitService.updateRecruit(rid, cid, aid, jid, rsalary, rsex, rnum, rend,rinfo);
         if(ResMsg){
             modelMap.addAttribute("ResMsg","编辑成功！");
         }else{
             modelMap.addAttribute("ResMsg","编辑失败！");
         }
+        attr.addAttribute("page",1);
         return "redirect:/recruit/findAllRecruits";
     }
 
@@ -181,7 +185,8 @@ public class RecruitCtrl {
         System.out.println("date----"+date);
         List<RecruitResObj> recruitList = new ArrayList<RecruitResObj>();
         if(type==0){
-            recruitList = recruitService.findByCname(searchtext);
+            System.out.println("searchtext----"+spl[0]);
+            recruitList = recruitService.findByCname(spl[0]);
             modelMap.addAttribute("recruitList",recruitList);
         }else if(type==1){
             System.out.println("searchtext----"+spl[spl.length-1]);

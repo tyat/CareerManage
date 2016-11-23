@@ -127,18 +127,18 @@ public class InterService {
                 "inner join i.cmRecruitByRid r " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 and i.cmRecruitByRid.rid = ? order by i.itime desc";
+                "where i.istate = 0 and i.cmRecruitByRid.rid = ? ";
         if(type==0){
-            hsql = hsql + "and s.sname like ?";
+            hsql = hsql + "and s.sname like ? order by i.itime desc";
             Object[] value = {rid,"%"+searchtext+"%"};
             data = (List<InterResObj>)hibernateTemplate.find(hsql,value);
         }else if(type==1){
-            hsql = hsql + "and s.spro like ?";
+            hsql = hsql + "and s.spro like ? order by i.itime desc";
             Object[] value = {rid,"%"+searchtext+"%"};
             data = (List<InterResObj>)hibernateTemplate.find(hsql,value);
         }else{
             int sgrade = Integer.parseInt(searchtext);
-            hsql = hsql + "and s.sgrade = ?";
+            hsql = hsql + "and s.sgrade = ? order by i.itime desc";
             Object[] value = {rid,sgrade};
             data = (List<InterResObj>)hibernateTemplate.find(hsql,value);
         }
@@ -288,16 +288,16 @@ public class InterService {
                 "inner join r.cmJobByJid j " +
                 "inner join i.cmAreaByAid a " +
                 "inner join i.cmStudentBySid s "  +
-                "where i.istate = 0 order by i.itime desc ";
+                "where i.istate = 0 ";
         List<InterResObj> data = new ArrayList<InterResObj>();
         if(type==0){
-            hsql = hsql + "and s.sname like ?";
+            hsql = hsql + "and s.sname like ?  order by i.itime desc ";
             data = (List<InterResObj>)hibernateTemplate.find(hsql,"%"+searchtext+"%");
         }else if(type==1){
-            hsql = hsql + "and s.sno = ?";
+            hsql = hsql + "and s.sno = ?  order by i.itime desc ";
             data = (List<InterResObj>)hibernateTemplate.find(hsql,searchtext);
         }else if(type==2){
-            hsql = hsql + "and c.cname like ?";
+            hsql = hsql + "and c.cname like ?  order by i.itime desc ";
             data = (List<InterResObj>)hibernateTemplate.find(hsql,"%"+searchtext+"%");
         }
         if(data.size()>0){
