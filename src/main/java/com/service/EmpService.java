@@ -8,6 +8,9 @@ import com.tools.DateConvert;
 import com.tools.InputData;
 import com.tools.OutputData;
 import com.tools.PageBean;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -497,7 +501,7 @@ public class EmpService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmEmp>  ls = input.inputEmp(input.ConvertPath(path));
+            List<CmEmp>  ls = this.inputEmp(input.ConvertPath(path));
             for (CmEmp cc : ls){
                 session.save(cc);
             }
@@ -508,6 +512,41 @@ public class EmpService {
         } catch (Exception e) {
             return "数据读写错误！";
         }
+    }
+
+    public List<CmEmp> inputEmp(String path) throws Exception {
+        List<CmEmp> temp = new ArrayList();
+        FileInputStream fileIn = new FileInputStream(path);
+        Workbook wb0 = new HSSFWorkbook(fileIn);
+        Sheet sht0 = wb0.getSheetAt(0);
+        for (Row r : sht0) {
+            // 如果当前行的行号（从0开始）未达到2（第三行）则从新循环
+            if (r.getRowNum() < 1) {
+                continue;
+            }
+            CmEmp ce = new CmEmp();
+            String hql = "from CmStudent cs where cs.sname = ? ";
+            ce.setCmStudentBySid((CmStudent)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue()).get(0));
+
+            String job = "from CmJob cj where cj.jname = ? ";
+            ce.setCmJobByJid((CmJob)hibernateTemplate.find(job,r.getCell(1).getStringCellValue()).get(0));
+            ce.setEtime(new Timestamp(r.getCell(2).getDateCellValue().getTime()));
+            ce.setEsalary((int) r.getCell(3).getNumericCellValue());
+
+            String user = "from CmUser cu where cu.urname = ?";
+            ce.setCmUserByUid((CmUser)hibernateTemplate.find(user,r.getCell(4).getStringCellValue()).get(0));
+            if (r.getCell(5).getStringCellValue().equals("是")) {
+                ce.setEwq(true);
+            } else if (r.getCell(5).getStringCellValue().equals("否")) {
+                ce.setEwq(false);
+            }
+            ce.setEleave(new java.sql.Date(r.getCell(6).getDateCellValue().getTime()));
+            ce.setEreason(r.getCell(7).getStringCellValue());
+            ce.setEstate(0);
+            temp.add(ce);
+        }
+        fileIn.close();
+        return temp;
     }
 
     /*TianYu 导出就业生数据*/

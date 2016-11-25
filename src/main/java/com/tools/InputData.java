@@ -6,11 +6,14 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import sun.java2d.cmm.CMSManager;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -92,169 +95,6 @@ public class InputData {
             stu.setSdetail(r.getCell(13).getStringCellValue());
             stu.setSstate(0);
             temp.add(stu);
-        }
-        fileIn.close();
-        return temp;
-    }
-
-    public List<CmGrade> inputGrade(String path) throws Exception {
-        List<CmGrade> temp = new ArrayList();
-        FileInputStream fileIn = new FileInputStream(path);
-        Workbook wb0 = new HSSFWorkbook(fileIn);
-        Sheet sht0 = wb0.getSheetAt(0);
-        for (Row r : sht0) {
-            // 如果当前行的行号（从0开始）未达到2（第三行）则从新循环
-            if (r.getRowNum() < 1) {
-                continue;
-            }
-            CmGrade cg = new CmGrade();
-            String hql = "from CmStudent cs where cs.sname = ? ";
-            System.out.println(r.getCell(0).getStringCellValue()+"-----");
-            List<CmStudent>  cs = (List<CmStudent>)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue());
-            cg.setCmStudentBySid(cs.get(0));
-            cg.setGxq(r.getCell(1).getStringCellValue());
-            cg.setGxn(r.getCell(2).getStringCellValue());
-            cg.setGkcm(r.getCell(3).getStringCellValue());
-            cg.setGcj(r.getCell(4).getStringCellValue());
-            if (r.getCell(5).getStringCellValue().equals("分数")) {
-                cg.setGfslx(2);
-            } else if (r.getCell(5).getStringCellValue().equals("等级")) {
-                cg.setGfslx(1);
-            }
-            cg.setGbkcj(r.getCell(6).getStringCellValue());
-            cg.setGxf(Integer.parseInt(r.getCell(7).getStringCellValue()));
-            if (r.getCell(8).getStringCellValue().equals("必修")) {
-                cg.setGlx(1);
-            } else if (r.getCell(8).getStringCellValue().equals("公共选修")) {
-                cg.setGlx(2);
-            } else if (r.getCell(8).getStringCellValue().equals("系定选修")) {
-                cg.setGlx(3);
-            }
-            temp.add(cg);
-        }
-        fileIn.close();
-        return temp;
-    }
-
-    public List<CmCompany> inputCompany(String path) throws Exception {
-        List<CmCompany> temp = new ArrayList();
-        FileInputStream fileIn = new FileInputStream(path);
-        Workbook wb0 = new HSSFWorkbook(fileIn);
-        Sheet sht0 = wb0.getSheetAt(0);
-        for (Row r : sht0) {
-            if (r.getRowNum() < 1) {
-                continue;
-            }
-            CmCompany cc = new CmCompany();
-            CmArea cas= new CmArea();
-            cc.setCname(r.getCell(0).getStringCellValue());
-            String hql = "from new com.pojo.CmArea ca where ca.acity = ? ";
-            System.out.println(r.getCell(2).getStringCellValue());
-            List<CmArea> ls = (List<CmArea>)hibernateTemplate.find(hql,r.getCell(2).getStringCellValue());
-            if(ls.isEmpty()){
-                System.out.println("列表为空！");
-            }else{
-                cas=ls.get(0);
-                System.out.println(cas.getAprovince());
-            }
-            CmArea ca = (CmArea) hibernateTemplate.find(hql,r.getCell(2).getStringCellValue()).get(0);
-            if (ca == null) {
-                CmArea caa = new CmArea();
-                r.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
-                String province = r.getCell(1).getStringCellValue();
-                String city = r.getCell(2).getStringCellValue();
-                r.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
-                System.out.println(r.getCell(1).getStringCellValue() + " "
-                        + r.getCell(2).getStringCellValue());
-                caa.setAprovince(province);
-                caa.setAcity(city);
-                cc.setCmAreaByAid(caa);
-            } else {
-                cc.setCmAreaByAid(ca);
-            }
-            cc.setCaddress(r.getCell(3).getStringCellValue());
-            cc.setChr(r.getCell(4).getStringCellValue());
-            r.getCell(5).setCellType(Cell.CELL_TYPE_STRING);
-            cc.setCphone(r.getCell(5).getStringCellValue());
-            cc.setCemail(r.getCell(6).getStringCellValue());
-            cc.setCinfo(r.getCell(7).getStringCellValue());
-            cc.setCmark(r.getCell(8).getStringCellValue());
-            cc.setCtime(new Date());
-            cc.setCstate(0);
-            temp.add(cc);
-        }
-        fileIn.close();
-        return temp;
-    }
-
-    public List<CmEmp> inputEmp(String path) throws Exception {
-        List<CmEmp> temp = new ArrayList();
-        FileInputStream fileIn = new FileInputStream(path);
-        Workbook wb0 = new HSSFWorkbook(fileIn);
-        Sheet sht0 = wb0.getSheetAt(0);
-        for (Row r : sht0) {
-            // 如果当前行的行号（从0开始）未达到2（第三行）则从新循环
-            if (r.getRowNum() < 1) {
-                continue;
-            }
-            CmEmp ce = new CmEmp();
-            String hql = "from CmStudent cs where cs.sname = ? ";
-            ce.setCmStudentBySid((CmStudent)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue()).get(0));
-
-            String job = "from CmJob cj where cj.jname = ? ";
-            ce.setCmJobByJid((CmJob)hibernateTemplate.find(job,r.getCell(1).getStringCellValue()).get(0));
-            ce.setEtime(new Timestamp(r.getCell(2).getDateCellValue().getTime()));
-            ce.setEsalary((int) r.getCell(3).getNumericCellValue());
-
-            String user = "from CmUser cu where cu.urname = ?";
-            ce.setCmUserByUid((CmUser)hibernateTemplate.find(user,r.getCell(4).getStringCellValue()).get(0));
-            if (r.getCell(5).getStringCellValue().equals("是")) {
-                ce.setEwq(true);
-            } else if (r.getCell(5).getStringCellValue().equals("否")) {
-                ce.setEwq(false);
-            }
-            ce.setEleave(new java.sql.Date(r.getCell(6).getDateCellValue().getTime()));
-            ce.setEreason(r.getCell(7).getStringCellValue());
-            ce.setEstate(0);
-            temp.add(ce);
-        }
-        fileIn.close();
-        return temp;
-    }
-
-    public List<CmUnemp> inputUnemp(String path) throws Exception {
-        List<CmUnemp> temp = new ArrayList();
-        FileInputStream fileIn = new FileInputStream(path);
-        Workbook wb0 = new HSSFWorkbook(fileIn);
-        Sheet sht0 = wb0.getSheetAt(0);
-        for (Row r : sht0) {
-            // 如果当前行的行号（从0开始）未达到2（第三行）则从新循环
-            if (r.getRowNum() < 1) {
-                continue;
-            }
-            CmUnemp cu = new CmUnemp();
-            String hql = "from CmStudent cs where cs.sname = ? ";
-            cu.setCmStudentBySid((CmStudent)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue()).get(0));
-
-            String dir = "from CmDirection cd where cd.dname = ?";
-            cu.setCmDirectionByDid((CmDirection)hibernateTemplate.find(dir,r.getCell(1).getStringCellValue()).get(0));
-
-            String job = "from CmJob cj where cj.jname = ? ";
-            cu.setCmJobByJid((CmJob)hibernateTemplate.find(job,r.getCell(2).getStringCellValue()).get(0));
-
-            cu.setUesalary((int)r.getCell(3).getNumericCellValue());
-            cu.setUetime(new java.sql.Date(r.getCell(4).getDateCellValue().getTime()));
-            cu.setUeschool(r.getCell(5).getStringCellValue());
-            cu.setUemajor(r.getCell(6).getStringCellValue());
-            if(r.getCell(7).getStringCellValue().equals("暂无")){
-                cu.setUesuccess(0);
-            }else if(r.getCell(7).getStringCellValue().equals("成功")){
-                cu.setUesuccess(1);
-            }else if(r.getCell(7).getStringCellValue().equals("失败")){
-                cu.setUesuccess(2);
-            }
-            cu.setUestate(0);
-            temp.add(cu);
         }
         fileIn.close();
         return temp;

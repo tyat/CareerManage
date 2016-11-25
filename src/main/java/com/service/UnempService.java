@@ -1,6 +1,8 @@
 package com.service;
 
 import com.ResObj.ResUnempObj;
+import com.pojo.CmDirection;
+import com.pojo.CmJob;
 import com.pojo.CmStudent;
 import com.pojo.CmUnemp;
 import com.tools.DateConvert;
@@ -12,6 +14,9 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +24,11 @@ import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -341,7 +348,7 @@ public class UnempService {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmUnemp>  ls = input.inputUnemp(input.ConvertPath(path));
+            List<CmUnemp>  ls = this.inputUnemp(input.ConvertPath(path));
             for (CmUnemp cc : ls){
                 session.save(cc);
             }
@@ -350,9 +357,46 @@ public class UnempService {
         } catch (IOException e) {
             return "数据格式错误！";
         } catch (Exception e) {
-            e.printStackTrace();
             return "数据格式错误！";
         }
+    }
+
+    public List<CmUnemp> inputUnemp(String path) throws Exception {
+        List<CmUnemp> temp = new ArrayList();
+        FileInputStream fileIn = new FileInputStream(path);
+        Workbook wb0 = new HSSFWorkbook(fileIn);
+        Sheet sht0 = wb0.getSheetAt(0);
+        for (Row r : sht0) {
+            // 如果当前行的行号（从0开始）未达到2（第三行）则从新循环
+            if (r.getRowNum() < 1) {
+                continue;
+            }
+            CmUnemp cu = new CmUnemp();
+            String hql = "from CmStudent cs where cs.sname = ? ";
+            cu.setCmStudentBySid((CmStudent)hibernateTemplate.find(hql,r.getCell(0).getStringCellValue()).get(0));
+
+            String dir = "from CmDirection cd where cd.dname = ?";
+            cu.setCmDirectionByDid((CmDirection)hibernateTemplate.find(dir,r.getCell(1).getStringCellValue()).get(0));
+
+            String job = "from CmJob cj where cj.jname = ? ";
+            cu.setCmJobByJid((CmJob)hibernateTemplate.find(job,r.getCell(2).getStringCellValue()).get(0));
+
+            cu.setUesalary((int)r.getCell(3).getNumericCellValue());
+            cu.setUetime(new java.sql.Date(r.getCell(4).getDateCellValue().getTime()));
+            cu.setUeschool(r.getCell(5).getStringCellValue());
+            cu.setUemajor(r.getCell(6).getStringCellValue());
+            if(r.getCell(7).getStringCellValue().equals("暂无")){
+                cu.setUesuccess(0);
+            }else if(r.getCell(7).getStringCellValue().equals("成功")){
+                cu.setUesuccess(1);
+            }else if(r.getCell(7).getStringCellValue().equals("失败")){
+                cu.setUesuccess(2);
+            }
+            cu.setUestate(0);
+            temp.add(cu);
+        }
+        fileIn.close();
+        return temp;
     }
 
     /*TianYu 下载excel*/
