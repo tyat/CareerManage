@@ -64,6 +64,51 @@ public class UnempResObj {
         this.dstate = dstate;
     }
 
+    public UnempResObj(Integer ueid, Integer uesalary, Date uetime, Integer uestate, Integer jid, String jname, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, Integer smark, String sassess, Integer sstate, String sdetail, int did, String dname, Integer dstate) {
+        this.ueid = ueid;
+        this.uesalary = uesalary;
+        this.uetime = uetime;
+        this.uestate = uestate;
+        this.jid = jid;
+        this.jname = jname;
+        this.sid = sid;
+        this.sno = sno;
+        this.sname = sname;
+        this.ssex = ssex;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sclass = sclass;
+        this.smark = smark;
+        this.sassess = sassess;
+        this.sstate = sstate;
+        this.sdetail = sdetail;
+        this.did = did;
+        this.dname = dname;
+        this.dstate = dstate;
+    }
+
+    public UnempResObj(Integer ueid, String ueschool, String uemajor, Integer uesuccess, Integer uestate, Integer sid, String sno, String sname, Boolean ssex, String spro, Integer sgrade, Integer sclass, Integer smark, String sassess, Integer sstate, String sdetail, int did, String dname, Integer dstate) {
+        this.ueid = ueid;
+        this.ueschool = ueschool;
+        this.uemajor = uemajor;
+        this.uesuccess = uesuccess;
+        this.uestate = uestate;
+        this.sid = sid;
+        this.sno = sno;
+        this.sname = sname;
+        this.ssex = ssex;
+        this.spro = spro;
+        this.sgrade = sgrade;
+        this.sclass = sclass;
+        this.smark = smark;
+        this.sassess = sassess;
+        this.sstate = sstate;
+        this.sdetail = sdetail;
+        this.did = did;
+        this.dname = dname;
+        this.dstate = dstate;
+    }
+
     public Integer getUeid() {
         return ueid;
     }

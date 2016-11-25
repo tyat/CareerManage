@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,11 +45,12 @@ public class UnempService {
     private StudentService studentService;
 
     //编辑非考研学生期望——ly
-    public boolean updateFkyExpectation(int sid,int jid,int uesalary){
+    public boolean updateFkyExpectation(int sid,int jid,int uesalary,Date uetime){
         CmUnemp unemp = this.findBySid(sid);
         if(unemp!=null){
             unemp.setCmJobByJid(jobService.findByJid(jid));
             unemp.setUesalary(uesalary);
+            unemp.setUetime(uetime);
             hibernateTemplate.saveOrUpdate(unemp);
             return true;
         }
@@ -57,11 +58,12 @@ public class UnempService {
     }
 
     //编辑考研学生期望——ly
-    public boolean updateKyExpectation(int sid,String ueschool,String uemajor){
+    public boolean updateKyExpectation(int sid,String ueschool,String uemajor,int uesuccess){
         CmUnemp unemp = this.findBySid(sid);
         if(unemp!=null){
             unemp.setUeschool(ueschool);
             unemp.setUemajor(uemajor);
+            unemp.setUesuccess(uesuccess);
             hibernateTemplate.saveOrUpdate(unemp);
             return true;
         }

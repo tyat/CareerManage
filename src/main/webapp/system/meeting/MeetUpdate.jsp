@@ -127,13 +127,20 @@
                     <tr>
                         <td >性别要求：</td>
                         <td >
+                            <%--<c:if test="${recruit.rsex==null}">
+                                <input type="radio" name="rsex" value="0">男
+                                <input type="radio" name="rsex" value="1">女
+                                <input type="radio" name="rsex" value="2" checked="checked">不限
+                            </c:if>--%>
                             <c:if test="${!(recruit.rsex)}">
                                 <input type="radio" name="rsex" value="0" checked="checked">男
                                 <input type="radio" name="rsex" value="1">女
+                                <%--<input type="radio" name="rsex" value="2">不限--%>
                             </c:if>
                             <c:if test="${recruit.rsex}">
                                 <input type="radio" name="rsex" value="0">男
                                 <input type="radio" name="rsex" value="1" checked="checked">女
+                                <%--<input type="radio" name="rsex" value="2">不限--%>
                             </c:if>
                         </td>
                     </tr>

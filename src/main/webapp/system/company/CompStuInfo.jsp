@@ -78,7 +78,7 @@
                         </c:if>
                     </td>
                     <td>
-                        <a href="ThisCompEmpSearch.html'">${dataList.jname}</a>&nbsp;
+                        ${dataList.jname}&nbsp;
                     </td>
                     <td>${dataList.sphone}</td>
                     <td>${fn:substring(dataList.etime,0,10)}</td>

@@ -97,10 +97,10 @@ public class InterCtrl {
 
     //查询面试人员信息——ly
     @RequestMapping(value = "/inter/findByRid",method = RequestMethod.GET )
-    public String findByRid(@RequestParam("rid")int rid, HttpServletRequest request){
+    public String findByRid(@RequestParam("rid")int rid,ModelMap modelMap, HttpServletRequest request){
         HttpSession session = request.getSession();
         List<InterResObj> interList = interService.findByRid(rid);
-        session.setAttribute("interList",interList);
+        modelMap.addAttribute("interList",interList);
         List<CmArea> areaList = areaService.findAllArea();
         session.setAttribute("areaList",areaList);
         session.setAttribute("rid",rid);
@@ -175,7 +175,7 @@ public class InterCtrl {
 
     //删除面试学生——ly
     @RequestMapping(value = "/inter/delInter2",method = RequestMethod.GET )
-    public String delInter2(int iid,ModelMap modelMap) throws ParseException {
+    public String delInter2(int iid,ModelMap modelMap,RedirectAttributes attr) throws ParseException {
         boolean ResMsg = interService.delInter(iid);
         System.out.println("delInter---"+ResMsg);
         if(ResMsg){
@@ -183,6 +183,7 @@ public class InterCtrl {
         }else{
             modelMap.addAttribute("ResMsg","删除失败！");
         }
+        attr.addAttribute("page",1);
         return "redirect:/inter/findAll";
     }
 
@@ -237,7 +238,7 @@ public class InterCtrl {
 
     //编辑面试学生——ly
     @RequestMapping(value = "/inter/updateInter2",method = RequestMethod.POST )
-    public String updateInter2(int iid,int isuccess,@RequestParam(value = "isuccleave",required = false)String isuccleave, int sid, String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap) throws java.lang.Exception, ParseException {
+    public String updateInter2(int iid,int isuccess,@RequestParam(value = "isuccleave",required = false)String isuccleave, int sid, String esalary, String etime, int ewq, int uid, String einfo,ModelMap modelMap,RedirectAttributes attr) throws java.lang.Exception, ParseException {
         boolean ResMsg = interService.updateInter(iid,isuccess,isuccleave);
         if(ResMsg){
             if (isuccess==1){
@@ -253,6 +254,7 @@ public class InterCtrl {
         }else{
             modelMap.addAttribute("ResMsg","编辑失败！");
         }
+        attr.addAttribute("page", 1);
         return "redirect:/inter/findAll";
     }
 
@@ -283,14 +285,15 @@ public class InterCtrl {
     public String query(int rid, int type, String searchtext, @RequestParam(value = "date",required = false) String date, ModelMap modelMap){
         System.out.println("rid------"+rid);
         System.out.println("type------"+type);
-        System.out.println("searchtext------"+searchtext);
+        System.out.println("search------"+searchtext);
         String spl[] = searchtext.split(",");
         List<InterResObj> interList = new ArrayList<>();
         if(type==3){
             System.out.println("searchtext----"+spl[spl.length-1]);
             interList = interService.FindByDate(rid,spl[spl.length-1],date);
         }else{
-            interList = interService.query(rid,type,searchtext);
+            System.out.println("searchtext----"+spl[0]);
+            interList = interService.query(rid,type,spl[0]);
         }
         modelMap.addAttribute("interList",interList);
         System.out.println("面试学生列表： "+interList);
@@ -311,7 +314,8 @@ public class InterCtrl {
             System.out.println("searchtext----"+spl[spl.length-1]);
             interList = interService.FindByDate2(spl[spl.length-1],date);
         }else{
-            interList = interService.query2(type,searchtext);
+            System.out.println("searchtext----"+spl[0]);
+            interList = interService.query2(type,spl[0]);
         }
         modelMap.addAttribute("interList",interList);
         System.out.println("面试学生列表： "+interList);

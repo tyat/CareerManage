@@ -77,28 +77,58 @@
                             </td>
                             <td>操作</td>
                         </tr>
-                        <tr>
-                            <td>期望院校：</td>
-                            <td colspan="5">${list.ueschool}</td>
-                            <td rowspan="3">
-                                <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
-                                <br>
-                                <br>
-                                <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>期望专业:</td>
-                            <td colspan="5">${list.uemajor}</td>
-                        </tr>
-                        <tr>
-                            <td>考研结果:</td>
-                            <td colspan="5">
-                                <c:if test="${list.uesuccess == 1}">成功</c:if>
-                                <c:if test="${list.uesuccess == 0}">暂无</c:if>
-                                <c:if test="${list.uesuccess == 2}">失败</c:if>
-                            </td>
-                        </tr>
+                        <c:if test="${list.did==2 || list.did==5}">
+                            <tr>
+                                <td>准备方向：</td>
+                                <td colspan="5">${list.dname}</td>
+                                <td rowspan="4">
+                                    <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
+                                    <br>
+                                    <br>
+                                    <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>期望院校：</td>
+                                <td colspan="5">${list.ueschool}</td>
+                            </tr>
+                            <tr>
+                                <td>期望专业:</td>
+                                <td colspan="5">${list.uemajor}</td>
+                            </tr>
+                            <tr>
+                                <td>考研结果:</td>
+                                <td colspan="5">
+                                    <c:if test="${list.uesuccess == 1}">成功</c:if>
+                                    <c:if test="${list.uesuccess == 0}">暂无</c:if>
+                                    <c:if test="${list.uesuccess == 2}">失败</c:if>
+                                </td>
+                            </tr>
+                        </c:if>
+                        <c:if test="${list.did!=2&&list.did!=5 }">
+                            <tr>
+                                <td>准备方向：</td>
+                                <td colspan="5">${list.dname}</td>
+                                <td rowspan="3">
+                                    <button class="mybutton" type="button" onclick="location='/direction/selectAllDirection2?sid=${list.sid}'">编辑</button>
+                                    <br>
+                                    <br>
+                                    <button class="mybutton" type="button" onclick="AreYouSourUnemp(${list.ueid})">删除</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>期望月薪:</td>
+                                <td colspan="5">${list.uesalary}</td>
+                            </tr>
+                            <tr>
+                                <td>结果:</td>
+                                <td colspan="5">
+                                    <c:if test="${list.uesuccess == 1}">成功</c:if>
+                                    <c:if test="${list.uesuccess == 0}">暂无</c:if>
+                                    <c:if test="${list.uesuccess == 2}">失败</c:if>
+                                </td>
+                            </tr>
+                        </c:if>
                     </table>
                     <div class="table-slipline"></div>
                     <!--这是一条记录结束-->

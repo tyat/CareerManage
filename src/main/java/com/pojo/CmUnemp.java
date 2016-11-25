@@ -1,6 +1,6 @@
 package com.pojo;
 
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by LENOVO on 2016/10/20.

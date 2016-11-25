@@ -140,18 +140,6 @@
                             <td>班级：</td>
                             <td><input type="text" id="sclass" name="sclass"  disabled="disabled"/></td>
                         </tr>
-
-                        <tr>
-                            <td>学生动向：</td>
-                            <td>
-                                <select id="did" name="did" onchange="ceshi()">
-                                    <c:forEach items="${allDirection}" var="s" varStatus="stu">
-                                        <option id="dids" value="${s.did}">${s.dname}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                        </tr>
-
                     </table>
                 </div>
                 <div id="mydiv2">
@@ -220,7 +208,18 @@
 
                     </table>
                 </div>
-
+                <table  class="pure-table pure-table-bordered left">
+                    <tr>
+                        <td width="200px">学生动向：</td>
+                        <td>
+                            <select id="did" name="did" onchange="ceshi()">
+                                <c:forEach items="${allDirection}" var="s" varStatus="stu">
+                                    <option id="dids" value="${s.did}">${s.dname}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
                 <div id="thisdiv1" name="thisdiv1">
 
                     <table  class="pure-table pure-table-bordered left">

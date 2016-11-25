@@ -1,14 +1,8 @@
 package com.control;
 
 import com.ResObj.UnempResObj;
-import com.pojo.CmDirection;
-import com.pojo.CmGrade;
-import com.pojo.CmJob;
-import com.pojo.CmStudent;
-import com.service.DirectionService;
-import com.service.GradeService;
-import com.service.JobService;
-import com.service.StudentService;
+import com.pojo.*;
+import com.service.*;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -40,6 +34,8 @@ public class GradeCtrl {
     private JobService jobService;
     @Autowired
     private DirectionService directionService;
+    @Autowired
+    private UnempService unempService;
 
     //显示学生的成绩统计信息——ly
     @RequestMapping(value = "/grade/findStudentDetail",method = RequestMethod.GET )
@@ -49,7 +45,13 @@ public class GradeCtrl {
         Boolean flag = studentService.isUnemp(sid);
         modelMap.addAttribute("isUnemp",flag);
         if(flag){
-            UnempResObj unempResObj = studentService.findDetailBySid(sid);
+            CmUnemp unemp = unempService.findBySid(sid);
+            UnempResObj unempResObj = new UnempResObj();
+            if(unemp.getCmDirectionByDid().getDid()==2||unemp.getCmDirectionByDid().getDid()==5){
+                unempResObj = studentService.findUnempBySid2(sid);
+            }else{
+                unempResObj = studentService.findUnempBySid1(sid);
+            }
             modelMap.addAttribute("student",unempResObj);
         }else{
             CmStudent student = studentService.findBySid(sid);
