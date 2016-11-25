@@ -61,7 +61,7 @@
                 <table  class="pure-table pure-table-bordered left">
                     <tr>
                         <td rowspan="2" width="70px">
-                            <button class="mybutton" type="button" onclick="location='/grade/findStudentDetail?sid=${list.sid}'">${list.sname}</button>
+                            <button class="mybutton" type="button" onclick="location='/student/findBySid?sid=${list.sid}'">${list.sname}</button>
                         </td>
                         <td width="100px">班级：</td>
                         <td width="100px">

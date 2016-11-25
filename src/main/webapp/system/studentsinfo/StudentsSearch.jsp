@@ -19,6 +19,49 @@
     <script src="../../js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
     <script type="text/javascript">
+        function showMarkCanvars(){
+            document.getElementById("showAbility").style.display="block";
+            document.getElementById("zhezhaobg").style.display="block";
+        }
+        function  hideMarkCanvars(){
+            document.getElementById("showAbility").style.display="none";
+            document.getElementById("zhezhaobg").style.display="none";
+        }
+        function updateAbility(sid) {
+
+            $.ajax({
+                type: "GET",
+                url: "/student/updateAbilityPro?sid="+sid,
+                dataType:"text",
+                success: function(data){
+                    //alert(data);
+                    var json = eval("("+data+")"); // data的值是json字符串，这行把字符串转成object
+                    var json = JSON.parse( data );
+                    $("#sid").attr("value",json.sid);
+                    if(json.sassess!=null){
+                        $("#pingjia").text(json.sassess);
+                    }else{
+                        $("#pingjia").text("请填写对该生的评价！");
+                    }
+                    //alert(json.smark);
+                    if(json.smark!=null){
+                        /*$("input[name=smark]").each(function(index) {
+                         if ($("input[name=smark]").get(index).value = json.smark) {
+                         $("input[name=smark]").get(index).attr("checked","checked");
+                         }
+                         });*/
+                        $("input[name=smark][value="+json.smark+"]").attr("checked","true");
+                    }else{
+                        //清除以前单选框的checked属性
+                        $("input[type='radio']").removeAttr('checked');
+                    }
+                    showMarkCanvars();
+                },
+                error: function(XMLHttpRequest) {
+                    alert(XMLHttpRequest.status);
+                }
+            });
+        }
         function postwith(url, param) {
             var myForm = document.createElement("form");
             myForm.method = "post";
@@ -79,7 +122,7 @@
         <div>
             <c:if test="${studentList!=null}">
                 <!--这是表格开始-->
-                <table  class="pure-table pure-table-bordered" style="text-align: left;">
+                <table  class="pure-table pure-table-bordered">
                     <tr>
                         <td>姓名</td>
                         <td>学号</td>
@@ -110,10 +153,10 @@
                         <td><a href="javascript:postwith('/student/findBySclass',{'spro':'${student.spro}','sclass':'${student.sclass}'})">${student.spro}${student.sclass}班</a></td>
                         <td>
                             <c:if test="${student.smark!=null}">
-                                ${student.smark}星
+                                <button class="mybutton" type="button" onclick="updateAbility(${student.sid})">${student.smark}星</button>
                             </c:if>
                             <c:if test="${student.smark==null}">
-                                暂无评分
+                                <button class="mybutton" type="button" onclick="updateAbility(${student.sid})">暂无评分</button>
                             </c:if>
                         </td>
                         <td>
@@ -159,5 +202,48 @@
         </div>
     </div>
 </div>
+
+<div id="showupload-div">
+    <div class="tab-close">
+        <button class="mybutton" type="button" onclick="HideUpload()">关闭</button>
+    </div>
+    <iframe src="../tools/UploadExcel.html" width="810px" height="340px" frameborder="0"></iframe>
+</div>
+
+<div id="showAbility">
+    <div class="tab-close">
+        <button class="mybutton" type="button" onclick="hideMarkCanvars()">取消</button>
+    </div>
+    <form action="/student/updateAbility2" method="post">
+        <div class="starability-container">
+            <h3>能力评分：</h3>
+            <input type="hidden" name="sid" id="sid">
+            <fieldset class="starability-checkmark">
+                <input type="radio" id="rate5-6" name="smark" value="5" />
+                <label for="rate5-6" title="非常好">5 stars</label>
+
+                <input type="radio" id="rate4-6" name="smark" value="4" />
+                <label for="rate4-6" title="好">4 stars</label>
+
+                <input type="radio" id="rate3-6" name="smark" value="3" />
+                <label for="rate3-6" title="一般">3 stars</label>
+
+                <input type="radio" id="rate2-6" name="smark" value="2" />
+                <label for="rate2-6" title="不好">2 stars</label>
+
+                <input type="radio" id="rate1-6" name="smark" value="1" />
+                <label for="rate1-6" title="特别差">1 star</label>
+            </fieldset>
+        </div>
+        <div class="starability-container">
+            <h3>教师评价：</h3>
+            <textarea name="sassess" id="pingjia"></textarea><br />
+            <div class="buttonbox">
+                <input type="button" value="保存" class="mybutton" onclick="this.form.submit()"/>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="zhezhaobg"></div>
 </body>
 </html>
