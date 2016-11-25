@@ -12,6 +12,10 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +24,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,11 +104,11 @@ public class GradeService {
 
 
     /*TianYu 上传excel*/
-    public String uploadGrade(String path){
+    public String uploadGrade(String path) throws Exception {
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
         try {
-            List<CmGrade>  ls = input.inputGrade(input.ConvertPath(path));
+            List<CmGrade>  ls = this.inputGrade(input.ConvertPath(path));
             for (CmGrade cc : ls){
                 session.save(cc);
             }
@@ -115,9 +121,59 @@ public class GradeService {
         }
     }
 
+    public List<CmGrade> inputGrade(String path) throws Exception {
+        List<CmGrade> temp = new ArrayList();
+        FileInputStream fileIn = new FileInputStream(path);
+        Workbook wb0 = new HSSFWorkbook(fileIn);
+        Sheet sht0 = wb0.getSheetAt(0);
+        for (Row r : sht0) {
+            // 如果当前行的行号（从0开始）未达到2（第三行）则从新循环
+            if (r.getRowNum() < 1) {
+                continue;
+            }
+            CmGrade cg = new CmGrade();
+            String hql = "from CmStudent cs where cs.sname = ? ";
+            Session session = hibernateTemplate.getSessionFactory().openSession();
+            Query query = session.createQuery(hql);
+            query.setString(0,r.getCell(0).getStringCellValue());
+            System.out.println(r.getCell(0).getStringCellValue()+"-----");
+            CmStudent cs = (CmStudent)query.uniqueResult();
+            session.close();
+            cg.setCmStudentBySid(cs);
+            cg.setGxq(r.getCell(1).getStringCellValue());
+            cg.setGxn(Double.toString(r.getCell(2).getNumericCellValue()));
+            cg.setGkcm(r.getCell(3).getStringCellValue());
+            if(r.getCell(4).getCellType()==0){
+                cg.setGcj(Double.toString(r.getCell(4).getNumericCellValue()));
+            }else if(r.getCell(4).getCellType()==1){
+                cg.setGcj(r.getCell(4).getStringCellValue());
+            }
+            if (r.getCell(5).getStringCellValue().equals("分数")) {
+                cg.setGfslx(2);
+            } else if (r.getCell(5).getStringCellValue().equals("等级")) {
+                cg.setGfslx(1);
+            }
+            if(r.getCell(6).getCellType()==0){
+                cg.setGbkcj(Double.toString(r.getCell(6).getNumericCellValue()));
+            }else if(r.getCell(6).getCellType()==1){
+                cg.setGbkcj(r.getCell(6).getStringCellValue());
+            }
+            cg.setGxf(Integer.parseInt(r.getCell(7).getStringCellValue()));
+            if (r.getCell(8).getStringCellValue().equals("必修")) {
+                cg.setGlx(1);
+            } else if (r.getCell(8).getStringCellValue().equals("公共选修")) {
+                cg.setGlx(2);
+            } else if (r.getCell(8).getStringCellValue().equals("系定选修")) {
+                cg.setGlx(3);
+            }
+            temp.add(cg);
+        }
+        fileIn.close();
+        return temp;
+    }
+
     /*TianYu 导出一位学生成绩数据*/
     public String outputGrade(int sid){
-        System.out.println(sid+"---------");
         StudentService studentService = new StudentService();
         GradeService gradeService = new GradeService();
         HSSFWorkbook wb = new HSSFWorkbook();

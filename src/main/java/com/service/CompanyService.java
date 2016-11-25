@@ -2,6 +2,7 @@ package com.service;
 
 import com.ResObj.ResCompanyAll;
 import com.ResObj.ResCompanyObj;
+import com.pojo.CmArea;
 import com.pojo.CmCompany;
 import com.tools.InputData;
 import com.tools.OutputData;
@@ -11,6 +12,10 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellRangeAddress;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -22,7 +27,10 @@ import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -304,18 +312,75 @@ public class CompanyService {
     public String uploadCompany(String path){
         InputData input = new InputData();
         Session session = hibernateTemplate.getSessionFactory().openSession();
+        System.out.println("Session Begin!!");
         try {
-            List<CmCompany>  ls = input.inputCompany(input.ConvertPath(path));
-            for (CmCompany cc : ls){
+            List<CmCompany> ls = this.inputCompany(input.ConvertPath(path));
+            for (CmCompany cc : ls) {
                 session.save(cc);
             }
             session.close();
             return "导入成功！";
-        } catch (IOException e) {
-            return "数据格式错误！";
-        } catch (Exception e) {
+        }catch(Exception e){
             return "数据格式错误！";
         }
+    }
+
+    public List<CmCompany> inputCompany(String path) {
+        List<CmCompany> temp = new ArrayList();
+        FileInputStream fileIn = null;
+        Workbook wb0 = null;
+        try {
+            fileIn = new FileInputStream(path);
+            wb0 = new HSSFWorkbook(fileIn);
+        } catch (FileNotFoundException e) {
+            System.out.println("文件不存在！");
+        } catch (IOException e) {
+            System.out.println("文件读写错误！");
+        }
+        Sheet sht0 = wb0.getSheetAt(0);
+        for (Row r : sht0) {
+            if (r.getRowNum() < 1) {
+                continue;
+            }
+            CmCompany cc = new CmCompany();
+            cc.setCname(r.getCell(0).getStringCellValue());
+            String hql = "from CmArea ca where ca.acity = ? ";
+            Session session = hibernateTemplate.getSessionFactory().openSession();
+            Query query = session.createQuery(hql);
+            query.setString(0,r.getCell(2).getStringCellValue());
+            CmArea ca = (CmArea) query.uniqueResult();
+            session.close();
+            if (ca == null) {
+                CmArea caa = new CmArea();
+                r.getCell(1).setCellType(Cell.CELL_TYPE_STRING);
+                String province = r.getCell(1).getStringCellValue();
+                String city = r.getCell(2).getStringCellValue();
+                r.getCell(2).setCellType(Cell.CELL_TYPE_STRING);
+                System.out.println(r.getCell(1).getStringCellValue() + " "
+                        + r.getCell(2).getStringCellValue());
+                caa.setAprovince(province);
+                caa.setAcity(city);
+                cc.setCmAreaByAid(caa);
+            } else {
+                cc.setCmAreaByAid(ca);
+            }
+            cc.setCaddress(r.getCell(3).getStringCellValue());
+            cc.setChr(r.getCell(4).getStringCellValue());
+            r.getCell(5).setCellType(Cell.CELL_TYPE_STRING);
+            cc.setCphone(r.getCell(5).getStringCellValue());
+            cc.setCemail(r.getCell(6).getStringCellValue());
+            cc.setCinfo(r.getCell(7).getStringCellValue());
+            cc.setCmark(r.getCell(8).getStringCellValue());
+            cc.setCtime(new Date());
+            cc.setCstate(0);
+            temp.add(cc);
+        }
+        try {
+            fileIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return temp;
     }
 
     /*TianYu 导出公司数据*/
