@@ -154,7 +154,8 @@
                         <td><a href="javascript:postwith('/student/findBySclass',{'spro':'${student.spro}','sclass':'${student.sclass}'})">${student.spro}${student.sclass}班</a></td>
                         <td>
                             <c:if test="${student.smark!=null}">
-                                <button class="mybutton" type="button" onclick="updateAbility(${student.sid})">${student.smark}星</button>
+                                ${student.smark}星
+                                <%--<button class="mybutton" type="button" onclick="updateAbility(${student.sid})">${student.smark}星</button>--%>
                             </c:if>
                             <c:if test="${student.smark==null}">
                                 <button class="mybutton" type="button" onclick="updateAbility(${student.sid})">暂无评分</button>

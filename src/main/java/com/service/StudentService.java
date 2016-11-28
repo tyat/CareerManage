@@ -123,7 +123,7 @@ public class StudentService {
 
     //按姓名模糊查询学生——ly
     public List<CmStudent> findBySname(String sname){
-        String hsql = "from CmStudent s where s.sname like ?";
+        String hsql = "from CmStudent s where s.sname like ? order by s.sno ";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,"%"+sname+"%");
         if(data.size()>0){
             return data;
@@ -134,7 +134,7 @@ public class StudentService {
 
     //按年级查询学生——ly
     public List<CmStudent> findBySgrade(int sgrade){
-        String hsql = "from CmStudent s where s.sgrade = ?";
+        String hsql = "from CmStudent s where s.sgrade = ? order by s.sno ";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,sgrade);
         if(data.size()>0){
             return data;
@@ -147,7 +147,7 @@ public class StudentService {
     public List<CmStudent> findBySclass(String spro,int sclass){
         System.out.println("spro---"+spro);
         System.out.println("sclass---"+sclass);
-        String hsql = "from CmStudent s where s.spro like ? and s.sclass = ?";
+        String hsql = "from CmStudent s where s.spro like ? and s.sclass = ? order by s.sno ";
         Object[] value = {'%'+spro+'%', sclass};
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,value);
         if(data.size()>0){
@@ -159,7 +159,7 @@ public class StudentService {
 
     //按专业模糊查询学生——ly
     public List<CmStudent> findBySpro(String spro){
-        String hsql = "from CmStudent s where s.spro like ?";
+        String hsql = "from CmStudent s where s.spro like ? order by s.sno ";
         List<CmStudent> data = (List<CmStudent>) hibernateTemplate.find(hsql,"%"+spro+"%");
         if(data.size()>0){
             return data;

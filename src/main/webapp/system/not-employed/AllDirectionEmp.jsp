@@ -61,7 +61,7 @@
                     <table  class="pure-table pure-table-bordered left">
                         <tr>
                             <td rowspan="4" width="70px">
-                                <a href="../studentsinfo/StudentsSearch.html">${list.sname}</a>
+                                <a href="/student/findBySid?sid=${list.sid}">${list.sname}</a>
                             </td>
                             <td width="100px">班级：</td>
                             <td width="100px">
